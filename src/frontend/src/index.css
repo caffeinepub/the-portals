@@ -1,0 +1,635 @@
+@import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap");
+
+@theme {
+  --font-orbitron: "Orbitron", sans-serif;
+  --font-rajdhani: "Rajdhani", sans-serif;
+
+  --background: 0.07 0.015 265;
+  --foreground: 0.94 0.005 200;
+  --card: 0.1 0.01 265;
+  --card-foreground: 0.94 0.005 200;
+  --popover: 0.1 0.01 265;
+  --popover-foreground: 0.94 0.005 200;
+
+  --primary: 0.9 0.18 195;
+  --primary-foreground: 0.07 0.015 265;
+  --secondary: 0.55 0.2 295;
+  --secondary-foreground: 0.94 0.005 200;
+  --muted: 0.15 0.015 265;
+  --muted-foreground: 0.7 0.08 195;
+  --accent: 0.65 0.2 162;
+  --accent-foreground: 0.07 0.015 265;
+  --destructive: 0.6 0.22 25;
+  --destructive-foreground: 0.94 0.005 200;
+  --border: 0.9 0.18 195;
+  --input: 0.15 0.015 265;
+  --ring: 0.9 0.18 195;
+
+  --chart-1: 0.9 0.18 195;
+  --chart-2: 0.65 0.2 162;
+  --chart-3: 0.55 0.2 295;
+  --chart-4: 0.75 0.15 220;
+  --chart-5: 0.6 0.22 25;
+
+  --sidebar: 0.09 0.012 265;
+  --sidebar-foreground: 0.94 0.005 200;
+  --sidebar-primary: 0.9 0.18 195;
+  --sidebar-primary-foreground: 0.07 0.015 265;
+  --sidebar-accent: 0.15 0.015 265;
+  --sidebar-accent-foreground: 0.94 0.005 200;
+  --sidebar-border: 0.9 0.18 195;
+  --sidebar-ring: 0.9 0.18 195;
+
+  --radius: 16px;
+}
+
+:root {
+  color-scheme: dark;
+  --cyan: #00ffff;
+  --teal: #006666;
+  --emerald: #50ffb0;
+  --violet: #b060ff;
+  --nebula-teal: #00cccc;
+  --nebula-violet: #7b2fbe;
+  --header-text: #f0f0f0;
+  --sub-text: #b0ffff;
+  --space-bg: #05070a;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--space-bg);
+  color: var(--header-text);
+  font-family: "Rajdhani", sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* =====================
+   NEBULA BLOBS
+   ===================== */
+.nebula-blob {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform, opacity;
+}
+
+.nebula-teal {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(
+    circle at center,
+    var(--nebula-teal) 0%,
+    transparent 70%
+  );
+  opacity: 0.35;
+  top: -150px;
+  left: -100px;
+  filter: blur(80px);
+  animation: nebula-drift-teal 18s ease-in-out infinite alternate;
+}
+
+.nebula-violet {
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(
+    circle at center,
+    var(--nebula-violet) 0%,
+    transparent 70%
+  );
+  opacity: 0.35;
+  bottom: -200px;
+  right: -150px;
+  filter: blur(100px);
+  animation: nebula-drift-violet 22s ease-in-out infinite alternate;
+}
+
+@keyframes nebula-drift-teal {
+  0% {
+    transform: translate(0px, 0px);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translate(80px, 60px);
+    opacity: 0.4;
+  }
+  100% {
+    transform: translate(40px, 120px);
+    opacity: 0.35;
+  }
+}
+
+@keyframes nebula-drift-violet {
+  0% {
+    transform: translate(0px, 0px);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translate(-70px, -50px);
+    opacity: 0.38;
+  }
+  100% {
+    transform: translate(-120px, 30px);
+    opacity: 0.35;
+  }
+}
+
+/* =====================
+   GATEWAY GRID
+   ===================== */
+.gateway-grid {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.04;
+  background-image: linear-gradient(rgba(0, 255, 255, 1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 255, 1) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* =====================
+   GLASS MATERIAL
+   ===================== */
+.glass {
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  background: rgba(0, 20, 30, 0.55);
+  border: 1px solid rgba(0, 255, 255, 0.18);
+  border-radius: 16px;
+}
+
+.glass-bright {
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  background: rgba(0, 20, 30, 0.55);
+  border: 1px solid rgba(0, 255, 255, 0.5);
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.2);
+  border-radius: 16px;
+}
+
+.glass-subtle {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(0, 255, 255, 0.15);
+  border-radius: 12px;
+}
+
+/* =====================
+   PORTAL BUTTON
+   ===================== */
+.btn-portal {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #00ffff 0%, #006666 100%);
+  color: #05070a;
+  font-family: "Orbitron", sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 12px;
+  padding: 16px 24px;
+  width: 100%;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 255, 255, 0.4), 0 2px 8px rgba(0, 0, 0, 0.6);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-portal::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    transparent 100%
+  );
+  border-radius: 12px 12px 0 0;
+  pointer-events: none;
+}
+
+.btn-portal:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 28px rgba(0, 255, 255, 0.6), 0 3px 12px rgba(0, 0, 0, 0.6);
+}
+
+.btn-portal:active {
+  transform: translateY(0);
+}
+
+.btn-portal.emerald-btn {
+  background: linear-gradient(135deg, #50ffb0 0%, #006633 100%);
+  box-shadow: 0 4px 20px rgba(80, 255, 176, 0.4), 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.btn-portal.violet-btn {
+  background: linear-gradient(135deg, #b060ff 0%, #4400aa 100%);
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(176, 96, 255, 0.4), 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.btn-portal.ghost-btn {
+  background: transparent;
+  color: var(--cyan);
+  border: 1px solid rgba(0, 255, 255, 0.4);
+  box-shadow: none;
+}
+
+.btn-portal.ghost-btn:hover {
+  background: rgba(0, 255, 255, 0.08);
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.2);
+}
+
+/* =====================
+   INPUTS
+   ===================== */
+.portal-input {
+  width: 100%;
+  background: rgba(0, 20, 30, 0.5);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  border-radius: 10px;
+  padding: 14px 16px;
+  color: var(--header-text);
+  font-family: "Rajdhani", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.portal-input:focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 2px rgba(0, 255, 255, 0.15), 0 0 8px rgba(0, 255, 255, 0.2);
+}
+
+.portal-input::placeholder {
+  color: rgba(176, 255, 255, 0.35);
+}
+
+.portal-select {
+  width: 100%;
+  background: rgba(0, 20, 30, 0.5);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  border-radius: 10px;
+  padding: 14px 16px;
+  color: var(--header-text);
+  font-family: "Rajdhani", sans-serif;
+  font-size: 1rem;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3E%3Cpath fill='%2300FFFF' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  transition: border-color 0.2s ease;
+}
+
+.portal-select:focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 2px rgba(0, 255, 255, 0.15);
+}
+
+.portal-select option {
+  background: #0d1117;
+  color: var(--header-text);
+}
+
+/* =====================
+   GPS / RADAR ANIMATIONS
+   ===================== */
+@keyframes radar-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+@keyframes wormhole-spin {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.05);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@keyframes checkmark-appear {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) rotate(-20deg);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.15) rotate(5deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes lock-pulse {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 8px #00ffff)
+      drop-shadow(0 0 20px rgba(0, 255, 255, 0.5));
+  }
+  50% {
+    filter: drop-shadow(0 0 20px #00ffff)
+      drop-shadow(0 0 40px rgba(0, 255, 255, 0.8));
+  }
+}
+
+@keyframes loading-dots {
+  0%,
+  80%,
+  100% {
+    transform: scale(0.6);
+    opacity: 0.4;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes orbit {
+  from {
+    transform: rotate(0deg) translateX(36px) rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg) translateX(36px) rotate(-360deg);
+  }
+}
+
+@keyframes orbit2 {
+  from {
+    transform: rotate(0deg) translateX(52px) rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg) translateX(52px) rotate(360deg);
+  }
+}
+
+.radar-sweep {
+  animation: radar-rotate 2s linear infinite;
+  transform-origin: center center;
+}
+.pulse-ring {
+  animation: pulse-ring 2.5s ease-out infinite;
+}
+.pulse-ring-2 {
+  animation: pulse-ring 2.5s ease-out infinite 0.8s;
+}
+.pulse-ring-3 {
+  animation: pulse-ring 2.5s ease-out infinite 1.6s;
+}
+.float-anim {
+  animation: float 3s ease-in-out infinite;
+}
+.checkmark-anim {
+  animation: checkmark-appear 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+.lock-pulse {
+  animation: lock-pulse 2s ease-in-out infinite;
+}
+.wormhole-spin {
+  animation: wormhole-spin 8s linear infinite;
+}
+
+/* =====================
+   LOGO SHIMMER
+   ===================== */
+@keyframes logo-shimmer {
+  0% {
+    filter: drop-shadow(0 0 6px #00ffff) drop-shadow(0 0 12px #00cccc);
+  }
+  50% {
+    filter: drop-shadow(0 0 18px #40ffff) drop-shadow(0 0 35px #00ffff);
+  }
+  100% {
+    filter: drop-shadow(0 0 6px #00ffff) drop-shadow(0 0 12px #00cccc);
+  }
+}
+
+.portal-logo {
+  animation: logo-shimmer 3s ease-in-out infinite;
+}
+
+/* =====================
+   KEY DIGIT
+   ===================== */
+.key-digit {
+  font-family: "Orbitron", monospace;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--cyan);
+  text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px
+    rgba(0, 255, 255, 0.5);
+}
+
+/* =====================
+   OTP BOXES
+   ===================== */
+.otp-box {
+  width: 64px;
+  height: 72px;
+  background: rgba(0, 20, 30, 0.7);
+  border: 2px solid rgba(0, 255, 255, 0.4);
+  border-radius: 12px;
+  color: var(--cyan);
+  font-family: "Orbitron", sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  caret-color: var(--cyan);
+}
+
+.otp-box:focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.25), 0 0 16px rgba(0, 255, 255, 0.4);
+}
+
+/* =====================
+   BOTTOM NAV
+   ===================== */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 430px;
+  z-index: 50;
+  display: flex;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: rgba(0, 10, 20, 0.85);
+  border-top: 1px solid rgba(0, 255, 255, 0.2);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.bottom-nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 8px 14px;
+  background: transparent;
+  border: none;
+  color: rgba(176, 255, 255, 0.5);
+  font-family: "Rajdhani", sans-serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  gap: 4px;
+}
+
+.bottom-nav-item.active {
+  color: var(--cyan);
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
+}
+
+.bottom-nav-item .nav-icon {
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+/* =====================
+   NAV TABS (Top)
+   ===================== */
+.nav-tab {
+  flex: 1;
+  padding: 12px 8px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: rgba(176, 255, 255, 0.5);
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.nav-tab.active {
+  color: var(--cyan);
+  border-bottom-color: var(--cyan);
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
+}
+
+/* =====================
+   BADGES
+   ===================== */
+.funds-frozen {
+  background: rgba(255, 80, 60, 0.15);
+  border: 1px solid rgba(255, 80, 60, 0.5);
+  color: #ff6b5b;
+  border-radius: 999px;
+  padding: 4px 14px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  font-family: "Orbitron", sans-serif;
+  letter-spacing: 0.1em;
+}
+
+.funds-released {
+  background: rgba(80, 255, 176, 0.15);
+  border: 1px solid rgba(80, 255, 176, 0.5);
+  color: var(--emerald);
+  border-radius: 999px;
+  padding: 4px 14px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  font-family: "Orbitron", sans-serif;
+  letter-spacing: 0.1em;
+}
+
+.star-btn {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+  font-size: 1.8rem;
+}
+
+.star-btn:hover {
+  transform: scale(1.2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nebula-blob,
+  .radar-sweep,
+  .pulse-ring,
+  .pulse-ring-2,
+  .pulse-ring-3,
+  .portal-logo,
+  .checkmark-anim,
+  .float-anim,
+  .lock-pulse,
+  .wormhole-spin {
+    animation: none !important;
+  }
+}
