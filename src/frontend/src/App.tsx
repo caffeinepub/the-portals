@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { AlertTriangle, CheckCircle, Clock, Copy } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { PortalLogo } from "./components/PortalLogo";
 import { useActor } from "./hooks/useActor";
@@ -9,18 +10,89 @@ const queryClient = new QueryClient();
 // DATA
 // ========================
 const SERVICES = [
-  { id: 1, emoji: "🔧", name: "Plumber", price: 800 },
-  { id: 2, emoji: "⚡", name: "Electrician", price: 750 },
-  { id: 3, emoji: "🧹", name: "Cleaner", price: 500 },
-  { id: 4, emoji: "🪚", name: "Carpenter", price: 1200 },
-  { id: 5, emoji: "🎨", name: "Painter", price: 900 },
-  { id: 6, emoji: "❄️", name: "HVAC", price: 2500 },
-  { id: 7, emoji: "🚗", name: "Driver", price: 400 },
-  { id: 8, emoji: "👨‍🍳", name: "Chef", price: 1500 },
-  { id: 9, emoji: "📚", name: "Tutor", price: 700 },
-  { id: 10, emoji: "🛡️", name: "Security", price: 1100 },
-  { id: 11, emoji: "💻", name: "IT Support", price: 800 },
-  { id: 12, emoji: "🌿", name: "Gardener", price: 600 },
+  // Repairs
+  { id: 1, emoji: "🔧", name: "Plumber", price: 800, category: "Repairs" },
+  { id: 2, emoji: "⚡", name: "Electrician", price: 750, category: "Repairs" },
+  { id: 3, emoji: "🪚", name: "Carpenter", price: 1200, category: "Repairs" },
+  { id: 4, emoji: "🎨", name: "Painter", price: 900, category: "Repairs" },
+  { id: 5, emoji: "❄️", name: "HVAC Tech", price: 2500, category: "Repairs" },
+  // Home
+  { id: 6, emoji: "🧹", name: "Cleaner", price: 500, category: "Home" },
+  { id: 7, emoji: "🌿", name: "Gardener", price: 600, category: "Home" },
+  { id: 8, emoji: "👨‍🍳", name: "Chef", price: 1500, category: "Home" },
+  // Health
+  {
+    id: 9,
+    emoji: "👨‍⚕️",
+    name: "Doctor Visit",
+    price: 2000,
+    category: "Health",
+  },
+  { id: 10, emoji: "💉", name: "Nurse Care", price: 1200, category: "Health" },
+  {
+    id: 11,
+    emoji: "🧘",
+    name: "Physiotherapist",
+    price: 1800,
+    category: "Health",
+  },
+  { id: 12, emoji: "🦷", name: "Dental Care", price: 2500, category: "Health" },
+  // Rentals
+  { id: 13, emoji: "🚗", name: "Car Rental", price: 3500, category: "Rentals" },
+  { id: 14, emoji: "🛵", name: "Bike Rental", price: 800, category: "Rentals" },
+  {
+    id: 15,
+    emoji: "🏠",
+    name: "Property Rental",
+    price: 5000,
+    category: "Rentals",
+  },
+  { id: 16, emoji: "🚐", name: "Van Hire", price: 2500, category: "Rentals" },
+  // Education
+  { id: 17, emoji: "📚", name: "Tutor", price: 700, category: "Education" },
+  {
+    id: 18,
+    emoji: "🗣️",
+    name: "Language Teacher",
+    price: 900,
+    category: "Education",
+  },
+  // Security & Tech
+  {
+    id: 19,
+    emoji: "🛡️",
+    name: "Security Guard",
+    price: 1100,
+    category: "Security",
+  },
+  { id: 20, emoji: "💻", name: "IT Support", price: 800, category: "Tech" },
+  // Transport
+  { id: 21, emoji: "🚗", name: "Driver", price: 400, category: "Transport" },
+  // Health additions
+  {
+    id: 22,
+    emoji: "💊",
+    name: "Medical Store",
+    price: 500,
+    category: "Health",
+  },
+  { id: 23, emoji: "🏥", name: "Pharmacy", price: 500, category: "Health" },
+  // Education additions
+  {
+    id: 24,
+    emoji: "📖",
+    name: "Book Store",
+    price: 400,
+    category: "Education",
+  },
+  // Groceries
+  {
+    id: 25,
+    emoji: "🛒",
+    name: "Grocery Store",
+    price: 300,
+    category: "Groceries",
+  },
 ];
 
 const PROVIDERS = [
@@ -107,6 +179,25 @@ const MESSAGES = [
   },
 ];
 
+const PORTALS_BANK = {
+  bankName: "Meezan Bank Limited",
+  accountTitle: "The Portals (Pvt) Ltd",
+  accountNumber: "0291-0123456789",
+  iban: "PK36MEZN0000291012345678",
+  branch: "Karachi Main Branch",
+};
+
+// ========================
+// UTILS
+// ========================
+function generatePortalId(): string {
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  return Array.from(
+    { length: 5 },
+    () => chars[Math.floor(Math.random() * chars.length)],
+  ).join("");
+}
+
 // ========================
 // SCREEN TYPES
 // ========================
@@ -126,7 +217,13 @@ type Screen =
   | "success"
   | "chat"
   | "profile"
-  | "settings";
+  | "settings"
+  | "bank-transfer-confirm"
+  | "provider-withdrawal"
+  | "provider-deletion"
+  | "provider-topup"
+  | "customer-register"
+  | "invoice";
 
 type NavTab = "home" | "tasks" | "chat" | "profile";
 
@@ -280,31 +377,15 @@ function SplashScreen({ onDone }: { onDone: () => void }) {
         />
         {/* P Logo center */}
         <div
-          className="portal-logo"
           style={{
             position: "absolute",
             inset: 0,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            background:
-              "radial-gradient(circle at center, rgba(0,60,80,0.9) 0%, rgba(0,10,20,0.95) 100%)",
-            borderRadius: "50%",
-            border: "2px solid rgba(0,255,255,0.4)",
           }}
         >
-          <span
-            style={{
-              fontFamily: "Orbitron, sans-serif",
-              fontSize: "3rem",
-              fontWeight: 900,
-              color: "#00ffff",
-              textShadow: "0 0 20px #00ffff, 0 0 40px rgba(0,255,255,0.6)",
-              lineHeight: 1,
-            }}
-          >
-            P
-          </span>
+          <PortalLogo size={100} />
         </div>
         {/* Orbiting dots */}
         <div
@@ -376,7 +457,7 @@ function SplashScreen({ onDone }: { onDone: () => void }) {
             textTransform: "uppercase",
           }}
         >
-          Karachi Gateway Network
+          Portals to Services
         </p>
       </div>
       <div style={{ display: "flex", gap: 8 }}>
@@ -541,7 +622,7 @@ function LoginScreen({
   onRegister,
 }: { onDone: () => void; onRegister: () => void }) {
   const [mode, setMode] = useState<"customer" | "provider">("customer");
-  const [phone, setPhone] = useState("");
+  const [portalId, setPortalId] = useState("");
 
   return (
     <div
@@ -555,9 +636,18 @@ function LoginScreen({
       }}
     >
       {/* Logo */}
-      <div style={{ textAlign: "center", marginBottom: 8 }}>
+      <div
+        style={{
+          textAlign: "center",
+          marginBottom: 8,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 10,
+        }}
+      >
+        <PortalLogo size={90} />
         <div
-          className="portal-logo"
           style={{
             fontFamily: "Orbitron, sans-serif",
             fontSize: "2rem",
@@ -576,7 +666,7 @@ function LoginScreen({
             letterSpacing: "0.2em",
           }}
         >
-          KARACHI GATEWAY NETWORK
+          PORTALS TO SERVICES
         </div>
       </div>
 
@@ -618,121 +708,97 @@ function LoginScreen({
           padding: 24,
           display: "flex",
           flexDirection: "column",
-          gap: 16,
+          gap: 20,
+          alignItems: "center",
         }}
       >
         <div
           style={{
             fontFamily: "Orbitron, sans-serif",
-            fontSize: "0.8rem",
+            fontSize: "0.75rem",
             color: "rgba(176,255,255,0.6)",
-            letterSpacing: "0.1em",
+            letterSpacing: "0.15em",
+            alignSelf: "flex-start",
           }}
         >
-          PHONE NUMBER
+          PORTAL ID
         </div>
-        <div style={{ display: "flex", gap: 8 }}>
-          <div
-            style={{
-              background: "rgba(0,20,30,0.5)",
-              border: "1px solid rgba(0,255,255,0.3)",
-              borderRadius: 10,
-              padding: "14px 12px",
-              color: "rgba(176,255,255,0.8)",
-              fontFamily: "Rajdhani, sans-serif",
-              fontSize: "1rem",
-              fontWeight: 600,
-              whiteSpace: "nowrap",
-            }}
-          >
-            🇵🇰 +92
-          </div>
-          <input
-            className="portal-input"
-            data-ocid="login.input"
-            type="tel"
-            placeholder="3XX-XXXXXXX"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            style={{ flex: 1 }}
-          />
-        </div>
+        <input
+          className="portal-input"
+          data-ocid="login.input"
+          type="text"
+          placeholder="XXXXX"
+          maxLength={5}
+          value={portalId}
+          onChange={(e) => setPortalId(e.target.value.toUpperCase())}
+          style={{
+            width: "100%",
+            textAlign: "center",
+            fontFamily: "monospace",
+            fontSize: "2rem",
+            fontWeight: 700,
+            letterSpacing: "0.4em",
+            color: "#00ffff",
+            textShadow: "0 0 12px rgba(0,255,255,0.6)",
+            background: "rgba(0,255,255,0.05)",
+            border: "1px solid rgba(0,255,255,0.4)",
+            borderRadius: 12,
+            padding: "14px 20px",
+            outline: "none",
+          }}
+        />
+        <p
+          style={{
+            fontFamily: "Rajdhani, sans-serif",
+            fontSize: "0.75rem",
+            color: "rgba(176,255,255,0.45)",
+            margin: 0,
+            textAlign: "center",
+          }}
+        >
+          Enter your 5-character unique Portal ID — no password needed
+        </p>
 
         <button
           type="button"
           data-ocid="login.primary_button"
           className="btn-portal"
           onClick={onDone}
+          style={{ width: "100%" }}
         >
-          SEND OTP
+          ENTER PORTAL
         </button>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <div
-            style={{ flex: 1, height: 1, background: "rgba(0,255,255,0.15)" }}
-          />
-          <span
-            style={{
-              fontFamily: "Rajdhani, sans-serif",
-              color: "rgba(176,255,255,0.4)",
-              fontSize: "0.8rem",
-            }}
-          >
-            OR
-          </span>
-          <div
-            style={{ flex: 1, height: 1, background: "rgba(0,255,255,0.15)" }}
-          />
-        </div>
+        <div
+          style={{
+            width: "100%",
+            height: 1,
+            background: "rgba(0,255,255,0.15)",
+          }}
+        />
 
         <button
           type="button"
-          data-ocid="login.secondary_button"
-          className="btn-portal ghost-btn"
+          data-ocid="login.register.link"
+          onClick={onRegister}
           style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 8,
-          }}
-          onClick={onDone}
-        >
-          <span>G</span> Continue with Google
-        </button>
-
-        <p
-          style={{
-            textAlign: "center",
+            background: "none",
+            border: "none",
+            color: "rgba(0,255,255,0.7)",
             fontFamily: "Rajdhani, sans-serif",
-            color: "rgba(176,255,255,0.5)",
-            fontSize: "0.9rem",
-            margin: 0,
+            fontSize: "0.95rem",
+            cursor: "pointer",
+            letterSpacing: "0.05em",
+            textDecoration: "underline",
           }}
         >
-          New here?{" "}
-          <button
-            type="button"
-            data-ocid="login.link"
-            style={{
-              background: "none",
-              border: "none",
-              color: "#00ffff",
-              cursor: "pointer",
-              fontFamily: "inherit",
-              fontSize: "inherit",
-            }}
-            onClick={onRegister}
-          >
-            Register
-          </button>
-        </p>
+          Not registered? Create Account
+        </button>
       </div>
     </div>
   );
 }
 
-// ========================
-// SCREEN: REGISTER (Choose Type)
 // ========================
 function RegisterScreen({
   onBack,
@@ -996,7 +1062,7 @@ function RegisterScreen({
                     margin: "4px 0 0",
                   }}
                 >
-                  Registration fee: PKR 5,000
+                  First 2 services FREE · Wallet min PKR 2,000
                 </p>
               </div>
               <span
@@ -1019,7 +1085,7 @@ function RegisterScreen({
 // ========================
 // SCREEN: PROVIDER REGISTER
 // ========================
-const PROFESSIONS = [
+const _PROFESSIONS = [
   "Plumber",
   "Electrician",
   "Carpenter",
@@ -1042,27 +1108,20 @@ function ProviderRegisterScreen({
   onDone: () => void;
 }) {
   const [step, setStep] = useState(1);
+  const [portalId] = useState(() => generatePortalId());
   const [form, setForm] = useState({
     fullName: "",
     phone: "",
     cnic: "",
-    city: "Karachi",
+    city: "",
     email: "",
-    profession: "",
-    experience: "",
-    bio: "",
-    serviceArea: "",
-    certifications: "",
-    paymentMethod: "Portal Wallet",
+    bankName: "",
+    accountTitle: "",
+    accountNumber: "",
   });
 
   function handleChange(field: string, value: string) {
     setForm((prev) => ({ ...prev, [field]: value }));
-  }
-
-  function handleSubmit() {
-    alert("Welcome, Service Provider! Your account is active.");
-    onDone();
   }
 
   const inputStyle: React.CSSProperties = {
@@ -1102,7 +1161,6 @@ function ProviderRegisterScreen({
       }}
     >
       <div style={{ width: "100%", maxWidth: "440px" }}>
-        {/* Back */}
         <button
           data-ocid="provider_register.back.button"
           type="button"
@@ -1124,7 +1182,6 @@ function ProviderRegisterScreen({
           ← BACK
         </button>
 
-        {/* Header */}
         <div style={{ marginBottom: "28px" }}>
           <h1
             style={{
@@ -1138,10 +1195,8 @@ function ProviderRegisterScreen({
           >
             SERVICE PROVIDER REGISTRATION
           </h1>
-
-          {/* Progress */}
           <div style={{ display: "flex", gap: "8px", marginTop: "16px" }}>
-            {[1, 2, 3].map((s) => (
+            {[1, 2].map((s) => (
               <div
                 key={s}
                 style={{
@@ -1163,16 +1218,12 @@ function ProviderRegisterScreen({
               marginTop: "8px",
             }}
           >
-            Step {step} of 3 —{" "}
-            {step === 1
-              ? "Personal Information"
-              : step === 2
-                ? "Professional Details"
-                : "Registration & Payment"}
+            Step {step} of 2 —{" "}
+            {step === 1 ? "Personal Information" : "Bank Account & Summary"}
           </p>
         </div>
 
-        {/* Step 1 */}
+        {/* Step 1: Personal Info */}
         {step === 1 && (
           <div data-ocid="provider_register.step.1">
             <div style={fieldStyle}>
@@ -1213,7 +1264,7 @@ function ProviderRegisterScreen({
               </div>
             </div>
             <div style={fieldStyle}>
-              <span style={labelStyle}>CNIC (13 digits)</span>
+              <span style={labelStyle}>CNIC</span>
               <input
                 data-ocid="provider_register.cnic.input"
                 type="text"
@@ -1225,18 +1276,9 @@ function ProviderRegisterScreen({
               />
             </div>
             <div style={fieldStyle}>
-              <span style={labelStyle}>CITY</span>
-              <input
-                type="text"
-                placeholder="Karachi"
-                value={form.city}
-                onChange={(e) => handleChange("city", e.target.value)}
-                style={inputStyle}
-              />
-            </div>
-            <div style={fieldStyle}>
               <span style={labelStyle}>EMAIL ADDRESS</span>
               <input
+                data-ocid="provider_register.email.input"
                 type="email"
                 placeholder="provider@email.com"
                 value={form.email}
@@ -1244,278 +1286,891 @@ function ProviderRegisterScreen({
                 style={inputStyle}
               />
             </div>
+            <div style={fieldStyle}>
+              <span style={labelStyle}>CITY</span>
+              <input
+                data-ocid="provider_register.city.input"
+                type="text"
+                placeholder="Karachi"
+                value={form.city}
+                onChange={(e) => handleChange("city", e.target.value)}
+                style={inputStyle}
+              />
+            </div>
+            <button
+              data-ocid="provider_register.next.button"
+              type="button"
+              className="btn-portal"
+              onClick={() => setStep(2)}
+              style={{ width: "100%", marginTop: "8px" }}
+            >
+              NEXT →
+            </button>
           </div>
         )}
 
-        {/* Step 2 */}
+        {/* Step 2: Bank Details + Summary */}
         {step === 2 && (
           <div data-ocid="provider_register.step.2">
             <div style={fieldStyle}>
-              <span style={labelStyle}>PROFESSION / SERVICE CATEGORY</span>
-              <select
-                data-ocid="provider_register.profession.select"
-                value={form.profession}
-                onChange={(e) => handleChange("profession", e.target.value)}
-                style={{ ...inputStyle, cursor: "pointer" }}
-              >
-                <option value="" disabled style={{ background: "#05070a" }}>
-                  Select profession...
-                </option>
-                {PROFESSIONS.map((p) => (
-                  <option key={p} value={p} style={{ background: "#05070a" }}>
-                    {p}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div style={fieldStyle}>
-              <span style={labelStyle}>YEARS OF EXPERIENCE</span>
+              <span style={labelStyle}>BANK NAME</span>
               <input
-                type="number"
-                min="0"
-                placeholder="5"
-                value={form.experience}
-                onChange={(e) => handleChange("experience", e.target.value)}
-                style={inputStyle}
-              />
-            </div>
-            <div style={fieldStyle}>
-              <span style={labelStyle}>SHORT BIO / DESCRIPTION</span>
-              <textarea
-                rows={3}
-                placeholder="Describe your expertise and services..."
-                value={form.bio}
-                onChange={(e) => handleChange("bio", e.target.value)}
-                style={{ ...inputStyle, resize: "vertical" }}
-              />
-            </div>
-            <div style={fieldStyle}>
-              <span style={labelStyle}>SERVICE AREA</span>
-              <input
+                data-ocid="provider_register.bank_name.input"
                 type="text"
-                placeholder="e.g., DHA, Clifton, Gulshan"
-                value={form.serviceArea}
-                onChange={(e) => handleChange("serviceArea", e.target.value)}
+                placeholder="Meezan Bank"
+                value={form.bankName}
+                onChange={(e) => handleChange("bankName", e.target.value)}
                 style={inputStyle}
               />
             </div>
             <div style={fieldStyle}>
-              <span style={labelStyle}>CERTIFICATIONS (Optional)</span>
+              <span style={labelStyle}>ACCOUNT TITLE</span>
               <input
+                data-ocid="provider_register.account_title.input"
                 type="text"
-                placeholder="e.g., HVAC Certified, MBBS"
-                value={form.certifications}
-                onChange={(e) => handleChange("certifications", e.target.value)}
+                placeholder="Muhammad Ali Khan"
+                value={form.accountTitle}
+                onChange={(e) => handleChange("accountTitle", e.target.value)}
                 style={inputStyle}
               />
             </div>
-          </div>
-        )}
+            <div style={fieldStyle}>
+              <span style={labelStyle}>ACCOUNT NUMBER</span>
+              <input
+                data-ocid="provider_register.account_number.input"
+                type="text"
+                placeholder="0291-0123456789"
+                value={form.accountNumber}
+                onChange={(e) => handleChange("accountNumber", e.target.value)}
+                style={inputStyle}
+              />
+            </div>
 
-        {/* Step 3 */}
-        {step === 3 && (
-          <div data-ocid="provider_register.step.3">
             {/* Summary Card */}
             <div
               style={{
-                background: "rgba(0,255,255,0.05)",
-                border: "1px solid rgba(0,255,255,0.3)",
+                background: "rgba(0,255,255,0.06)",
+                border: "1px solid rgba(0,255,255,0.4)",
                 borderRadius: "16px",
                 padding: "20px",
-                marginBottom: "16px",
+                marginBottom: "20px",
               }}
             >
               <p
                 style={{
                   fontFamily: "Orbitron, sans-serif",
-                  fontSize: "12px",
-                  letterSpacing: "0.12em",
-                  color: "#00ffff",
-                  margin: "0 0 16px",
+                  fontSize: "10px",
+                  letterSpacing: "0.15em",
+                  color: "rgba(0,255,255,0.7)",
+                  margin: "0 0 14px",
                 }}
               >
-                SERVICE PROVIDER REGISTRATION
+                REGISTRATION SUMMARY
               </p>
-              {[
-                { label: "Registration Fee", value: "PKR 5,000" },
-                { label: "Platform Access", value: "Included ✓" },
-                { label: "First Month Service Listing", value: "Included ✓" },
-              ].map(({ label, value }) => (
-                <div
-                  key={label}
+
+              <div style={{ marginBottom: "14px", textAlign: "center" }}>
+                <p
                   style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    padding: "8px 0",
-                    borderBottom: "1px solid rgba(0,255,255,0.1)",
+                    fontFamily: "Rajdhani, sans-serif",
+                    fontSize: "12px",
+                    color: "rgba(232,244,248,0.5)",
+                    margin: "0 0 4px",
+                  }}
+                >
+                  YOUR PORTAL ID
+                </p>
+                <div
+                  style={{
+                    display: "inline-block",
+                    background: "rgba(0,255,255,0.1)",
+                    border: "1px solid rgba(0,255,255,0.6)",
+                    borderRadius: "10px",
+                    padding: "10px 24px",
+                    boxShadow: "0 0 20px rgba(0,255,255,0.3)",
                   }}
                 >
                   <span
                     style={{
-                      fontFamily: "Rajdhani, sans-serif",
-                      fontSize: "14px",
-                      color: "rgba(232,244,248,0.7)",
+                      fontFamily: "monospace",
+                      fontSize: "2rem",
+                      fontWeight: 700,
+                      color: "#00ffff",
+                      textShadow: "0 0 16px rgba(0,255,255,0.8)",
+                      letterSpacing: "0.3em",
                     }}
                   >
-                    {label}
-                  </span>
-                  <span
-                    style={{
-                      fontFamily: "Rajdhani, sans-serif",
-                      fontSize: "14px",
-                      fontWeight: 600,
-                      color: "#e8f4f8",
-                    }}
-                  >
-                    {value}
+                    {portalId}
                   </span>
                 </div>
-              ))}
+              </div>
+
               <div
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
-                  marginTop: "12px",
+                  marginBottom: "10px",
                 }}
               >
                 <span
                   style={{
-                    fontFamily: "Orbitron, sans-serif",
-                    fontSize: "11px",
-                    letterSpacing: "0.1em",
-                    color: "rgba(0,255,255,0.8)",
+                    fontFamily: "Rajdhani, sans-serif",
+                    fontSize: "14px",
+                    color: "rgba(232,244,248,0.6)",
                   }}
                 >
-                  REMAINING BALANCE
+                  Wallet Balance
                 </span>
                 <span
                   style={{
                     fontFamily: "Orbitron, sans-serif",
                     fontSize: "14px",
-                    fontWeight: 700,
                     color: "#00ffff",
                   }}
                 >
                   PKR 0
                 </span>
               </div>
-            </div>
-
-            {/* Low Balance Warning */}
-            <div
-              data-ocid="provider_register.low_balance.error_state"
-              style={{
-                background: "rgba(255,140,0,0.1)",
-                border: "1px solid rgba(255,140,0,0.5)",
-                borderRadius: "12px",
-                padding: "14px 16px",
-                marginBottom: "16px",
-                boxShadow: "0 0 15px rgba(255,140,0,0.2)",
-                display: "flex",
-                gap: "12px",
-                alignItems: "flex-start",
-              }}
-            >
-              <span style={{ fontSize: "18px", flexShrink: 0 }}>⚠️</span>
-              <p
+              <div
                 style={{
-                  fontFamily: "Rajdhani, sans-serif",
-                  fontSize: "14px",
-                  color: "rgba(255,180,60,0.95)",
-                  margin: 0,
-                  lineHeight: "1.5",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginBottom: "14px",
                 }}
               >
-                Your portal balance is below PKR 1,000. Please top up to
-                continue using services.
-              </p>
-            </div>
+                <span
+                  style={{
+                    fontFamily: "Rajdhani, sans-serif",
+                    fontSize: "14px",
+                    color: "rgba(232,244,248,0.6)",
+                  }}
+                >
+                  Free Service Tokens
+                </span>
+                <span
+                  style={{
+                    background: "rgba(0,200,80,0.15)",
+                    border: "1px solid rgba(0,200,80,0.4)",
+                    borderRadius: "6px",
+                    padding: "2px 10px",
+                    fontFamily: "Orbitron, sans-serif",
+                    fontSize: "12px",
+                    color: "#00c850",
+                  }}
+                >
+                  🎫 2 FREE
+                </span>
+              </div>
 
-            {/* Payment Method */}
-            <div style={fieldStyle}>
-              <span style={labelStyle}>PAYMENT METHOD</span>
-              <select
-                data-ocid="provider_register.payment_method.select"
-                value={form.paymentMethod}
-                onChange={(e) => handleChange("paymentMethod", e.target.value)}
-                style={{ ...inputStyle, cursor: "pointer" }}
+              <div
+                style={{
+                  background: "rgba(0,255,255,0.06)",
+                  border: "1px solid rgba(0,255,255,0.25)",
+                  borderRadius: "8px",
+                  padding: "10px 14px",
+                  fontFamily: "Rajdhani, sans-serif",
+                  fontSize: "12px",
+                  color: "rgba(0,255,255,0.8)",
+                  lineHeight: 1.5,
+                }}
               >
-                {["Portal Wallet", "Jazz Cash", "EasyPaisa"].map((m) => (
-                  <option key={m} value={m} style={{ background: "#05070a" }}>
-                    {m}
-                  </option>
-                ))}
-              </select>
+                ⚠️ Your Portal ID is your only login key — keep it safe!
+              </div>
             </div>
-          </div>
-        )}
 
-        {/* Navigation Buttons */}
-        <div style={{ display: "flex", gap: "12px", marginTop: "8px" }}>
-          {step < 3 ? (
-            <button
-              data-ocid="provider_register.next.button"
-              type="button"
-              onClick={() => setStep((s) => s + 1)}
-              style={{
-                flex: 1,
-                padding: "14px",
-                background:
-                  "linear-gradient(135deg, rgba(0,255,255,0.3) 0%, rgba(0,200,200,0.2) 100%)",
-                border: "1px solid rgba(0,255,255,0.6)",
-                borderRadius: "12px",
-                color: "#00ffff",
-                fontFamily: "Orbitron, sans-serif",
-                fontSize: "12px",
-                fontWeight: 700,
-                letterSpacing: "0.12em",
-                cursor: "pointer",
-                boxShadow: "0 0 20px rgba(0,255,255,0.3)",
-                transition: "all 0.2s",
-              }}
-            >
-              NEXT →
-            </button>
-          ) : (
             <button
               data-ocid="provider_register.submit.button"
               type="button"
-              onClick={handleSubmit}
-              style={{
-                flex: 1,
-                padding: "14px",
-                background:
-                  "linear-gradient(135deg, rgba(0,255,255,0.4) 0%, rgba(0,200,255,0.25) 100%)",
-                border: "1px solid rgba(0,255,255,0.8)",
-                borderRadius: "12px",
-                color: "#00ffff",
-                fontFamily: "Orbitron, sans-serif",
-                fontSize: "12px",
-                fontWeight: 700,
-                letterSpacing: "0.12em",
-                cursor: "pointer",
-                boxShadow: "0 0 25px rgba(0,255,255,0.4)",
-                transition: "all 0.2s",
-              }}
+              className="btn-portal"
+              onClick={onDone}
+              style={{ width: "100%" }}
             >
-              COMPLETE REGISTRATION ✓
+              COMPLETE REGISTRATION
             </button>
-          )}
-        </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+// ========================
+// SCREEN: CUSTOMER REGISTER
+// ========================
+function CustomerRegisterScreen({
+  onBack,
+  onDone,
+}: {
+  onBack: () => void;
+  onDone: () => void;
+}) {
+  const [step, setStep] = useState(1);
+  const [portalId] = useState(() => generatePortalId());
+  const [form, setForm] = useState({
+    fullName: "",
+    phone: "",
+    cnic: "",
+    email: "",
+    city: "",
+    bankName: "",
+    accountTitle: "",
+    accountNumber: "",
+  });
 
-        <p
+  function handleChange(field: string, value: string) {
+    setForm((prev) => ({ ...prev, [field]: value }));
+  }
+
+  const inputStyle: React.CSSProperties = {
+    width: "100%",
+    background: "rgba(0,255,255,0.05)",
+    border: "1px solid rgba(0,255,255,0.3)",
+    borderRadius: "10px",
+    padding: "12px 16px",
+    color: "#e8f4f8",
+    fontFamily: "Rajdhani, sans-serif",
+    fontSize: "15px",
+    outline: "none",
+    boxSizing: "border-box",
+  };
+
+  const labelStyle: React.CSSProperties = {
+    fontFamily: "Orbitron, sans-serif",
+    fontSize: "10px",
+    letterSpacing: "0.12em",
+    color: "rgba(0,255,255,0.8)",
+    display: "block",
+    marginBottom: "6px",
+  };
+
+  const fieldStyle: React.CSSProperties = { marginBottom: "16px" };
+
+  return (
+    <div
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        padding: "24px",
+        position: "relative",
+        zIndex: 10,
+      }}
+    >
+      <div style={{ width: "100%", maxWidth: "440px" }}>
+        <button
+          data-ocid="customer_register.back.button"
+          type="button"
+          onClick={step === 1 ? onBack : () => setStep((s) => s - 1)}
           style={{
-            fontFamily: "Rajdhani, sans-serif",
-            fontSize: "11px",
-            color: "rgba(232,244,248,0.35)",
-            textAlign: "center",
-            marginTop: "24px",
+            background: "none",
+            border: "none",
+            color: "#00ffff",
+            cursor: "pointer",
+            fontFamily: "Orbitron, sans-serif",
+            fontSize: "12px",
+            letterSpacing: "0.1em",
+            marginBottom: "24px",
+            display: "flex",
+            alignItems: "center",
+            gap: "6px",
           }}
         >
-          By registering you agree to The Portals Terms of Service
-        </p>
+          ← BACK
+        </button>
+
+        <div style={{ marginBottom: "28px" }}>
+          <h1
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "18px",
+              fontWeight: 700,
+              color: "#e8f4f8",
+              letterSpacing: "0.12em",
+              margin: "0 0 8px",
+            }}
+          >
+            PORTAL USER REGISTRATION
+          </h1>
+          <div style={{ display: "flex", gap: "8px", marginTop: "16px" }}>
+            {[1, 2].map((s) => (
+              <div
+                key={s}
+                style={{
+                  flex: 1,
+                  height: "4px",
+                  borderRadius: "2px",
+                  background: s <= step ? "#00ffff" : "rgba(0,255,255,0.2)",
+                  boxShadow: s <= step ? "0 0 8px rgba(0,255,255,0.6)" : "none",
+                  transition: "all 0.3s",
+                }}
+              />
+            ))}
+          </div>
+          <p
+            style={{
+              fontFamily: "Rajdhani, sans-serif",
+              fontSize: "13px",
+              color: "rgba(232,244,248,0.5)",
+              marginTop: "8px",
+            }}
+          >
+            Step {step} of 2 —{" "}
+            {step === 1 ? "Personal Information" : "Bank Account & Summary"}
+          </p>
+        </div>
+
+        {/* Step 1: Personal Info */}
+        {step === 1 && (
+          <div data-ocid="customer_register.step.1">
+            <div style={fieldStyle}>
+              <span style={labelStyle}>FULL NAME</span>
+              <input
+                data-ocid="customer_register.fullname.input"
+                type="text"
+                placeholder="Muhammad Ahmed Khan"
+                value={form.fullName}
+                onChange={(e) => handleChange("fullName", e.target.value)}
+                style={inputStyle}
+              />
+            </div>
+            <div style={fieldStyle}>
+              <span style={labelStyle}>PHONE NUMBER</span>
+              <div style={{ display: "flex", gap: "8px" }}>
+                <div
+                  style={{
+                    ...inputStyle,
+                    width: "80px",
+                    flexShrink: 0,
+                    color: "rgba(0,255,255,0.8)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  +92
+                </div>
+                <input
+                  data-ocid="customer_register.phone.input"
+                  type="tel"
+                  placeholder="3001234567"
+                  value={form.phone}
+                  onChange={(e) => handleChange("phone", e.target.value)}
+                  style={{ ...inputStyle }}
+                />
+              </div>
+            </div>
+            <div style={fieldStyle}>
+              <span style={labelStyle}>CNIC</span>
+              <input
+                data-ocid="customer_register.cnic.input"
+                type="text"
+                placeholder="42101-1234567-1"
+                value={form.cnic}
+                onChange={(e) => handleChange("cnic", e.target.value)}
+                maxLength={15}
+                style={inputStyle}
+              />
+            </div>
+            <div style={fieldStyle}>
+              <span style={labelStyle}>EMAIL ADDRESS</span>
+              <input
+                data-ocid="customer_register.email.input"
+                type="email"
+                placeholder="user@email.com"
+                value={form.email}
+                onChange={(e) => handleChange("email", e.target.value)}
+                style={inputStyle}
+              />
+            </div>
+            <div style={fieldStyle}>
+              <span style={labelStyle}>CITY</span>
+              <input
+                data-ocid="customer_register.city.input"
+                type="text"
+                placeholder="Karachi"
+                value={form.city}
+                onChange={(e) => handleChange("city", e.target.value)}
+                style={inputStyle}
+              />
+            </div>
+            <button
+              data-ocid="customer_register.next.button"
+              type="button"
+              className="btn-portal"
+              onClick={() => setStep(2)}
+              style={{ width: "100%", marginTop: "8px" }}
+            >
+              NEXT →
+            </button>
+          </div>
+        )}
+
+        {/* Step 2: Bank Details + Summary */}
+        {step === 2 && (
+          <div data-ocid="customer_register.step.2">
+            <div style={fieldStyle}>
+              <span style={labelStyle}>BANK NAME</span>
+              <input
+                data-ocid="customer_register.bank_name.input"
+                type="text"
+                placeholder="HBL / Meezan / MCB"
+                value={form.bankName}
+                onChange={(e) => handleChange("bankName", e.target.value)}
+                style={inputStyle}
+              />
+            </div>
+            <div style={fieldStyle}>
+              <span style={labelStyle}>ACCOUNT TITLE</span>
+              <input
+                data-ocid="customer_register.account_title.input"
+                type="text"
+                placeholder="Muhammad Ahmed Khan"
+                value={form.accountTitle}
+                onChange={(e) => handleChange("accountTitle", e.target.value)}
+                style={inputStyle}
+              />
+            </div>
+            <div style={fieldStyle}>
+              <span style={labelStyle}>ACCOUNT NUMBER</span>
+              <input
+                data-ocid="customer_register.account_number.input"
+                type="text"
+                placeholder="0291-0123456789"
+                value={form.accountNumber}
+                onChange={(e) => handleChange("accountNumber", e.target.value)}
+                style={inputStyle}
+              />
+            </div>
+
+            {/* Summary Card */}
+            <div
+              style={{
+                background: "rgba(0,255,255,0.06)",
+                border: "1px solid rgba(0,255,255,0.4)",
+                borderRadius: "16px",
+                padding: "20px",
+                marginBottom: "20px",
+              }}
+            >
+              <p
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "10px",
+                  letterSpacing: "0.15em",
+                  color: "rgba(0,255,255,0.7)",
+                  margin: "0 0 14px",
+                }}
+              >
+                REGISTRATION SUMMARY
+              </p>
+
+              <div style={{ marginBottom: "14px", textAlign: "center" }}>
+                <p
+                  style={{
+                    fontFamily: "Rajdhani, sans-serif",
+                    fontSize: "12px",
+                    color: "rgba(232,244,248,0.5)",
+                    margin: "0 0 4px",
+                  }}
+                >
+                  YOUR PORTAL ID
+                </p>
+                <div
+                  style={{
+                    display: "inline-block",
+                    background: "rgba(0,255,255,0.1)",
+                    border: "1px solid rgba(0,255,255,0.6)",
+                    borderRadius: "10px",
+                    padding: "10px 24px",
+                    boxShadow: "0 0 20px rgba(0,255,255,0.3)",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: "monospace",
+                      fontSize: "2rem",
+                      fontWeight: 700,
+                      color: "#00ffff",
+                      textShadow: "0 0 16px rgba(0,255,255,0.8)",
+                      letterSpacing: "0.3em",
+                    }}
+                  >
+                    {portalId}
+                  </span>
+                </div>
+              </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginBottom: "14px",
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: "Rajdhani, sans-serif",
+                    fontSize: "14px",
+                    color: "rgba(232,244,248,0.6)",
+                  }}
+                >
+                  Wallet Balance
+                </span>
+                <span
+                  style={{
+                    fontFamily: "Orbitron, sans-serif",
+                    fontSize: "14px",
+                    color: "#00ffff",
+                  }}
+                >
+                  PKR 0
+                </span>
+              </div>
+
+              <div
+                style={{
+                  background: "rgba(0,255,255,0.06)",
+                  border: "1px solid rgba(0,255,255,0.25)",
+                  borderRadius: "8px",
+                  padding: "10px 14px",
+                  fontFamily: "Rajdhani, sans-serif",
+                  fontSize: "12px",
+                  color: "rgba(0,255,255,0.8)",
+                  lineHeight: 1.5,
+                }}
+              >
+                ⚠️ Your Portal ID is your only login key — keep it safe!
+              </div>
+            </div>
+
+            <button
+              data-ocid="customer_register.submit.button"
+              type="button"
+              className="btn-portal"
+              onClick={onDone}
+              style={{ width: "100%" }}
+            >
+              COMPLETE REGISTRATION
+            </button>
+          </div>
+        )}
       </div>
+    </div>
+  );
+}
+
+// SCREEN: PROVIDER TOP-UP
+// ========================
+function ProviderTopUpScreen({
+  onBack,
+  onDone,
+}: {
+  onBack: () => void;
+  onDone: () => void;
+}) {
+  const [amount, setAmount] = useState("");
+  const [confirmed, setConfirmed] = useState(false);
+
+  const inputStyle = {
+    width: "100%",
+    background: "rgba(0,255,255,0.05)",
+    border: "1px solid rgba(0,255,255,0.25)",
+    borderRadius: "10px",
+    padding: "12px 14px",
+    color: "#e0f8ff",
+    fontFamily: "Rajdhani, sans-serif",
+    fontSize: "0.95rem",
+    outline: "none",
+    boxSizing: "border-box" as const,
+  };
+
+  const labelStyle = {
+    fontFamily: "Orbitron, sans-serif",
+    fontSize: "10px",
+    letterSpacing: "0.12em",
+    color: "rgba(0,255,255,0.7)",
+    marginBottom: "6px",
+    display: "block",
+  };
+
+  return (
+    <div style={{ padding: "20px 16px 100px" }}>
+      <ScreenHeader title="TOP UP REQUIRED" onBack={onBack} />
+
+      {/* Warning banner */}
+      <div
+        style={{
+          background: "rgba(255,140,0,0.08)",
+          border: "1px solid rgba(255,140,0,0.45)",
+          borderRadius: "14px",
+          padding: "16px",
+          marginBottom: "16px",
+          display: "flex",
+          gap: "12px",
+          alignItems: "flex-start",
+          boxShadow: "0 0 18px rgba(255,140,0,0.15)",
+        }}
+      >
+        <span style={{ fontSize: "1.4rem", flexShrink: 0 }}>⚠️</span>
+        <div>
+          <p
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "11px",
+              letterSpacing: "0.1em",
+              color: "rgba(255,180,60,0.95)",
+              margin: "0 0 6px",
+            }}
+          >
+            FREE SERVICE QUOTA EXHAUSTED
+          </p>
+          <p
+            style={{
+              fontFamily: "Rajdhani, sans-serif",
+              fontSize: "13px",
+              color: "rgba(255,200,80,0.85)",
+              margin: 0,
+              lineHeight: "1.5",
+            }}
+          >
+            You have used your 2 free service deliveries. Top up your portal
+            wallet to continue accepting services.
+          </p>
+        </div>
+      </div>
+
+      {/* Usage counter badge */}
+      <div
+        style={{
+          background: "rgba(0,255,255,0.06)",
+          border: "1px solid rgba(0,255,255,0.25)",
+          borderRadius: "12px",
+          padding: "14px 16px",
+          marginBottom: "16px",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "8px",
+          }}
+        >
+          <span
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "10px",
+              letterSpacing: "0.12em",
+              color: "rgba(0,255,255,0.8)",
+            }}
+          >
+            FREE SERVICES USED
+          </span>
+          <span
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "13px",
+              fontWeight: 700,
+              color: "#00ffff",
+            }}
+          >
+            2 / 2
+          </span>
+        </div>
+        <div
+          style={{
+            width: "100%",
+            height: "6px",
+            background: "rgba(255,255,255,0.08)",
+            borderRadius: "999px",
+            overflow: "hidden",
+          }}
+        >
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              background: "linear-gradient(90deg, #00ffff, #00c8c8)",
+              borderRadius: "999px",
+              boxShadow: "0 0 10px rgba(0,255,255,0.6)",
+            }}
+          />
+        </div>
+      </div>
+
+      {/* Bank + Top-Up Form */}
+      <div
+        style={{
+          background: "rgba(0,255,255,0.04)",
+          border: "1px solid rgba(0,255,255,0.2)",
+          borderRadius: "16px",
+          padding: "20px",
+          marginBottom: "16px",
+        }}
+      >
+        {/* Saved bank details */}
+        <p
+          style={{
+            fontFamily: "Orbitron, sans-serif",
+            fontSize: "10px",
+            letterSpacing: "0.12em",
+            color: "rgba(0,255,255,0.7)",
+            margin: "0 0 14px",
+          }}
+        >
+          BANK ACCOUNT DETAILS
+        </p>
+        {[
+          { label: "Bank Name", value: "Meezan Bank" },
+          { label: "Account Title", value: "Ali Khan" },
+          { label: "Account Number", value: "0123456789012" },
+        ].map(({ label, value }) => (
+          <div
+            key={label}
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              padding: "8px 0",
+              borderBottom: "1px solid rgba(0,255,255,0.08)",
+            }}
+          >
+            <span
+              style={{
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "13px",
+                color: "rgba(232,244,248,0.55)",
+              }}
+            >
+              {label}
+            </span>
+            <span
+              style={{
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "13px",
+                fontWeight: 600,
+                color: "#e0f8ff",
+              }}
+            >
+              {value}
+            </span>
+          </div>
+        ))}
+        <button
+          type="button"
+          data-ocid="provider_topup.edit_bank.button"
+          style={{
+            background: "none",
+            border: "none",
+            color: "#00ffff",
+            fontFamily: "Rajdhani, sans-serif",
+            fontSize: "13px",
+            fontWeight: 600,
+            cursor: "pointer",
+            padding: "10px 0 0",
+            textDecoration: "underline",
+            textDecorationStyle: "dashed" as const,
+          }}
+        >
+          ✏️ Edit Bank Details
+        </button>
+
+        {/* Top-Up Amount */}
+        <div style={{ marginTop: "16px" }}>
+          <span style={labelStyle}>TOP-UP AMOUNT (PKR)</span>
+          <input
+            data-ocid="provider_topup.amount.input"
+            type="number"
+            placeholder="Enter amount (min. PKR 2,000)"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            style={inputStyle}
+          />
+          <p
+            style={{
+              fontFamily: "Rajdhani, sans-serif",
+              fontSize: "11px",
+              color: "rgba(0,255,255,0.5)",
+              margin: "5px 0 0",
+            }}
+          >
+            Minimum wallet balance: PKR 2,000
+          </p>
+        </div>
+
+        {/* Confirmation checkbox */}
+        <label
+          style={{
+            display: "flex",
+            alignItems: "flex-start",
+            gap: "10px",
+            marginTop: "16px",
+            cursor: "pointer",
+          }}
+        >
+          <input
+            data-ocid="provider_topup.confirm.checkbox"
+            type="checkbox"
+            checked={confirmed}
+            onChange={(e) => setConfirmed(e.target.checked)}
+            style={{ marginTop: "3px", accentColor: "#00ffff" }}
+          />
+          <span
+            style={{
+              fontFamily: "Rajdhani, sans-serif",
+              fontSize: "13px",
+              color: "rgba(232,244,248,0.75)",
+              lineHeight: "1.5",
+            }}
+          >
+            I authorize The Portals to deduct the above amount from my
+            registered bank account
+          </span>
+        </label>
+      </div>
+
+      {/* Confirm button */}
+      <button
+        type="button"
+        data-ocid="provider_topup.submit.button"
+        onClick={onDone}
+        disabled={!confirmed || !amount}
+        style={{
+          width: "100%",
+          padding: "14px",
+          background:
+            confirmed && amount
+              ? "linear-gradient(135deg, rgba(0,255,255,0.35) 0%, rgba(0,200,200,0.2) 100%)"
+              : "rgba(255,255,255,0.04)",
+          border: `1px solid ${confirmed && amount ? "rgba(0,255,255,0.7)" : "rgba(255,255,255,0.1)"}`,
+          borderRadius: "12px",
+          color: confirmed && amount ? "#00ffff" : "rgba(255,255,255,0.25)",
+          fontFamily: "Orbitron, sans-serif",
+          fontSize: "12px",
+          fontWeight: 700,
+          letterSpacing: "0.12em",
+          cursor: confirmed && amount ? "pointer" : "not-allowed",
+          boxShadow:
+            confirmed && amount ? "0 0 22px rgba(0,255,255,0.3)" : "none",
+          transition: "all 0.2s",
+          marginBottom: "12px",
+        }}
+      >
+        CONFIRM TOP-UP ✓
+      </button>
+
+      {/* Security note */}
+      <p
+        style={{
+          fontFamily: "Rajdhani, sans-serif",
+          fontSize: "11px",
+          color: "rgba(232,244,248,0.3)",
+          textAlign: "center",
+          lineHeight: "1.6",
+        }}
+      >
+        🔒 Secured with bank-grade 256-bit encryption. Your financial data is
+        protected by The Portals security protocols.
+      </p>
     </div>
   );
 }
@@ -1528,7 +2183,7 @@ function HomeScreen({
   onAllServices,
 }: {
   onServiceTap: (s: (typeof SERVICES)[0]) => void;
-  onAllServices: () => void;
+  onAllServices: (category?: string) => void;
 }) {
   const [activeCount, setActiveCount] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
@@ -1552,30 +2207,13 @@ function HomeScreen({
   }, []);
 
   const categories = [
-    {
-      name: "Rentals",
-      emoji: "🔑",
-      color: "from-gray-400 to-gray-300",
-      border: "rgba(180,180,180,0.4)",
-    },
-    {
-      name: "Repairs",
-      emoji: "🔧",
-      color: "from-orange-400 to-amber-400",
-      border: "rgba(251,146,60,0.4)",
-    },
-    {
-      name: "Health",
-      emoji: "❤️",
-      color: "from-emerald-400 to-teal-400",
-      border: "rgba(52,211,153,0.4)",
-    },
-    {
-      name: "Tutors",
-      emoji: "📚",
-      color: "from-yellow-400 to-amber-300",
-      border: "rgba(251,191,36,0.4)",
-    },
+    { name: "Repairs", emoji: "🔧", border: "rgba(251,146,60,0.4)" },
+    { name: "Health", emoji: "❤️", border: "rgba(52,211,153,0.4)" },
+    { name: "Rentals", emoji: "🔑", border: "rgba(180,180,180,0.4)" },
+    { name: "Education", emoji: "📚", border: "rgba(251,191,36,0.4)" },
+    { name: "Home", emoji: "🏠", border: "rgba(0,200,255,0.4)" },
+    { name: "Transport", emoji: "🚗", border: "rgba(150,100,255,0.4)" },
+    { name: "Groceries", emoji: "🛒", border: "rgba(100,220,100,0.4)" },
   ];
 
   return (
@@ -1753,7 +2391,7 @@ function HomeScreen({
                 marginBottom: 4,
               }}
             >
-              Locating Nearby Gateways...
+              Portals to Services
             </p>
             <p
               className="glow-text-cyan"
@@ -1786,7 +2424,7 @@ function HomeScreen({
                 key={cat.name}
                 data-ocid={`home.${cat.name.toLowerCase()}.button`}
                 type="button"
-                onClick={onAllServices}
+                onClick={() => onAllServices(cat.name)}
                 style={{
                   display: "flex",
                   flexDirection: "column",
@@ -1841,13 +2479,90 @@ function HomeScreen({
 function AllServicesScreen({
   onBack,
   onSelect,
+  category,
 }: {
   onBack: () => void;
   onSelect: (s: (typeof SERVICES)[0]) => void;
+  category?: string;
 }) {
+  const [activeCategory, setActiveCategory] = useState<string | undefined>(
+    category,
+  );
+  const filtered = activeCategory
+    ? SERVICES.filter((s) => s.category === activeCategory)
+    : SERVICES;
+  const title = activeCategory
+    ? `${activeCategory.toUpperCase()} SERVICES`
+    : "ALL SERVICES";
+
   return (
     <div style={{ padding: "20px 16px 100px" }}>
-      <ScreenHeader title="ALL SERVICES" onBack={onBack} />
+      <ScreenHeader title={title} onBack={onBack} />
+      {activeCategory && (
+        <button
+          type="button"
+          data-ocid="services.tab"
+          onClick={() => setActiveCategory(undefined)}
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6,
+            background: "rgba(0,255,255,0.08)",
+            border: "1px solid rgba(0,255,255,0.3)",
+            borderRadius: 999,
+            padding: "6px 16px",
+            marginBottom: 16,
+            cursor: "pointer",
+            fontFamily: "Rajdhani, sans-serif",
+            fontSize: "0.85rem",
+            color: "#00ffff",
+            fontWeight: 600,
+          }}
+        >
+          ← All Categories
+        </button>
+      )}
+      {!activeCategory && (
+        <div
+          style={{
+            display: "flex",
+            gap: 8,
+            flexWrap: "wrap",
+            marginBottom: 16,
+          }}
+        >
+          {[
+            "Repairs",
+            "Health",
+            "Rentals",
+            "Education",
+            "Home",
+            "Transport",
+            "Security",
+            "Tech",
+          ].map((cat) => (
+            <button
+              key={cat}
+              type="button"
+              data-ocid={`services.${cat.toLowerCase()}.tab`}
+              onClick={() => setActiveCategory(cat)}
+              style={{
+                background: "rgba(0,255,255,0.06)",
+                border: "1px solid rgba(0,255,255,0.2)",
+                borderRadius: 999,
+                padding: "4px 12px",
+                cursor: "pointer",
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "0.75rem",
+                color: "rgba(176,255,255,0.8)",
+                fontWeight: 600,
+              }}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      )}
       <div
         style={{
           display: "grid",
@@ -1855,11 +2570,11 @@ function AllServicesScreen({
           gap: 10,
         }}
       >
-        {SERVICES.map((svc) => (
+        {filtered.map((svc, idx) => (
           <button
             key={svc.id}
             type="button"
-            data-ocid={`services.item.${svc.id}`}
+            data-ocid={`services.item.${idx + 1}`}
             className="glass"
             onClick={() => onSelect(svc)}
             style={{
@@ -1909,14 +2624,104 @@ function NearbyProvidersScreen({
   service,
   onBack,
   onSelect,
+  onLocationUpdate,
 }: {
   service: (typeof SERVICES)[0] | null;
   onBack: () => void;
   onSelect: (p: (typeof PROVIDERS)[0]) => void;
+  onLocationUpdate?: (loc: { lat: number; lng: number; city: string }) => void;
 }) {
+  const [_userLocation, setUserLocation] = useState<{
+    lat: number;
+    lng: number;
+    city: string;
+  } | null>(null);
+  const [locationLoading, setLocationLoading] = useState(true);
+
+  useEffect(() => {
+    function onSuccess(pos: GeolocationPosition) {
+      const loc = {
+        lat: pos.coords.latitude,
+        lng: pos.coords.longitude,
+        city: "Your Location",
+      };
+      setUserLocation(loc);
+      setLocationLoading(false);
+      onLocationUpdate?.(loc);
+    }
+    function onError() {
+      const fallback = { lat: 24.8607, lng: 67.0011, city: "Karachi" };
+      setUserLocation(fallback);
+      setLocationLoading(false);
+      onLocationUpdate?.(fallback);
+    }
+    navigator.geolocation.getCurrentPosition(onSuccess, onError);
+  }, [onLocationUpdate]);
+
   return (
     <div style={{ padding: "20px 16px 100px" }}>
       <ScreenHeader title="NEARBY PROVIDERS" onBack={onBack} />
+
+      {/* GPS Banner */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 10,
+          background: "rgba(0,255,255,0.06)",
+          border: "1px solid rgba(0,255,255,0.25)",
+          borderRadius: 12,
+          padding: "10px 14px",
+          marginBottom: 12,
+        }}
+      >
+        <span
+          style={{
+            fontSize: "1.1rem",
+            animation: locationLoading
+              ? "pulse-ring 1.5s ease-out infinite"
+              : "none",
+          }}
+        >
+          📍
+        </span>
+        <div>
+          <div
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "0.55rem",
+              color: "rgba(0,255,255,0.6)",
+              letterSpacing: "0.1em",
+            }}
+          >
+            GPS LOCATION ACTIVE
+          </div>
+          <div
+            style={{
+              fontFamily: "Rajdhani, sans-serif",
+              fontSize: "0.85rem",
+              color: "rgba(176,255,255,0.8)",
+              fontWeight: 600,
+            }}
+          >
+            {locationLoading
+              ? "Locating..."
+              : `${_userLocation?.city} (${_userLocation?.lat.toFixed(4)}, ${_userLocation?.lng.toFixed(4)})`}
+          </div>
+        </div>
+        <div
+          style={{
+            marginLeft: "auto",
+            fontFamily: "Orbitron, sans-serif",
+            fontSize: "0.5rem",
+            color: "#50ffb0",
+            letterSpacing: "0.08em",
+          }}
+        >
+          SHARING
+        </div>
+      </div>
+
       {service && (
         <div
           style={{
@@ -2255,7 +3060,7 @@ function ProviderConfirmedScreen({
             color: "rgba(176,255,255,0.5)",
           }}
         >
-          Incl. platform fee & insurance
+          Incl. all applicable taxes
         </div>
       </div>
 
@@ -2289,13 +3094,33 @@ function ProviderConfirmedScreen({
 function PaymentPlanScreen({
   onBack,
   onLock,
-}: { onBack: () => void; onLock: () => void }) {
+  onBankTransfer,
+  service,
+  userBalance,
+  onLowBalance,
+}: {
+  onBack: () => void;
+  onLock: () => void;
+  onBankTransfer: () => void;
+  service: (typeof SERVICES)[0] | null;
+  userBalance: number;
+  onLowBalance: () => void;
+}) {
+  const basePrice = service?.price ?? 1200;
+  const total = basePrice;
   const [method, setMethod] = useState("jazzcash");
   const methods = [
     { id: "jazzcash", label: "JazzCash", icon: "📱" },
     { id: "easypaisa", label: "Easypaisa", icon: "💳" },
     { id: "bank", label: "Bank Transfer", icon: "🏦" },
+    { id: "portals-bank", label: "The Portals Bank Account", icon: "🏦" },
   ];
+  const [copiedField, setCopiedField] = useState<string | null>(null);
+  function handleCopy(label: string, value: string) {
+    navigator.clipboard.writeText(value).catch(() => {});
+    setCopiedField(label);
+    setTimeout(() => setCopiedField(null), 2000);
+  }
 
   return (
     <div style={{ padding: "20px 16px 100px" }}>
@@ -2314,9 +3139,10 @@ function PaymentPlanScreen({
           COST BREAKDOWN
         </div>
         {[
-          { label: "Service fee", amount: "₨1,200" },
-          { label: "Platform fee", amount: "₨120" },
-          { label: "Insurance", amount: "₨80" },
+          {
+            label: "Service Charges",
+            amount: `₨${basePrice.toLocaleString()}`,
+          },
         ].map((row) => (
           <div
             key={row.label}
@@ -2379,9 +3205,39 @@ function PaymentPlanScreen({
               color: "#50ffb0",
             }}
           >
-            ₨1,400
+            ₨{total.toLocaleString()}
           </span>
         </div>
+      </div>
+
+      {/* Balance check row */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          background:
+            userBalance < total
+              ? "rgba(255,107,91,0.08)"
+              : "rgba(80,255,176,0.06)",
+          border: `1px solid ${userBalance < total ? "rgba(255,107,91,0.4)" : "rgba(80,255,176,0.3)"}`,
+          borderRadius: 10,
+          padding: "10px 14px",
+          marginBottom: 12,
+          fontFamily: "Rajdhani, sans-serif",
+          fontSize: "0.9rem",
+        }}
+      >
+        <span style={{ color: "rgba(176,255,255,0.7)" }}>Your Balance</span>
+        <span
+          style={{
+            fontWeight: 700,
+            color: userBalance < total ? "#ff6b5b" : "#50ffb0",
+          }}
+        >
+          ₨{userBalance.toLocaleString()}
+          {userBalance < total && " ⚠️ LOW"}
+        </span>
       </div>
 
       {/* Escrow badge */}
@@ -2478,11 +3334,114 @@ function PaymentPlanScreen({
         ))}
       </div>
 
+      {/* Bank details panel */}
+      {method === "portals-bank" && (
+        <div
+          className="glass-bright"
+          style={{
+            padding: 16,
+            marginBottom: 16,
+            border: "1px solid rgba(0,255,255,0.35)",
+          }}
+        >
+          <div
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "0.6rem",
+              color: "rgba(176,255,255,0.5)",
+              marginBottom: 12,
+              letterSpacing: "0.1em",
+            }}
+          >
+            OFFICIAL BANK DETAILS
+          </div>
+          {[
+            { label: "Bank Name", value: PORTALS_BANK.bankName },
+            { label: "Account Title", value: PORTALS_BANK.accountTitle },
+            { label: "Account Number", value: PORTALS_BANK.accountNumber },
+            { label: "IBAN", value: PORTALS_BANK.iban },
+            { label: "Branch", value: PORTALS_BANK.branch },
+          ].map((item) => (
+            <div
+              key={item.label}
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: 10,
+                gap: 8,
+              }}
+            >
+              <div>
+                <div
+                  style={{
+                    fontFamily: "Orbitron, sans-serif",
+                    fontSize: "0.5rem",
+                    color: "rgba(176,255,255,0.4)",
+                    letterSpacing: "0.08em",
+                    marginBottom: 2,
+                  }}
+                >
+                  {item.label.toUpperCase()}
+                </div>
+                <div
+                  style={{
+                    fontFamily: "Rajdhani, sans-serif",
+                    fontSize: "0.85rem",
+                    fontWeight: 600,
+                    color: "#f0f0f0",
+                  }}
+                >
+                  {item.value}
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => handleCopy(item.label, item.value)}
+                style={{
+                  background: "rgba(0,255,255,0.08)",
+                  border: "1px solid rgba(0,255,255,0.25)",
+                  borderRadius: 6,
+                  padding: "4px 8px",
+                  cursor: "pointer",
+                  color: copiedField === item.label ? "#50ffb0" : "#00ffff",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 4,
+                  flexShrink: 0,
+                }}
+              >
+                <Copy size={12} />
+                <span
+                  style={{
+                    fontFamily: "Orbitron, sans-serif",
+                    fontSize: "0.45rem",
+                    letterSpacing: "0.08em",
+                  }}
+                >
+                  {copiedField === item.label ? "COPIED!" : "COPY"}
+                </span>
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+
       <button
         type="button"
         data-ocid="payment.primary_button"
         className="btn-portal"
-        onClick={onLock}
+        onClick={() => {
+          if (userBalance < total) {
+            onLowBalance();
+            return;
+          }
+          if (method === "portals-bank") {
+            onBankTransfer();
+          } else {
+            onLock();
+          }
+        }}
       >
         🔒 LOCK PAYMENT
       </button>
@@ -2497,6 +3456,20 @@ function PaymentLockedScreen({
   onBack,
   onOtp,
 }: { onBack: () => void; onOtp: () => void }) {
+  const [taskOtp, setTaskOtp] = useState<string>("");
+  const [otpCopied, setOtpCopied] = useState(false);
+
+  useEffect(() => {
+    const code = String(Math.floor(1000 + Math.random() * 9000));
+    setTaskOtp(code);
+  }, []);
+
+  function copyOtp() {
+    navigator.clipboard.writeText(taskOtp).catch(() => {});
+    setOtpCopied(true);
+    setTimeout(() => setOtpCopied(false), 2000);
+  }
+
   return (
     <div style={{ padding: "20px 16px 100px" }}>
       <ScreenHeader title="PAYMENT SECURED" onBack={onBack} />
@@ -2565,6 +3538,88 @@ function PaymentLockedScreen({
         >
           Provider arrives in ~25 min
         </div>
+      </div>
+
+      {/* Task OTP Display */}
+      <div className="glass" style={{ padding: 16, marginBottom: 16 }}>
+        <div
+          style={{
+            fontFamily: "Orbitron, sans-serif",
+            fontSize: "0.6rem",
+            color: "rgba(176,255,255,0.5)",
+            marginBottom: 10,
+            letterSpacing: "0.12em",
+            textAlign: "center",
+          }}
+        >
+          YOUR TASK OTP
+        </div>
+        <div
+          style={{
+            display: "flex",
+            gap: 8,
+            justifyContent: "center",
+            marginBottom: 10,
+          }}
+        >
+          {taskOtp.split("").map((d, i) => (
+            <div
+              // biome-ignore lint/suspicious/noArrayIndexKey: static OTP digits
+              key={`otpd-${i}`}
+              style={{
+                width: 52,
+                height: 64,
+                background: "rgba(0,255,255,0.08)",
+                border: "2px solid rgba(0,255,255,0.5)",
+                borderRadius: 10,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontFamily: "Orbitron, sans-serif",
+                fontSize: "2rem",
+                fontWeight: 900,
+                color: "#00ffff",
+                textShadow: "0 0 16px rgba(0,255,255,0.8)",
+                boxShadow: "0 0 12px rgba(0,255,255,0.2)",
+              }}
+            >
+              {d}
+            </div>
+          ))}
+        </div>
+        <div style={{ textAlign: "center", marginBottom: 8 }}>
+          <button
+            type="button"
+            data-ocid="locked.secondary_button"
+            onClick={copyOtp}
+            style={{
+              background: "rgba(0,255,255,0.1)",
+              border: "1px solid rgba(0,255,255,0.4)",
+              borderRadius: 8,
+              color: otpCopied ? "#50ffb0" : "#00ffff",
+              fontFamily: "Rajdhani, sans-serif",
+              fontSize: "0.85rem",
+              fontWeight: 600,
+              padding: "6px 18px",
+              cursor: "pointer",
+              letterSpacing: "0.08em",
+            }}
+          >
+            {otpCopied ? "✓ COPIED!" : "📋 COPY OTP"}
+          </button>
+        </div>
+        <p
+          style={{
+            fontFamily: "Rajdhani, sans-serif",
+            fontSize: "0.78rem",
+            color: "rgba(176,255,255,0.5)",
+            textAlign: "center",
+            margin: 0,
+            lineHeight: 1.5,
+          }}
+        >
+          Share this OTP with your Service Provider to release payment
+        </p>
       </div>
 
       {/* 3-step guide */}
@@ -2644,13 +3699,29 @@ function PaymentLockedScreen({
 function OtpScreen({
   onBack,
   onSuccess,
+  service,
+  userBalance,
+  onDebit,
 }: {
   onBack: () => void;
   onSuccess: () => void;
+  service: (typeof SERVICES)[0] | null;
+  userBalance: number;
+  onDebit: (amount: number) => void;
 }) {
+  const basePrice = service?.price ?? 1200;
+  const salesTax = Math.round(basePrice * 0.17);
+  const incomeTax = Math.round(basePrice * 0.05);
+  const portalsCharge = Math.round(basePrice * 0.1);
+  const totalDeductions = salesTax + incomeTax + portalsCharge;
+  const total = basePrice;
+  const providerPayout = basePrice - totalDeductions;
+
   const [digits, setDigits] = useState(["", "", "", ""]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [txState, setTxState] = useState<"idle" | "animating" | "done">("idle");
+  const [txStep, setTxStep] = useState(0);
   const refs = [
     useRef<HTMLInputElement>(null),
     useRef<HTMLInputElement>(null),
@@ -2658,6 +3729,11 @@ function OtpScreen({
     useRef<HTMLInputElement>(null),
   ];
   const { actor } = useActor();
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: auto-focus on mount only
+  useEffect(() => {
+    refs[0].current?.focus();
+  }, []);
 
   function handleDigit(i: number, val: string) {
     const clean = val.replace(/\D/g, "").slice(-1);
@@ -2680,18 +3756,341 @@ function OtpScreen({
       if (actor) {
         await actor.verifyHandshake(0n, BigInt(code));
       }
-      onSuccess();
     } catch {
-      // Even if actor call fails, advance for demo purposes
-      onSuccess();
-    } finally {
-      setLoading(false);
+      /* ignore, advance for demo */
     }
+    setLoading(false);
+    // Start transaction animation
+    setTxState("animating");
+    setTxStep(0);
+    setTimeout(() => setTxStep(1), 600);
+    setTimeout(() => setTxStep(2), 1200);
+    setTimeout(() => setTxStep(3), 1800);
+    setTimeout(() => {
+      onDebit(total);
+      setTxState("done");
+      setTimeout(() => onSuccess(), 600);
+    }, 2400);
+  }
+
+  if (txState === "animating" || txState === "done") {
+    const txRows = [
+      {
+        icon: "🔴",
+        label: "Debited from your account",
+        amount: `-₨${basePrice.toLocaleString()}`,
+        color: "#ff6b5b",
+      },
+      {
+        icon: "🟢",
+        label: "Credited to Provider (after deductions)",
+        amount: `+₨${providerPayout.toLocaleString()}`,
+        color: "#50ffb0",
+      },
+      {
+        icon: "🔵",
+        label: "Portals charges & taxes deducted",
+        amount: `-₨${totalDeductions.toLocaleString()}`,
+        color: "#00ffff",
+      },
+    ];
+    return (
+      <div
+        style={{
+          padding: "20px 16px 100px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <ScreenHeader title="PROCESSING PAYMENT" onBack={() => {}} />
+        <div
+          style={{
+            fontSize: "3rem",
+            margin: "24px 0 16px",
+            animation: "lock-pulse 1s ease-in-out infinite",
+          }}
+        >
+          💸
+        </div>
+        <div
+          style={{
+            fontFamily: "Orbitron, sans-serif",
+            fontSize: "0.9rem",
+            color: "#00ffff",
+            letterSpacing: "0.1em",
+            marginBottom: 24,
+          }}
+        >
+          TRANSACTION IN PROGRESS
+        </div>
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            gap: 12,
+          }}
+        >
+          {txRows.map((row, i) => (
+            <div
+              key={row.label}
+              data-ocid={`otp.${i === 0 ? "error_state" : i === 1 ? "success_state" : "loading_state"}`}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                background:
+                  txStep > i
+                    ? "rgba(255,255,255,0.05)"
+                    : "rgba(255,255,255,0.02)",
+                border: `1px solid ${txStep > i ? `${row.color}40` : "rgba(255,255,255,0.08)"}`,
+                borderRadius: 12,
+                padding: "14px 16px",
+                opacity: txStep > i ? 1 : 0.3,
+                transition: "all 0.4s ease",
+                transform: txStep > i ? "translateX(0)" : "translateX(-20px)",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                <span style={{ fontSize: "1.3rem" }}>{row.icon}</span>
+                <span
+                  style={{
+                    fontFamily: "Rajdhani, sans-serif",
+                    fontSize: "0.85rem",
+                    color: "rgba(176,255,255,0.8)",
+                  }}
+                >
+                  {row.label}
+                </span>
+              </div>
+              <span
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "0.75rem",
+                  fontWeight: 700,
+                  color: row.color,
+                }}
+              >
+                {row.amount}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
   }
 
   return (
     <div style={{ padding: "20px 16px 100px" }}>
       <ScreenHeader title="VERIFY COMPLETION" onBack={onBack} />
+
+      {/* Service summary card */}
+      <div className="glass-bright" style={{ padding: 16, marginBottom: 16 }}>
+        <div
+          style={{
+            fontFamily: "Orbitron, sans-serif",
+            fontSize: "0.65rem",
+            color: "rgba(176,255,255,0.5)",
+            marginBottom: 10,
+            letterSpacing: "0.12em",
+            textAlign: "center",
+          }}
+        >
+          SERVICES RENDERED
+        </div>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            marginBottom: 12,
+          }}
+        >
+          <span style={{ fontSize: "1.8rem" }}>{service?.emoji ?? "🔧"}</span>
+          <div>
+            <div
+              style={{
+                fontFamily: "Orbitron, sans-serif",
+                fontSize: "0.7rem",
+                color: "#00ffff",
+                letterSpacing: "0.08em",
+              }}
+            >
+              {service?.name ?? "Service"}
+            </div>
+            <div
+              style={{
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "0.8rem",
+                color: "rgba(176,255,255,0.6)",
+              }}
+            >
+              Category: {service?.category ?? "General"}
+            </div>
+          </div>
+        </div>
+        <div
+          style={{
+            height: 1,
+            background: "rgba(0,255,255,0.15)",
+            margin: "8px 0",
+          }}
+        />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginBottom: 6,
+          }}
+        >
+          <span
+            style={{
+              fontFamily: "Rajdhani, sans-serif",
+              fontSize: "0.85rem",
+              color: "rgba(176,255,255,0.6)",
+            }}
+          >
+            Service Charges
+          </span>
+          <span
+            style={{
+              fontFamily: "Rajdhani, sans-serif",
+              fontSize: "0.85rem",
+              fontWeight: 600,
+              color: "#f0f0f0",
+            }}
+          >
+            ₨{basePrice.toLocaleString()}
+          </span>
+        </div>
+        <div
+          style={{
+            height: 1,
+            background: "rgba(0,255,255,0.15)",
+            margin: "8px 0",
+          }}
+        />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginBottom: 6,
+          }}
+        >
+          <span
+            style={{
+              fontFamily: "Rajdhani, sans-serif",
+              fontSize: "0.85rem",
+              color: "rgba(176,255,255,0.6)",
+            }}
+          >
+            Paid From
+          </span>
+          <span
+            style={{
+              fontFamily: "Rajdhani, sans-serif",
+              fontSize: "0.85rem",
+              fontWeight: 600,
+              color: "#00ffff",
+            }}
+          >
+            Portal User Account
+          </span>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginBottom: 6,
+          }}
+        >
+          <span
+            style={{
+              fontFamily: "Rajdhani, sans-serif",
+              fontSize: "0.85rem",
+              color: "rgba(176,255,255,0.6)",
+            }}
+          >
+            Paid To
+          </span>
+          <span
+            style={{
+              fontFamily: "Rajdhani, sans-serif",
+              fontSize: "0.85rem",
+              fontWeight: 600,
+              color: "#00ffff",
+            }}
+          >
+            Service Provider
+          </span>
+        </div>
+        <div
+          style={{
+            height: 1,
+            background: "rgba(0,255,255,0.15)",
+            margin: "8px 0",
+          }}
+        />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <span
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "0.7rem",
+              color: "#00ffff",
+              letterSpacing: "0.08em",
+            }}
+          >
+            AMOUNT DUE
+          </span>
+          <span
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "1.1rem",
+              fontWeight: 800,
+              color: "#50ffb0",
+            }}
+          >
+            ₨{basePrice.toLocaleString()}
+          </span>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginTop: 8,
+            paddingTop: 8,
+            borderTop: "1px solid rgba(0,255,255,0.1)",
+          }}
+        >
+          <span
+            style={{
+              fontFamily: "Rajdhani, sans-serif",
+              fontSize: "0.85rem",
+              color: "rgba(176,255,255,0.6)",
+            }}
+          >
+            Your Balance
+          </span>
+          <span
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "0.85rem",
+              fontWeight: 700,
+              color: "#00ffff",
+            }}
+          >
+            ₨{userBalance.toLocaleString()}
+          </span>
+        </div>
+      </div>
 
       <div
         className="glass"
@@ -2707,7 +4106,8 @@ function OtpScreen({
             lineHeight: 1.5,
           }}
         >
-          Enter the 4-digit code shared by your provider
+          Enter the 4-digit OTP code generated for this task to verify and
+          release payment securely
         </div>
 
         <div
@@ -2752,6 +4152,43 @@ function OtpScreen({
         )}
       </div>
 
+      {/* Security Trust Bar */}
+      <div
+        style={{
+          display: "flex",
+          gap: 8,
+          justifyContent: "center",
+          marginBottom: 14,
+          flexWrap: "wrap",
+        }}
+      >
+        {[
+          { icon: "🔒", label: "256-BIT AES" },
+          { icon: "🛡️", label: "E2E ENCRYPTED" },
+          { icon: "🔐", label: "PAYMENT PROTECTED" },
+        ].map((b) => (
+          <div
+            key={b.label}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 5,
+              background: "rgba(0,255,255,0.06)",
+              border: "1px solid rgba(0,255,255,0.2)",
+              borderRadius: 999,
+              padding: "4px 10px",
+              fontFamily: "Rajdhani, sans-serif",
+              fontSize: "0.72rem",
+              fontWeight: 600,
+              color: "rgba(0,255,255,0.75)",
+              letterSpacing: "0.06em",
+            }}
+          >
+            <span>{b.icon}</span>
+            <span>{b.label}</span>
+          </div>
+        ))}
+      </div>
       <button
         type="button"
         data-ocid="otp.primary_button"
@@ -2767,9 +4204,340 @@ function OtpScreen({
 }
 
 // ========================
+// SCREEN: INVOICE
+// ========================
+function InvoiceScreen({
+  onHome,
+  service,
+}: {
+  onHome: () => void;
+  service: (typeof SERVICES)[0] | null;
+}) {
+  const txnRef = `TXN-${Math.random().toString(36).toUpperCase().slice(2, 10)}`;
+  const now = new Date();
+  const dateStr = now.toLocaleDateString("en-PK", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+  const timeStr = now.toLocaleTimeString("en-PK", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  return (
+    <div style={{ padding: "20px 16px 100px" }}>
+      <ScreenHeader title="FINAL INVOICE" onBack={onHome} />
+
+      {/* Header Logo */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 12,
+          margin: "16px 0",
+        }}
+      >
+        <PortalLogo size={40} />
+        <div>
+          <div
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "1rem",
+              fontWeight: 900,
+              color: "#00ffff",
+              letterSpacing: "0.15em",
+            }}
+          >
+            THE PORTALS
+          </div>
+          <div
+            style={{
+              fontFamily: "Rajdhani, sans-serif",
+              fontSize: "0.72rem",
+              color: "rgba(176,255,255,0.5)",
+              letterSpacing: "0.12em",
+            }}
+          >
+            OFFICIAL INVOICE
+          </div>
+        </div>
+      </div>
+
+      {/* Invoice Card */}
+      <div className="glass" style={{ padding: 20, marginBottom: 16 }}>
+        {/* Reference & Date */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-start",
+            marginBottom: 14,
+          }}
+        >
+          <div>
+            <div
+              style={{
+                fontFamily: "Orbitron, sans-serif",
+                fontSize: "0.55rem",
+                color: "rgba(176,255,255,0.45)",
+                letterSpacing: "0.1em",
+                marginBottom: 3,
+              }}
+            >
+              REFERENCE
+            </div>
+            <div
+              style={{
+                fontFamily: "monospace",
+                fontSize: "0.85rem",
+                color: "#00ffff",
+                fontWeight: 700,
+                letterSpacing: "0.08em",
+              }}
+            >
+              {txnRef}
+            </div>
+          </div>
+          <div style={{ textAlign: "right" }}>
+            <div
+              style={{
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "0.8rem",
+                color: "rgba(176,255,255,0.6)",
+              }}
+            >
+              {dateStr}
+            </div>
+            <div
+              style={{
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "0.75rem",
+                color: "rgba(176,255,255,0.4)",
+              }}
+            >
+              {timeStr}
+            </div>
+          </div>
+        </div>
+
+        {/* Divider */}
+        <div
+          style={{
+            height: 1,
+            background: "rgba(0,255,255,0.15)",
+            marginBottom: 14,
+          }}
+        />
+
+        {/* Service */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            marginBottom: 14,
+          }}
+        >
+          <span style={{ fontSize: "2rem" }}>{service?.emoji ?? "🔧"}</span>
+          <div>
+            <div
+              style={{
+                fontFamily: "Orbitron, sans-serif",
+                fontSize: "0.7rem",
+                color: "#00ffff",
+                letterSpacing: "0.08em",
+              }}
+            >
+              {service?.name ?? "Service Rendered"}
+            </div>
+            <div
+              style={{
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "0.8rem",
+                color: "rgba(176,255,255,0.55)",
+              }}
+            >
+              {service?.category ?? "General"}
+            </div>
+          </div>
+        </div>
+
+        <div
+          style={{
+            height: 1,
+            background: "rgba(0,255,255,0.15)",
+            marginBottom: 14,
+          }}
+        />
+
+        {/* Transaction rows */}
+        {[
+          {
+            label: "Service Charges Paid From",
+            value: "PU-XXXXX (Portal User)",
+            highlight: false,
+          },
+          {
+            label: "Service Charges Paid To",
+            value: "Muhammad Ali (Provider)",
+            highlight: false,
+          },
+        ].map((row) => (
+          <div
+            key={row.label}
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginBottom: 10,
+            }}
+          >
+            <span
+              style={{
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "0.85rem",
+                color: "rgba(176,255,255,0.55)",
+              }}
+            >
+              {row.label}
+            </span>
+            <span
+              style={{
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "0.85rem",
+                fontWeight: 600,
+                color: "#00ffff",
+                maxWidth: "50%",
+                textAlign: "right",
+              }}
+            >
+              {row.value}
+            </span>
+          </div>
+        ))}
+
+        <div
+          style={{
+            height: 1,
+            background: "rgba(0,255,255,0.15)",
+            margin: "10px 0",
+          }}
+        />
+
+        {/* Amount */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: 10,
+          }}
+        >
+          <span
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "0.7rem",
+              color: "#00ffff",
+              letterSpacing: "0.08em",
+            }}
+          >
+            AMOUNT
+          </span>
+          <span
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "1.2rem",
+              fontWeight: 900,
+              color: "#50ffb0",
+            }}
+          >
+            ₨{(service?.price ?? 1200).toLocaleString()}
+          </span>
+        </div>
+
+        {/* Status */}
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 6,
+              background: "rgba(80,255,176,0.1)",
+              border: "1px solid rgba(80,255,176,0.4)",
+              borderRadius: 999,
+              padding: "6px 18px",
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "0.6rem",
+              color: "#50ffb0",
+              letterSpacing: "0.1em",
+            }}
+          >
+            ✓ COMPLETED
+          </div>
+        </div>
+      </div>
+
+      {/* Security Watermark */}
+      <div
+        style={{
+          textAlign: "center",
+          fontFamily: "Rajdhani, sans-serif",
+          fontSize: "0.7rem",
+          color: "rgba(0,255,255,0.3)",
+          letterSpacing: "0.12em",
+          marginBottom: 20,
+          padding: "8px 0",
+          borderTop: "1px dashed rgba(0,255,255,0.15)",
+          borderBottom: "1px dashed rgba(0,255,255,0.15)",
+        }}
+      >
+        🔒 END-TO-END ENCRYPTED | THE PORTALS
+      </div>
+
+      {/* Action Buttons */}
+      <div style={{ display: "flex", gap: 12 }}>
+        <button
+          type="button"
+          data-ocid="invoice.secondary_button"
+          onClick={() => window.print()}
+          style={{
+            flex: 1,
+            padding: "14px",
+            background: "rgba(0,255,255,0.08)",
+            border: "1px solid rgba(0,255,255,0.4)",
+            borderRadius: 12,
+            color: "#00ffff",
+            fontFamily: "Orbitron, sans-serif",
+            fontSize: "0.6rem",
+            fontWeight: 700,
+            letterSpacing: "0.1em",
+            cursor: "pointer",
+          }}
+        >
+          📄 SAVE INVOICE
+        </button>
+        <button
+          type="button"
+          data-ocid="invoice.primary_button"
+          className="btn-portal"
+          onClick={onHome}
+          style={{ flex: 1 }}
+        >
+          ↩ BACK TO HOME
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ========================
 // SCREEN 10: SUCCESS
 // ========================
-function SuccessScreen({ onHome }: { onHome: () => void }) {
+function SuccessScreen({
+  onHome,
+  onInvoice,
+}: { onHome: () => void; onInvoice?: () => void }) {
   const [stars, setStars] = useState(0);
   const [rated, setRated] = useState(false);
   const { actor } = useActor();
@@ -2923,6 +4691,29 @@ function SuccessScreen({ onHome }: { onHome: () => void }) {
         )}
       </div>
 
+      {onInvoice && (
+        <button
+          type="button"
+          data-ocid="success.secondary_button"
+          onClick={onInvoice}
+          style={{
+            width: "100%",
+            padding: "14px",
+            background: "rgba(0,255,255,0.06)",
+            border: "1px solid rgba(0,255,255,0.4)",
+            borderRadius: 12,
+            color: "#00ffff",
+            fontFamily: "Orbitron, sans-serif",
+            fontSize: "0.65rem",
+            fontWeight: 700,
+            letterSpacing: "0.1em",
+            cursor: "pointer",
+            marginBottom: 12,
+          }}
+        >
+          📄 VIEW INVOICE
+        </button>
+      )}
       <button
         type="button"
         data-ocid="success.primary_button"
@@ -3171,7 +4962,14 @@ function ChatScreen({ onBack }: { onBack: () => void }) {
 function ProfileScreen({
   onSettings,
   onBack,
-}: { onSettings: () => void; onBack: () => void }) {
+  onDeleteAccount,
+  onTopUp,
+}: {
+  onSettings: () => void;
+  onBack: () => void;
+  onDeleteAccount: () => void;
+  onTopUp: () => void;
+}) {
   return (
     <div style={{ padding: "20px 16px 100px" }}>
       <ScreenHeader title="MY PROFILE" onBack={onBack} />
@@ -3297,11 +5095,17 @@ function ProfileScreen({
             ocid: "profile.secondary_button",
           },
           { label: "Transaction History", icon: "📊", ocid: "profile.item.1" },
-          { label: "Help & Support", icon: "❓", ocid: "profile.item.2" },
+          {
+            label: "Top Up Wallet",
+            icon: "💰",
+            ocid: "profile.item.2",
+            action: onTopUp,
+          },
+          { label: "Help & Support", icon: "❓", ocid: "profile.item.3" },
           {
             label: "Settings",
             icon: "⚙️",
-            ocid: "profile.item.3",
+            ocid: "profile.item.4",
             action: onSettings,
           },
         ].map((item) => (
@@ -3341,6 +5145,7 @@ function ProfileScreen({
           type="button"
           data-ocid="profile.delete_button"
           className="glass"
+          onClick={onDeleteAccount}
           style={{
             display: "flex",
             alignItems: "center",
@@ -3353,7 +5158,7 @@ function ProfileScreen({
             background: "rgba(255,80,60,0.05)",
           }}
         >
-          <span style={{ fontSize: "1.2rem" }}>🚪</span>
+          <span style={{ fontSize: "1.2rem" }}>🗑️</span>
           <span
             style={{
               fontFamily: "Rajdhani, sans-serif",
@@ -3363,10 +5168,770 @@ function ProfileScreen({
               flex: 1,
             }}
           >
-            Logout
+            Delete Account
           </span>
         </button>
       </div>
+    </div>
+  );
+}
+
+// ========================
+// SCREEN: BANK TRANSFER CONFIRM
+// ========================
+function BankTransferConfirmScreen({
+  onBack,
+  onConfirm,
+}: { onBack: () => void; onConfirm: () => void }) {
+  const [ref, setRef] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
+
+  function handleSubmit() {
+    if (!ref.trim()) {
+      setError("Please enter your transaction reference.");
+      return;
+    }
+    setError("");
+    setSubmitted(true);
+  }
+
+  return (
+    <div style={{ padding: "20px 16px 100px" }}>
+      <ScreenHeader title="BANK TRANSFER" onBack={onBack} />
+
+      <div
+        style={{
+          fontFamily: "Rajdhani, sans-serif",
+          fontSize: "0.95rem",
+          color: "rgba(176,255,255,0.75)",
+          marginBottom: 16,
+          lineHeight: 1.5,
+        }}
+      >
+        Transfer{" "}
+        <span style={{ color: "#50ffb0", fontWeight: 700 }}>PKR 1,400</span> to
+        The Portals official account, then enter your transaction reference
+        below.
+      </div>
+
+      <div className="glass-bright" style={{ padding: 16, marginBottom: 16 }}>
+        <div
+          style={{
+            fontFamily: "Orbitron, sans-serif",
+            fontSize: "0.6rem",
+            color: "rgba(176,255,255,0.5)",
+            marginBottom: 12,
+            letterSpacing: "0.1em",
+          }}
+        >
+          OFFICIAL BANK DETAILS
+        </div>
+        {[
+          { label: "Bank Name", value: PORTALS_BANK.bankName },
+          { label: "Account Title", value: PORTALS_BANK.accountTitle },
+          { label: "Account Number", value: PORTALS_BANK.accountNumber },
+          { label: "IBAN", value: PORTALS_BANK.iban },
+          { label: "Branch", value: PORTALS_BANK.branch },
+        ].map((item) => (
+          <div key={item.label} style={{ marginBottom: 10 }}>
+            <div
+              style={{
+                fontFamily: "Orbitron, sans-serif",
+                fontSize: "0.5rem",
+                color: "rgba(176,255,255,0.4)",
+                letterSpacing: "0.08em",
+                marginBottom: 2,
+              }}
+            >
+              {item.label.toUpperCase()}
+            </div>
+            <div
+              style={{
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "0.9rem",
+                fontWeight: 600,
+                color: "#f0f0f0",
+              }}
+            >
+              {item.value}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="glass" style={{ padding: 16, marginBottom: 12 }}>
+        <label
+          htmlFor="trx-ref-input"
+          style={{
+            fontFamily: "Orbitron, sans-serif",
+            fontSize: "0.6rem",
+            color: "rgba(176,255,255,0.5)",
+            letterSpacing: "0.1em",
+            display: "block",
+            marginBottom: 8,
+          }}
+        >
+          TRANSACTION REFERENCE / TRX ID
+        </label>
+        <input
+          id="trx-ref-input"
+          type="text"
+          data-ocid="bank_transfer.ref.input"
+          value={ref}
+          onChange={(e) => setRef(e.target.value)}
+          placeholder="Enter TRX ID or reference number"
+          style={{
+            width: "100%",
+            background: "rgba(0,255,255,0.05)",
+            border: "1px solid rgba(0,255,255,0.25)",
+            borderRadius: 8,
+            padding: "10px 12px",
+            fontFamily: "Rajdhani, sans-serif",
+            fontSize: "0.95rem",
+            color: "#f0f0f0",
+            outline: "none",
+            boxSizing: "border-box",
+          }}
+        />
+        {error && (
+          <div
+            data-ocid="bank_transfer.error_state"
+            style={{
+              marginTop: 8,
+              fontFamily: "Rajdhani, sans-serif",
+              fontSize: "0.8rem",
+              color: "#ff6b5b",
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+            }}
+          >
+            <AlertTriangle size={14} /> {error}
+          </div>
+        )}
+      </div>
+
+      {!submitted ? (
+        <button
+          type="button"
+          data-ocid="bank_transfer.submit.button"
+          className="btn-portal"
+          onClick={handleSubmit}
+        >
+          📤 SUBMIT FOR VERIFICATION
+        </button>
+      ) : (
+        <div>
+          <div
+            data-ocid="bank_transfer.success_state"
+            style={{
+              background: "rgba(255,180,70,0.08)",
+              border: "1px solid rgba(255,180,70,0.4)",
+              borderRadius: 12,
+              padding: 16,
+              marginBottom: 16,
+              textAlign: "center",
+            }}
+          >
+            <div
+              style={{
+                fontFamily: "Orbitron, sans-serif",
+                fontSize: "0.75rem",
+                fontWeight: 800,
+                color: "#ffb347",
+                letterSpacing: "0.12em",
+                textShadow: "0 0 10px rgba(255,180,70,0.5)",
+                marginBottom: 8,
+              }}
+            >
+              ⏳ PENDING VERIFICATION
+            </div>
+            <div
+              style={{
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "0.9rem",
+                color: "rgba(255,180,70,0.8)",
+              }}
+            >
+              Your payment is under review. Service will be unlocked once
+              verified.
+            </div>
+          </div>
+          <button
+            type="button"
+            data-ocid="bank_transfer.continue.button"
+            className="btn-portal"
+            onClick={onConfirm}
+          >
+            ✅ CONTINUE
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ========================
+// SCREEN: PROVIDER WITHDRAWAL
+// ========================
+function ProviderWithdrawalScreen({
+  onBack,
+  onSubmit,
+}: { onBack: () => void; onSubmit: () => void }) {
+  const balance = 38500;
+  const deduction = Math.round(balance * 0.03);
+  const netPayout = balance - deduction;
+  const [bankName, setBankName] = useState("");
+  const [accountTitle, setAccountTitle] = useState("");
+  const [accountNumber, setAccountNumber] = useState("");
+
+  return (
+    <div style={{ padding: "20px 16px 100px" }}>
+      <ScreenHeader title="WITHDRAWAL REQUEST" onBack={onBack} />
+
+      {/* Balance summary cards */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 10,
+          marginBottom: 20,
+        }}
+      >
+        <div
+          className="glass-bright"
+          style={{
+            padding: 16,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <div>
+            <div
+              style={{
+                fontFamily: "Orbitron, sans-serif",
+                fontSize: "0.55rem",
+                color: "rgba(176,255,255,0.5)",
+                letterSpacing: "0.1em",
+                marginBottom: 4,
+              }}
+            >
+              CURRENT BALANCE
+            </div>
+            <div
+              style={{
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "1rem",
+                color: "rgba(176,255,255,0.7)",
+              }}
+            >
+              Your total earnings
+            </div>
+          </div>
+          <div
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "1.1rem",
+              fontWeight: 800,
+              color: "#f0f0f0",
+            }}
+          >
+            ₨{balance.toLocaleString()}
+          </div>
+        </div>
+
+        <div
+          className="glass"
+          style={{
+            padding: 16,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            border: "1px solid rgba(255,180,70,0.3)",
+          }}
+        >
+          <div>
+            <div
+              style={{
+                fontFamily: "Orbitron, sans-serif",
+                fontSize: "0.55rem",
+                color: "rgba(255,180,70,0.6)",
+                letterSpacing: "0.1em",
+                marginBottom: 4,
+              }}
+            >
+              PLATFORM DEDUCTION (3%)
+            </div>
+            <div
+              style={{
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "1rem",
+                color: "rgba(255,180,70,0.7)",
+              }}
+            >
+              Service & admin fee
+            </div>
+          </div>
+          <div
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "1.1rem",
+              fontWeight: 800,
+              color: "#ffb347",
+              textShadow: "0 0 10px rgba(255,180,70,0.4)",
+            }}
+          >
+            -₨{deduction.toLocaleString()}
+          </div>
+        </div>
+
+        <div
+          className="glass-bright"
+          style={{
+            padding: 16,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            border: "1px solid rgba(0,255,255,0.4)",
+            boxShadow: "0 0 16px rgba(0,255,255,0.15)",
+          }}
+        >
+          <div>
+            <div
+              style={{
+                fontFamily: "Orbitron, sans-serif",
+                fontSize: "0.55rem",
+                color: "rgba(0,255,255,0.5)",
+                letterSpacing: "0.1em",
+                marginBottom: 4,
+              }}
+            >
+              NET PAYOUT
+            </div>
+            <div
+              style={{
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "1rem",
+                color: "rgba(176,255,255,0.7)",
+              }}
+            >
+              Amount you receive
+            </div>
+          </div>
+          <div
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "1.2rem",
+              fontWeight: 800,
+              color: "#00ffff",
+              textShadow: "0 0 14px rgba(0,255,255,0.5)",
+            }}
+          >
+            ₨{netPayout.toLocaleString()}
+          </div>
+        </div>
+      </div>
+
+      {/* Bank details form */}
+      <div
+        style={{
+          fontFamily: "Orbitron, sans-serif",
+          fontSize: "0.65rem",
+          color: "rgba(176,255,255,0.5)",
+          marginBottom: 12,
+          letterSpacing: "0.1em",
+        }}
+      >
+        YOUR BANK DETAILS
+      </div>
+      <div
+        className="glass"
+        style={{
+          padding: 16,
+          marginBottom: 20,
+          display: "flex",
+          flexDirection: "column",
+          gap: 14,
+        }}
+      >
+        {[
+          {
+            label: "BANK NAME",
+            value: bankName,
+            set: setBankName,
+            placeholder: "e.g. Meezan Bank",
+            ocid: "withdrawal.bank_name.input",
+          },
+          {
+            label: "ACCOUNT TITLE",
+            value: accountTitle,
+            set: setAccountTitle,
+            placeholder: "Full name on account",
+            ocid: "withdrawal.account_title.input",
+          },
+          {
+            label: "ACCOUNT NUMBER / IBAN",
+            value: accountNumber,
+            set: setAccountNumber,
+            placeholder: "PK xx XXXX ...",
+            ocid: "withdrawal.account_number.input",
+          },
+        ].map((field) => (
+          <div key={field.label}>
+            <label
+              htmlFor={field.ocid}
+              style={{
+                fontFamily: "Orbitron, sans-serif",
+                fontSize: "0.5rem",
+                color: "rgba(176,255,255,0.4)",
+                letterSpacing: "0.1em",
+                display: "block",
+                marginBottom: 6,
+              }}
+            >
+              {field.label}
+            </label>
+            <input
+              id={field.ocid}
+              type="text"
+              data-ocid={field.ocid}
+              value={field.value}
+              onChange={(e) => field.set(e.target.value)}
+              placeholder={field.placeholder}
+              style={{
+                width: "100%",
+                background: "rgba(0,255,255,0.05)",
+                border: "1px solid rgba(0,255,255,0.2)",
+                borderRadius: 8,
+                padding: "10px 12px",
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "0.95rem",
+                color: "#f0f0f0",
+                outline: "none",
+                boxSizing: "border-box",
+              }}
+            />
+          </div>
+        ))}
+      </div>
+
+      <button
+        type="button"
+        data-ocid="withdrawal.submit.button"
+        onClick={onSubmit}
+        style={{
+          width: "100%",
+          padding: "14px 20px",
+          borderRadius: 12,
+          background:
+            "linear-gradient(135deg, rgba(220,50,40,0.8) 0%, rgba(255,140,30,0.8) 100%)",
+          border: "1px solid rgba(255,100,50,0.5)",
+          color: "#fff",
+          fontFamily: "Orbitron, sans-serif",
+          fontSize: "0.75rem",
+          fontWeight: 800,
+          letterSpacing: "0.1em",
+          cursor: "pointer",
+          boxShadow: "0 0 20px rgba(220,50,40,0.3)",
+          marginBottom: 16,
+        }}
+      >
+        🗑️ REQUEST WITHDRAWAL & DELETE ACCOUNT
+      </button>
+
+      <div
+        style={{
+          fontFamily: "Rajdhani, sans-serif",
+          fontSize: "0.8rem",
+          color: "rgba(255,180,70,0.7)",
+          textAlign: "center",
+          lineHeight: 1.5,
+          padding: "0 8px",
+        }}
+      >
+        ⚠️ After submitting, your account will enter deletion pending state. It
+        will be permanently deleted once all financial obligations are cleared.
+      </div>
+    </div>
+  );
+}
+
+// ========================
+// SCREEN: PROVIDER ACCOUNT DELETION
+// ========================
+function ProviderAccountDeletionScreen({
+  onBack,
+  onHome,
+}: { onBack: () => void; onHome: () => void }) {
+  const today = new Date().toLocaleDateString("en-PK", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+  const balance = 38500;
+  const deduction = Math.round(balance * 0.03);
+  const netPayout = balance - deduction;
+
+  const constraints = [
+    { label: "Withdrawal request submitted", done: true },
+    { label: "Withdrawal processed & transferred", done: false },
+    { label: "No active bookings", done: false },
+    { label: "No pending disputes", done: false },
+    { label: "Account statement generated", done: false },
+  ];
+
+  const statement = [
+    {
+      date: today,
+      desc: "Total Earnings",
+      amount: `+₨${balance.toLocaleString()}`,
+    },
+    {
+      date: today,
+      desc: "Platform Deduction (3%)",
+      amount: `-₨${deduction.toLocaleString()}`,
+    },
+    {
+      date: today,
+      desc: "Withdrawal Requested",
+      amount: `-₨${netPayout.toLocaleString()}`,
+    },
+    { date: "—", desc: "Closing Balance", amount: "₨0" },
+  ];
+
+  return (
+    <div style={{ padding: "20px 16px 100px" }}>
+      <ScreenHeader title="ACCOUNT DELETION" onBack={onBack} />
+
+      {/* Deletion pending badge */}
+      <div
+        style={{
+          textAlign: "center",
+          marginBottom: 20,
+        }}
+      >
+        <div
+          style={{
+            display: "inline-block",
+            background: "rgba(255,140,0,0.12)",
+            border: "2px solid rgba(255,140,0,0.5)",
+            borderRadius: 16,
+            padding: "12px 28px",
+            fontFamily: "Orbitron, sans-serif",
+            fontSize: "1rem",
+            fontWeight: 900,
+            color: "#ffb347",
+            letterSpacing: "0.15em",
+            textShadow: "0 0 16px rgba(255,180,70,0.6)",
+            boxShadow: "0 0 24px rgba(255,140,0,0.2)",
+            marginBottom: 12,
+          }}
+        >
+          ⏳ DELETION PENDING
+        </div>
+        <div
+          style={{
+            fontFamily: "Rajdhani, sans-serif",
+            fontSize: "0.9rem",
+            color: "rgba(176,255,255,0.65)",
+            lineHeight: 1.5,
+            padding: "0 8px",
+          }}
+        >
+          Your withdrawal request has been submitted. Your account will be
+          automatically deleted once all conditions below are met.
+        </div>
+      </div>
+
+      {/* Financial constraint checklist */}
+      <div
+        style={{
+          fontFamily: "Orbitron, sans-serif",
+          fontSize: "0.6rem",
+          color: "rgba(176,255,255,0.5)",
+          marginBottom: 10,
+          letterSpacing: "0.1em",
+        }}
+      >
+        DELETION CHECKLIST
+      </div>
+      <div
+        className="glass"
+        style={{
+          padding: 16,
+          marginBottom: 20,
+          display: "flex",
+          flexDirection: "column",
+          gap: 12,
+        }}
+      >
+        {constraints.map((c) => (
+          <div
+            key={c.label}
+            style={{ display: "flex", alignItems: "center", gap: 12 }}
+          >
+            <div
+              style={{
+                width: 24,
+                height: 24,
+                borderRadius: "50%",
+                background: c.done
+                  ? "rgba(80,255,176,0.15)"
+                  : "rgba(255,180,70,0.1)",
+                border: c.done
+                  ? "1px solid rgba(80,255,176,0.5)"
+                  : "1px solid rgba(255,180,70,0.4)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexShrink: 0,
+              }}
+            >
+              {c.done ? (
+                <CheckCircle size={14} color="#50ffb0" />
+              ) : (
+                <Clock size={14} color="#ffb347" />
+              )}
+            </div>
+            <span
+              style={{
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "0.9rem",
+                color: c.done ? "#50ffb0" : "rgba(255,180,70,0.8)",
+                fontWeight: 600,
+              }}
+            >
+              {c.label}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      {/* Final transaction statement */}
+      <div
+        style={{
+          fontFamily: "Orbitron, sans-serif",
+          fontSize: "0.6rem",
+          color: "rgba(176,255,255,0.5)",
+          marginBottom: 10,
+          letterSpacing: "0.1em",
+        }}
+      >
+        FINAL TRANSACTION STATEMENT
+      </div>
+      <div
+        className="glass-bright"
+        style={{
+          padding: 0,
+          marginBottom: 20,
+          overflow: "hidden",
+          borderRadius: 12,
+        }}
+      >
+        {/* Table header */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1.2fr 2fr 1fr",
+            padding: "10px 14px",
+            background: "rgba(0,255,255,0.06)",
+            borderBottom: "1px solid rgba(0,255,255,0.12)",
+          }}
+        >
+          {["DATE", "DESCRIPTION", "AMOUNT"].map((h) => (
+            <div
+              key={h}
+              style={{
+                fontFamily: "Orbitron, sans-serif",
+                fontSize: "0.45rem",
+                color: "rgba(176,255,255,0.4)",
+                letterSpacing: "0.08em",
+              }}
+            >
+              {h}
+            </div>
+          ))}
+        </div>
+        {statement.map((row, i) => (
+          <div
+            key={row.desc}
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1.2fr 2fr 1fr",
+              padding: "10px 14px",
+              borderBottom:
+                i < statement.length - 1
+                  ? "1px solid rgba(0,255,255,0.06)"
+                  : "none",
+              background:
+                i === statement.length - 1
+                  ? "rgba(0,255,255,0.05)"
+                  : "transparent",
+            }}
+          >
+            <div
+              style={{
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "0.75rem",
+                color: "rgba(176,255,255,0.5)",
+              }}
+            >
+              {row.date}
+            </div>
+            <div
+              style={{
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "0.75rem",
+                color: "#f0f0f0",
+                fontWeight: i === statement.length - 1 ? 700 : 400,
+              }}
+            >
+              {row.desc}
+            </div>
+            <div
+              style={{
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "0.75rem",
+                fontWeight: 700,
+                color: row.amount.startsWith("+")
+                  ? "#50ffb0"
+                  : row.amount === "₨0"
+                    ? "#00ffff"
+                    : "#ffb347",
+              }}
+            >
+              {row.amount}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Bottom note */}
+      <div
+        style={{
+          fontFamily: "Rajdhani, sans-serif",
+          fontSize: "0.75rem",
+          color: "rgba(176,255,255,0.4)",
+          textAlign: "center",
+          marginBottom: 20,
+          lineHeight: 1.5,
+          padding: "0 8px",
+        }}
+      >
+        📱 This account is scheduled for automatic deletion. You will receive an
+        SMS confirmation once deletion is complete.
+      </div>
+
+      <button
+        type="button"
+        data-ocid="deletion.home.button"
+        className="btn-portal"
+        onClick={onHome}
+      >
+        🏠 RETURN TO HOME
+      </button>
     </div>
   );
 }
@@ -3530,6 +6095,144 @@ function SettingsScreen({ onBack }: { onBack: () => void }) {
 // ========================
 // MAIN APP
 // ========================
+// LOW BALANCE MODAL
+// ========================
+function LowBalanceModal({
+  userBalance,
+  total,
+  onTopUp,
+  onCancel,
+}: {
+  userBalance: number;
+  total: number;
+  onTopUp: () => void;
+  onCancel: () => void;
+}) {
+  const shortfall = total - userBalance;
+  return (
+    <div
+      data-ocid="balance.modal"
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 9999,
+        background: "rgba(0,0,0,0.75)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "0 24px",
+        backdropFilter: "blur(6px)",
+      }}
+    >
+      <div
+        className="glass-bright"
+        style={{
+          width: "100%",
+          maxWidth: 380,
+          padding: 28,
+          border: "1px solid rgba(255,200,0,0.4)",
+          boxShadow: "0 0 40px rgba(255,200,0,0.15)",
+        }}
+      >
+        <div style={{ textAlign: "center", marginBottom: 20 }}>
+          <div style={{ fontSize: "3rem", marginBottom: 12 }}>⚠️</div>
+          <div
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "1rem",
+              fontWeight: 900,
+              color: "#ffd700",
+              letterSpacing: "0.08em",
+              textShadow: "0 0 16px rgba(255,215,0,0.4)",
+            }}
+          >
+            INSUFFICIENT BALANCE
+          </div>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 10,
+            marginBottom: 24,
+          }}
+        >
+          {[
+            {
+              label: "Your Balance",
+              val: `₨${userBalance.toLocaleString()}`,
+              color: "#ff6b5b",
+            },
+            {
+              label: "Service Cost",
+              val: `₨${total.toLocaleString()}`,
+              color: "#f0f0f0",
+            },
+            {
+              label: "Shortfall",
+              val: `₨${shortfall.toLocaleString()}`,
+              color: "#ffd700",
+            },
+          ].map((row) => (
+            <div
+              key={row.label}
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                padding: "10px 14px",
+                background: "rgba(255,255,255,0.03)",
+                borderRadius: 10,
+                border: "1px solid rgba(255,255,255,0.08)",
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: "Rajdhani, sans-serif",
+                  fontSize: "0.95rem",
+                  color: "rgba(176,255,255,0.7)",
+                }}
+              >
+                {row.label}
+              </span>
+              <span
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "0.85rem",
+                  fontWeight: 700,
+                  color: row.color,
+                }}
+              >
+                {row.val}
+              </span>
+            </div>
+          ))}
+        </div>
+        <div style={{ display: "flex", gap: 10 }}>
+          <button
+            type="button"
+            data-ocid="balance.cancel_button"
+            className="btn-portal ghost-btn"
+            style={{ flex: 1 }}
+            onClick={onCancel}
+          >
+            CANCEL
+          </button>
+          <button
+            type="button"
+            data-ocid="balance.primary_button"
+            className="btn-portal"
+            style={{ flex: 2 }}
+            onClick={onTopUp}
+          >
+            💳 TOP UP WALLET
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function PortalApp() {
   const [screen, setScreen] = useState<Screen>("splash");
   const [selectedService, setSelectedService] = useState<
@@ -3539,6 +6242,30 @@ function PortalApp() {
     (typeof PROVIDERS)[0] | null
   >(null);
   const [navActive, setNavActive] = useState<NavTab>("home");
+  const [selectedCategory, setSelectedCategory] = useState<string | undefined>(
+    undefined,
+  );
+  const [userBalance, setUserBalance] = useState(8500);
+  const [showLowBalance, setShowLowBalance] = useState(false);
+  const [_userLocation, setUserLocation] = useState<{
+    lat: number;
+    lng: number;
+    city: string;
+  } | null>(null);
+
+  const showBottomNav = [
+    "home",
+    "services",
+    "providers",
+    "confirmed",
+    "payment",
+    "locked",
+    "otp",
+    "success",
+    "chat",
+    "profile",
+    "settings",
+  ];
 
   function handleNav(tab: NavTab) {
     setNavActive(tab);
@@ -3575,7 +6302,7 @@ function PortalApp() {
       >
         <main style={{ flex: 1 }}>
           {screen === "splash" && (
-            <SplashScreen onDone={() => setScreen("onboarding")} />
+            <SplashScreen onDone={() => setScreen("login")} />
           )}
           {screen === "onboarding" && (
             <OnboardingScreen onDone={() => setScreen("login")} />
@@ -3593,14 +6320,20 @@ function PortalApp() {
             <RegisterScreen
               onBack={() => setScreen("login")}
               onProviderRegister={() => setScreen("provider-register")}
-              onCustomerRegister={() => {
+              onCustomerRegister={() => setScreen("customer-register")}
+            />
+          )}
+          {screen === "provider-register" && (
+            <ProviderRegisterScreen
+              onBack={() => setScreen("register")}
+              onDone={() => {
                 setScreen("home");
                 setNavActive("home");
               }}
             />
           )}
-          {screen === "provider-register" && (
-            <ProviderRegisterScreen
+          {screen === "customer-register" && (
+            <CustomerRegisterScreen
               onBack={() => setScreen("register")}
               onDone={() => {
                 setScreen("home");
@@ -3614,7 +6347,8 @@ function PortalApp() {
                 setSelectedService(s);
                 setScreen("providers");
               }}
-              onAllServices={() => {
+              onAllServices={(category) => {
+                setSelectedCategory(category);
                 setScreen("services");
                 setNavActive("tasks");
               }}
@@ -3630,6 +6364,7 @@ function PortalApp() {
                 setSelectedService(s);
                 setScreen("providers");
               }}
+              category={selectedCategory}
             />
           )}
           {screen === "providers" && (
@@ -3640,6 +6375,7 @@ function PortalApp() {
                 setSelectedProvider(p);
                 setScreen("confirmed");
               }}
+              onLocationUpdate={(loc) => setUserLocation(loc)}
             />
           )}
           {screen === "confirmed" && (
@@ -3657,6 +6393,16 @@ function PortalApp() {
             <PaymentPlanScreen
               onBack={() => setScreen("confirmed")}
               onLock={() => setScreen("locked")}
+              onBankTransfer={() => setScreen("bank-transfer-confirm")}
+              service={selectedService}
+              userBalance={userBalance}
+              onLowBalance={() => setShowLowBalance(true)}
+            />
+          )}
+          {screen === "bank-transfer-confirm" && (
+            <BankTransferConfirmScreen
+              onBack={() => setScreen("payment")}
+              onConfirm={() => setScreen("locked")}
             />
           )}
           {screen === "locked" && (
@@ -3669,6 +6415,9 @@ function PortalApp() {
             <OtpScreen
               onBack={() => setScreen("locked")}
               onSuccess={() => setScreen("success")}
+              service={selectedService}
+              userBalance={userBalance}
+              onDebit={(amt) => setUserBalance((b) => b - amt)}
             />
           )}
           {screen === "success" && (
@@ -3677,6 +6426,16 @@ function PortalApp() {
                 setScreen("home");
                 setNavActive("home");
               }}
+              onInvoice={() => setScreen("invoice")}
+            />
+          )}
+          {screen === "invoice" && (
+            <InvoiceScreen
+              onHome={() => {
+                setScreen("home");
+                setNavActive("home");
+              }}
+              service={selectedService}
             />
           )}
           {screen === "chat" && (
@@ -3694,6 +6453,29 @@ function PortalApp() {
                 setNavActive("home");
               }}
               onSettings={() => setScreen("settings")}
+              onDeleteAccount={() => setScreen("provider-withdrawal")}
+              onTopUp={() => setScreen("provider-topup")}
+            />
+          )}
+          {screen === "provider-withdrawal" && (
+            <ProviderWithdrawalScreen
+              onBack={() => setScreen("profile")}
+              onSubmit={() => setScreen("provider-deletion")}
+            />
+          )}
+          {screen === "provider-deletion" && (
+            <ProviderAccountDeletionScreen
+              onBack={() => setScreen("provider-withdrawal")}
+              onHome={() => {
+                setScreen("home");
+                setNavActive("home");
+              }}
+            />
+          )}
+          {screen === "provider-topup" && (
+            <ProviderTopUpScreen
+              onBack={() => setScreen("profile")}
+              onDone={() => setScreen("home")}
             />
           )}
           {screen === "settings" && (
@@ -3730,8 +6512,24 @@ function PortalApp() {
           </footer>
         )}
       </div>
-      showBottomNav.includes(screen) && (
-      <BottomNav active={navActive} onNav={handleNav} />)
+      {showBottomNav.includes(screen) && (
+        <BottomNav active={navActive} onNav={handleNav} />
+      )}
+      {showLowBalance && (
+        <LowBalanceModal
+          userBalance={userBalance}
+          total={
+            (selectedService?.price ?? 1200) +
+            Math.round((selectedService?.price ?? 1200) * 0.1) +
+            Math.round((selectedService?.price ?? 1200) * 0.05)
+          }
+          onTopUp={() => {
+            setShowLowBalance(false);
+            setScreen("provider-topup");
+          }}
+          onCancel={() => setShowLowBalance(false)}
+        />
+      )}
     </div>
   );
 }
