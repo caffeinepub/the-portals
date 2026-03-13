@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AlertTriangle, CheckCircle, Clock, Copy } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { PortalLogo } from "./components/PortalLogo";
+import { PrivacyPolicyScreen } from "./components/PrivacyPolicy";
 import { useActor } from "./hooks/useActor";
 
 const queryClient = new QueryClient();
@@ -93,14 +94,67 @@ const SERVICES = [
     price: 300,
     category: "Groceries",
   },
+  // Shopping
+  {
+    id: 26,
+    emoji: "🛒",
+    name: "Supermarket",
+    price: 500,
+    category: "Shopping",
+  },
+  {
+    id: 27,
+    emoji: "👗",
+    name: "Clothing Store",
+    price: 1200,
+    category: "Shopping",
+  },
+  {
+    id: 28,
+    emoji: "📱",
+    name: "Electronics Shop",
+    price: 2000,
+    category: "Shopping",
+  },
+  {
+    id: 29,
+    emoji: "📝",
+    name: "Stationary Shop",
+    price: 400,
+    category: "Shopping",
+  },
+  {
+    id: 30,
+    emoji: "🏪",
+    name: "General Store",
+    price: 300,
+    category: "Shopping",
+  },
+  // Rentals additions
+  {
+    id: 31,
+    emoji: "✈️",
+    name: "Travel Tickets",
+    price: 5000,
+    category: "Rentals",
+  },
+  {
+    id: 32,
+    emoji: "🚐",
+    name: "Driver Booking",
+    price: 600,
+    category: "Rentals",
+  },
 ];
 
 const PROVIDERS = [
+  // Repairs
   {
     id: 1,
     name: "Usman Tariq",
     initials: "UT",
     profession: "Plumber",
+    category: "Repairs",
     distance: "0.3 km",
     rating: 4.9,
     rate: 850,
@@ -110,6 +164,7 @@ const PROVIDERS = [
     name: "Bilal Hassan",
     initials: "BH",
     profession: "Electrician",
+    category: "Repairs",
     distance: "0.8 km",
     rating: 4.7,
     rate: 780,
@@ -119,6 +174,7 @@ const PROVIDERS = [
     name: "Zubair Khan",
     initials: "ZK",
     profession: "Carpenter",
+    category: "Repairs",
     distance: "1.4 km",
     rating: 4.5,
     rate: 1250,
@@ -128,9 +184,379 @@ const PROVIDERS = [
     name: "Asad Mehmood",
     initials: "AM",
     profession: "HVAC Tech",
+    category: "Repairs",
     distance: "2.1 km",
     rating: 4.2,
     rate: 2600,
+  },
+  {
+    id: 5,
+    name: "Naveed Painter",
+    initials: "NP",
+    profession: "Painter",
+    category: "Repairs",
+    distance: "1.8 km",
+    rating: 4.6,
+    rate: 950,
+  },
+  // Health
+  {
+    id: 6,
+    name: "Dr. Ayesha Malik",
+    initials: "AM",
+    profession: "Doctor",
+    category: "Health",
+    distance: "0.5 km",
+    rating: 4.9,
+    rate: 2000,
+  },
+  {
+    id: 7,
+    name: "Nurse Farah Siddiqui",
+    initials: "FS",
+    profession: "Nurse Care",
+    category: "Health",
+    distance: "0.9 km",
+    rating: 4.8,
+    rate: 1200,
+  },
+  {
+    id: 8,
+    name: "Dr. Tariq Dental",
+    initials: "TD",
+    profession: "Dental Care",
+    category: "Health",
+    distance: "1.3 km",
+    rating: 4.7,
+    rate: 2500,
+  },
+  {
+    id: 9,
+    name: "MedStore Saleem",
+    initials: "MS",
+    profession: "Medical Store",
+    category: "Health",
+    distance: "0.4 km",
+    rating: 4.6,
+    rate: 500,
+  },
+  {
+    id: 10,
+    name: "PharmaCare Hussain",
+    initials: "PH",
+    profession: "Pharmacy",
+    category: "Health",
+    distance: "0.7 km",
+    rating: 4.5,
+    rate: 500,
+  },
+  {
+    id: 11,
+    name: "Dr. Rehana Physio",
+    initials: "RP",
+    profession: "Physiotherapist",
+    category: "Health",
+    distance: "2.0 km",
+    rating: 4.8,
+    rate: 1800,
+  },
+  // Home
+  {
+    id: 12,
+    name: "Chef Nadeem Rizvi",
+    initials: "NR",
+    profession: "Chef",
+    category: "Home",
+    distance: "1.1 km",
+    rating: 4.8,
+    rate: 1500,
+  },
+  {
+    id: 13,
+    name: "Cleaner Razia Bibi",
+    initials: "RB",
+    profession: "Cleaner",
+    category: "Home",
+    distance: "0.6 km",
+    rating: 4.5,
+    rate: 500,
+  },
+  {
+    id: 14,
+    name: "Gardener Tariq Baig",
+    initials: "TB",
+    profession: "Gardener",
+    category: "Home",
+    distance: "1.7 km",
+    rating: 4.4,
+    rate: 600,
+  },
+  {
+    id: 15,
+    name: "HomeHelp Nadia",
+    initials: "HN",
+    profession: "Maid Service",
+    category: "Home",
+    distance: "0.8 km",
+    rating: 4.6,
+    rate: 700,
+  },
+  // Rentals
+  {
+    id: 16,
+    name: "CityDrive Cars",
+    initials: "CC",
+    profession: "Car Rental",
+    category: "Rentals",
+    distance: "1.2 km",
+    rating: 4.7,
+    rate: 3500,
+  },
+  {
+    id: 17,
+    name: "SpeedBike Asif",
+    initials: "SA",
+    profession: "Bike Rental",
+    category: "Rentals",
+    distance: "0.5 km",
+    rating: 4.5,
+    rate: 800,
+  },
+  {
+    id: 18,
+    name: "TravelPak Tickets",
+    initials: "TP",
+    profession: "Travel Tickets",
+    category: "Rentals",
+    distance: "2.3 km",
+    rating: 4.8,
+    rate: 5000,
+  },
+  {
+    id: 19,
+    name: "Driver Imran Khan",
+    initials: "IK",
+    profession: "Driver",
+    category: "Rentals",
+    distance: "0.4 km",
+    rating: 4.9,
+    rate: 600,
+  },
+  {
+    id: 20,
+    name: "PakVan Rentals",
+    initials: "PV",
+    profession: "Van Hire",
+    category: "Rentals",
+    distance: "3.1 km",
+    rating: 4.3,
+    rate: 2500,
+  },
+  // Education
+  {
+    id: 21,
+    name: "Tutor Zainab Noor",
+    initials: "ZN",
+    profession: "Tutor",
+    category: "Education",
+    distance: "0.7 km",
+    rating: 4.9,
+    rate: 700,
+  },
+  {
+    id: 22,
+    name: "Language Pro Baig",
+    initials: "LB",
+    profession: "Language Teacher",
+    category: "Education",
+    distance: "1.5 km",
+    rating: 4.7,
+    rate: 900,
+  },
+  {
+    id: 23,
+    name: "BookHub Rawalpindi",
+    initials: "BR",
+    profession: "Book Store",
+    category: "Education",
+    distance: "1.9 km",
+    rating: 4.4,
+    rate: 400,
+  },
+  {
+    id: 24,
+    name: "Tutor Arif Qureshi",
+    initials: "AQ",
+    profession: "Math Teacher",
+    category: "Education",
+    distance: "2.2 km",
+    rating: 4.6,
+    rate: 800,
+  },
+  // Security
+  {
+    id: 25,
+    name: "Guard Services Akbar",
+    initials: "GA",
+    profession: "Security Guard",
+    category: "Security",
+    distance: "1.0 km",
+    rating: 4.5,
+    rate: 1100,
+  },
+  {
+    id: 26,
+    name: "SecurePak Ahmed",
+    initials: "SP",
+    profession: "Security Guard",
+    category: "Security",
+    distance: "2.4 km",
+    rating: 4.3,
+    rate: 1000,
+  },
+  {
+    id: 27,
+    name: "Elite Guards Rana",
+    initials: "EG",
+    profession: "Armed Guard",
+    category: "Security",
+    distance: "3.0 km",
+    rating: 4.7,
+    rate: 1500,
+  },
+  // Tech
+  {
+    id: 28,
+    name: "TechFix Salman",
+    initials: "TS",
+    profession: "IT Support",
+    category: "Tech",
+    distance: "0.8 km",
+    rating: 4.8,
+    rate: 800,
+  },
+  {
+    id: 29,
+    name: "DevPro Kamran",
+    initials: "DK",
+    profession: "Web Developer",
+    category: "Tech",
+    distance: "1.6 km",
+    rating: 4.9,
+    rate: 2500,
+  },
+  {
+    id: 30,
+    name: "NetWork Ali",
+    initials: "NA",
+    profession: "Network Engineer",
+    category: "Tech",
+    distance: "2.0 km",
+    rating: 4.6,
+    rate: 1200,
+  },
+  // Transport
+  {
+    id: 31,
+    name: "Driver Hassan Butt",
+    initials: "HB",
+    profession: "Driver",
+    category: "Transport",
+    distance: "0.3 km",
+    rating: 4.9,
+    rate: 400,
+  },
+  {
+    id: 32,
+    name: "Rider Faisal Mirza",
+    initials: "FM",
+    profession: "Delivery Rider",
+    category: "Transport",
+    distance: "0.6 km",
+    rating: 4.7,
+    rate: 300,
+  },
+  {
+    id: 33,
+    name: "Captain Shahid",
+    initials: "CS",
+    profession: "Airport Transfer",
+    category: "Transport",
+    distance: "4.5 km",
+    rating: 4.8,
+    rate: 1500,
+  },
+  // Groceries
+  {
+    id: 34,
+    name: "FreshMart Karachi",
+    initials: "FK",
+    profession: "Grocery Store",
+    category: "Groceries",
+    distance: "0.4 km",
+    rating: 4.6,
+    rate: 300,
+  },
+  {
+    id: 35,
+    name: "DailyNeeds Rasheed",
+    initials: "DR",
+    profession: "Grocery Delivery",
+    category: "Groceries",
+    distance: "0.9 km",
+    rating: 4.5,
+    rate: 350,
+  },
+  {
+    id: 36,
+    name: "OrganicHub Sana",
+    initials: "OS",
+    profession: "Organic Grocery",
+    category: "Groceries",
+    distance: "1.8 km",
+    rating: 4.8,
+    rate: 400,
+  },
+  // Shopping
+  {
+    id: 37,
+    name: "FashionZone Lahore",
+    initials: "FZ",
+    profession: "Clothing Store",
+    category: "Shopping",
+    distance: "1.3 km",
+    rating: 4.5,
+    rate: 1200,
+  },
+  {
+    id: 38,
+    name: "TechBazaar Online",
+    initials: "TB",
+    profession: "Electronics Shop",
+    category: "Shopping",
+    distance: "2.1 km",
+    rating: 4.7,
+    rate: 2000,
+  },
+  {
+    id: 39,
+    name: "Stationery World",
+    initials: "SW",
+    profession: "Stationary Shop",
+    category: "Shopping",
+    distance: "0.8 km",
+    rating: 4.4,
+    rate: 400,
+  },
+  {
+    id: 40,
+    name: "SuperStore Uzma",
+    initials: "SU",
+    profession: "General Store",
+    category: "Shopping",
+    distance: "1.5 km",
+    rating: 4.3,
+    rate: 300,
   },
 ];
 
@@ -223,7 +649,10 @@ type Screen =
   | "provider-deletion"
   | "provider-topup"
   | "customer-register"
-  | "invoice";
+  | "invoice"
+  | "privacy"
+  | "serviceBooking"
+  | "provider-pricing";
 
 type NavTab = "home" | "tasks" | "chat" | "profile";
 
@@ -1109,12 +1538,15 @@ function ProviderRegisterScreen({
 }) {
   const [step, setStep] = useState(1);
   const [portalId] = useState(() => generatePortalId());
+  const [profilePic, setProfilePic] = useState<string | null>(null);
+  const providerFileInputRef = useRef<HTMLInputElement>(null);
   const [form, setForm] = useState({
     fullName: "",
     phone: "",
     cnic: "",
     city: "",
     email: "",
+    serviceCategory: "",
     bankName: "",
     accountTitle: "",
     accountNumber: "",
@@ -1226,6 +1658,91 @@ function ProviderRegisterScreen({
         {/* Step 1: Personal Info */}
         {step === 1 && (
           <div data-ocid="provider_register.step.1">
+            {/* Profile Photo Upload */}
+            <div style={{ ...fieldStyle, textAlign: "center" }}>
+              <span style={labelStyle}>PROFILE PHOTO (OPTIONAL)</span>
+              <div
+                style={{
+                  display: "inline-block",
+                  position: "relative",
+                  marginTop: 8,
+                }}
+              >
+                {profilePic ? (
+                  <img
+                    src={profilePic}
+                    alt="Profile"
+                    style={{
+                      width: 90,
+                      height: 90,
+                      borderRadius: "50%",
+                      border: "3px solid rgba(0,255,255,0.5)",
+                      boxShadow: "0 0 24px rgba(0,255,255,0.3)",
+                      objectFit: "cover",
+                      display: "block",
+                    }}
+                  />
+                ) : (
+                  <div
+                    style={{
+                      width: 90,
+                      height: 90,
+                      borderRadius: "50%",
+                      background:
+                        "radial-gradient(circle, rgba(0,60,80,0.95), rgba(0,10,20,0.98))",
+                      border: "3px solid rgba(0,255,255,0.3)",
+                      boxShadow: "0 0 16px rgba(0,255,255,0.2)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontFamily: "Orbitron, sans-serif",
+                      fontSize: "2rem",
+                      color: "rgba(0,255,255,0.5)",
+                    }}
+                  >
+                    👤
+                  </div>
+                )}
+                <button
+                  type="button"
+                  data-ocid="provider_register.upload_button"
+                  onClick={() => providerFileInputRef.current?.click()}
+                  style={{
+                    position: "absolute",
+                    bottom: 0,
+                    right: 0,
+                    width: 28,
+                    height: 28,
+                    borderRadius: "50%",
+                    background: "rgba(0,255,255,0.2)",
+                    border: "2px solid rgba(0,255,255,0.6)",
+                    boxShadow: "0 0 10px rgba(0,255,255,0.4)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    cursor: "pointer",
+                    fontSize: "0.8rem",
+                  }}
+                >
+                  📷
+                </button>
+                <input
+                  ref={providerFileInputRef}
+                  type="file"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      const reader = new FileReader();
+                      reader.onload = (ev) =>
+                        setProfilePic(ev.target?.result as string);
+                      reader.readAsDataURL(file);
+                    }
+                  }}
+                />
+              </div>
+            </div>
             <div style={fieldStyle}>
               <span style={labelStyle}>FULL NAME</span>
               <input
@@ -1297,14 +1814,53 @@ function ProviderRegisterScreen({
                 style={inputStyle}
               />
             </div>
+            <div style={fieldStyle}>
+              <span style={labelStyle}>SERVICE CATEGORY</span>
+              <select
+                data-ocid="provider_register.service_category.select"
+                value={form.serviceCategory}
+                onChange={(e) =>
+                  handleChange("serviceCategory", e.target.value)
+                }
+                style={{
+                  ...inputStyle,
+                  appearance: "none" as const,
+                  cursor: "pointer",
+                }}
+              >
+                <option value="" style={{ background: "#05070A" }}>
+                  Select Category
+                </option>
+                {[
+                  "Repairs",
+                  "Health",
+                  "Home",
+                  "Rentals",
+                  "Education",
+                  "Security",
+                  "Tech",
+                  "Transport",
+                  "Groceries",
+                  "Shopping",
+                ].map((cat) => (
+                  <option
+                    key={cat}
+                    value={cat}
+                    style={{ background: "#05070A" }}
+                  >
+                    {cat}
+                  </option>
+                ))}
+              </select>
+            </div>
             <button
-              data-ocid="provider_register.next.button"
+              data-ocid="provider_register.complete_registration.button"
               type="button"
               className="btn-portal"
               onClick={() => setStep(2)}
               style={{ width: "100%", marginTop: "8px" }}
             >
-              NEXT →
+              COMPLETE REGISTRATION
             </button>
           </div>
         )}
@@ -1504,12 +2060,15 @@ function CustomerRegisterScreen({
 }) {
   const [step, setStep] = useState(1);
   const [portalId] = useState(() => generatePortalId());
+  const [profilePic, setProfilePic] = useState<string | null>(null);
+  const customerFileInputRef = useRef<HTMLInputElement>(null);
   const [form, setForm] = useState({
     fullName: "",
     phone: "",
     cnic: "",
     email: "",
     city: "",
+    serviceCategory: "",
     bankName: "",
     accountTitle: "",
     accountNumber: "",
@@ -1621,6 +2180,91 @@ function CustomerRegisterScreen({
         {/* Step 1: Personal Info */}
         {step === 1 && (
           <div data-ocid="customer_register.step.1">
+            {/* Profile Photo Upload */}
+            <div style={{ ...fieldStyle, textAlign: "center" }}>
+              <span style={labelStyle}>PROFILE PHOTO (OPTIONAL)</span>
+              <div
+                style={{
+                  display: "inline-block",
+                  position: "relative",
+                  marginTop: 8,
+                }}
+              >
+                {profilePic ? (
+                  <img
+                    src={profilePic}
+                    alt="Profile"
+                    style={{
+                      width: 90,
+                      height: 90,
+                      borderRadius: "50%",
+                      border: "3px solid rgba(0,255,255,0.5)",
+                      boxShadow: "0 0 24px rgba(0,255,255,0.3)",
+                      objectFit: "cover",
+                      display: "block",
+                    }}
+                  />
+                ) : (
+                  <div
+                    style={{
+                      width: 90,
+                      height: 90,
+                      borderRadius: "50%",
+                      background:
+                        "radial-gradient(circle, rgba(0,60,80,0.95), rgba(0,10,20,0.98))",
+                      border: "3px solid rgba(0,255,255,0.3)",
+                      boxShadow: "0 0 16px rgba(0,255,255,0.2)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontFamily: "Orbitron, sans-serif",
+                      fontSize: "2rem",
+                      color: "rgba(0,255,255,0.5)",
+                    }}
+                  >
+                    👤
+                  </div>
+                )}
+                <button
+                  type="button"
+                  data-ocid="customer_register.upload_button"
+                  onClick={() => customerFileInputRef.current?.click()}
+                  style={{
+                    position: "absolute",
+                    bottom: 0,
+                    right: 0,
+                    width: 28,
+                    height: 28,
+                    borderRadius: "50%",
+                    background: "rgba(0,255,255,0.2)",
+                    border: "2px solid rgba(0,255,255,0.6)",
+                    boxShadow: "0 0 10px rgba(0,255,255,0.4)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    cursor: "pointer",
+                    fontSize: "0.8rem",
+                  }}
+                >
+                  📷
+                </button>
+                <input
+                  ref={customerFileInputRef}
+                  type="file"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      const reader = new FileReader();
+                      reader.onload = (ev) =>
+                        setProfilePic(ev.target?.result as string);
+                      reader.readAsDataURL(file);
+                    }
+                  }}
+                />
+              </div>
+            </div>
             <div style={fieldStyle}>
               <span style={labelStyle}>FULL NAME</span>
               <input
@@ -1692,14 +2336,53 @@ function CustomerRegisterScreen({
                 style={inputStyle}
               />
             </div>
+            <div style={fieldStyle}>
+              <span style={labelStyle}>SERVICE CATEGORY</span>
+              <select
+                data-ocid="customer_register.service_category.select"
+                value={form.serviceCategory}
+                onChange={(e) =>
+                  handleChange("serviceCategory", e.target.value)
+                }
+                style={{
+                  ...inputStyle,
+                  appearance: "none" as const,
+                  cursor: "pointer",
+                }}
+              >
+                <option value="" style={{ background: "#05070A" }}>
+                  Select Category
+                </option>
+                {[
+                  "Repairs",
+                  "Health",
+                  "Home",
+                  "Rentals",
+                  "Education",
+                  "Security",
+                  "Tech",
+                  "Transport",
+                  "Groceries",
+                  "Shopping",
+                ].map((cat) => (
+                  <option
+                    key={cat}
+                    value={cat}
+                    style={{ background: "#05070A" }}
+                  >
+                    {cat}
+                  </option>
+                ))}
+              </select>
+            </div>
             <button
-              data-ocid="customer_register.next.button"
+              data-ocid="customer_register.complete_registration.button"
               type="button"
               className="btn-portal"
               onClick={() => setStep(2)}
               style={{ width: "100%", marginTop: "8px" }}
             >
-              NEXT →
+              COMPLETE REGISTRATION
             </button>
           </div>
         )}
@@ -2186,6 +2869,8 @@ function HomeScreen({
   onAllServices: (category?: string) => void;
 }) {
   const [activeCount, setActiveCount] = useState(0);
+  const [activeUsers, setActiveUsers] = useState(0);
+  const [onlineProviders, setOnlineProviders] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
@@ -2206,6 +2891,25 @@ function HomeScreen({
     return () => clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    const targets = { users: 2847, providers: 1203 };
+    const duration = 2000;
+    const steps = 40;
+    let step = 0;
+    const timer = setInterval(() => {
+      step++;
+      const progress = step / steps;
+      setActiveUsers(Math.floor(targets.users * progress));
+      setOnlineProviders(Math.floor(targets.providers * progress));
+      if (step >= steps) {
+        setActiveUsers(targets.users);
+        setOnlineProviders(targets.providers);
+        clearInterval(timer);
+      }
+    }, duration / steps);
+    return () => clearInterval(timer);
+  }, []);
+
   const categories = [
     { name: "Repairs", emoji: "🔧", border: "rgba(251,146,60,0.4)" },
     { name: "Health", emoji: "❤️", border: "rgba(52,211,153,0.4)" },
@@ -2214,6 +2918,7 @@ function HomeScreen({
     { name: "Home", emoji: "🏠", border: "rgba(0,200,255,0.4)" },
     { name: "Transport", emoji: "🚗", border: "rgba(150,100,255,0.4)" },
     { name: "Groceries", emoji: "🛒", border: "rgba(100,220,100,0.4)" },
+    { name: "Shopping", emoji: "🛍️", border: "rgba(255,100,200,0.4)" },
   ];
 
   return (
@@ -2356,6 +3061,138 @@ function HomeScreen({
           />
         </div>
 
+        {/* Live Stats Bar */}
+        <div style={{ display: "flex", gap: 10, marginTop: 12 }}>
+          <div
+            className="glass-panel"
+            style={{
+              flex: 1,
+              borderRadius: 14,
+              padding: "10px 14px",
+              border: "1px solid rgba(0,255,255,0.25)",
+              boxShadow: "0 0 12px rgba(0,255,255,0.1)",
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+            }}
+          >
+            <div style={{ position: "relative", flexShrink: 0 }}>
+              <div
+                style={{
+                  width: 8,
+                  height: 8,
+                  borderRadius: "50%",
+                  background: "#22c55e",
+                  boxShadow: "0 0 6px #22c55e",
+                }}
+              />
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: 8,
+                  height: 8,
+                  borderRadius: "50%",
+                  background: "#22c55e",
+                  animation: "ping 1.5s cubic-bezier(0,0,0.2,1) infinite",
+                  opacity: 0.6,
+                }}
+              />
+            </div>
+            <div>
+              <p
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "0.75rem",
+                  fontWeight: 700,
+                  color: "#00ffff",
+                  lineHeight: 1,
+                  marginBottom: 2,
+                }}
+              >
+                {activeUsers.toLocaleString()}
+              </p>
+              <p
+                style={{
+                  fontFamily: "Rajdhani, sans-serif",
+                  fontSize: "0.65rem",
+                  color: "rgba(176,224,232,0.6)",
+                  letterSpacing: "0.05em",
+                  textTransform: "uppercase",
+                  lineHeight: 1,
+                }}
+              >
+                👥 Active Users
+              </p>
+            </div>
+          </div>
+          <div
+            className="glass-panel"
+            style={{
+              flex: 1,
+              borderRadius: 14,
+              padding: "10px 14px",
+              border: "1px solid rgba(0,255,255,0.25)",
+              boxShadow: "0 0 12px rgba(0,255,255,0.1)",
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+            }}
+          >
+            <div style={{ position: "relative", flexShrink: 0 }}>
+              <div
+                style={{
+                  width: 8,
+                  height: 8,
+                  borderRadius: "50%",
+                  background: "#22c55e",
+                  boxShadow: "0 0 6px #22c55e",
+                }}
+              />
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: 8,
+                  height: 8,
+                  borderRadius: "50%",
+                  background: "#22c55e",
+                  animation: "ping 1.5s cubic-bezier(0,0,0.2,1) infinite 0.5s",
+                  opacity: 0.6,
+                }}
+              />
+            </div>
+            <div>
+              <p
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "0.75rem",
+                  fontWeight: 700,
+                  color: "#00ffff",
+                  lineHeight: 1,
+                  marginBottom: 2,
+                }}
+              >
+                {onlineProviders.toLocaleString()}
+              </p>
+              <p
+                style={{
+                  fontFamily: "Rajdhani, sans-serif",
+                  fontSize: "0.65rem",
+                  color: "rgba(176,224,232,0.6)",
+                  letterSpacing: "0.05em",
+                  textTransform: "uppercase",
+                  lineHeight: 1,
+                }}
+              >
+                ⚡ Providers Online
+              </p>
+            </div>
+          </div>
+        </div>
+
         {/* Center Wormhole */}
         <div
           style={{
@@ -2476,13 +3313,41 @@ function HomeScreen({
 // ========================
 // SCREEN 4: ALL SERVICES
 // ========================
+const CATEGORY_META: Record<string, { emoji: string; color: string }> = {
+  Repairs: { emoji: "🔧", color: "rgba(251,146,60,0.25)" },
+  Health: { emoji: "🏥", color: "rgba(52,211,153,0.25)" },
+  Home: { emoji: "🏠", color: "rgba(0,200,255,0.25)" },
+  Rentals: { emoji: "🚗", color: "rgba(180,180,180,0.25)" },
+  Education: { emoji: "📚", color: "rgba(251,191,36,0.25)" },
+  Security: { emoji: "🛡️", color: "rgba(255,120,120,0.25)" },
+  Tech: { emoji: "💻", color: "rgba(150,100,255,0.25)" },
+  Transport: { emoji: "🚌", color: "rgba(100,180,255,0.25)" },
+  Groceries: { emoji: "🛒", color: "rgba(100,220,100,0.25)" },
+  Shopping: { emoji: "🛍️", color: "rgba(255,100,200,0.25)" },
+};
+
+const ALL_CATEGORIES = [
+  "Repairs",
+  "Health",
+  "Home",
+  "Rentals",
+  "Education",
+  "Security",
+  "Tech",
+  "Transport",
+  "Groceries",
+  "Shopping",
+];
+
 function AllServicesScreen({
   onBack,
   onSelect,
+  onSelectProvider,
   category,
 }: {
   onBack: () => void;
   onSelect: (s: (typeof SERVICES)[0]) => void;
+  onSelectProvider?: (p: (typeof PROVIDERS)[0]) => void;
   category?: string;
 }) {
   const [activeCategory, setActiveCategory] = useState<string | undefined>(
@@ -2491,6 +3356,9 @@ function AllServicesScreen({
   const filtered = activeCategory
     ? SERVICES.filter((s) => s.category === activeCategory)
     : SERVICES;
+  const categoryProviders = activeCategory
+    ? PROVIDERS.filter((p) => p.category === activeCategory)
+    : [];
   const title = activeCategory
     ? `${activeCategory.toUpperCase()} SERVICES`
     : "ALL SERVICES";
@@ -2498,6 +3366,8 @@ function AllServicesScreen({
   return (
     <div style={{ padding: "20px 16px 100px" }}>
       <ScreenHeader title={title} onBack={onBack} />
+
+      {/* Back to categories chip */}
       {activeCategory && (
         <button
           type="button"
@@ -2522,97 +3392,325 @@ function AllServicesScreen({
           ← All Categories
         </button>
       )}
+
+      {/* Step 1: Category Cards Grid */}
       {!activeCategory && (
         <div
           style={{
-            display: "flex",
-            gap: 8,
-            flexWrap: "wrap",
+            display: "grid",
+            gridTemplateColumns: "repeat(2, 1fr)",
+            gap: 12,
             marginBottom: 16,
           }}
         >
-          {[
-            "Repairs",
-            "Health",
-            "Rentals",
-            "Education",
-            "Home",
-            "Transport",
-            "Security",
-            "Tech",
-          ].map((cat) => (
-            <button
-              key={cat}
-              type="button"
-              data-ocid={`services.${cat.toLowerCase()}.tab`}
-              onClick={() => setActiveCategory(cat)}
-              style={{
-                background: "rgba(0,255,255,0.06)",
-                border: "1px solid rgba(0,255,255,0.2)",
-                borderRadius: 999,
-                padding: "4px 12px",
-                cursor: "pointer",
-                fontFamily: "Rajdhani, sans-serif",
-                fontSize: "0.75rem",
-                color: "rgba(176,255,255,0.8)",
-                fontWeight: 600,
-              }}
-            >
-              {cat}
-            </button>
-          ))}
+          {ALL_CATEGORIES.map((cat, idx) => {
+            const meta = CATEGORY_META[cat] ?? {
+              emoji: "⭐",
+              color: "rgba(0,255,255,0.2)",
+            };
+            const provCount = PROVIDERS.filter(
+              (p) => p.category === cat,
+            ).length;
+            const svcCount = SERVICES.filter((s) => s.category === cat).length;
+            return (
+              <button
+                key={cat}
+                type="button"
+                data-ocid={`services.item.${idx + 1}`}
+                onClick={() => setActiveCategory(cat)}
+                style={{
+                  background: meta.color,
+                  border: "1px solid rgba(0,255,255,0.25)",
+                  borderRadius: 16,
+                  padding: "20px 16px",
+                  cursor: "pointer",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  gap: 8,
+                  backdropFilter: "blur(12px)",
+                  boxShadow: "0 4px 20px rgba(0,255,255,0.08)",
+                  transition: "all 0.2s",
+                  textAlign: "left",
+                }}
+              >
+                <span style={{ fontSize: "2rem" }}>{meta.emoji}</span>
+                <div>
+                  <div
+                    style={{
+                      fontFamily: "Orbitron, sans-serif",
+                      fontSize: "0.8rem",
+                      fontWeight: 700,
+                      color: "#e0f8ff",
+                      letterSpacing: "0.05em",
+                    }}
+                  >
+                    {cat}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "Rajdhani, sans-serif",
+                      fontSize: "0.72rem",
+                      color: "rgba(176,255,255,0.6)",
+                      marginTop: 2,
+                    }}
+                  >
+                    {svcCount} Services
+                  </div>
+                </div>
+                <div
+                  style={{
+                    background: "rgba(0,255,255,0.12)",
+                    border: "1px solid rgba(0,255,255,0.3)",
+                    borderRadius: 999,
+                    padding: "3px 10px",
+                    fontFamily: "Orbitron, sans-serif",
+                    fontSize: "0.55rem",
+                    color: "#00ffff",
+                    letterSpacing: "0.08em",
+                    fontWeight: 700,
+                  }}
+                >
+                  {provCount} Providers
+                </div>
+              </button>
+            );
+          })}
         </div>
       )}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          gap: 10,
-        }}
-      >
-        {filtered.map((svc, idx) => (
-          <button
-            key={svc.id}
-            type="button"
-            data-ocid={`services.item.${idx + 1}`}
-            className="glass"
-            onClick={() => onSelect(svc)}
+
+      {/* Step 2: Services grid when category selected */}
+      {activeCategory && (
+        <>
+          <div
             style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              padding: "16px 8px",
-              gap: 6,
-              cursor: "pointer",
-              border: "1px solid rgba(0,255,255,0.15)",
-              transition: "all 0.2s",
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gap: 10,
+              marginBottom: 24,
             }}
           >
-            <span style={{ fontSize: "1.8rem" }}>{svc.emoji}</span>
-            <span
-              style={{
-                fontFamily: "Rajdhani, sans-serif",
-                fontSize: "0.7rem",
-                fontWeight: 700,
-                color: "rgba(176,255,255,0.9)",
-                textAlign: "center",
-              }}
-            >
-              {svc.name}
-            </span>
-            <span
-              style={{
-                fontFamily: "Orbitron, sans-serif",
-                fontSize: "0.55rem",
-                color: "#50ffb0",
-                letterSpacing: "0.05em",
-              }}
-            >
-              ₨{svc.price.toLocaleString()}
-            </span>
-          </button>
-        ))}
-      </div>
+            {filtered.map((svc, idx) => (
+              <button
+                key={svc.id}
+                type="button"
+                data-ocid={`services.item.${idx + 1}`}
+                className="glass"
+                onClick={() => onSelect(svc)}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  padding: "16px 8px",
+                  gap: 6,
+                  cursor: "pointer",
+                  border: "1px solid rgba(0,255,255,0.15)",
+                  transition: "all 0.2s",
+                }}
+              >
+                <span style={{ fontSize: "1.8rem" }}>{svc.emoji}</span>
+                <span
+                  style={{
+                    fontFamily: "Rajdhani, sans-serif",
+                    fontSize: "0.7rem",
+                    fontWeight: 700,
+                    color: "rgba(176,255,255,0.9)",
+                    textAlign: "center",
+                  }}
+                >
+                  {svc.name}
+                </span>
+                <span
+                  style={{
+                    fontFamily: "Orbitron, sans-serif",
+                    fontSize: "0.55rem",
+                    color: "#50ffb0",
+                    letterSpacing: "0.05em",
+                  }}
+                >
+                  ₨{svc.price.toLocaleString()}
+                </span>
+              </button>
+            ))}
+          </div>
+
+          {/* Available Providers for this category */}
+          {categoryProviders.length > 0 && (
+            <div>
+              <div
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "0.65rem",
+                  fontWeight: 700,
+                  color: "rgba(0,255,255,0.7)",
+                  letterSpacing: "0.15em",
+                  textTransform: "uppercase",
+                  marginBottom: 12,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                }}
+              >
+                <span
+                  style={{
+                    width: 24,
+                    height: 1,
+                    background: "rgba(0,255,255,0.4)",
+                    display: "inline-block",
+                  }}
+                />
+                AVAILABLE PROVIDERS
+                <span
+                  style={{
+                    width: 24,
+                    height: 1,
+                    background: "rgba(0,255,255,0.4)",
+                    display: "inline-block",
+                  }}
+                />
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  gap: 10,
+                  overflowX: "auto",
+                  paddingBottom: 8,
+                  scrollbarWidth: "none",
+                }}
+              >
+                {categoryProviders.map((p, i) => (
+                  <div
+                    key={p.id}
+                    className="glass"
+                    data-ocid={`services.provider.card.${i + 1}`}
+                    style={{
+                      flexShrink: 0,
+                      width: 150,
+                      padding: 14,
+                      borderRadius: 14,
+                      border: "1px solid rgba(0,255,255,0.2)",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      gap: 6,
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: 44,
+                        height: 44,
+                        borderRadius: "50%",
+                        background:
+                          "radial-gradient(circle, rgba(0,60,80,0.9), rgba(0,10,20,0.95))",
+                        border: "2px solid rgba(0,255,255,0.4)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontFamily: "Orbitron, sans-serif",
+                        fontSize: "0.7rem",
+                        fontWeight: 700,
+                        color: "#00ffff",
+                      }}
+                    >
+                      {p.initials}
+                    </div>
+                    <div style={{ textAlign: "center" }}>
+                      <div
+                        style={{
+                          fontFamily: "Rajdhani, sans-serif",
+                          fontSize: "0.8rem",
+                          fontWeight: 700,
+                          color: "#f0f0f0",
+                          lineHeight: 1.2,
+                        }}
+                      >
+                        {p.name}
+                      </div>
+                      <div
+                        style={{
+                          fontFamily: "Rajdhani, sans-serif",
+                          fontSize: "0.65rem",
+                          color: "rgba(176,255,255,0.5)",
+                          marginTop: 2,
+                        }}
+                      >
+                        {p.profession}
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        width: "100%",
+                        marginTop: 2,
+                      }}
+                    >
+                      <span
+                        style={{
+                          fontFamily: "Orbitron, sans-serif",
+                          fontSize: "0.55rem",
+                          color: "#ffd700",
+                        }}
+                      >
+                        ⭐ {p.rating}
+                      </span>
+                      <span
+                        style={{
+                          fontFamily: "Rajdhani, sans-serif",
+                          fontSize: "0.65rem",
+                          color: "rgba(176,255,255,0.5)",
+                        }}
+                      >
+                        {p.distance}
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        fontFamily: "Orbitron, sans-serif",
+                        fontSize: "0.6rem",
+                        color: "#50ffb0",
+                        fontWeight: 700,
+                      }}
+                    >
+                      ₨{p.rate}/hr
+                    </div>
+                    <button
+                      type="button"
+                      data-ocid={`services.provider.select.${i + 1}`}
+                      onClick={() =>
+                        onSelectProvider
+                          ? onSelectProvider(p)
+                          : onSelect(
+                              SERVICES.find((s) => s.category === p.category) ??
+                                SERVICES[0],
+                            )
+                      }
+                      style={{
+                        width: "100%",
+                        background:
+                          "linear-gradient(135deg, rgba(0,255,255,0.2), rgba(0,180,200,0.15))",
+                        border: "1px solid rgba(0,255,255,0.4)",
+                        borderRadius: 8,
+                        padding: "6px 0",
+                        fontFamily: "Orbitron, sans-serif",
+                        fontSize: "0.55rem",
+                        fontWeight: 700,
+                        color: "#00ffff",
+                        cursor: "pointer",
+                        letterSpacing: "0.08em",
+                        marginTop: 4,
+                      }}
+                    >
+                      SELECT
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 }
@@ -2620,6 +3718,1564 @@ function AllServicesScreen({
 // ========================
 // SCREEN 5: NEARBY PROVIDERS
 // ========================
+
+// ========================
+// SERVICE BOOKING FORM SCREEN
+// ========================
+function ServiceBookingFormScreen({
+  service,
+  onBack,
+  onSubmit,
+}: {
+  service: (typeof SERVICES)[0];
+  onBack: () => void;
+  onSubmit: (bookingDetails: Record<string, string>) => void;
+}) {
+  const [form, setForm] = useState<Record<string, string>>({
+    appointmentType: "Clinic Visit",
+    vehicleType: "",
+    travelClass: "Economy",
+    transportType: "Bus",
+    propertyType: "Flat",
+    duration: "Monthly",
+    deliveryTime: "ASAP",
+    paymentOnDelivery: "true",
+    timeSlot: "",
+  });
+
+  const [itemIdCounter, setItemIdCounter] = useState(2);
+  const [estimatedDistance, setEstimatedDistance] = useState<number | null>(
+    null,
+  );
+  const [items, setItems] = useState<
+    { id: number; name: string; quantity: string; unit: string }[]
+  >([{ id: 1, name: "", quantity: "", unit: "" }]);
+
+  const addItem = () => {
+    setItems((prev) => [
+      ...prev,
+      { id: itemIdCounter, name: "", quantity: "", unit: "" },
+    ]);
+    setItemIdCounter((c) => c + 1);
+  };
+  const removeItem = (id: number) =>
+    setItems((prev) => prev.filter((item) => item.id !== id));
+  const updateItem = (id: number, field: string, val: string) =>
+    setItems((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, [field]: val } : item)),
+    );
+
+  const set = (key: string, val: string) =>
+    setForm((prev) => ({ ...prev, [key]: val }));
+
+  const n = service.name.toLowerCase();
+  const c = service.category.toLowerCase();
+
+  const isHealth =
+    c === "health" ||
+    n.includes("doctor") ||
+    n.includes("nurse") ||
+    n.includes("dental") ||
+    n.includes("home visit") ||
+    n.includes("medical");
+
+  const isCarRental =
+    (c === "rentals" &&
+      (n.includes("car") ||
+        n.includes("van") ||
+        n.includes("bike") ||
+        n.includes("driver"))) ||
+    c === "transport";
+
+  const isTravelTicket = n.includes("travel ticket");
+
+  const isProperty = n.includes("property");
+
+  const isOrderable =
+    c === "groceries" ||
+    c === "shopping" ||
+    n.includes("pharmacy") ||
+    n.includes("medical store") ||
+    n.includes("grocery") ||
+    n.includes("stationary") ||
+    n.includes("supermarket") ||
+    n.includes("store") ||
+    n.includes("shop");
+
+  const isMedicine =
+    n.includes("pharmacy") ||
+    n.includes("medical store") ||
+    n.includes("medicine");
+  const isStationary = n.includes("stationary");
+  const isGrocery = n.includes("grocery") || c === "groceries";
+  const isShopping = c === "shopping";
+
+  const isRepairs = c === "repairs";
+  const isEducation =
+    c === "education" || n.includes("tutor") || n.includes("teacher");
+  const isSecurity =
+    c === "security" || n.includes("guard") || n.includes("security");
+  const isTechSupport =
+    c === "tech" ||
+    n.includes("it support") ||
+    n.includes("laptop") ||
+    n.includes("computer") ||
+    n.includes("tech");
+  const isHomeCleaning =
+    (c === "home" ||
+      n.includes("clean") ||
+      n.includes("garden") ||
+      n.includes("chef")) &&
+    !isOrderable;
+
+  const RIDER_FEE = 150;
+  const PROVIDER_FEE = 500;
+  const unitPrices: Record<string, number> = {
+    medicine: 50,
+    grocery: 100,
+    stationary: 80,
+    shopping: 200,
+    default: 100,
+  };
+  const getUnitPrice = () => {
+    if (isMedicine) return unitPrices.medicine;
+    if (isGrocery) return unitPrices.grocery;
+    if (isStationary) return unitPrices.stationary;
+    if (isShopping) return unitPrices.shopping;
+    return unitPrices.default;
+  };
+  const itemsTotal = items.reduce((sum, it) => {
+    const qty = Number.parseFloat(it.quantity) || 0;
+    return sum + qty * getUnitPrice();
+  }, 0);
+  const totalPayment = itemsTotal + RIDER_FEE + PROVIDER_FEE;
+
+  const FARE_RATES: Record<string, number> = {
+    Sedan: 45,
+    SUV: 65,
+    Van: 55,
+    Motorcycle: 25,
+    default: 40,
+  };
+  const getPerKmRate = () => FARE_RATES[form.vehicleType] || FARE_RATES.default;
+  const estimatedFare = estimatedDistance
+    ? Math.round(estimatedDistance * getPerKmRate())
+    : null;
+
+  const getItemPlaceholder = () => {
+    if (isMedicine) return "e.g. Panadol Extra";
+    if (isStationary) return "e.g. A4 Paper Ream";
+    if (isGrocery) return "e.g. Basmati Rice";
+    if (isShopping) return "e.g. Men's Shirt";
+    return "Item name";
+  };
+  const getUnitOptions = () => {
+    if (isMedicine) return ["Tablets", "Strip", "Box", "Bottle", "Syrup"];
+    if (isGrocery) return ["kg", "g", "Litre", "Pack", "Pcs"];
+    if (isStationary) return ["Pcs", "Pack", "Box", "Ream"];
+    if (isShopping) return ["Pcs"];
+    return ["Pcs", "Pack", "Box"];
+  };
+
+  const inputStyle: React.CSSProperties = {
+    width: "100%",
+    background: "rgba(0,255,255,0.05)",
+    border: "1px solid rgba(0,255,255,0.25)",
+    borderRadius: 10,
+    padding: "10px 14px",
+    color: "#e0f7ff",
+    fontFamily: "Rajdhani, sans-serif",
+    fontSize: "0.95rem",
+    outline: "none",
+    boxSizing: "border-box",
+  };
+
+  const labelStyle: React.CSSProperties = {
+    fontFamily: "Orbitron, sans-serif",
+    fontSize: "0.6rem",
+    color: "rgba(0,255,255,0.7)",
+    letterSpacing: "0.12em",
+    display: "block",
+    marginBottom: 6,
+  };
+
+  const chipActive: React.CSSProperties = {
+    background: "rgba(0,255,255,0.25)",
+    border: "1px solid #00ffff",
+    borderRadius: 999,
+    padding: "6px 14px",
+    cursor: "pointer",
+    fontFamily: "Rajdhani, sans-serif",
+    fontSize: "0.82rem",
+    color: "#00ffff",
+    fontWeight: 700,
+  };
+
+  const chipInactive: React.CSSProperties = {
+    background: "rgba(0,255,255,0.05)",
+    border: "1px solid rgba(0,255,255,0.2)",
+    borderRadius: 999,
+    padding: "6px 14px",
+    cursor: "pointer",
+    fontFamily: "Rajdhani, sans-serif",
+    fontSize: "0.82rem",
+    color: "rgba(176,255,255,0.6)",
+    fontWeight: 600,
+  };
+
+  const fieldGap = 14;
+
+  const renderChips = (fieldKey: string, options: string[]) => (
+    <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+      {options.map((opt) => (
+        <button
+          key={opt}
+          type="button"
+          data-ocid="booking.tab"
+          onClick={() => set(fieldKey, opt)}
+          style={form[fieldKey] === opt ? chipActive : chipInactive}
+        >
+          {opt}
+        </button>
+      ))}
+    </div>
+  );
+
+  const handleSubmit = () => {
+    onSubmit({ ...form, orderItems: JSON.stringify(items) });
+  };
+
+  return (
+    <div style={{ padding: "20px 16px 100px" }}>
+      <ScreenHeader
+        title={`BOOK: ${service.name.toUpperCase()}`}
+        onBack={onBack}
+      />
+
+      <div
+        className="glass-panel"
+        style={{
+          borderRadius: 16,
+          padding: "20px 16px",
+          marginBottom: 16,
+          display: "flex",
+          alignItems: "center",
+          gap: 14,
+        }}
+      >
+        <span style={{ fontSize: "2rem" }}>{service.emoji}</span>
+        <div>
+          <div
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "0.75rem",
+              fontWeight: 700,
+              color: "#00ffff",
+            }}
+          >
+            {service.name}
+          </div>
+          <div
+            style={{
+              fontFamily: "Rajdhani, sans-serif",
+              fontSize: "0.9rem",
+              color: "rgba(176,255,255,0.7)",
+            }}
+          >
+            PKR {service.price.toLocaleString()} base price
+          </div>
+        </div>
+      </div>
+
+      <div style={{ display: "flex", flexDirection: "column", gap: fieldGap }}>
+        {/* ---- HEALTH ---- */}
+        {isHealth && (
+          <>
+            <div>
+              <span style={labelStyle}>APPOINTMENT TYPE</span>
+              <div style={{ display: "flex", gap: 10 }}>
+                {["🏥 Clinic Visit", "🏠 Home Visit"].map((opt) => (
+                  <button
+                    key={opt}
+                    type="button"
+                    data-ocid="booking.tab"
+                    onClick={() => set("appointmentType", opt)}
+                    style={{
+                      flex: 1,
+                      ...(form.appointmentType === opt
+                        ? chipActive
+                        : chipInactive),
+                      borderRadius: 12,
+                      padding: "10px 8px",
+                    }}
+                  >
+                    {opt}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div>
+              <span style={labelStyle}>PATIENT NAME</span>
+              <input
+                data-ocid="booking.input"
+                style={inputStyle}
+                placeholder="Full name of patient"
+                value={form.patientName || ""}
+                onChange={(e) => set("patientName", e.target.value)}
+              />
+            </div>
+            <div>
+              <span style={labelStyle}>PATIENT AGE</span>
+              <input
+                data-ocid="booking.input"
+                type="number"
+                style={inputStyle}
+                placeholder="Age in years"
+                value={form.patientAge || ""}
+                onChange={(e) => set("patientAge", e.target.value)}
+              />
+            </div>
+            <div>
+              <span style={labelStyle}>PREFERRED DATE</span>
+              <input
+                data-ocid="booking.input"
+                type="date"
+                style={inputStyle}
+                value={form.preferredDate || ""}
+                onChange={(e) => set("preferredDate", e.target.value)}
+              />
+            </div>
+            <div>
+              <span style={labelStyle}>PREFERRED TIME SLOT</span>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                {[
+                  "9:00 AM",
+                  "10:00 AM",
+                  "11:00 AM",
+                  "12:00 PM",
+                  "2:00 PM",
+                  "3:00 PM",
+                  "4:00 PM",
+                  "5:00 PM",
+                ].map((slot) => (
+                  <button
+                    key={slot}
+                    type="button"
+                    data-ocid="booking.tab"
+                    onClick={() => set("timeSlot", slot)}
+                    style={{
+                      ...(form.timeSlot === slot ? chipActive : chipInactive),
+                      padding: "5px 11px",
+                      fontSize: "0.78rem",
+                    }}
+                  >
+                    {slot}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div>
+              <span style={labelStyle}>SYMPTOMS / REASON</span>
+              <textarea
+                data-ocid="booking.textarea"
+                style={{ ...inputStyle, minHeight: 80, resize: "vertical" }}
+                placeholder="Describe symptoms or reason for visit"
+                value={form.symptoms || ""}
+                onChange={(e) => set("symptoms", e.target.value)}
+              />
+            </div>
+            <div>
+              <span style={labelStyle}>SPECIAL NOTES (OPTIONAL)</span>
+              <textarea
+                data-ocid="booking.textarea"
+                style={{ ...inputStyle, minHeight: 60, resize: "vertical" }}
+                placeholder="Any special requirements or notes"
+                value={form.specialNotes || ""}
+                onChange={(e) => set("specialNotes", e.target.value)}
+              />
+            </div>
+          </>
+        )}
+
+        {/* ---- CAR / DRIVER RENTAL ---- */}
+        {!isHealth && isCarRental && !isTravelTicket && !isProperty && (
+          <>
+            <div>
+              <span style={labelStyle}>PICKUP LOCATION</span>
+              <input
+                data-ocid="booking.input"
+                style={inputStyle}
+                placeholder="Enter pickup address"
+                value={form.pickupLocation || ""}
+                onChange={(e) => set("pickupLocation", e.target.value)}
+              />
+            </div>
+            <div>
+              <span style={labelStyle}>DESTINATION</span>
+              <input
+                data-ocid="booking.input"
+                style={inputStyle}
+                placeholder="Enter destination"
+                value={form.destination || ""}
+                onChange={(e) => set("destination", e.target.value)}
+              />
+            </div>
+            <div>
+              <span style={labelStyle}>ESTIMATED DISTANCE (KM)</span>
+              <input
+                data-ocid="booking.input"
+                type="number"
+                style={inputStyle}
+                placeholder="Enter approximate distance in km"
+                value={estimatedDistance ?? ""}
+                onChange={(e) =>
+                  setEstimatedDistance(
+                    e.target.value ? Number(e.target.value) : null,
+                  )
+                }
+              />
+            </div>
+            <div style={{ display: "flex", gap: 10 }}>
+              <div style={{ flex: 1 }}>
+                <span style={labelStyle}>DATE</span>
+                <input
+                  data-ocid="booking.input"
+                  type="date"
+                  style={inputStyle}
+                  value={form.rideDate || ""}
+                  onChange={(e) => set("rideDate", e.target.value)}
+                />
+              </div>
+              <div style={{ flex: 1 }}>
+                <span style={labelStyle}>TIME</span>
+                <input
+                  data-ocid="booking.input"
+                  type="time"
+                  style={inputStyle}
+                  value={form.rideTime || ""}
+                  onChange={(e) => set("rideTime", e.target.value)}
+                />
+              </div>
+            </div>
+            <div>
+              <span style={labelStyle}>VEHICLE TYPE</span>
+              {renderChips("vehicleType", [
+                "Sedan",
+                "SUV",
+                "Van",
+                "Motorcycle",
+              ])}
+            </div>
+            <div>
+              <span style={labelStyle}>NUMBER OF PASSENGERS</span>
+              <input
+                data-ocid="booking.input"
+                type="number"
+                style={inputStyle}
+                placeholder="How many passengers?"
+                value={form.passengers || ""}
+                onChange={(e) => set("passengers", e.target.value)}
+              />
+            </div>
+            {estimatedFare !== null && estimatedDistance !== null && (
+              <div
+                data-ocid="booking.card"
+                style={{
+                  background: "rgba(0,255,255,0.08)",
+                  border: "1px solid rgba(0,255,255,0.35)",
+                  borderRadius: 14,
+                  padding: "14px 16px",
+                  marginBottom: 4,
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: "Orbitron, sans-serif",
+                    fontSize: 12,
+                    color: "#00ffff",
+                    letterSpacing: 2,
+                    marginBottom: 10,
+                  }}
+                >
+                  FARE ESTIMATE
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginBottom: 6,
+                    fontFamily: "Rajdhani, sans-serif",
+                    fontSize: 14,
+                    color: "rgba(255,255,255,0.8)",
+                  }}
+                >
+                  <span>Distance</span>
+                  <span style={{ color: "#fff" }}>{estimatedDistance} km</span>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginBottom: 6,
+                    fontFamily: "Rajdhani, sans-serif",
+                    fontSize: 14,
+                    color: "rgba(255,255,255,0.8)",
+                  }}
+                >
+                  <span>Rate ({form.vehicleType || "Standard"})</span>
+                  <span style={{ color: "#fff" }}>PKR {getPerKmRate()}/km</span>
+                </div>
+                <div
+                  style={{
+                    borderTop: "1px solid rgba(0,255,255,0.2)",
+                    marginTop: 8,
+                    paddingTop: 8,
+                    display: "flex",
+                    justifyContent: "space-between",
+                    fontFamily: "Orbitron, sans-serif",
+                    fontSize: 13,
+                    color: "#00ffff",
+                  }}
+                >
+                  <span>Estimated Fare</span>
+                  <span style={{ fontWeight: 700 }}>
+                    PKR {estimatedFare?.toLocaleString()}
+                  </span>
+                </div>
+                <div
+                  style={{
+                    marginTop: 8,
+                    fontFamily: "Rajdhani, sans-serif",
+                    fontSize: 12,
+                    color: "rgba(0,255,255,0.6)",
+                    fontStyle: "italic",
+                  }}
+                >
+                  * Final fare may vary based on actual route
+                </div>
+              </div>
+            )}
+            <div>
+              <span style={labelStyle}>SPECIAL REQUIREMENTS (OPTIONAL)</span>
+              <input
+                data-ocid="booking.input"
+                style={inputStyle}
+                placeholder="AC, child seat, etc."
+                value={form.specialReq || ""}
+                onChange={(e) => set("specialReq", e.target.value)}
+              />
+            </div>
+          </>
+        )}
+
+        {/* ---- TRAVEL TICKETS ---- */}
+        {isTravelTicket && (
+          <>
+            <div style={{ display: "flex", gap: 10 }}>
+              <div style={{ flex: 1 }}>
+                <span style={labelStyle}>FROM CITY</span>
+                <input
+                  data-ocid="booking.input"
+                  style={inputStyle}
+                  placeholder="Departure city"
+                  value={form.fromCity || ""}
+                  onChange={(e) => set("fromCity", e.target.value)}
+                />
+              </div>
+              <div style={{ flex: 1 }}>
+                <span style={labelStyle}>TO CITY</span>
+                <input
+                  data-ocid="booking.input"
+                  style={inputStyle}
+                  placeholder="Destination city"
+                  value={form.toCity || ""}
+                  onChange={(e) => set("toCity", e.target.value)}
+                />
+              </div>
+            </div>
+            <div style={{ display: "flex", gap: 10 }}>
+              <div style={{ flex: 1 }}>
+                <span style={labelStyle}>TRAVEL DATE</span>
+                <input
+                  data-ocid="booking.input"
+                  type="date"
+                  style={inputStyle}
+                  value={form.travelDate || ""}
+                  onChange={(e) => set("travelDate", e.target.value)}
+                />
+              </div>
+              <div style={{ flex: 1 }}>
+                <span style={labelStyle}>RETURN DATE (OPTIONAL)</span>
+                <input
+                  data-ocid="booking.input"
+                  type="date"
+                  style={inputStyle}
+                  value={form.returnDate || ""}
+                  onChange={(e) => set("returnDate", e.target.value)}
+                />
+              </div>
+            </div>
+            <div>
+              <span style={labelStyle}>NUMBER OF PASSENGERS</span>
+              <input
+                data-ocid="booking.input"
+                type="number"
+                style={inputStyle}
+                placeholder="How many passengers?"
+                value={form.travelPassengers || ""}
+                onChange={(e) => set("travelPassengers", e.target.value)}
+              />
+            </div>
+            <div>
+              <span style={labelStyle}>TRAVEL CLASS</span>
+              {renderChips("travelClass", [
+                "Economy",
+                "Business",
+                "First Class",
+              ])}
+            </div>
+            <div>
+              <span style={labelStyle}>TRANSPORT TYPE</span>
+              {renderChips("transportType", ["🚌 Bus", "🚆 Train", "✈️ Air"])}
+            </div>
+          </>
+        )}
+
+        {/* ---- PROPERTY RENTAL ---- */}
+        {isProperty && (
+          <>
+            <div>
+              <span style={labelStyle}>AREA / LOCALITY</span>
+              <input
+                data-ocid="booking.input"
+                style={inputStyle}
+                placeholder="Preferred area or locality"
+                value={form.area || ""}
+                onChange={(e) => set("area", e.target.value)}
+              />
+            </div>
+            <div>
+              <span style={labelStyle}>PROPERTY TYPE</span>
+              {renderChips("propertyType", ["Flat", "House", "Room", "Office"])}
+            </div>
+            <div>
+              <span style={labelStyle}>DURATION</span>
+              {renderChips("duration", ["Daily", "Weekly", "Monthly"])}
+            </div>
+            <div>
+              <span style={labelStyle}>MOVE-IN DATE</span>
+              <input
+                data-ocid="booking.input"
+                type="date"
+                style={inputStyle}
+                value={form.moveInDate || ""}
+                onChange={(e) => set("moveInDate", e.target.value)}
+              />
+            </div>
+            <div>
+              <span style={labelStyle}>BUDGET RANGE (PKR)</span>
+              <input
+                data-ocid="booking.input"
+                style={inputStyle}
+                placeholder="e.g., PKR 20,000 – 30,000"
+                value={form.budget || ""}
+                onChange={(e) => set("budget", e.target.value)}
+              />
+            </div>
+            <div>
+              <span style={labelStyle}>CONTACT NUMBER</span>
+              <input
+                data-ocid="booking.input"
+                style={inputStyle}
+                placeholder="Your phone number"
+                value={form.contactNumber || ""}
+                onChange={(e) => set("contactNumber", e.target.value)}
+              />
+            </div>
+          </>
+        )}
+
+        {/* ---- ORDERABLE / SHOPPING / GROCERIES / MEDICINE ---- */}
+        {!isHealth &&
+          !isCarRental &&
+          !isTravelTicket &&
+          !isProperty &&
+          isOrderable && (
+            <>
+              <div>
+                <span style={labelStyle}>
+                  {isMedicine
+                    ? "MEDICINES & ITEMS"
+                    : isStationary
+                      ? "STATIONARY ITEMS"
+                      : isGrocery
+                        ? "GROCERY ITEMS"
+                        : "ORDER ITEMS"}
+                </span>
+                {/* Dynamic Item Rows */}
+                <div
+                  style={{ display: "flex", flexDirection: "column", gap: 10 }}
+                >
+                  {items.map((item, idx) => (
+                    <div
+                      key={item.id}
+                      data-ocid={`booking.item.${idx + 1}`}
+                      style={{
+                        display: "flex",
+                        gap: 6,
+                        alignItems: "center",
+                        background: "rgba(0,255,255,0.04)",
+                        border: "1px solid rgba(0,255,255,0.15)",
+                        borderRadius: 10,
+                        padding: "8px 10px",
+                      }}
+                    >
+                      <input
+                        data-ocid="booking.item_name.input"
+                        style={{
+                          ...inputStyle,
+                          flex: 2,
+                          padding: "8px 10px",
+                          fontSize: "0.85rem",
+                        }}
+                        placeholder={getItemPlaceholder()}
+                        value={item.name}
+                        onChange={(e) =>
+                          updateItem(idx, "name", e.target.value)
+                        }
+                      />
+                      <input
+                        data-ocid="booking.item_qty.input"
+                        type="number"
+                        style={{
+                          ...inputStyle,
+                          width: 60,
+                          padding: "8px 8px",
+                          fontSize: "0.85rem",
+                          textAlign: "center",
+                        }}
+                        placeholder="Qty"
+                        value={item.quantity}
+                        onChange={(e) =>
+                          updateItem(idx, "quantity", e.target.value)
+                        }
+                      />
+                      <select
+                        style={{
+                          ...inputStyle,
+                          width: 80,
+                          padding: "8px 6px",
+                          fontSize: "0.8rem",
+                          appearance: "none" as const,
+                          cursor: "pointer",
+                        }}
+                        value={item.unit}
+                        onChange={(e) =>
+                          updateItem(idx, "unit", e.target.value)
+                        }
+                      >
+                        <option value="" style={{ background: "#05070A" }}>
+                          Unit
+                        </option>
+                        {getUnitOptions().map((u) => (
+                          <option
+                            key={u}
+                            value={u}
+                            style={{ background: "#05070A" }}
+                          >
+                            {u}
+                          </option>
+                        ))}
+                      </select>
+                      {items.length > 1 && (
+                        <button
+                          type="button"
+                          data-ocid={`booking.remove_item.button.${idx + 1}`}
+                          onClick={() => removeItem(item.id)}
+                          style={{
+                            background: "rgba(255,60,60,0.15)",
+                            border: "1px solid rgba(255,60,60,0.4)",
+                            borderRadius: 8,
+                            color: "#ff6060",
+                            width: 30,
+                            height: 30,
+                            cursor: "pointer",
+                            fontSize: "1rem",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            flexShrink: 0,
+                          }}
+                        >
+                          ×
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  data-ocid="booking.add_item.button"
+                  onClick={addItem}
+                  style={{
+                    marginTop: 10,
+                    width: "100%",
+                    padding: "8px",
+                    background: "rgba(0,255,255,0.08)",
+                    border: "1px dashed rgba(0,255,255,0.4)",
+                    borderRadius: 10,
+                    color: "#00ffff",
+                    fontFamily: "Rajdhani, sans-serif",
+                    fontSize: "0.85rem",
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    letterSpacing: "0.08em",
+                  }}
+                >
+                  + ADD ITEM
+                </button>
+              </div>
+
+              {/* Cost Breakdown Panel */}
+              <div
+                style={{
+                  background: "rgba(0,10,20,0.85)",
+                  border: "1px solid rgba(0,255,255,0.35)",
+                  borderRadius: 14,
+                  padding: "16px",
+                  boxShadow: "0 0 20px rgba(0,255,255,0.1)",
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: "Orbitron, sans-serif",
+                    fontSize: "0.6rem",
+                    color: "rgba(0,255,255,0.6)",
+                    letterSpacing: "0.12em",
+                    marginBottom: 12,
+                  }}
+                >
+                  COST BREAKDOWN
+                </div>
+                {[
+                  {
+                    icon: "🛵",
+                    label: "Rider / Delivery Charges",
+                    value: RIDER_FEE,
+                  },
+                  {
+                    icon: "👷",
+                    label: "Service Provider Charges",
+                    value: PROVIDER_FEE,
+                  },
+                  {
+                    icon: "🛒",
+                    label: "Estimated Items Total",
+                    value: itemsTotal,
+                  },
+                ].map(({ icon, label, value }) => (
+                  <div
+                    key={label}
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      padding: "6px 0",
+                      borderBottom: "1px solid rgba(0,255,255,0.08)",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: "Rajdhani, sans-serif",
+                        fontSize: "0.9rem",
+                        color: "rgba(176,255,255,0.8)",
+                      }}
+                    >
+                      {icon} {label}
+                    </span>
+                    <span
+                      style={{
+                        fontFamily: "Orbitron, sans-serif",
+                        fontSize: "0.75rem",
+                        color: "#e0f7ff",
+                      }}
+                    >
+                      PKR {value.toLocaleString()}
+                    </span>
+                  </div>
+                ))}
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginTop: 12,
+                    padding: "10px 0 0",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: "Rajdhani, sans-serif",
+                      fontSize: "1.05rem",
+                      fontWeight: 700,
+                      color: "#00ffff",
+                    }}
+                  >
+                    💰 TOTAL PAYMENT
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: "Orbitron, sans-serif",
+                      fontSize: "1rem",
+                      fontWeight: 700,
+                      color: "#00ffff",
+                      textShadow: "0 0 10px rgba(0,255,255,0.6)",
+                    }}
+                  >
+                    PKR {totalPayment.toLocaleString()}
+                  </span>
+                </div>
+              </div>
+
+              <div>
+                <span style={labelStyle}>DELIVERY ADDRESS</span>
+                <input
+                  data-ocid="booking.input"
+                  style={inputStyle}
+                  placeholder="Your delivery address"
+                  value={form.deliveryAddress || ""}
+                  onChange={(e) => set("deliveryAddress", e.target.value)}
+                />
+              </div>
+              <div>
+                <span style={labelStyle}>PREFERRED DELIVERY TIME</span>
+                {renderChips("deliveryTime", [
+                  "ASAP",
+                  "Within 2 Hours",
+                  "Today Evening",
+                  "Tomorrow",
+                ])}
+              </div>
+              <div>
+                <span style={labelStyle}>SPECIAL INSTRUCTIONS (OPTIONAL)</span>
+                <textarea
+                  data-ocid="booking.textarea"
+                  style={{ ...inputStyle, minHeight: 60, resize: "vertical" }}
+                  placeholder="Allergies, alternatives, etc."
+                  value={form.specialInstructions || ""}
+                  onChange={(e) => set("specialInstructions", e.target.value)}
+                />
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  padding: "10px 14px",
+                  background: "rgba(0,255,255,0.05)",
+                  border: "1px solid rgba(0,255,255,0.2)",
+                  borderRadius: 10,
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: "Rajdhani, sans-serif",
+                    fontSize: "0.95rem",
+                    color: "#e0f7ff",
+                    fontWeight: 600,
+                  }}
+                >
+                  Payment on Delivery
+                </span>
+                <button
+                  type="button"
+                  data-ocid="booking.toggle"
+                  onClick={() =>
+                    set(
+                      "paymentOnDelivery",
+                      form.paymentOnDelivery === "true" ? "false" : "true",
+                    )
+                  }
+                  style={{
+                    width: 44,
+                    height: 24,
+                    borderRadius: 999,
+                    background:
+                      form.paymentOnDelivery === "true"
+                        ? "#00ffff"
+                        : "rgba(0,255,255,0.15)",
+                    border: "none",
+                    cursor: "pointer",
+                    position: "relative",
+                    transition: "background 0.2s",
+                  }}
+                >
+                  <span
+                    style={{
+                      position: "absolute",
+                      top: 2,
+                      left: form.paymentOnDelivery === "true" ? 22 : 2,
+                      width: 20,
+                      height: 20,
+                      borderRadius: "50%",
+                      background:
+                        form.paymentOnDelivery === "true" ? "#05070A" : "#aaa",
+                      transition: "left 0.2s",
+                    }}
+                  />
+                </button>
+              </div>
+            </>
+          )}
+
+        {/* ---- REPAIRS ---- */}
+        {!isHealth &&
+          !isCarRental &&
+          !isTravelTicket &&
+          !isProperty &&
+          !isOrderable &&
+          isRepairs && (
+            <>
+              <div>
+                <span style={labelStyle}>PROBLEM DESCRIPTION</span>
+                <textarea
+                  data-ocid="booking.textarea"
+                  style={{ ...inputStyle, minHeight: 80, resize: "vertical" }}
+                  placeholder="Describe the issue in detail"
+                  value={form.description || ""}
+                  onChange={(e) => set("description", e.target.value)}
+                />
+              </div>
+              <div>
+                <span style={labelStyle}>SCOPE OF WORK</span>
+                {renderChips("scopeOfWork", [
+                  "Inspection Only",
+                  "Parts Replacement",
+                  "Labour Only",
+                  "Full Service",
+                  "Emergency Fix",
+                ])}
+              </div>
+              <div>
+                <span style={labelStyle}>ESTIMATED MATERIAL COST (PKR)</span>
+                <input
+                  data-ocid="booking.input"
+                  type="number"
+                  style={inputStyle}
+                  placeholder="e.g. 2500"
+                  value={form.materialCost || ""}
+                  onChange={(e) => set("materialCost", e.target.value)}
+                />
+              </div>
+              <div>
+                <span style={labelStyle}>URGENCY</span>
+                {renderChips("urgency", ["Normal", "Urgent", "Emergency"])}
+              </div>
+              <div style={{ display: "flex", gap: 10 }}>
+                <div style={{ flex: 1 }}>
+                  <span style={labelStyle}>PREFERRED DATE</span>
+                  <input
+                    data-ocid="booking.input"
+                    type="date"
+                    style={inputStyle}
+                    value={form.preferredDate || ""}
+                    onChange={(e) => set("preferredDate", e.target.value)}
+                  />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <span style={labelStyle}>PREFERRED TIME</span>
+                  <input
+                    data-ocid="booking.input"
+                    type="time"
+                    style={inputStyle}
+                    value={form.preferredTime || ""}
+                    onChange={(e) => set("preferredTime", e.target.value)}
+                  />
+                </div>
+              </div>
+              <div>
+                <span style={labelStyle}>LOCATION / ADDRESS</span>
+                <input
+                  data-ocid="booking.input"
+                  style={inputStyle}
+                  placeholder="Service location address"
+                  value={form.location || ""}
+                  onChange={(e) => set("location", e.target.value)}
+                />
+              </div>
+              {form.materialCost && Number(form.materialCost) > 0 && (
+                <div
+                  data-ocid="repair.card"
+                  style={{
+                    background: "rgba(0,255,255,0.08)",
+                    border: "1px solid rgba(0,255,255,0.35)",
+                    borderRadius: 14,
+                    padding: "14px 16px",
+                    marginBottom: 4,
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: "Orbitron, sans-serif",
+                      fontSize: 12,
+                      color: "#00ffff",
+                      letterSpacing: 2,
+                      marginBottom: 10,
+                    }}
+                  >
+                    TOTAL COST SUMMARY
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      marginBottom: 6,
+                      fontFamily: "Rajdhani, sans-serif",
+                      fontSize: 14,
+                      color: "rgba(255,255,255,0.8)",
+                    }}
+                  >
+                    <span>Base Service Charge</span>
+                    <span style={{ color: "#fff" }}>
+                      PKR {service.price.toLocaleString()}
+                    </span>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      marginBottom: 6,
+                      fontFamily: "Rajdhani, sans-serif",
+                      fontSize: 14,
+                      color: "rgba(255,255,255,0.8)",
+                    }}
+                  >
+                    <span>Material Cost</span>
+                    <span style={{ color: "#fff" }}>
+                      PKR {Number(form.materialCost).toLocaleString()}
+                    </span>
+                  </div>
+                  <div
+                    style={{
+                      borderTop: "1px solid rgba(0,255,255,0.2)",
+                      marginTop: 8,
+                      paddingTop: 8,
+                      display: "flex",
+                      justifyContent: "space-between",
+                      fontFamily: "Orbitron, sans-serif",
+                      fontSize: 13,
+                      color: "#00ffff",
+                    }}
+                  >
+                    <span>Total Estimate</span>
+                    <span style={{ fontWeight: 700 }}>
+                      PKR{" "}
+                      {(
+                        service.price + Number(form.materialCost)
+                      ).toLocaleString()}
+                    </span>
+                  </div>
+                  <div
+                    style={{
+                      marginTop: 8,
+                      fontFamily: "Rajdhani, sans-serif",
+                      fontSize: 12,
+                      color: "rgba(0,255,255,0.6)",
+                      fontStyle: "italic",
+                    }}
+                  >
+                    * Material cost added to service charges
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+
+        {/* ---- EDUCATION / TUTOR ---- */}
+        {!isHealth &&
+          !isCarRental &&
+          !isTravelTicket &&
+          !isProperty &&
+          !isOrderable &&
+          !isRepairs &&
+          isEducation && (
+            <>
+              <div>
+                <span style={labelStyle}>SUBJECT</span>
+                <input
+                  data-ocid="booking.input"
+                  style={inputStyle}
+                  placeholder="e.g. Mathematics, Physics, English"
+                  value={form.subject || ""}
+                  onChange={(e) => set("subject", e.target.value)}
+                />
+              </div>
+              <div>
+                <span style={labelStyle}>EDUCATION LEVEL</span>
+                {renderChips("educationLevel", [
+                  "Primary",
+                  "Secondary",
+                  "O-Level",
+                  "A-Level",
+                  "University",
+                ])}
+              </div>
+              <div>
+                <span style={labelStyle}>SESSION DURATION</span>
+                {renderChips("sessionDuration", [
+                  "1 Hour",
+                  "2 Hours",
+                  "3 Hours",
+                ])}
+              </div>
+              <div style={{ display: "flex", gap: 10 }}>
+                <div style={{ flex: 1 }}>
+                  <span style={labelStyle}>PREFERRED DATE</span>
+                  <input
+                    data-ocid="booking.input"
+                    type="date"
+                    style={inputStyle}
+                    value={form.preferredDate || ""}
+                    onChange={(e) => set("preferredDate", e.target.value)}
+                  />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <span style={labelStyle}>PREFERRED TIME</span>
+                  <input
+                    data-ocid="booking.input"
+                    type="time"
+                    style={inputStyle}
+                    value={form.preferredTime || ""}
+                    onChange={(e) => set("preferredTime", e.target.value)}
+                  />
+                </div>
+              </div>
+              <div>
+                <span style={labelStyle}>SPECIAL NOTES (OPTIONAL)</span>
+                <textarea
+                  data-ocid="booking.textarea"
+                  style={{ ...inputStyle, minHeight: 60, resize: "vertical" }}
+                  placeholder="Curriculum, materials needed, etc."
+                  value={form.specialNotes || ""}
+                  onChange={(e) => set("specialNotes", e.target.value)}
+                />
+              </div>
+            </>
+          )}
+
+        {/* ---- SECURITY ---- */}
+        {!isHealth &&
+          !isCarRental &&
+          !isTravelTicket &&
+          !isProperty &&
+          !isOrderable &&
+          !isRepairs &&
+          !isEducation &&
+          isSecurity && (
+            <>
+              <div>
+                <span style={labelStyle}>PROPERTY TYPE</span>
+                {renderChips("securityPropertyType", [
+                  "House",
+                  "Office",
+                  "Shop",
+                  "Warehouse",
+                ])}
+              </div>
+              <div>
+                <span style={labelStyle}>SECURITY DURATION</span>
+                {renderChips("securityDuration", [
+                  "Daily",
+                  "Weekly",
+                  "Monthly",
+                ])}
+              </div>
+              <div>
+                <span style={labelStyle}>NUMBER OF GUARDS REQUIRED</span>
+                <input
+                  data-ocid="booking.input"
+                  type="number"
+                  style={inputStyle}
+                  placeholder="How many security guards?"
+                  value={form.guardCount || ""}
+                  onChange={(e) => set("guardCount", e.target.value)}
+                />
+              </div>
+              <div style={{ display: "flex", gap: 10 }}>
+                <div style={{ flex: 1 }}>
+                  <span style={labelStyle}>START DATE</span>
+                  <input
+                    data-ocid="booking.input"
+                    type="date"
+                    style={inputStyle}
+                    value={form.preferredDate || ""}
+                    onChange={(e) => set("preferredDate", e.target.value)}
+                  />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <span style={labelStyle}>START TIME</span>
+                  <input
+                    data-ocid="booking.input"
+                    type="time"
+                    style={inputStyle}
+                    value={form.preferredTime || ""}
+                    onChange={(e) => set("preferredTime", e.target.value)}
+                  />
+                </div>
+              </div>
+              <div>
+                <span style={labelStyle}>LOCATION / ADDRESS</span>
+                <input
+                  data-ocid="booking.input"
+                  style={inputStyle}
+                  placeholder="Property address"
+                  value={form.location || ""}
+                  onChange={(e) => set("location", e.target.value)}
+                />
+              </div>
+            </>
+          )}
+
+        {/* ---- TECH / IT SUPPORT ---- */}
+        {!isHealth &&
+          !isCarRental &&
+          !isTravelTicket &&
+          !isProperty &&
+          !isOrderable &&
+          !isRepairs &&
+          !isEducation &&
+          !isSecurity &&
+          isTechSupport && (
+            <>
+              <div>
+                <span style={labelStyle}>DEVICE TYPE</span>
+                {renderChips("deviceType", [
+                  "Laptop",
+                  "Desktop",
+                  "Phone",
+                  "Printer",
+                  "Network",
+                ])}
+              </div>
+              <div>
+                <span style={labelStyle}>ISSUE DESCRIPTION</span>
+                <textarea
+                  data-ocid="booking.textarea"
+                  style={{ ...inputStyle, minHeight: 80, resize: "vertical" }}
+                  placeholder="Describe the technical issue"
+                  value={form.issueDescription || ""}
+                  onChange={(e) => set("issueDescription", e.target.value)}
+                />
+              </div>
+              <div style={{ display: "flex", gap: 10 }}>
+                <div style={{ flex: 1 }}>
+                  <span style={labelStyle}>PREFERRED DATE</span>
+                  <input
+                    data-ocid="booking.input"
+                    type="date"
+                    style={inputStyle}
+                    value={form.preferredDate || ""}
+                    onChange={(e) => set("preferredDate", e.target.value)}
+                  />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <span style={labelStyle}>PREFERRED TIME</span>
+                  <input
+                    data-ocid="booking.input"
+                    type="time"
+                    style={inputStyle}
+                    value={form.preferredTime || ""}
+                    onChange={(e) => set("preferredTime", e.target.value)}
+                  />
+                </div>
+              </div>
+              <div>
+                <span style={labelStyle}>LOCATION / ADDRESS</span>
+                <input
+                  data-ocid="booking.input"
+                  style={inputStyle}
+                  placeholder="Service location address"
+                  value={form.location || ""}
+                  onChange={(e) => set("location", e.target.value)}
+                />
+              </div>
+            </>
+          )}
+
+        {/* ---- HOME SERVICES (Cleaner / Gardener / Chef) ---- */}
+        {!isHealth &&
+          !isCarRental &&
+          !isTravelTicket &&
+          !isProperty &&
+          !isOrderable &&
+          !isRepairs &&
+          !isEducation &&
+          !isSecurity &&
+          !isTechSupport &&
+          isHomeCleaning && (
+            <>
+              <div>
+                <span style={labelStyle}>ROOMS / AREA SIZE</span>
+                <input
+                  data-ocid="booking.input"
+                  style={inputStyle}
+                  placeholder="e.g. 3 rooms or 1200 sq ft"
+                  value={form.areaSize || ""}
+                  onChange={(e) => set("areaSize", e.target.value)}
+                />
+              </div>
+              <div>
+                <span style={labelStyle}>SERVICE DURATION</span>
+                {renderChips("serviceDuration", [
+                  "2 Hours",
+                  "4 Hours",
+                  "Full Day",
+                ])}
+              </div>
+              <div style={{ display: "flex", gap: 10 }}>
+                <div style={{ flex: 1 }}>
+                  <span style={labelStyle}>PREFERRED DATE</span>
+                  <input
+                    data-ocid="booking.input"
+                    type="date"
+                    style={inputStyle}
+                    value={form.preferredDate || ""}
+                    onChange={(e) => set("preferredDate", e.target.value)}
+                  />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <span style={labelStyle}>PREFERRED TIME</span>
+                  <input
+                    data-ocid="booking.input"
+                    type="time"
+                    style={inputStyle}
+                    value={form.preferredTime || ""}
+                    onChange={(e) => set("preferredTime", e.target.value)}
+                  />
+                </div>
+              </div>
+              <div>
+                <span style={labelStyle}>SPECIAL REQUIREMENTS (OPTIONAL)</span>
+                <textarea
+                  data-ocid="booking.textarea"
+                  style={{ ...inputStyle, minHeight: 60, resize: "vertical" }}
+                  placeholder="Special products, equipment needed, pets, etc."
+                  value={form.specialReq || ""}
+                  onChange={(e) => set("specialReq", e.target.value)}
+                />
+              </div>
+              <div>
+                <span style={labelStyle}>LOCATION / ADDRESS</span>
+                <input
+                  data-ocid="booking.input"
+                  style={inputStyle}
+                  placeholder="Service location address"
+                  value={form.location || ""}
+                  onChange={(e) => set("location", e.target.value)}
+                />
+              </div>
+            </>
+          )}
+
+        {/* ---- DEFAULT ---- */}
+        {!isHealth &&
+          !isCarRental &&
+          !isTravelTicket &&
+          !isProperty &&
+          !isOrderable &&
+          !isRepairs &&
+          !isEducation &&
+          !isSecurity &&
+          !isTechSupport &&
+          !isHomeCleaning && (
+            <>
+              <div>
+                <span style={labelStyle}>
+                  SERVICE DESCRIPTION / REQUIREMENTS
+                </span>
+                <textarea
+                  data-ocid="booking.textarea"
+                  style={{ ...inputStyle, minHeight: 80, resize: "vertical" }}
+                  placeholder="Describe what you need"
+                  value={form.description || ""}
+                  onChange={(e) => set("description", e.target.value)}
+                />
+              </div>
+              <div style={{ display: "flex", gap: 10 }}>
+                <div style={{ flex: 1 }}>
+                  <span style={labelStyle}>PREFERRED DATE</span>
+                  <input
+                    data-ocid="booking.input"
+                    type="date"
+                    style={inputStyle}
+                    value={form.preferredDate || ""}
+                    onChange={(e) => set("preferredDate", e.target.value)}
+                  />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <span style={labelStyle}>PREFERRED TIME</span>
+                  <input
+                    data-ocid="booking.input"
+                    type="time"
+                    style={inputStyle}
+                    value={form.preferredTime || ""}
+                    onChange={(e) => set("preferredTime", e.target.value)}
+                  />
+                </div>
+              </div>
+              <div>
+                <span style={labelStyle}>LOCATION / ADDRESS</span>
+                <input
+                  data-ocid="booking.input"
+                  style={inputStyle}
+                  placeholder="Service location address"
+                  value={form.location || ""}
+                  onChange={(e) => set("location", e.target.value)}
+                />
+              </div>
+              <div>
+                <span style={labelStyle}>SPECIAL NOTES (OPTIONAL)</span>
+                <textarea
+                  data-ocid="booking.textarea"
+                  style={{ ...inputStyle, minHeight: 60, resize: "vertical" }}
+                  placeholder="Any additional information"
+                  value={form.specialNotes || ""}
+                  onChange={(e) => set("specialNotes", e.target.value)}
+                />
+              </div>
+            </>
+          )}
+      </div>
+
+      {/* Submit */}
+      <button
+        type="button"
+        data-ocid="booking.submit_button"
+        onClick={handleSubmit}
+        style={{
+          marginTop: 24,
+          width: "100%",
+          padding: "14px",
+          background:
+            "linear-gradient(135deg, rgba(0,255,255,0.2), rgba(0,180,220,0.3))",
+          border: "1px solid rgba(0,255,255,0.6)",
+          borderRadius: 14,
+          color: "#00ffff",
+          fontFamily: "Orbitron, sans-serif",
+          fontSize: "0.85rem",
+          fontWeight: 700,
+          letterSpacing: "0.12em",
+          cursor: "pointer",
+          boxShadow: "0 0 24px rgba(0,255,255,0.25)",
+          transition: "all 0.2s",
+        }}
+      >
+        CONFIRM BOOKING →
+      </button>
+    </div>
+  );
+}
+
 function NearbyProvidersScreen({
   service,
   onBack,
@@ -2658,9 +5314,18 @@ function NearbyProvidersScreen({
     navigator.geolocation.getCurrentPosition(onSuccess, onError);
   }, [onLocationUpdate]);
 
+  const filteredProviders = service
+    ? PROVIDERS.filter((p) => p.category === service.category).length > 0
+      ? PROVIDERS.filter((p) => p.category === service.category)
+      : PROVIDERS
+    : PROVIDERS;
+  const screenTitle = service
+    ? `${service.category.toUpperCase()} PROVIDERS`
+    : "NEARBY PROVIDERS";
+
   return (
     <div style={{ padding: "20px 16px 100px" }}>
-      <ScreenHeader title="NEARBY PROVIDERS" onBack={onBack} />
+      <ScreenHeader title={screenTitle} onBack={onBack} />
 
       {/* GPS Banner */}
       <div
@@ -2814,7 +5479,7 @@ function NearbyProvidersScreen({
         </div>
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-        {PROVIDERS.map((p, i) => (
+        {filteredProviders.map((p, i) => (
           <div key={p.id} className="glass" style={{ padding: 14 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <div
@@ -2901,11 +5566,13 @@ function NearbyProvidersScreen({
 // ========================
 function ProviderConfirmedScreen({
   provider,
+  service,
   onBack,
   onChat,
   onPay,
 }: {
   provider: (typeof PROVIDERS)[0] | null;
+  service: (typeof SERVICES)[0] | null;
   onBack: () => void;
   onChat: () => void;
   onPay: () => void;
@@ -2958,6 +5625,37 @@ function ProviderConfirmedScreen({
           }}
         >
           {p.profession}
+        </div>
+        <div style={{ marginTop: 8 }}>
+          <div
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "0.55rem",
+              color: "rgba(0,255,255,0.5)",
+              letterSpacing: "0.1em",
+              marginBottom: 4,
+            }}
+          >
+            SERVICE CATEGORY
+          </div>
+          <span
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "0.65rem",
+              fontWeight: 700,
+              color: "#00ffff",
+              background: "rgba(0,255,255,0.1)",
+              border: "1px solid rgba(0,255,255,0.4)",
+              borderRadius: 20,
+              padding: "3px 12px",
+              boxShadow: "0 0 10px rgba(0,255,255,0.2)",
+              letterSpacing: "0.08em",
+            }}
+          >
+            {service?.category ??
+              (p as typeof p & { category?: string }).category ??
+              "General"}
+          </span>
         </div>
         <div
           style={{
@@ -4970,6 +7668,20 @@ function ProfileScreen({
   onDeleteAccount: () => void;
   onTopUp: () => void;
 }) {
+  const [profilePic, setProfilePic] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        setProfilePic(ev.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <div style={{ padding: "20px 16px 100px" }}>
       <ScreenHeader title="MY PROFILE" onBack={onBack} />
@@ -4978,24 +7690,77 @@ function ProfileScreen({
       <div style={{ textAlign: "center", marginBottom: 24 }}>
         <div
           style={{
-            width: 84,
-            height: 84,
-            borderRadius: "50%",
-            background:
-              "radial-gradient(circle, rgba(0,60,80,0.95), rgba(0,10,20,0.98))",
-            border: "3px solid rgba(0,255,255,0.5)",
-            boxShadow: "0 0 24px rgba(0,255,255,0.3)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontFamily: "Orbitron, sans-serif",
-            fontSize: "1.8rem",
-            fontWeight: 900,
-            color: "#00ffff",
-            margin: "0 auto 12px",
+            position: "relative",
+            display: "inline-block",
+            marginBottom: 12,
           }}
         >
-          A
+          {profilePic ? (
+            <img
+              src={profilePic}
+              alt="Profile"
+              style={{
+                width: 84,
+                height: 84,
+                borderRadius: "50%",
+                border: "3px solid rgba(0,255,255,0.5)",
+                boxShadow: "0 0 24px rgba(0,255,255,0.3)",
+                objectFit: "cover",
+                display: "block",
+              }}
+            />
+          ) : (
+            <div
+              style={{
+                width: 84,
+                height: 84,
+                borderRadius: "50%",
+                background:
+                  "radial-gradient(circle, rgba(0,60,80,0.95), rgba(0,10,20,0.98))",
+                border: "3px solid rgba(0,255,255,0.5)",
+                boxShadow: "0 0 24px rgba(0,255,255,0.3)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontFamily: "Orbitron, sans-serif",
+                fontSize: "1.8rem",
+                fontWeight: 900,
+                color: "#00ffff",
+              }}
+            >
+              A
+            </div>
+          )}
+          <button
+            type="button"
+            data-ocid="profile.upload_button"
+            onClick={() => fileInputRef.current?.click()}
+            style={{
+              position: "absolute",
+              bottom: 0,
+              right: 0,
+              width: 28,
+              height: 28,
+              borderRadius: "50%",
+              background: "rgba(0,255,255,0.9)",
+              border: "2px solid #05070A",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: "0.75rem",
+              boxShadow: "0 0 10px rgba(0,255,255,0.6)",
+            }}
+          >
+            📷
+          </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            style={{ display: "none" }}
+            onChange={handleFileChange}
+          />
         </div>
         <div
           style={{
@@ -5939,7 +8704,10 @@ function ProviderAccountDeletionScreen({
 // ========================
 // SCREEN 13: SETTINGS
 // ========================
-function SettingsScreen({ onBack }: { onBack: () => void }) {
+function SettingsScreen({
+  onBack,
+  onPrivacy,
+}: { onBack: () => void; onPrivacy: () => void }) {
   const [gps, setGps] = useState(true);
   const [notifs, setNotifs] = useState(true);
   const [twoFa, setTwoFa] = useState(false);
@@ -6058,6 +8826,27 @@ function SettingsScreen({ onBack }: { onBack: () => void }) {
         ))}
       </div>
 
+      <button
+        type="button"
+        data-ocid="settings.privacy.button"
+        onClick={onPrivacy}
+        style={{
+          width: "100%",
+          padding: "14px",
+          background: "rgba(0,255,255,0.05)",
+          border: "1px solid rgba(0,255,255,0.2)",
+          borderRadius: 12,
+          color: "rgba(0,255,255,0.8)",
+          fontFamily: "Orbitron, sans-serif",
+          fontSize: "0.7rem",
+          fontWeight: 700,
+          letterSpacing: "0.1em",
+          cursor: "pointer",
+          marginBottom: 16,
+        }}
+      >
+        🔒 PRIVACY POLICY
+      </button>
       <div
         style={{
           fontFamily: "Orbitron, sans-serif",
@@ -6233,6 +9022,580 @@ function LowBalanceModal({
   );
 }
 
+// ========================
+// PROVIDER PRICING SCREEN
+// ========================
+function ProviderPricingScreen({
+  items,
+  serviceName,
+  onBack,
+  onConfirm,
+}: {
+  items: Array<{ name: string; quantity: string; unit: string; price: string }>;
+  serviceName: string;
+  onBack: () => void;
+  onConfirm: (
+    pricedItems: Array<{
+      name: string;
+      quantity: string;
+      unit: string;
+      price: string;
+    }>,
+  ) => void;
+}) {
+  const [localItems, setLocalItems] = useState(
+    items.map((i) => ({ ...i, price: "" })),
+  );
+  const [activeTab, setActiveTab] = useState<"provider" | "user">("provider");
+  const [confirmed, setConfirmed] = useState(false);
+
+  const RIDER_CHARGE = 150;
+  const SERVICE_FEE = 500;
+
+  const allPriced =
+    localItems.length > 0 &&
+    localItems.every((i) => i.price && Number.parseFloat(i.price) > 0);
+
+  const itemsTotal = localItems.reduce((sum, i) => {
+    const qty = Number.parseFloat(i.quantity) || 1;
+    const price = Number.parseFloat(i.price) || 0;
+    return sum + qty * price;
+  }, 0);
+
+  const grandTotal = itemsTotal + RIDER_CHARGE + SERVICE_FEE;
+
+  const handleConfirm = () => {
+    setConfirmed(true);
+    setActiveTab("user");
+    onConfirm(localItems);
+  };
+
+  const glassBg = "rgba(0,255,255,0.06)";
+  const glassBorder = "1px solid rgba(0,255,255,0.3)";
+  const activeTabStyle: React.CSSProperties = {
+    background: "rgba(0,255,255,0.2)",
+    border: "1px solid #00ffff",
+    color: "#00ffff",
+    borderRadius: "999px",
+    padding: "8px 20px",
+    fontFamily: "'Orbitron', sans-serif",
+    fontSize: "11px",
+    fontWeight: 700,
+    letterSpacing: "0.05em",
+    cursor: "pointer",
+  };
+  const inactiveTabStyle: React.CSSProperties = {
+    background: "rgba(0,255,255,0.05)",
+    border: "1px solid rgba(0,255,255,0.2)",
+    color: "rgba(176,255,255,0.6)",
+    borderRadius: "999px",
+    padding: "8px 20px",
+    fontFamily: "'Orbitron', sans-serif",
+    fontSize: "11px",
+    fontWeight: 700,
+    letterSpacing: "0.05em",
+    cursor: "pointer",
+  };
+
+  return (
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "#05070A",
+        color: "#fff",
+        padding: "0 0 80px",
+        fontFamily: "'Rajdhani', sans-serif",
+      }}
+    >
+      {/* Header */}
+      <div
+        style={{
+          background: "rgba(0,255,255,0.06)",
+          borderBottom: "1px solid rgba(0,255,255,0.2)",
+          padding: "16px 20px",
+          display: "flex",
+          alignItems: "center",
+          gap: 12,
+        }}
+      >
+        <button
+          type="button"
+          onClick={onBack}
+          style={{
+            background: "none",
+            border: "none",
+            color: "#00ffff",
+            cursor: "pointer",
+            fontSize: 20,
+          }}
+        >
+          ←
+        </button>
+        <div>
+          <div
+            style={{
+              fontFamily: "'Orbitron', sans-serif",
+              fontSize: "13px",
+              fontWeight: 700,
+              color: "#00ffff",
+              letterSpacing: "0.08em",
+            }}
+          >
+            PROVIDER PRICING
+          </div>
+          <div style={{ fontSize: "12px", color: "rgba(176,255,255,0.6)" }}>
+            {serviceName}
+          </div>
+        </div>
+      </div>
+
+      <div style={{ padding: "20px 16px" }}>
+        {/* Tabs */}
+        <div style={{ display: "flex", gap: 8, marginBottom: 20 }}>
+          <button
+            type="button"
+            data-ocid="provider_pricing.provider_tab.tab"
+            onClick={() => setActiveTab("provider")}
+            style={activeTab === "provider" ? activeTabStyle : inactiveTabStyle}
+          >
+            PROVIDER VIEW
+          </button>
+          <button
+            type="button"
+            data-ocid="provider_pricing.user_tab.tab"
+            onClick={() => setActiveTab("user")}
+            style={activeTab === "user" ? activeTabStyle : inactiveTabStyle}
+          >
+            YOUR QUOTE
+          </button>
+        </div>
+
+        {activeTab === "provider" && (
+          <div>
+            {/* Header card */}
+            <div
+              style={{
+                background: glassBg,
+                border: glassBorder,
+                borderRadius: 16,
+                padding: "16px",
+                marginBottom: 16,
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                  marginBottom: 6,
+                }}
+              >
+                <span
+                  style={{
+                    width: 10,
+                    height: 10,
+                    borderRadius: "50%",
+                    background: "#00ffff",
+                    display: "inline-block",
+                    animation: "pulse 1.5s infinite",
+                  }}
+                />
+                <span
+                  style={{
+                    fontFamily: "'Orbitron', sans-serif",
+                    fontSize: "12px",
+                    fontWeight: 700,
+                    color: "#00ffff",
+                    letterSpacing: "0.06em",
+                  }}
+                >
+                  SERVICE PROVIDER IS PRICING YOUR ORDER
+                </span>
+              </div>
+              <div style={{ fontSize: "12px", color: "rgba(176,255,255,0.6)" }}>
+                Simulating provider response — prices update in real-time
+              </div>
+            </div>
+
+            {/* Items */}
+            {localItems.map((item, idx) => (
+              <div
+                key={item.name}
+                style={{
+                  background: glassBg,
+                  border: glassBorder,
+                  borderRadius: 16,
+                  padding: "14px 16px",
+                  marginBottom: 10,
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "flex-start",
+                    marginBottom: 10,
+                  }}
+                >
+                  <div>
+                    <div
+                      style={{
+                        fontFamily: "'Orbitron', sans-serif",
+                        fontSize: "13px",
+                        fontWeight: 700,
+                        color: "#fff",
+                        letterSpacing: "0.04em",
+                      }}
+                    >
+                      {item.name}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "12px",
+                        color: "rgba(176,255,255,0.6)",
+                        marginTop: 2,
+                      }}
+                    >
+                      {item.quantity} {item.unit}
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      fontSize: "11px",
+                      color: "rgba(0,255,255,0.7)",
+                      background: "rgba(0,255,255,0.1)",
+                      borderRadius: 8,
+                      padding: "4px 10px",
+                    }}
+                  >
+                    Item {idx + 1}
+                  </div>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <span
+                    style={{
+                      fontSize: "12px",
+                      color: "rgba(176,255,255,0.6)",
+                      fontFamily: "'Orbitron', sans-serif",
+                    }}
+                  >
+                    PKR / {item.unit || "unit"}
+                  </span>
+                  <input
+                    type="number"
+                    data-ocid={`provider_pricing.item_price.input.${idx + 1}`}
+                    placeholder="Enter price"
+                    value={localItems[idx].price}
+                    onChange={(e) => {
+                      const updated = [...localItems];
+                      updated[idx] = { ...updated[idx], price: e.target.value };
+                      setLocalItems(updated);
+                    }}
+                    style={{
+                      flex: 1,
+                      background: "rgba(0,255,255,0.08)",
+                      border: "1px solid rgba(0,255,255,0.4)",
+                      borderRadius: 10,
+                      padding: "10px 14px",
+                      color: "#00ffff",
+                      fontFamily: "'Rajdhani', sans-serif",
+                      fontSize: "15px",
+                      fontWeight: 600,
+                      outline: "none",
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
+
+            {/* Confirm button */}
+            <button
+              type="button"
+              data-ocid="provider_pricing.confirm.button"
+              onClick={handleConfirm}
+              disabled={!allPriced}
+              style={{
+                width: "100%",
+                padding: "16px",
+                borderRadius: 14,
+                background: allPriced
+                  ? "linear-gradient(135deg, rgba(0,255,255,0.3), rgba(0,200,200,0.2))"
+                  : "rgba(0,255,255,0.05)",
+                border: allPriced
+                  ? "1px solid #00ffff"
+                  : "1px solid rgba(0,255,255,0.2)",
+                color: allPriced ? "#00ffff" : "rgba(176,255,255,0.3)",
+                fontFamily: "'Orbitron', sans-serif",
+                fontSize: "13px",
+                fontWeight: 700,
+                letterSpacing: "0.08em",
+                cursor: allPriced ? "pointer" : "not-allowed",
+                marginTop: 8,
+              }}
+            >
+              {allPriced
+                ? "CONFIRM & SEND TO USER ✓"
+                : "FILL ALL PRICES TO CONFIRM"}
+            </button>
+          </div>
+        )}
+
+        {activeTab === "user" && (
+          <div>
+            {!confirmed && !allPriced ? (
+              <div
+                style={{
+                  background: "rgba(255,180,0,0.08)",
+                  border: "1px solid rgba(255,180,0,0.3)",
+                  borderRadius: 16,
+                  padding: "20px",
+                  textAlign: "center",
+                  marginBottom: 16,
+                }}
+              >
+                <div style={{ fontSize: "24px", marginBottom: 8 }}>⏳</div>
+                <div
+                  style={{
+                    fontFamily: "'Orbitron', sans-serif",
+                    fontSize: "12px",
+                    color: "#FFB400",
+                    letterSpacing: "0.06em",
+                  }}
+                >
+                  Waiting for provider to price your items...
+                </div>
+                <div
+                  style={{
+                    fontSize: "12px",
+                    color: "rgba(176,255,255,0.5)",
+                    marginTop: 6,
+                  }}
+                >
+                  Switch to Provider View to enter prices
+                </div>
+              </div>
+            ) : null}
+
+            {/* Item breakdown */}
+            {localItems.map((item, _idx) => {
+              const qty = Number.parseFloat(item.quantity) || 1;
+              const price = Number.parseFloat(item.price) || 0;
+              const lineTotal = qty * price;
+              return (
+                <div
+                  key={item.name}
+                  style={{
+                    background: glassBg,
+                    border: glassBorder,
+                    borderRadius: 14,
+                    padding: "14px 16px",
+                    marginBottom: 8,
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      marginBottom: 4,
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: "'Orbitron', sans-serif",
+                        fontSize: "12px",
+                        fontWeight: 700,
+                        color: "#fff",
+                      }}
+                    >
+                      {item.name}
+                    </span>
+                    <span
+                      style={{
+                        fontFamily: "'Orbitron', sans-serif",
+                        fontSize: "12px",
+                        color: price > 0 ? "#00ffff" : "rgba(176,255,255,0.4)",
+                      }}
+                    >
+                      {price > 0 ? `PKR ${lineTotal.toLocaleString()}` : "—"}
+                    </span>
+                  </div>
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        color: "rgba(176,255,255,0.6)",
+                      }}
+                    >
+                      {item.quantity} {item.unit} × PKR{" "}
+                      {price > 0 ? price : "?"}
+                    </span>
+                    <span
+                      style={{
+                        fontSize: "11px",
+                        color: "rgba(176,255,255,0.4)",
+                      }}
+                    >
+                      Line total
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+
+            {/* Cost breakdown */}
+            <div
+              style={{
+                background: "rgba(0,255,255,0.06)",
+                border: "1px solid rgba(0,255,255,0.35)",
+                borderRadius: 16,
+                padding: "18px 16px",
+                marginTop: 12,
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: "'Orbitron', sans-serif",
+                  fontSize: "11px",
+                  fontWeight: 700,
+                  color: "rgba(0,255,255,0.7)",
+                  letterSpacing: "0.08em",
+                  marginBottom: 14,
+                }}
+              >
+                COST BREAKDOWN
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginBottom: 10,
+                }}
+              >
+                <span
+                  style={{ fontSize: "14px", color: "rgba(176,255,255,0.8)" }}
+                >
+                  🛒 Items Total
+                </span>
+                <span
+                  style={{
+                    fontFamily: "'Orbitron', sans-serif",
+                    fontSize: "13px",
+                    color: "#fff",
+                  }}
+                >
+                  PKR {allPriced ? itemsTotal.toLocaleString() : "—"}
+                </span>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginBottom: 10,
+                }}
+              >
+                <span
+                  style={{ fontSize: "14px", color: "rgba(176,255,255,0.8)" }}
+                >
+                  🛵 Rider / Delivery Charges
+                </span>
+                <span
+                  style={{
+                    fontFamily: "'Orbitron', sans-serif",
+                    fontSize: "13px",
+                    color: "#fff",
+                  }}
+                >
+                  PKR {RIDER_CHARGE.toLocaleString()}
+                </span>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginBottom: 14,
+                  paddingBottom: 14,
+                  borderBottom: "1px solid rgba(0,255,255,0.15)",
+                }}
+              >
+                <span
+                  style={{ fontSize: "14px", color: "rgba(176,255,255,0.8)" }}
+                >
+                  👷 Service Provider Fee
+                </span>
+                <span
+                  style={{
+                    fontFamily: "'Orbitron', sans-serif",
+                    fontSize: "13px",
+                    color: "#fff",
+                  }}
+                >
+                  PKR {SERVICE_FEE.toLocaleString()}
+                </span>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: "'Orbitron', sans-serif",
+                    fontSize: "13px",
+                    fontWeight: 700,
+                    color: "#00ffff",
+                    letterSpacing: "0.06em",
+                  }}
+                >
+                  💰 TOTAL PAYMENT
+                </span>
+                <span
+                  style={{
+                    fontFamily: "'Orbitron', sans-serif",
+                    fontSize: "20px",
+                    fontWeight: 900,
+                    color: "#00ffff",
+                    textShadow: "0 0 16px rgba(0,255,255,0.6)",
+                  }}
+                >
+                  {allPriced ? `PKR ${grandTotal.toLocaleString()}` : "PKR —"}
+                </span>
+              </div>
+            </div>
+
+            {confirmed && (
+              <button
+                type="button"
+                onClick={() => onConfirm(localItems)}
+                style={{
+                  width: "100%",
+                  padding: "16px",
+                  borderRadius: 14,
+                  background:
+                    "linear-gradient(135deg, rgba(0,255,255,0.3), rgba(0,200,200,0.2))",
+                  border: "1px solid #00ffff",
+                  color: "#00ffff",
+                  fontFamily: "'Orbitron', sans-serif",
+                  fontSize: "13px",
+                  fontWeight: 700,
+                  letterSpacing: "0.08em",
+                  cursor: "pointer",
+                  marginTop: 16,
+                }}
+              >
+                PROCEED TO PROVIDERS →
+              </button>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function PortalApp() {
   const [screen, setScreen] = useState<Screen>("splash");
   const [selectedService, setSelectedService] = useState<
@@ -6246,7 +9609,13 @@ function PortalApp() {
     undefined,
   );
   const [userBalance, setUserBalance] = useState(8500);
+  const [_bookingDetails, setBookingDetails] = useState<Record<string, string>>(
+    {},
+  );
   const [showLowBalance, setShowLowBalance] = useState(false);
+  const [pricedItems, setPricedItems] = useState<
+    Array<{ name: string; quantity: string; unit: string; price: string }>
+  >([]);
   const [_userLocation, setUserLocation] = useState<{
     lat: number;
     lng: number;
@@ -6360,11 +9729,84 @@ function PortalApp() {
                 setScreen("home");
                 setNavActive("home");
               }}
+              onSelectProvider={(p) => {
+                setSelectedProvider(p);
+                const catSvc =
+                  SERVICES.find((s) => s.category === p.category) ??
+                  SERVICES[0];
+                setSelectedService(catSvc);
+                setScreen("confirmed");
+              }}
               onSelect={(s) => {
                 setSelectedService(s);
-                setScreen("providers");
+                const n = s.name.toLowerCase();
+                const c = s.category.toLowerCase();
+                const needs =
+                  c === "health" ||
+                  c === "groceries" ||
+                  c === "shopping" ||
+                  n.includes("doctor") ||
+                  n.includes("nurse") ||
+                  n.includes("dental") ||
+                  n.includes("car rental") ||
+                  n.includes("van") ||
+                  n.includes("bike rental") ||
+                  n.includes("driver") ||
+                  n.includes("travel") ||
+                  n.includes("property") ||
+                  n.includes("pharmacy") ||
+                  n.includes("medical") ||
+                  n.includes("grocery") ||
+                  n.includes("stationary") ||
+                  n.includes("store") ||
+                  n.includes("shop");
+                setScreen(needs ? "serviceBooking" : "providers");
               }}
               category={selectedCategory}
+            />
+          )}
+          {screen === "serviceBooking" && selectedService && (
+            <ServiceBookingFormScreen
+              service={selectedService}
+              onBack={() => setScreen("services")}
+              onSubmit={(details) => {
+                setBookingDetails(details);
+                const sn = selectedService?.name?.toLowerCase() ?? "";
+                const sc = selectedService?.category ?? "";
+                const isOrderable =
+                  sc === "Groceries" ||
+                  sc === "Shopping" ||
+                  sn.includes("pharmacy") ||
+                  sn.includes("medical store") ||
+                  sn.includes("stationary");
+                if (isOrderable) {
+                  try {
+                    const items = JSON.parse(details.orderItems || "[]");
+                    setPricedItems(
+                      items.map((i: Record<string, string>) => ({
+                        ...i,
+                        price: "",
+                      })),
+                    );
+                  } catch {
+                    setPricedItems([]);
+                  }
+                  setScreen("provider-pricing");
+                } else {
+                  setScreen("providers");
+                }
+              }}
+            />
+          )}
+          {screen === "provider-pricing" && selectedService && (
+            <ProviderPricingScreen
+              items={pricedItems}
+              serviceName={selectedService.name}
+              onBack={() => setScreen("serviceBooking")}
+              onConfirm={(priced) => {
+                setPricedItems(priced);
+                setScreen("providers");
+              }}
             />
           )}
           {screen === "providers" && (
@@ -6381,6 +9823,7 @@ function PortalApp() {
           {screen === "confirmed" && (
             <ProviderConfirmedScreen
               provider={selectedProvider}
+              service={selectedService}
               onBack={() => setScreen("providers")}
               onChat={() => {
                 setScreen("chat");
@@ -6484,7 +9927,11 @@ function PortalApp() {
                 setScreen("profile");
                 setNavActive("profile");
               }}
+              onPrivacy={() => setScreen("privacy")}
             />
+          )}
+          {screen === "privacy" && (
+            <PrivacyPolicyScreen onBack={() => setScreen("settings")} />
           )}
         </main>
 
