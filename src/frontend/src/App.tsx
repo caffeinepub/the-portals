@@ -4,6 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import { PortalLogo } from "./components/PortalLogo";
 import { PrivacyPolicyScreen } from "./components/PrivacyPolicy";
 import { useActor } from "./hooks/useActor";
+import { EditProfileScreen } from "./screens/EditProfileScreen";
+import { HelpSupportScreen } from "./screens/HelpSupportScreen";
+import { PaymentMethodScreen } from "./screens/PaymentMethodScreen";
+import { TasksScreen } from "./screens/TasksScreen";
+import { TransactionHistoryScreen } from "./screens/TransactionHistoryScreen";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +26,13 @@ const SERVICES = [
   { id: 6, emoji: "🧹", name: "Cleaner", price: 500, category: "Home" },
   { id: 7, emoji: "🌿", name: "Gardener", price: 600, category: "Home" },
   { id: 8, emoji: "👨‍🍳", name: "Chef", price: 1500, category: "Home" },
+  {
+    id: 8001,
+    emoji: "🍱",
+    name: "Food Parcels",
+    price: 0,
+    category: "Home",
+  },
   // Health
   {
     id: 9,
@@ -50,7 +62,13 @@ const SERVICES = [
   },
   { id: 16, emoji: "🚐", name: "Van Hire", price: 2500, category: "Rentals" },
   // Education
-  { id: 17, emoji: "📚", name: "Tutor", price: 700, category: "Education" },
+  {
+    id: 17,
+    emoji: "📚",
+    name: "Home Tutor",
+    price: 700,
+    category: "Education",
+  },
   {
     id: 18,
     emoji: "🗣️",
@@ -77,7 +95,7 @@ const SERVICES = [
     price: 500,
     category: "Health",
   },
-  { id: 23, emoji: "🏥", name: "Pharmacy", price: 500, category: "Health" },
+  { id: 23, emoji: "🌿", name: "Agri-Pharma", price: 500, category: "Health" },
   // Education additions
   {
     id: 24,
@@ -85,6 +103,76 @@ const SERVICES = [
     name: "Book Store",
     price: 400,
     category: "Education",
+  },
+  {
+    id: 201,
+    emoji: "🏫",
+    name: "Coaching Centers",
+    price: 1500,
+    category: "Education",
+  },
+  {
+    id: 202,
+    emoji: "🏫",
+    name: "Schools",
+    price: 2000,
+    category: "Education",
+  },
+  {
+    id: 203,
+    emoji: "🧺",
+    name: "Maid Service",
+    price: 800,
+    category: "Home",
+  },
+  {
+    id: 204,
+    emoji: "👔",
+    name: "Dry-Cleaner",
+    price: 600,
+    category: "Home",
+  },
+  {
+    id: 205,
+    emoji: "🥛",
+    name: "Dairy & Eggs",
+    price: 500,
+    category: "Shopping",
+  },
+  {
+    id: 206,
+    emoji: "🌶️",
+    name: "Spices",
+    price: 300,
+    category: "Shopping",
+  },
+  {
+    id: 207,
+    emoji: "🧹",
+    name: "Cleaning Supplies",
+    price: 400,
+    category: "Shopping",
+  },
+  {
+    id: 208,
+    emoji: "🧴",
+    name: "Personal Care",
+    price: 600,
+    category: "Shopping",
+  },
+  {
+    id: 209,
+    emoji: "🍞",
+    name: "Bakery & Bread",
+    price: 350,
+    category: "Shopping",
+  },
+  {
+    id: 210,
+    emoji: "☕",
+    name: "Tea & Coffee",
+    price: 400,
+    category: "Shopping",
   },
   // Groceries
   {
@@ -560,6 +648,123 @@ const PROVIDERS = [
   },
 ];
 
+// ========================
+// RENTAL VEHICLE & PROPERTY DATA
+// ========================
+const RENTAL_VEHICLES = [
+  {
+    id: "v1",
+    type: "Sedan",
+    model: "Toyota Corolla",
+    seats: 5,
+    ratePerKm: 25,
+    available: true,
+    emoji: "🚗",
+  },
+  {
+    id: "v2",
+    type: "SUV",
+    model: "Honda BRV",
+    seats: 7,
+    ratePerKm: 35,
+    available: true,
+    emoji: "🚙",
+  },
+  {
+    id: "v3",
+    type: "Van",
+    model: "Toyota Hiace",
+    seats: 12,
+    ratePerKm: 45,
+    available: false,
+    emoji: "🚐",
+  },
+  {
+    id: "v4",
+    type: "Motorcycle",
+    model: "Honda CD70",
+    seats: 2,
+    ratePerKm: 12,
+    available: true,
+    emoji: "🛵",
+  },
+  {
+    id: "v5",
+    type: "Luxury",
+    model: "Toyota Camry",
+    seats: 5,
+    ratePerKm: 60,
+    available: true,
+    emoji: "🏎️",
+  },
+  {
+    id: "v6",
+    type: "Pickup",
+    model: "Toyota Hilux",
+    seats: 5,
+    ratePerKm: 40,
+    available: true,
+    emoji: "🚛",
+  },
+];
+
+const RENTAL_PROPERTIES = [
+  {
+    id: "p1",
+    type: "Studio",
+    locality: "DHA Phase 5, Karachi",
+    ratePerNight: 2500,
+    ratePerMonth: 35000,
+    available: true,
+    emoji: "🏠",
+  },
+  {
+    id: "p2",
+    type: "1 Bedroom Flat",
+    locality: "Gulshan-e-Iqbal, Karachi",
+    ratePerNight: 3500,
+    ratePerMonth: 45000,
+    available: true,
+    emoji: "🏢",
+  },
+  {
+    id: "p3",
+    type: "2 Bedroom Flat",
+    locality: "Clifton Block 4, Karachi",
+    ratePerNight: 5000,
+    ratePerMonth: 65000,
+    available: false,
+    emoji: "🏡",
+  },
+  {
+    id: "p4",
+    type: "House (5 Marla)",
+    locality: "Johar Town, Lahore",
+    ratePerNight: 8000,
+    ratePerMonth: 90000,
+    available: true,
+    emoji: "🏘️",
+  },
+  {
+    id: "p5",
+    type: "Penthouse",
+    locality: "Bahria Town, Islamabad",
+    ratePerNight: 15000,
+    ratePerMonth: 180000,
+    available: true,
+    emoji: "🌆",
+  },
+  {
+    id: "p6",
+    type: "3 Bedroom Flat",
+    locality: "F-11, Islamabad",
+    ratePerNight: 7000,
+    ratePerMonth: 85000,
+    available: true,
+    emoji: "🏬",
+  },
+];
+
 const CHATS = [
   {
     id: 1,
@@ -652,7 +857,12 @@ type Screen =
   | "invoice"
   | "privacy"
   | "serviceBooking"
-  | "provider-pricing";
+  | "provider-pricing"
+  | "tasks"
+  | "edit-profile"
+  | "payment-method"
+  | "transaction-history"
+  | "help-support";
 
 type NavTab = "home" | "tasks" | "chat" | "profile";
 
@@ -718,11 +928,41 @@ function BottomNav({
   active,
   onNav,
 }: { active: NavTab; onNav: (t: NavTab) => void }) {
-  const tabs: { key: NavTab; icon: string; label: string }[] = [
-    { key: "home", icon: "🏠", label: "Home" },
-    { key: "tasks", icon: "📋", label: "Tasks" },
-    { key: "chat", icon: "💬", label: "Chat" },
-    { key: "profile", icon: "👤", label: "Profile" },
+  const tabs: {
+    key: NavTab;
+    emoji: string;
+    label: string;
+    activeColor: string;
+    glowColor: string;
+  }[] = [
+    {
+      key: "home",
+      emoji: "🏠",
+      label: "Home",
+      activeColor: "#00ffff",
+      glowColor: "rgba(0,255,255,0.5)",
+    },
+    {
+      key: "tasks",
+      emoji: "📋",
+      label: "Tasks",
+      activeColor: "#FFD700",
+      glowColor: "rgba(255,215,0,0.5)",
+    },
+    {
+      key: "chat",
+      emoji: "💬",
+      label: "Chat",
+      activeColor: "#50ffb0",
+      glowColor: "rgba(80,255,176,0.5)",
+    },
+    {
+      key: "profile",
+      emoji: "👤",
+      label: "Profile",
+      activeColor: "#c084fc",
+      glowColor: "rgba(192,132,252,0.5)",
+    },
   ];
   return (
     <nav className="bottom-nav">
@@ -733,9 +973,34 @@ function BottomNav({
           data-ocid={`nav.${t.key}.link`}
           className={`bottom-nav-item${active === t.key ? " active" : ""}`}
           onClick={() => onNav(t.key)}
+          style={{
+            color: active === t.key ? t.activeColor : "rgba(176,255,255,0.4)",
+          }}
         >
-          <span className="nav-icon">{t.icon}</span>
-          {t.label}
+          <span
+            className="nav-icon"
+            style={{
+              filter:
+                active === t.key
+                  ? `drop-shadow(0 0 6px ${t.glowColor})`
+                  : "none",
+              transition: "filter 0.2s",
+            }}
+          >
+            {t.emoji}
+          </span>
+          <span
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "0.5rem",
+              letterSpacing: "0.08em",
+              fontWeight: active === t.key ? 700 : 500,
+              textShadow: active === t.key ? `0 0 8px ${t.glowColor}` : "none",
+              transition: "all 0.2s",
+            }}
+          >
+            {t.label}
+          </span>
         </button>
       ))}
     </nav>
@@ -1552,9 +1817,63 @@ function ProviderRegisterScreen({
     accountNumber: "",
   });
 
+  const [serviceRates, setServiceRates] = useState<Record<string, string>>({});
+
   function handleChange(field: string, value: string) {
     setForm((prev) => ({ ...prev, [field]: value }));
   }
+  function handleRate(field: string, value: string) {
+    setServiceRates((prev) => ({ ...prev, [field]: value }));
+  }
+
+  const getRateFields = (): [string, string][] => {
+    const cat = form.serviceCategory;
+    if (cat === "Rentals" || cat === "Transport")
+      return [
+        ["perKmRate", "Per KM Rate (PKR)"],
+        ["baseFare", "Base Fare (PKR)"],
+      ];
+    if (cat === "Health")
+      return [
+        ["consultationRate", "Per Consultation (PKR)"],
+        ["homeVisitRate", "Home Visit Rate (PKR)"],
+      ];
+    if (cat === "Groceries" || cat === "Shopping")
+      return [
+        ["deliveryCharge", "Delivery Charge (PKR)"],
+        ["minimumOrder", "Minimum Order (PKR)"],
+      ];
+    if (cat === "Repairs")
+      return [
+        ["hourlyLabor", "Per Hour Labor (PKR)"],
+        ["calloutFee", "Emergency Callout Fee (PKR)"],
+      ];
+    if (cat === "Home")
+      return [
+        ["mealPriceMin", "Meal Price Min (PKR)"],
+        ["mealPriceMax", "Meal Price Max (PKR)"],
+        ["weeklyPackage", "Weekly Package Rate (PKR)"],
+      ];
+    if (cat === "Education")
+      return [
+        ["hourlyRate", "Per Hour Rate (PKR)"],
+        ["itemDelivery", "Per Item Delivery (PKR)"],
+      ];
+    if (cat === "Security")
+      return [
+        ["perDayRate", "Per Day Rate (PKR)"],
+        ["monthlyPackage", "Monthly Package (PKR)"],
+      ];
+    if (cat === "Tech")
+      return [
+        ["hourlyRate", "Per Hour Rate (PKR)"],
+        ["calloutFee", "Call-out Fee (PKR)"],
+      ];
+    return [
+      ["serviceRate", "Service Rate (PKR)"],
+      ["additionalFee", "Additional Fee (PKR)"],
+    ];
+  };
 
   const inputStyle: React.CSSProperties = {
     width: "100%",
@@ -1853,6 +2172,102 @@ function ProviderRegisterScreen({
                 ))}
               </select>
             </div>
+            {/* Service Rates Section */}
+            {form.serviceCategory && (
+              <div
+                style={{
+                  marginTop: 8,
+                  marginBottom: 8,
+                  background: "rgba(0,255,255,0.04)",
+                  border: "1px solid rgba(0,255,255,0.25)",
+                  borderRadius: 14,
+                  padding: "14px 16px",
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: "Orbitron, sans-serif",
+                    fontSize: "10px",
+                    letterSpacing: "0.15em",
+                    color: "#00ffff",
+                    marginBottom: 14,
+                  }}
+                >
+                  💰 YOUR SERVICE RATES
+                </div>
+                {getRateFields().map(([key, label]) => (
+                  <div key={key} style={{ ...fieldStyle, marginBottom: 10 }}>
+                    <span style={labelStyle}>{label}</span>
+                    <input
+                      data-ocid="provider_register.rate.input"
+                      type="number"
+                      placeholder="Enter amount"
+                      value={serviceRates[key] || ""}
+                      onChange={(e) => handleRate(key, e.target.value)}
+                      style={inputStyle}
+                    />
+                  </div>
+                ))}
+                <div
+                  style={{
+                    fontFamily: "Rajdhani, sans-serif",
+                    fontSize: "11px",
+                    color: "rgba(0,255,255,0.5)",
+                    marginTop: 6,
+                  }}
+                >
+                  * These rates will be shown to customers when browsing
+                  providers. Rates are private between providers.
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 8,
+                    marginTop: 12,
+                    padding: "8px 14px",
+                    background: "rgba(0,255,255,0.08)",
+                    border: "1px solid rgba(0,255,255,0.4)",
+                    borderRadius: 10,
+                    boxShadow: "0 0 12px rgba(0,255,255,0.2)",
+                  }}
+                >
+                  <span style={{ fontSize: "0.9rem" }}>📅</span>
+                  <div>
+                    <div
+                      style={{
+                        fontFamily: "Orbitron, sans-serif",
+                        fontSize: "9px",
+                        color: "#00ffff",
+                        letterSpacing: "0.12em",
+                        fontWeight: 700,
+                      }}
+                    >
+                      RATES REVISED MONTHLY
+                    </div>
+                    <div
+                      style={{
+                        fontFamily: "Rajdhani, sans-serif",
+                        fontSize: "11px",
+                        color: "rgba(176,255,255,0.7)",
+                        marginTop: 2,
+                      }}
+                    >
+                      Next revision: {(() => {
+                        const d = new Date();
+                        d.setMonth(d.getMonth() + 1);
+                        d.setDate(1);
+                        return d.toLocaleDateString("en-PK", {
+                          day: "numeric",
+                          month: "long",
+                          year: "numeric",
+                        });
+                      })()}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
             <button
               data-ocid="provider_register.complete_registration.button"
               type="button"
@@ -2073,7 +2488,6 @@ function CustomerRegisterScreen({
     accountTitle: "",
     accountNumber: "",
   });
-
   function handleChange(field: string, value: string) {
     setForm((prev) => ({ ...prev, [field]: value }));
   }
@@ -2864,9 +3278,11 @@ function ProviderTopUpScreen({
 function HomeScreen({
   onServiceTap: _onServiceTap,
   onAllServices,
+  onProfile,
 }: {
   onServiceTap: (s: (typeof SERVICES)[0]) => void;
   onAllServices: (category?: string) => void;
+  onProfile?: () => void;
 }) {
   const [activeCount, setActiveCount] = useState(0);
   const [activeUsers, setActiveUsers] = useState(0);
@@ -2916,9 +3332,13 @@ function HomeScreen({
     { name: "Rentals", emoji: "🔑", border: "rgba(180,180,180,0.4)" },
     { name: "Education", emoji: "📚", border: "rgba(251,191,36,0.4)" },
     { name: "Home", emoji: "🏠", border: "rgba(0,200,255,0.4)" },
-    { name: "Transport", emoji: "🚗", border: "rgba(150,100,255,0.4)" },
-    { name: "Groceries", emoji: "🛒", border: "rgba(100,220,100,0.4)" },
-    { name: "Shopping", emoji: "🛍️", border: "rgba(255,100,200,0.4)" },
+    { name: "Shopping", emoji: "🛒", border: "rgba(255,100,200,0.4)" },
+    { name: "Security", emoji: "🛡️", border: "rgba(255,120,120,0.4)" },
+    { name: "Tech", emoji: "💻", border: "rgba(150,100,255,0.4)" },
+    { name: "Transport", emoji: "🚌", border: "rgba(100,180,255,0.4)" },
+    { name: "Groceries", emoji: "🛍️", border: "rgba(100,220,100,0.4)" },
+    { name: "Agri-Pharma", emoji: "🌿", border: "rgba(100,255,150,0.4)" },
+    { name: "All Services", emoji: "⚡", border: "rgba(0,255,255,0.4)" },
   ];
 
   return (
@@ -2947,87 +3367,73 @@ function HomeScreen({
       >
         {/* Top Bar */}
         <div
-          className="glass-panel-strong"
           style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            padding: "12px 16px",
-            borderRadius: 16,
+            padding: "12px 0",
+            marginBottom: 4,
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <PortalLogo size="sm" />
+            <div>
+              <div
+                style={{
+                  fontFamily: "Rajdhani, sans-serif",
+                  fontSize: "0.75rem",
+                  color: "rgba(176,224,232,0.55)",
+                  letterSpacing: "0.05em",
+                  lineHeight: 1,
+                  marginBottom: 2,
+                }}
+              >
+                Welcome back,
+              </div>
+              <div
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "0.85rem",
+                  fontWeight: 700,
+                  color: "#00ffff",
+                  letterSpacing: "0.08em",
+                  textShadow: "0 0 12px rgba(0,255,255,0.4)",
+                }}
+              >
+                Ahmed Khan
+              </div>
+            </div>
+          </div>
+          <button
+            type="button"
+            data-ocid="home.profile.button"
+            onClick={() => onProfile?.()}
+            style={{
+              width: 42,
+              height: 42,
+              borderRadius: "50%",
+              background:
+                "radial-gradient(circle, rgba(0,60,80,0.95), rgba(0,10,20,0.98))",
+              border: "2px solid rgba(0,255,255,0.45)",
+              boxShadow: "0 0 16px rgba(0,255,255,0.25)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              flexShrink: 0,
+            }}
+          >
             <span
               style={{
                 fontFamily: "Orbitron, sans-serif",
-                fontSize: "0.8rem",
-                fontWeight: 700,
-                color: "#b0e0e8",
-                letterSpacing: "0.12em",
+                fontSize: "1rem",
+                fontWeight: 900,
+                color: "#00ffff",
               }}
             >
-              THE PORTALS
+              A
             </span>
-          </div>
-          <div
-            className="glass-panel"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              padding: "6px 12px",
-              borderRadius: 12,
-            }}
-          >
-            <div style={{ textAlign: "right" }}>
-              <p
-                style={{
-                  fontFamily: "Orbitron, sans-serif",
-                  fontSize: "0.55rem",
-                  color: "rgba(176,224,232,0.5)",
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  lineHeight: 1,
-                }}
-              >
-                Portal Balance:
-              </p>
-              <p
-                style={{
-                  fontFamily: "Orbitron, sans-serif",
-                  fontSize: "0.8rem",
-                  fontWeight: 700,
-                  color: "#b0e0e8",
-                }}
-              >
-                ₨ 125,000
-              </p>
-            </div>
-            <div
-              style={{
-                width: 32,
-                height: 32,
-                borderRadius: "50%",
-                background: "rgba(0,255,255,0.08)",
-                border: "1px solid rgba(0,255,255,0.2)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <span
-                style={{
-                  fontFamily: "Orbitron, sans-serif",
-                  fontSize: "0.7rem",
-                  fontWeight: 700,
-                  color: "rgba(176,224,232,0.7)",
-                }}
-              >
-                U
-              </span>
-            </div>
-          </div>
+          </button>
         </div>
 
         {/* Search Bar */}
@@ -3039,7 +3445,7 @@ function HomeScreen({
             gap: 12,
             padding: "12px 16px",
             borderRadius: 16,
-            marginTop: 12,
+            marginTop: 8,
           }}
         >
           <span style={{ fontSize: "1rem", opacity: 0.5 }}>🔍</span>
@@ -3048,7 +3454,7 @@ function HomeScreen({
             data-ocid="home.search_input"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search for a portal..."
+            placeholder="Search services, providers, portals..."
             style={{
               background: "transparent",
               border: "none",
@@ -3059,7 +3465,113 @@ function HomeScreen({
               width: "100%",
             }}
           />
+          {searchQuery && (
+            <button
+              type="button"
+              onClick={() => setSearchQuery("")}
+              style={{
+                background: "none",
+                border: "none",
+                color: "rgba(0,255,255,0.5)",
+                cursor: "pointer",
+                fontSize: "1rem",
+                flexShrink: 0,
+              }}
+            >
+              ✕
+            </button>
+          )}
         </div>
+
+        {/* Search Results */}
+        {searchQuery.length > 0 && (
+          <div
+            className="glass-panel-strong"
+            style={{
+              borderRadius: 14,
+              padding: "8px 0",
+              marginTop: 8,
+              maxHeight: 200,
+              overflowY: "auto",
+            }}
+          >
+            {SERVICES.filter(
+              (s) =>
+                s.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                s.category.toLowerCase().includes(searchQuery.toLowerCase()),
+            )
+              .slice(0, 8)
+              .map((s) => (
+                <button
+                  key={s.id}
+                  type="button"
+                  data-ocid="home.search.result.button"
+                  onClick={() => onAllServices(s.category)}
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 12,
+                    padding: "10px 16px",
+                    background: "transparent",
+                    border: "none",
+                    cursor: "pointer",
+                    textAlign: "left",
+                  }}
+                >
+                  <span style={{ fontSize: "1.2rem" }}>{s.emoji}</span>
+                  <div style={{ flex: 1 }}>
+                    <div
+                      style={{
+                        fontFamily: "Rajdhani, sans-serif",
+                        fontSize: "0.9rem",
+                        fontWeight: 600,
+                        color: "#e0f8ff",
+                      }}
+                    >
+                      {s.name}
+                    </div>
+                    <div
+                      style={{
+                        fontFamily: "Orbitron, sans-serif",
+                        fontSize: "0.48rem",
+                        color: "rgba(0,255,255,0.5)",
+                        letterSpacing: "0.08em",
+                      }}
+                    >
+                      {s.category.toUpperCase()}
+                    </div>
+                  </div>
+                  <span
+                    style={{
+                      fontFamily: "Orbitron, sans-serif",
+                      fontSize: "0.6rem",
+                      color: "#50ffb0",
+                    }}
+                  >
+                    ₨{s.price.toLocaleString()}
+                  </span>
+                </button>
+              ))}
+            {SERVICES.filter(
+              (s) =>
+                s.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                s.category.toLowerCase().includes(searchQuery.toLowerCase()),
+            ).length === 0 && (
+              <div
+                style={{
+                  padding: "12px 16px",
+                  fontFamily: "Rajdhani, sans-serif",
+                  fontSize: "0.85rem",
+                  color: "rgba(176,255,255,0.4)",
+                  textAlign: "center",
+                }}
+              >
+                No results for "{searchQuery}"
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Live Stats Bar */}
         <div style={{ display: "flex", gap: 10, marginTop: 12 }}>
@@ -3244,46 +3756,58 @@ function HomeScreen({
           </div>
         </div>
 
-        {/* Bottom Category Bar */}
+        {/* Category Grid - All categories scrollable */}
         <div
           className="glass-panel-strong"
-          style={{ borderRadius: 16, padding: 16, marginBottom: 8 }}
+          style={{ borderRadius: 16, padding: "14px 12px", marginBottom: 8 }}
         >
           <div
             style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-around",
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "0.55rem",
+              color: "rgba(0,255,255,0.5)",
+              letterSpacing: "0.15em",
+              marginBottom: 12,
+              textTransform: "uppercase",
+            }}
+          >
+            Portals to Services
+          </div>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4, 1fr)",
+              gap: "10px 8px",
             }}
           >
             {categories.map((cat) => (
               <button
                 key={cat.name}
-                data-ocid={`home.${cat.name.toLowerCase()}.button`}
+                data-ocid={`home.${cat.name.toLowerCase().replace(/\s+/g, "-")}.button`}
                 type="button"
                 onClick={() => onAllServices(cat.name)}
                 style={{
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
-                  gap: 8,
+                  gap: 6,
                   background: "none",
                   border: "none",
                   cursor: "pointer",
-                  padding: "4px 8px",
+                  padding: "6px 4px",
                 }}
               >
                 <div
                   style={{
-                    width: 56,
-                    height: 56,
+                    width: 52,
+                    height: 52,
                     borderRadius: "50%",
                     background: "rgba(0,20,30,0.7)",
                     border: `1px solid ${cat.border}`,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    fontSize: "1.5rem",
+                    fontSize: "1.4rem",
                     boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
                     transition: "transform 0.15s",
                   }}
@@ -3293,10 +3817,12 @@ function HomeScreen({
                 <span
                   style={{
                     fontFamily: "Orbitron, sans-serif",
-                    fontSize: "0.55rem",
-                    color: "rgba(176,224,232,0.6)",
-                    letterSpacing: "0.08em",
+                    fontSize: "0.48rem",
+                    color: "rgba(176,224,232,0.65)",
+                    letterSpacing: "0.06em",
                     textTransform: "uppercase",
+                    textAlign: "center",
+                    lineHeight: 1.2,
                   }}
                 >
                   {cat.name}
@@ -3720,6 +4246,379 @@ function AllServicesScreen({
 // ========================
 
 // ========================
+// HOME CHEF ORDER FORM SECTION
+// ========================
+const WEEKLY_MENU: Record<
+  string,
+  { breakfast: string[]; lunch: string[]; dinner: string[] }
+> = {
+  Mon: {
+    breakfast: ["Paratha with Achar", "Halwa Puri", "Omelette Paratha"],
+    lunch: ["Daal Chawal", "Chicken Karahi", "Sabzi Roti"],
+    dinner: ["Chicken Biryani", "Mutton Curry", "Daal Makhani"],
+  },
+  Tue: {
+    breakfast: ["Puri Chanay", "Breakfast Paratha", "French Toast"],
+    lunch: ["Pulao", "Aloo Gosht", "Bhindi Masala"],
+    dinner: ["Beef Nihari", "Chicken Handi", "Fish Masala"],
+  },
+  Wed: {
+    breakfast: ["Nihari with Naan", "Egg Bhurji", "Banana Pancake"],
+    lunch: ["Biryani", "Chana Masala", "Kaddu Gosht"],
+    dinner: ["Chapli Kabab", "Mutton Karahi", "Daal Tadka"],
+  },
+  Thu: {
+    breakfast: ["Halwa Puri", "Paratha Roll", "Semolina Halwa"],
+    lunch: ["Chicken Qorma", "Mixed Sabzi", "Lentil Soup"],
+    dinner: ["Seekh Kabab with Raita", "Paya", "Shahi Chicken"],
+  },
+  Fri: {
+    breakfast: ["Anda Paratha", "Suji Halwa", "Cornflakes Milk"],
+    lunch: ["Friday Special Biryani", "Palak Gosht", "Daal Fry"],
+    dinner: ["BBQ Platter", "Beef Kofta", "Shami Kabab"],
+  },
+  Sat: {
+    breakfast: ["Aloo Paratha", "Chana Puri", "Mithi Lassi"],
+    lunch: ["Lamb Karahi", "Vegetable Pulao", "Keema Matar"],
+    dinner: ["Boti Kabab", "Chicken Tikka", "Tawa Fry Fish"],
+  },
+  Sun: {
+    breakfast: ["Special Paye Naan", "Halwa Puri Set", "Shakshuka"],
+    lunch: ["Mutton Biryani", "Daal Gosht", "Dum Aloo"],
+    dinner: ["Family Karahi", "Chicken Handi", "Beef Stew with Bread"],
+  },
+};
+
+function HomeChefOrderFormSection({
+  form,
+  set,
+  inputStyle,
+  labelStyle,
+  chipActive,
+  chipInactive,
+  RIDER_FEE,
+  PROVIDER_FEE,
+}: {
+  form: Record<string, string>;
+  set: (k: string, v: string) => void;
+  inputStyle: React.CSSProperties;
+  labelStyle: React.CSSProperties;
+  chipActive: React.CSSProperties;
+  chipInactive: React.CSSProperties;
+  RIDER_FEE: number;
+  PROVIDER_FEE: number;
+}) {
+  const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const [activeDay, setActiveDay] = useState<string>("Mon");
+  const [selectedMeals, setSelectedMeals] = useState<
+    { name: string; qty: number }[]
+  >([]);
+
+  const addMeal = (meal: string) => {
+    setSelectedMeals((prev) => {
+      const exists = prev.find((m) => m.name === meal);
+      if (exists)
+        return prev.map((m) =>
+          m.name === meal ? { ...m, qty: m.qty + 1 } : m,
+        );
+      return [...prev, { name: meal, qty: 1 }];
+    });
+  };
+
+  const removeMeal = (meal: string) => {
+    setSelectedMeals((prev) => prev.filter((m) => m.name !== meal));
+  };
+
+  const menu = WEEKLY_MENU[activeDay] || WEEKLY_MENU.Mon;
+  const totalItems = selectedMeals.length;
+
+  return (
+    <>
+      <div
+        style={{
+          background: "rgba(0,255,255,0.04)",
+          border: "1px solid rgba(0,255,255,0.3)",
+          borderRadius: 14,
+          padding: "14px 12px",
+        }}
+      >
+        <div
+          style={{
+            fontFamily: "Orbitron, sans-serif",
+            fontSize: "0.65rem",
+            color: "rgba(0,255,255,0.8)",
+            letterSpacing: "0.12em",
+            marginBottom: 12,
+          }}
+        >
+          👨‍🍳 WEEKLY MENU
+        </div>
+        {/* Day Tabs */}
+        <div
+          style={{
+            display: "flex",
+            gap: 6,
+            marginBottom: 14,
+            overflowX: "auto",
+          }}
+        >
+          {days.map((day) => (
+            <button
+              key={day}
+              type="button"
+              data-ocid="chef.tab"
+              onClick={() => setActiveDay(day)}
+              style={activeDay === day ? chipActive : chipInactive}
+            >
+              {day}
+            </button>
+          ))}
+        </div>
+        {/* Menu Items */}
+        {(["breakfast", "lunch", "dinner"] as const).map((meal) => (
+          <div key={meal} style={{ marginBottom: 10 }}>
+            <div
+              style={{
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "0.75rem",
+                color: "rgba(0,255,255,0.6)",
+                letterSpacing: "0.1em",
+                marginBottom: 6,
+                textTransform: "uppercase",
+              }}
+            >
+              {meal}
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+              {menu[meal].map((item) => (
+                <div
+                  key={item}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: "6px 10px",
+                    background: "rgba(0,255,255,0.03)",
+                    border: "1px solid rgba(0,255,255,0.1)",
+                    borderRadius: 8,
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: "Rajdhani, sans-serif",
+                      fontSize: "0.9rem",
+                      color: "#e0f7ff",
+                    }}
+                  >
+                    {item}
+                  </span>
+                  <div
+                    style={{ display: "flex", alignItems: "center", gap: 6 }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: "Rajdhani, sans-serif",
+                        fontSize: "0.75rem",
+                        color: "rgba(0,255,255,0.5)",
+                      }}
+                    >
+                      Price by provider
+                    </span>
+                    <button
+                      type="button"
+                      data-ocid="chef.button"
+                      onClick={() => addMeal(item)}
+                      style={{
+                        background: "rgba(0,255,255,0.2)",
+                        border: "1px solid rgba(0,255,255,0.4)",
+                        borderRadius: 6,
+                        padding: "3px 10px",
+                        color: "#00ffff",
+                        cursor: "pointer",
+                        fontFamily: "Rajdhani, sans-serif",
+                        fontSize: "0.85rem",
+                        fontWeight: 700,
+                      }}
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {selectedMeals.length > 0 && (
+        <div
+          data-ocid="chef.card"
+          style={{
+            background: "rgba(0,255,255,0.06)",
+            border: "1px solid rgba(0,255,255,0.3)",
+            borderRadius: 14,
+            padding: "14px 12px",
+          }}
+        >
+          <div
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "0.65rem",
+              color: "rgba(0,255,255,0.8)",
+              letterSpacing: "0.12em",
+              marginBottom: 10,
+            }}
+          >
+            🛒 ORDER SUMMARY ({totalItems} items)
+          </div>
+          {selectedMeals.map((m) => (
+            <div
+              key={m.name}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginBottom: 6,
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: "Rajdhani, sans-serif",
+                  fontSize: "0.9rem",
+                  color: "#e0f7ff",
+                }}
+              >
+                {m.name} × {m.qty}
+              </span>
+              <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+                <span
+                  style={{
+                    fontFamily: "Rajdhani, sans-serif",
+                    fontSize: "0.75rem",
+                    color: "rgba(0,255,255,0.5)",
+                  }}
+                >
+                  Provider sets price
+                </span>
+                <button
+                  type="button"
+                  data-ocid="chef.delete_button"
+                  onClick={() => removeMeal(m.name)}
+                  style={{
+                    background: "rgba(255,60,60,0.1)",
+                    border: "1px solid rgba(255,60,60,0.3)",
+                    borderRadius: 6,
+                    padding: "2px 8px",
+                    color: "#ff6060",
+                    cursor: "pointer",
+                    fontFamily: "Rajdhani, sans-serif",
+                    fontSize: "0.8rem",
+                  }}
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+          ))}
+          <div
+            style={{
+              borderTop: "1px solid rgba(0,255,255,0.15)",
+              paddingTop: 8,
+              marginTop: 6,
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "0.9rem",
+                color: "rgba(255,255,255,0.6)",
+                marginBottom: 3,
+              }}
+            >
+              <span>Rider Fee</span>
+              <span>PKR {RIDER_FEE}</span>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "0.9rem",
+                color: "rgba(255,255,255,0.6)",
+                marginBottom: 3,
+              }}
+            >
+              <span>Service Fee</span>
+              <span>PKR {PROVIDER_FEE}</span>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                fontFamily: "Orbitron, sans-serif",
+                fontSize: "0.85rem",
+                color: "#00ffff",
+                marginTop: 6,
+              }}
+            >
+              <span>MIN. TOTAL</span>
+              <span style={{ textShadow: "0 0 10px rgba(0,255,255,0.5)" }}>
+                PKR {(RIDER_FEE + PROVIDER_FEE).toLocaleString()}+
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div>
+        <span style={labelStyle}>DELIVERY ADDRESS</span>
+        <input
+          data-ocid="chef.input"
+          style={inputStyle}
+          placeholder="Your delivery address"
+          value={form.chefDeliveryAddress || ""}
+          onChange={(e) => set("chefDeliveryAddress", e.target.value)}
+        />
+      </div>
+      <div>
+        <span style={labelStyle}>DELIVERY TIME</span>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+          {[
+            "Today Lunch",
+            "Today Dinner",
+            "Tomorrow Breakfast",
+            "Tomorrow Lunch",
+            "Schedule",
+          ].map((opt) => (
+            <button
+              key={opt}
+              type="button"
+              data-ocid="chef.tab"
+              onClick={() => set("chefDeliveryTime", opt)}
+              style={form.chefDeliveryTime === opt ? chipActive : chipInactive}
+            >
+              {opt}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div>
+        <span style={labelStyle}>SPECIAL DIETARY REQUIREMENTS (OPTIONAL)</span>
+        <textarea
+          data-ocid="chef.textarea"
+          style={{ ...inputStyle, minHeight: 60, resize: "vertical" as const }}
+          placeholder="Halal, no spicy, vegetarian, allergies..."
+          value={form.dietaryReqs || ""}
+          onChange={(e) => set("dietaryReqs", e.target.value)}
+        />
+      </div>
+    </>
+  );
+}
+
+// ========================
 // SERVICE BOOKING FORM SCREEN
 // ========================
 function ServiceBookingFormScreen({
@@ -3747,6 +4646,21 @@ function ServiceBookingFormScreen({
   const [estimatedDistance, setEstimatedDistance] = useState<number | null>(
     null,
   );
+  const [pickupCoords, setPickupCoords] = useState<{
+    lat: number;
+    lon: number;
+  } | null>(null);
+  const [destCoords, setDestCoords] = useState<{
+    lat: number;
+    lon: number;
+  } | null>(null);
+  const [gpsLoading, setGpsLoading] = useState(false);
+  const [destSuggestions, setDestSuggestions] = useState<
+    { display_name: string; lat: string; lon: string }[]
+  >([]);
+  const [destSearchTimer, setDestSearchTimer] = useState<ReturnType<
+    typeof setTimeout
+  > | null>(null);
   const [items, setItems] = useState<
     { id: number; name: string; quantity: string; unit: string }[]
   >([{ id: 1, name: "", quantity: "", unit: "" }]);
@@ -3767,6 +4681,100 @@ function ServiceBookingFormScreen({
 
   const set = (key: string, val: string) =>
     setForm((prev) => ({ ...prev, [key]: val }));
+
+  const haversineDistance = (
+    lat1: number,
+    lon1: number,
+    lat2: number,
+    lon2: number,
+  ): number => {
+    const R = 6371;
+    const dLat = ((lat2 - lat1) * Math.PI) / 180;
+    const dLon = ((lon2 - lon1) * Math.PI) / 180;
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos((lat1 * Math.PI) / 180) *
+        Math.cos((lat2 * Math.PI) / 180) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  };
+
+  const handleGpsPickup = () => {
+    if (!navigator.geolocation) return;
+    setGpsLoading(true);
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        const { latitude: lat, longitude: lon } = pos.coords;
+        setPickupCoords({ lat, lon });
+        try {
+          const r = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`,
+          );
+          const d = await r.json();
+          set(
+            "pickupLocation",
+            d.display_name || `${lat.toFixed(4)}, ${lon.toFixed(4)}`,
+          );
+          if (destCoords) {
+            const dist = haversineDistance(
+              lat,
+              lon,
+              destCoords.lat,
+              destCoords.lon,
+            );
+            setEstimatedDistance(Math.round(dist * 10) / 10);
+          }
+        } catch {
+          set("pickupLocation", `${lat.toFixed(4)}, ${lon.toFixed(4)}`);
+        }
+        setGpsLoading(false);
+      },
+      () => setGpsLoading(false),
+    );
+  };
+
+  const handleDestSearch = (query: string) => {
+    set("destination", query);
+    if (destSearchTimer) clearTimeout(destSearchTimer);
+    if (query.length < 3) {
+      setDestSuggestions([]);
+      return;
+    }
+    const t = setTimeout(async () => {
+      try {
+        const r = await fetch(
+          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=4&countrycodes=pk`,
+        );
+        const d = await r.json();
+        setDestSuggestions(d);
+      } catch {
+        setDestSuggestions([]);
+      }
+    }, 600);
+    setDestSearchTimer(t);
+  };
+
+  const selectDestSuggestion = (s: {
+    display_name: string;
+    lat: string;
+    lon: string;
+  }) => {
+    const dLat = Number.parseFloat(s.lat);
+    const dLon = Number.parseFloat(s.lon);
+    setDestCoords({ lat: dLat, lon: dLon });
+    set("destination", s.display_name);
+    setDestSuggestions([]);
+    if (pickupCoords) {
+      const dist = haversineDistance(
+        pickupCoords.lat,
+        pickupCoords.lon,
+        dLat,
+        dLon,
+      );
+      setEstimatedDistance(Math.round(dist * 10) / 10);
+    }
+  };
 
   const n = service.name.toLowerCase();
   const c = service.category.toLowerCase();
@@ -3821,12 +4829,14 @@ function ServiceBookingFormScreen({
     n.includes("laptop") ||
     n.includes("computer") ||
     n.includes("tech");
+  const isHomeChef =
+    n.includes("home chef") ||
+    n.includes("chef") ||
+    n.includes("food delivery");
   const isHomeCleaning =
-    (c === "home" ||
-      n.includes("clean") ||
-      n.includes("garden") ||
-      n.includes("chef")) &&
-    !isOrderable;
+    (c === "home" || n.includes("clean") || n.includes("garden")) &&
+    !isOrderable &&
+    !isHomeChef;
 
   const RIDER_FEE = 150;
   const PROVIDER_FEE = 500;
@@ -4100,40 +5110,167 @@ function ServiceBookingFormScreen({
         {/* ---- CAR / DRIVER RENTAL ---- */}
         {!isHealth && isCarRental && !isTravelTicket && !isProperty && (
           <>
-            <div>
-              <span style={labelStyle}>PICKUP LOCATION</span>
-              <input
-                data-ocid="booking.input"
-                style={inputStyle}
-                placeholder="Enter pickup address"
-                value={form.pickupLocation || ""}
-                onChange={(e) => set("pickupLocation", e.target.value)}
-              />
-            </div>
-            <div>
-              <span style={labelStyle}>DESTINATION</span>
-              <input
-                data-ocid="booking.input"
-                style={inputStyle}
-                placeholder="Enter destination"
-                value={form.destination || ""}
-                onChange={(e) => set("destination", e.target.value)}
-              />
-            </div>
-            <div>
-              <span style={labelStyle}>ESTIMATED DISTANCE (KM)</span>
-              <input
-                data-ocid="booking.input"
-                type="number"
-                style={inputStyle}
-                placeholder="Enter approximate distance in km"
-                value={estimatedDistance ?? ""}
-                onChange={(e) =>
-                  setEstimatedDistance(
-                    e.target.value ? Number(e.target.value) : null,
-                  )
-                }
-              />
+            {/* GPS Map Pickup/Destination */}
+            <div
+              style={{
+                background: "rgba(0,255,255,0.04)",
+                border: "1px solid rgba(0,255,255,0.3)",
+                borderRadius: 14,
+                padding: "14px 12px",
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "0.65rem",
+                  color: "rgba(0,255,255,0.8)",
+                  letterSpacing: "0.12em",
+                  marginBottom: 12,
+                }}
+              >
+                📍 PICKUP & DESTINATION
+              </div>
+              {/* Pickup */}
+              <div style={{ marginBottom: 10 }}>
+                <span style={labelStyle}>PICKUP LOCATION</span>
+                <div style={{ display: "flex", gap: 8 }}>
+                  <input
+                    data-ocid="booking.input"
+                    style={{ ...inputStyle, flex: 1 }}
+                    placeholder="Enter pickup address or use GPS"
+                    value={form.pickupLocation || ""}
+                    onChange={(e) => set("pickupLocation", e.target.value)}
+                  />
+                  <button
+                    type="button"
+                    data-ocid="booking.button"
+                    onClick={handleGpsPickup}
+                    disabled={gpsLoading}
+                    style={{
+                      background: gpsLoading
+                        ? "rgba(0,255,255,0.1)"
+                        : "rgba(0,255,255,0.2)",
+                      border: "1px solid rgba(0,255,255,0.5)",
+                      borderRadius: 10,
+                      padding: "8px 12px",
+                      color: "#00ffff",
+                      cursor: gpsLoading ? "wait" : "pointer",
+                      fontFamily: "Rajdhani, sans-serif",
+                      fontSize: "0.8rem",
+                      fontWeight: 700,
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {gpsLoading ? "⏳" : "📍 GPS"}
+                  </button>
+                </div>
+              </div>
+              {/* Destination with autocomplete */}
+              <div style={{ position: "relative" }}>
+                <span style={labelStyle}>DESTINATION</span>
+                <input
+                  data-ocid="booking.input"
+                  style={inputStyle}
+                  placeholder="Type destination address..."
+                  value={form.destination || ""}
+                  onChange={(e) => handleDestSearch(e.target.value)}
+                />
+                {destSuggestions.length > 0 && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "100%",
+                      left: 0,
+                      right: 0,
+                      zIndex: 50,
+                      background: "#08121a",
+                      border: "1px solid rgba(0,255,255,0.3)",
+                      borderRadius: 10,
+                      overflow: "hidden",
+                      marginTop: 4,
+                    }}
+                  >
+                    {destSuggestions.map((s) => (
+                      <button
+                        key={s.display_name}
+                        type="button"
+                        onClick={() => selectDestSuggestion(s)}
+                        style={{
+                          display: "block",
+                          width: "100%",
+                          textAlign: "left",
+                          background: "none",
+                          border: "none",
+                          borderBottom: "1px solid rgba(0,255,255,0.1)",
+                          padding: "8px 12px",
+                          color: "#b0f0ff",
+                          fontFamily: "Rajdhani, sans-serif",
+                          fontSize: "0.85rem",
+                          cursor: "pointer",
+                        }}
+                      >
+                        📍 {s.display_name}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+              {/* Map iframe preview when both coords set */}
+              {pickupCoords && (
+                <div
+                  style={{
+                    marginTop: 12,
+                    borderRadius: 10,
+                    overflow: "hidden",
+                    border: "1px solid rgba(0,255,255,0.25)",
+                  }}
+                >
+                  <iframe
+                    title="Map Preview"
+                    style={{
+                      width: "100%",
+                      height: 160,
+                      border: "none",
+                      display: "block",
+                    }}
+                    src={`https://www.openstreetmap.org/export/embed.html?bbox=${pickupCoords.lon - 0.05},${pickupCoords.lat - 0.05},${pickupCoords.lon + 0.05},${pickupCoords.lat + 0.05}&layer=mapnik&marker=${pickupCoords.lat},${pickupCoords.lon}`}
+                  />
+                </div>
+              )}
+              {/* Auto-calculated distance */}
+              {estimatedDistance !== null && (
+                <div
+                  style={{
+                    marginTop: 10,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: "8px 12px",
+                    background: "rgba(0,255,255,0.08)",
+                    borderRadius: 8,
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: "Rajdhani, sans-serif",
+                      fontSize: "0.9rem",
+                      color: "rgba(176,255,255,0.8)",
+                    }}
+                  >
+                    🗺️ Distance
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: "Orbitron, sans-serif",
+                      fontSize: "0.85rem",
+                      color: "#00ffff",
+                      fontWeight: 700,
+                    }}
+                  >
+                    {estimatedDistance} km
+                  </span>
+                </div>
+              )}
             </div>
             <div style={{ display: "flex", gap: 10 }}>
               <div style={{ flex: 1 }}>
@@ -4359,9 +5496,116 @@ function ServiceBookingFormScreen({
               {renderChips("propertyType", ["Flat", "House", "Room", "Office"])}
             </div>
             <div>
-              <span style={labelStyle}>DURATION</span>
-              {renderChips("duration", ["Daily", "Weekly", "Monthly"])}
+              <span style={labelStyle}>RATE TYPE</span>
+              {renderChips("rateType", [
+                "Per Day",
+                "Per Night",
+                "Per Room",
+                "Monthly Lump Sum",
+              ])}
             </div>
+            <div>
+              <span style={labelStyle}>RATE (PKR)</span>
+              <input
+                data-ocid="booking.input"
+                type="number"
+                style={inputStyle}
+                placeholder="Enter rate amount"
+                value={form.propertyRate || ""}
+                onChange={(e) => set("propertyRate", e.target.value)}
+              />
+            </div>
+            <div>
+              <span style={labelStyle}>
+                DURATION (
+                {form.rateType === "Monthly Lump Sum"
+                  ? "MONTHS"
+                  : form.rateType === "Per Night"
+                    ? "NIGHTS"
+                    : "DAYS"}
+                )
+              </span>
+              <input
+                data-ocid="booking.input"
+                type="number"
+                style={inputStyle}
+                placeholder="Number of days/nights/months"
+                value={form.propertyDuration || ""}
+                onChange={(e) => set("propertyDuration", e.target.value)}
+              />
+            </div>
+            {form.propertyRate &&
+              form.propertyDuration &&
+              Number(form.propertyRate) > 0 &&
+              Number(form.propertyDuration) > 0 && (
+                <div
+                  data-ocid="property.card"
+                  style={{
+                    background: "rgba(0,255,255,0.08)",
+                    border: "1px solid rgba(0,255,255,0.35)",
+                    borderRadius: 14,
+                    padding: "14px 16px",
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: "Orbitron, sans-serif",
+                      fontSize: 11,
+                      color: "rgba(0,255,255,0.7)",
+                      letterSpacing: "0.12em",
+                      marginBottom: 8,
+                    }}
+                  >
+                    TOTAL COST PREVIEW
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      fontFamily: "Rajdhani, sans-serif",
+                      fontSize: 14,
+                      color: "rgba(255,255,255,0.7)",
+                      marginBottom: 4,
+                    }}
+                  >
+                    <span>
+                      {form.rateType || "Per Day"} × {form.propertyDuration}
+                    </span>
+                    <span>
+                      PKR{" "}
+                      {(
+                        Number(form.propertyRate) *
+                        Number(form.propertyDuration)
+                      ).toLocaleString()}
+                    </span>
+                  </div>
+                  <div
+                    style={{
+                      borderTop: "1px solid rgba(0,255,255,0.2)",
+                      paddingTop: 8,
+                      display: "flex",
+                      justifyContent: "space-between",
+                      fontFamily: "Orbitron, sans-serif",
+                      fontSize: 13,
+                      color: "#00ffff",
+                    }}
+                  >
+                    <span>TOTAL</span>
+                    <span
+                      style={{
+                        fontWeight: 700,
+                        textShadow: "0 0 10px rgba(0,255,255,0.5)",
+                      }}
+                    >
+                      PKR{" "}
+                      {(
+                        Number(form.propertyRate) *
+                        Number(form.propertyDuration)
+                      ).toLocaleString()}
+                    </span>
+                  </div>
+                </div>
+              )}
             <div>
               <span style={labelStyle}>MOVE-IN DATE</span>
               <input
@@ -4370,16 +5614,6 @@ function ServiceBookingFormScreen({
                 style={inputStyle}
                 value={form.moveInDate || ""}
                 onChange={(e) => set("moveInDate", e.target.value)}
-              />
-            </div>
-            <div>
-              <span style={labelStyle}>BUDGET RANGE (PKR)</span>
-              <input
-                data-ocid="booking.input"
-                style={inputStyle}
-                placeholder="e.g., PKR 20,000 – 30,000"
-                value={form.budget || ""}
-                onChange={(e) => set("budget", e.target.value)}
               />
             </div>
             <div>
@@ -5102,7 +6336,7 @@ function ServiceBookingFormScreen({
             </>
           )}
 
-        {/* ---- HOME SERVICES (Cleaner / Gardener / Chef) ---- */}
+        {/* ---- HOME CHEF / FOOD DELIVERY ---- */}
         {!isHealth &&
           !isCarRental &&
           !isTravelTicket &&
@@ -5112,6 +6346,30 @@ function ServiceBookingFormScreen({
           !isEducation &&
           !isSecurity &&
           !isTechSupport &&
+          isHomeChef && (
+            <HomeChefOrderFormSection
+              form={form}
+              set={set}
+              inputStyle={inputStyle}
+              labelStyle={labelStyle}
+              chipActive={chipActive}
+              chipInactive={chipInactive}
+              RIDER_FEE={RIDER_FEE}
+              PROVIDER_FEE={PROVIDER_FEE}
+            />
+          )}
+
+        {/* ---- HOME SERVICES (Cleaner / Gardener) ---- */}
+        {!isHealth &&
+          !isCarRental &&
+          !isTravelTicket &&
+          !isProperty &&
+          !isOrderable &&
+          !isRepairs &&
+          !isEducation &&
+          !isSecurity &&
+          !isTechSupport &&
+          !isHomeChef &&
           isHomeCleaning && (
             <>
               <div>
@@ -5187,6 +6445,7 @@ function ServiceBookingFormScreen({
           !isEducation &&
           !isSecurity &&
           !isTechSupport &&
+          !isHomeChef &&
           !isHomeCleaning && (
             <>
               <div>
@@ -5276,16 +6535,237 @@ function ServiceBookingFormScreen({
   );
 }
 
+// ========================
+// WORK SCOPE MODAL (Repair Services)
+// ========================
+function WorkScopeModal({
+  isOpen,
+  onClose,
+  onSubmit,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  onSubmit: (scope: string) => void;
+}) {
+  const [scope, setScope] = useState("");
+  const [recording, setRecording] = useState(false);
+
+  if (!isOpen) return null;
+
+  return (
+    <div
+      data-ocid="repair.workscope.modal"
+      role="presentation"
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 200,
+        display: "flex",
+        alignItems: "flex-end",
+        background: "rgba(0,0,0,0.7)",
+        backdropFilter: "blur(4px)",
+      }}
+      onClick={onClose}
+      onKeyDown={(e) => {
+        if (e.key === "Escape") onClose();
+      }}
+    >
+      <button
+        type="button"
+        style={{
+          width: "100%",
+          maxWidth: 430,
+          margin: "0 auto",
+          background: "rgba(5,10,20,0.98)",
+          border: "1px solid rgba(0,255,255,0.3)",
+          borderRadius: "20px 20px 0 0",
+          padding: "24px 20px 40px",
+          boxShadow: "0 -10px 40px rgba(0,255,255,0.15)",
+          textAlign: "left",
+          cursor: "default",
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div
+          style={{
+            width: 40,
+            height: 4,
+            background: "rgba(0,255,255,0.3)",
+            borderRadius: 2,
+            margin: "0 auto 20px",
+          }}
+        />
+        <div
+          style={{
+            fontFamily: "Orbitron, sans-serif",
+            fontSize: "0.85rem",
+            fontWeight: 700,
+            color: "#00ffff",
+            letterSpacing: "0.12em",
+            marginBottom: 6,
+          }}
+        >
+          📋 DESCRIBE WORK SCOPE
+        </div>
+        <div
+          style={{
+            fontFamily: "Rajdhani, sans-serif",
+            fontSize: "0.85rem",
+            color: "rgba(176,255,255,0.6)",
+            marginBottom: 16,
+            lineHeight: 1.5,
+          }}
+        >
+          Tell us what needs to be done. Service providers will respond with
+          their rates.
+        </div>
+
+        <textarea
+          data-ocid="repair.workscope.textarea"
+          value={scope}
+          onChange={(e) => setScope(e.target.value)}
+          placeholder="e.g. Kitchen tap is leaking, need to replace the pipe under the sink..."
+          rows={4}
+          style={{
+            width: "100%",
+            background: "rgba(0,20,30,0.7)",
+            border: "1px solid rgba(0,255,255,0.25)",
+            borderRadius: 12,
+            color: "#e0f8ff",
+            fontFamily: "Rajdhani, sans-serif",
+            fontSize: "0.9rem",
+            padding: "12px 14px",
+            outline: "none",
+            resize: "none",
+            lineHeight: 1.6,
+          }}
+        />
+
+        <button
+          type="button"
+          data-ocid="repair.voicenote.button"
+          onClick={() => setRecording((r) => !r)}
+          style={{
+            width: "100%",
+            marginTop: 10,
+            padding: "12px",
+            background: recording
+              ? "rgba(255,107,91,0.15)"
+              : "rgba(0,255,255,0.06)",
+            border: recording
+              ? "1px solid rgba(255,107,91,0.4)"
+              : "1px solid rgba(0,255,255,0.25)",
+            borderRadius: 12,
+            color: recording ? "#ff6b5b" : "rgba(0,255,255,0.8)",
+            fontFamily: "Orbitron, sans-serif",
+            fontSize: "0.65rem",
+            letterSpacing: "0.1em",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 8,
+          }}
+        >
+          <span style={{ fontSize: "1.1rem" }}>{recording ? "⏹️" : "🎙️"}</span>
+          {recording ? "STOP RECORDING" : "SEND VOICE NOTE INSTEAD"}
+        </button>
+
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+            marginTop: 12,
+            padding: "8px 12px",
+            background: "rgba(0,255,255,0.04)",
+            borderRadius: 8,
+            border: "1px solid rgba(0,255,255,0.1)",
+          }}
+        >
+          <span style={{ fontSize: "0.85rem" }}>🔒</span>
+          <span
+            style={{
+              fontFamily: "Rajdhani, sans-serif",
+              fontSize: "0.75rem",
+              color: "rgba(176,255,255,0.5)",
+            }}
+          >
+            Encrypted · Used only by The Portals
+          </span>
+        </div>
+
+        <div style={{ display: "flex", gap: 10, marginTop: 16 }}>
+          <button
+            type="button"
+            data-ocid="repair.workscope.cancel_button"
+            onClick={onClose}
+            style={{
+              flex: 1,
+              padding: "14px",
+              background: "transparent",
+              border: "1px solid rgba(0,255,255,0.2)",
+              borderRadius: 12,
+              color: "rgba(176,255,255,0.6)",
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "0.6rem",
+              letterSpacing: "0.1em",
+              cursor: "pointer",
+            }}
+          >
+            CANCEL
+          </button>
+          <button
+            type="button"
+            data-ocid="repair.workscope.submit_button"
+            onClick={() => {
+              if (scope.trim() || recording) {
+                onSubmit(scope);
+                onClose();
+              }
+            }}
+            disabled={!scope.trim() && !recording}
+            style={{
+              flex: 2,
+              padding: "14px",
+              background:
+                scope.trim() || recording
+                  ? "linear-gradient(135deg, rgba(0,255,255,0.15), rgba(0,200,200,0.1))"
+                  : "rgba(0,20,30,0.5)",
+              border:
+                scope.trim() || recording
+                  ? "1px solid rgba(0,255,255,0.5)"
+                  : "1px solid rgba(0,255,255,0.1)",
+              borderRadius: 12,
+              color:
+                scope.trim() || recording ? "#00ffff" : "rgba(176,255,255,0.3)",
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "0.65rem",
+              letterSpacing: "0.12em",
+              cursor: scope.trim() || recording ? "pointer" : "not-allowed",
+              fontWeight: 700,
+            }}
+          >
+            FIND PROVIDERS →
+          </button>
+        </div>
+      </button>
+    </div>
+  );
+}
+
 function NearbyProvidersScreen({
   service,
   onBack,
   onSelect,
   onLocationUpdate,
+  currentUserType = "user",
 }: {
   service: (typeof SERVICES)[0] | null;
   onBack: () => void;
   onSelect: (p: (typeof PROVIDERS)[0]) => void;
   onLocationUpdate?: (loc: { lat: number; lng: number; city: string }) => void;
+  currentUserType?: "user" | "provider";
 }) {
   const [_userLocation, setUserLocation] = useState<{
     lat: number;
@@ -5314,13 +6794,28 @@ function NearbyProvidersScreen({
     navigator.geolocation.getCurrentPosition(onSuccess, onError);
   }, [onLocationUpdate]);
 
+  const [unavailableVehicle, setUnavailableVehicle] = useState<string | null>(
+    null,
+  );
+  const isRentalCarService = !!(
+    service?.name?.toLowerCase().includes("car rental") ||
+    service?.name?.toLowerCase().includes("van hire") ||
+    service?.name?.toLowerCase().includes("bike rental")
+  );
+  const isPropertyService = !!service?.name
+    ?.toLowerCase()
+    .includes("property rental");
   const filteredProviders = service
     ? PROVIDERS.filter((p) => p.category === service.category).length > 0
       ? PROVIDERS.filter((p) => p.category === service.category)
       : PROVIDERS
     : PROVIDERS;
   const screenTitle = service
-    ? `${service.category.toUpperCase()} PROVIDERS`
+    ? isRentalCarService
+      ? "AVAILABLE VEHICLES NEARBY"
+      : isPropertyService
+        ? "AVAILABLE PROPERTIES NEARBY"
+        : `${service.category.toUpperCase()} PROVIDERS`
     : "NEARBY PROVIDERS";
 
   return (
@@ -5478,85 +6973,559 @@ function NearbyProvidersScreen({
           KARACHI MAP
         </div>
       </div>
-      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-        {filteredProviders.map((p, i) => (
-          <div key={p.id} className="glass" style={{ padding: 14 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <div
+      {/* Unavailable Vehicle Modal */}
+      {unavailableVehicle && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,5,10,0.9)",
+            zIndex: 999,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 24,
+          }}
+        >
+          <div
+            style={{
+              background: "rgba(0,20,30,0.95)",
+              border: "1px solid rgba(0,255,255,0.4)",
+              borderRadius: 20,
+              padding: 24,
+              maxWidth: 340,
+              width: "100%",
+              boxShadow: "0 0 40px rgba(0,255,255,0.15)",
+            }}
+          >
+            <div
+              style={{
+                fontFamily: "Orbitron, sans-serif",
+                fontSize: "0.75rem",
+                fontWeight: 700,
+                color: "#FF9999",
+                letterSpacing: "0.12em",
+                marginBottom: 10,
+              }}
+            >
+              🚫 VEHICLE UNAVAILABLE
+            </div>
+            <div
+              style={{
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "0.95rem",
+                color: "rgba(176,255,255,0.8)",
+                lineHeight: 1.5,
+                marginBottom: 16,
+              }}
+            >
+              The{" "}
+              <strong style={{ color: "#f0f0f0" }}>{unavailableVehicle}</strong>{" "}
+              you requested is not available nearby. Here are alternatives:
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 8,
+                marginBottom: 16,
+              }}
+            >
+              {RENTAL_VEHICLES.filter(
+                (v) => v.available && v.type !== unavailableVehicle,
+              )
+                .slice(0, 3)
+                .map((v, idx) => (
+                  <button
+                    key={v.id}
+                    type="button"
+                    data-ocid={`providers.alternative.item.${idx + 1}`}
+                    onClick={() => {
+                      setUnavailableVehicle(null);
+                      onSelect(filteredProviders[0] ?? PROVIDERS[0]);
+                    }}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 10,
+                      padding: "10px 14px",
+                      background: "rgba(0,255,255,0.06)",
+                      border: "1px solid rgba(0,255,255,0.25)",
+                      borderRadius: 12,
+                      cursor: "pointer",
+                      textAlign: "left",
+                    }}
+                  >
+                    <span style={{ fontSize: "1.3rem" }}>{v.emoji}</span>
+                    <div style={{ flex: 1 }}>
+                      <div
+                        style={{
+                          fontFamily: "Rajdhani, sans-serif",
+                          fontSize: "0.9rem",
+                          fontWeight: 700,
+                          color: "#f0f0f0",
+                        }}
+                      >
+                        {v.model}
+                      </div>
+                      <div
+                        style={{
+                          fontFamily: "Rajdhani, sans-serif",
+                          fontSize: "0.75rem",
+                          color: "rgba(176,255,255,0.6)",
+                        }}
+                      >
+                        {v.type} · {v.seats} seats · ₨{v.ratePerKm}/km
+                      </div>
+                    </div>
+                    <span
+                      style={{
+                        fontFamily: "Orbitron, sans-serif",
+                        fontSize: "0.55rem",
+                        color: "#50ffb0",
+                        letterSpacing: "0.08em",
+                      }}
+                    >
+                      ✓ AVAIL
+                    </span>
+                  </button>
+                ))}
+            </div>
+            <div style={{ display: "flex", gap: 10 }}>
+              <button
+                type="button"
+                data-ocid="providers.cancel_button"
+                onClick={() => setUnavailableVehicle(null)}
                 style={{
-                  width: 44,
-                  height: 44,
-                  borderRadius: "50%",
-                  background:
-                    "radial-gradient(circle, rgba(0,60,80,0.9), rgba(0,10,20,0.95))",
-                  border: "2px solid rgba(0,255,255,0.4)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
+                  flex: 1,
+                  padding: "11px",
+                  background: "rgba(255,60,60,0.1)",
+                  border: "1px solid rgba(255,60,60,0.3)",
+                  borderRadius: 12,
+                  color: "#ff6060",
                   fontFamily: "Orbitron, sans-serif",
-                  fontSize: "0.7rem",
+                  fontSize: "0.6rem",
                   fontWeight: 700,
-                  color: "#00ffff",
-                  flexShrink: 0,
+                  cursor: "pointer",
+                  letterSpacing: "0.1em",
                 }}
               >
-                {p.initials}
-              </div>
-              <div style={{ flex: 1 }}>
-                <div
-                  style={{
-                    fontFamily: "Rajdhani, sans-serif",
-                    fontSize: "1rem",
-                    fontWeight: 700,
-                    color: "#f0f0f0",
-                  }}
-                >
-                  {p.name}
-                </div>
-                <div
-                  style={{
-                    fontFamily: "Rajdhani, sans-serif",
-                    fontSize: "0.8rem",
-                    color: "rgba(176,255,255,0.6)",
-                  }}
-                >
-                  {p.profession} · {p.distance}
-                </div>
-              </div>
-              <div style={{ textAlign: "right" }}>
-                <div
-                  style={{
-                    fontFamily: "Orbitron, sans-serif",
-                    fontSize: "0.65rem",
-                    color: "#ffd700",
-                  }}
-                >
-                  ⭐ {p.rating}
-                </div>
-                <div
-                  style={{
-                    fontFamily: "Rajdhani, sans-serif",
-                    fontSize: "0.8rem",
-                    color: "#50ffb0",
-                    fontWeight: 600,
-                  }}
-                >
-                  ₨{p.rate}/hr
-                </div>
-              </div>
+                CANCEL
+              </button>
+              <button
+                type="button"
+                data-ocid="providers.confirm_button"
+                onClick={() => {
+                  setUnavailableVehicle(null);
+                  onSelect(filteredProviders[0] ?? PROVIDERS[0]);
+                }}
+                style={{
+                  flex: 2,
+                  padding: "11px",
+                  background:
+                    "linear-gradient(135deg, rgba(0,255,255,0.3), rgba(0,200,200,0.2))",
+                  border: "1px solid rgba(0,255,255,0.6)",
+                  borderRadius: 12,
+                  color: "#00ffff",
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "0.6rem",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  letterSpacing: "0.08em",
+                  boxShadow: "0 0 15px rgba(0,255,255,0.3)",
+                }}
+              >
+                SELECT ALTERNATIVE
+              </button>
             </div>
-            <button
-              type="button"
-              data-ocid={`providers.item.${i + 1}`}
-              className="btn-portal"
-              style={{ marginTop: 10, padding: "10px" }}
-              onClick={() => onSelect(p)}
-            >
-              SELECT PROVIDER
-            </button>
           </div>
-        ))}
-      </div>
+        </div>
+      )}
+
+      {isRentalCarService ? (
+        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          {RENTAL_VEHICLES.map((v, i) => (
+            <div
+              key={v.id}
+              className="glass"
+              data-ocid={`providers.item.${i + 1}`}
+              style={{
+                padding: 16,
+                border: `1px solid ${v.available ? "rgba(0,255,255,0.2)" : "rgba(255,100,100,0.2)"}`,
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+                <div
+                  style={{
+                    width: 54,
+                    height: 54,
+                    borderRadius: 14,
+                    background: v.available
+                      ? "rgba(0,255,255,0.08)"
+                      : "rgba(255,100,100,0.06)",
+                    border: `2px solid ${v.available ? "rgba(0,255,255,0.4)" : "rgba(255,100,100,0.3)"}`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "1.8rem",
+                    flexShrink: 0,
+                  }}
+                >
+                  {v.emoji}
+                </div>
+                <div style={{ flex: 1 }}>
+                  <div
+                    style={{
+                      fontFamily: "Rajdhani, sans-serif",
+                      fontSize: "1.05rem",
+                      fontWeight: 700,
+                      color: "#f0f0f0",
+                    }}
+                  >
+                    {v.model}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "Rajdhani, sans-serif",
+                      fontSize: "0.8rem",
+                      color: "rgba(176,255,255,0.6)",
+                      marginTop: 2,
+                    }}
+                  >
+                    {v.type} · {v.seats} seats
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 8,
+                      marginTop: 6,
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: "Orbitron, sans-serif",
+                        fontSize: "0.65rem",
+                        color: "#50ffb0",
+                        fontWeight: 700,
+                      }}
+                    >
+                      ₨{v.ratePerKm}/km
+                    </span>
+                    <span
+                      style={{
+                        fontFamily: "Orbitron, sans-serif",
+                        fontSize: "0.5rem",
+                        padding: "2px 8px",
+                        borderRadius: 999,
+                        background: v.available
+                          ? "rgba(80,255,176,0.12)"
+                          : "rgba(255,60,60,0.12)",
+                        border: `1px solid ${v.available ? "rgba(80,255,176,0.4)" : "rgba(255,60,60,0.4)"}`,
+                        color: v.available ? "#50ffb0" : "#ff6060",
+                        letterSpacing: "0.08em",
+                      }}
+                    >
+                      {v.available ? "✓ AVAILABLE" : "✗ UNAVAILABLE"}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <button
+                type="button"
+                className={v.available ? "btn-portal" : ""}
+                onClick={() =>
+                  v.available
+                    ? onSelect(filteredProviders[0] ?? PROVIDERS[0])
+                    : setUnavailableVehicle(v.type)
+                }
+                style={{
+                  marginTop: 12,
+                  padding: "10px",
+                  width: "100%",
+                  background: v.available ? undefined : "rgba(255,60,60,0.08)",
+                  border: v.available
+                    ? undefined
+                    : "1px solid rgba(255,60,60,0.3)",
+                  borderRadius: v.available ? undefined : 10,
+                  color: v.available ? undefined : "#ff6060",
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "0.6rem",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  letterSpacing: "0.1em",
+                }}
+              >
+                {v.available ? "SELECT THIS VEHICLE" : "CHECK ALTERNATIVES"}
+              </button>
+            </div>
+          ))}
+        </div>
+      ) : isPropertyService ? (
+        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          {RENTAL_PROPERTIES.map((prop, i) => (
+            <div
+              key={prop.id}
+              className="glass"
+              data-ocid={`providers.item.${i + 1}`}
+              style={{
+                padding: 16,
+                border: `1px solid ${prop.available ? "rgba(0,255,255,0.2)" : "rgba(255,100,100,0.2)"}`,
+              }}
+            >
+              <div
+                style={{ display: "flex", alignItems: "flex-start", gap: 14 }}
+              >
+                <div
+                  style={{
+                    width: 54,
+                    height: 54,
+                    borderRadius: 14,
+                    background: prop.available
+                      ? "rgba(0,255,255,0.08)"
+                      : "rgba(255,100,100,0.06)",
+                    border: `2px solid ${prop.available ? "rgba(0,255,255,0.4)" : "rgba(255,100,100,0.3)"}`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "1.8rem",
+                    flexShrink: 0,
+                  }}
+                >
+                  {prop.emoji}
+                </div>
+                <div style={{ flex: 1 }}>
+                  <div
+                    style={{
+                      fontFamily: "Rajdhani, sans-serif",
+                      fontSize: "1.05rem",
+                      fontWeight: 700,
+                      color: "#f0f0f0",
+                    }}
+                  >
+                    {prop.type}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "Rajdhani, sans-serif",
+                      fontSize: "0.8rem",
+                      color: "rgba(176,255,255,0.6)",
+                      marginTop: 2,
+                    }}
+                  >
+                    📍 {prop.locality}
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: 8,
+                      marginTop: 6,
+                      flexWrap: "wrap",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: "Orbitron, sans-serif",
+                        fontSize: "0.6rem",
+                        color: "#50ffb0",
+                      }}
+                    >
+                      ₨{prop.ratePerNight.toLocaleString()}/night
+                    </span>
+                    <span
+                      style={{
+                        fontFamily: "Orbitron, sans-serif",
+                        fontSize: "0.6rem",
+                        color: "rgba(176,255,255,0.5)",
+                      }}
+                    >
+                      |
+                    </span>
+                    <span
+                      style={{
+                        fontFamily: "Orbitron, sans-serif",
+                        fontSize: "0.6rem",
+                        color: "#00ffff",
+                      }}
+                    >
+                      ₨{prop.ratePerMonth.toLocaleString()}/mo
+                    </span>
+                    <span
+                      style={{
+                        fontFamily: "Orbitron, sans-serif",
+                        fontSize: "0.5rem",
+                        padding: "2px 8px",
+                        borderRadius: 999,
+                        background: prop.available
+                          ? "rgba(80,255,176,0.12)"
+                          : "rgba(255,60,60,0.12)",
+                        border: `1px solid ${prop.available ? "rgba(80,255,176,0.4)" : "rgba(255,60,60,0.4)"}`,
+                        color: prop.available ? "#50ffb0" : "#ff6060",
+                        letterSpacing: "0.08em",
+                      }}
+                    >
+                      {prop.available ? "✓ AVAILABLE" : "✗ BOOKED"}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              {prop.available && (
+                <div
+                  style={{
+                    marginTop: 10,
+                    padding: "8px 12px",
+                    background: "rgba(0,255,255,0.04)",
+                    border: "1px solid rgba(0,255,255,0.15)",
+                    borderRadius: 10,
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: "Orbitron, sans-serif",
+                      fontSize: "0.5rem",
+                      color: "rgba(0,255,255,0.5)",
+                      letterSpacing: "0.1em",
+                      marginBottom: 4,
+                    }}
+                  >
+                    SERVICE PROVIDER ID (after selection)
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "Rajdhani, sans-serif",
+                      fontSize: "0.85rem",
+                      color: "rgba(176,255,255,0.7)",
+                      fontWeight: 600,
+                    }}
+                  >
+                    Portal ID:{" "}
+                    {["HK4R2", "JB9M1", "QW7KL", "XP3TN", "LM6SD", "CR8VZ"][
+                      i
+                    ] || "PT4RB"}
+                  </div>
+                </div>
+              )}
+              <button
+                type="button"
+                className={prop.available ? "btn-portal" : ""}
+                onClick={() =>
+                  prop.available
+                    ? onSelect(filteredProviders[0] ?? PROVIDERS[0])
+                    : undefined
+                }
+                disabled={!prop.available}
+                style={{
+                  marginTop: 12,
+                  padding: "10px",
+                  width: "100%",
+                  background: !prop.available
+                    ? "rgba(255,60,60,0.06)"
+                    : undefined,
+                  border: !prop.available
+                    ? "1px solid rgba(255,60,60,0.2)"
+                    : undefined,
+                  borderRadius: !prop.available ? 10 : undefined,
+                  color: !prop.available ? "#ff6060" : undefined,
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "0.6rem",
+                  fontWeight: 700,
+                  cursor: prop.available ? "pointer" : "not-allowed",
+                  letterSpacing: "0.1em",
+                  opacity: prop.available ? 1 : 0.7,
+                }}
+              >
+                {prop.available ? "BOOK THIS PROPERTY" : "NOT AVAILABLE"}
+              </button>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          {filteredProviders.map((p, i) => (
+            <div key={p.id} className="glass" style={{ padding: 14 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <div
+                  style={{
+                    width: 44,
+                    height: 44,
+                    borderRadius: "50%",
+                    background:
+                      "radial-gradient(circle, rgba(0,60,80,0.9), rgba(0,10,20,0.95))",
+                    border: "2px solid rgba(0,255,255,0.4)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontFamily: "Orbitron, sans-serif",
+                    fontSize: "0.7rem",
+                    fontWeight: 700,
+                    color: "#00ffff",
+                    flexShrink: 0,
+                  }}
+                >
+                  {p.initials}
+                </div>
+                <div style={{ flex: 1 }}>
+                  <div
+                    style={{
+                      fontFamily: "Rajdhani, sans-serif",
+                      fontSize: "1rem",
+                      fontWeight: 700,
+                      color: "#f0f0f0",
+                    }}
+                  >
+                    {p.name}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "Rajdhani, sans-serif",
+                      fontSize: "0.8rem",
+                      color: "rgba(176,255,255,0.6)",
+                    }}
+                  >
+                    {p.profession} · {p.distance}
+                  </div>
+                </div>
+                <div style={{ textAlign: "right" }}>
+                  <div
+                    style={{
+                      fontFamily: "Orbitron, sans-serif",
+                      fontSize: "0.65rem",
+                      color: "#ffd700",
+                    }}
+                  >
+                    ⭐ {p.rating}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "Rajdhani, sans-serif",
+                      fontSize: "0.8rem",
+                      color:
+                        currentUserType === "provider"
+                          ? "rgba(176,255,255,0.4)"
+                          : "#50ffb0",
+                      fontWeight: 600,
+                    }}
+                  >
+                    {/* Rate hidden from other providers for privacy */}
+                    {currentUserType === "provider"
+                      ? "Rate: Private"
+                      : `₨${p.rate}/hr`}
+                  </div>
+                </div>
+              </div>
+              <button
+                type="button"
+                data-ocid={`providers.item.${i + 1}`}
+                className="btn-portal"
+                style={{ marginTop: 10, padding: "10px" }}
+                onClick={() => onSelect(p)}
+              >
+                SELECT PROVIDER
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -5578,6 +7547,7 @@ function ProviderConfirmedScreen({
   onPay: () => void;
 }) {
   const p = provider ?? PROVIDERS[0];
+  const [showCallModal, setShowCallModal] = useState(false);
   return (
     <div style={{ padding: "20px 16px 100px" }}>
       <ScreenHeader title="PROVIDER CONFIRMED" onBack={onBack} />
@@ -5762,7 +7732,112 @@ function ProviderConfirmedScreen({
         </div>
       </div>
 
-      <div style={{ display: "flex", gap: 10 }}>
+      {showCallModal && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,5,10,0.85)",
+            zIndex: 999,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 24,
+          }}
+        >
+          <div
+            style={{
+              background: "rgba(0,20,30,0.95)",
+              border: "1px solid rgba(0,255,255,0.4)",
+              borderRadius: 20,
+              padding: 28,
+              maxWidth: 320,
+              width: "100%",
+              boxShadow: "0 0 40px rgba(0,255,255,0.2)",
+              textAlign: "center",
+            }}
+          >
+            <div style={{ fontSize: "2.5rem", marginBottom: 12 }}>📞</div>
+            <div
+              style={{
+                fontFamily: "Orbitron, sans-serif",
+                fontSize: "0.75rem",
+                fontWeight: 700,
+                color: "#00ffff",
+                letterSpacing: "0.12em",
+                marginBottom: 8,
+              }}
+            >
+              CALLING {p.name.toUpperCase()}
+            </div>
+            <div
+              style={{
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "0.95rem",
+                color: "rgba(176,255,255,0.7)",
+                lineHeight: 1.5,
+                marginBottom: 20,
+              }}
+            >
+              Connect via The Portals secure network?
+              <br />
+              <span
+                style={{ color: "rgba(0,255,255,0.5)", fontSize: "0.8rem" }}
+              >
+                +92 300 1234567
+              </span>
+            </div>
+            <div style={{ display: "flex", gap: 10 }}>
+              <button
+                type="button"
+                data-ocid="confirmed.cancel_button"
+                onClick={() => setShowCallModal(false)}
+                style={{
+                  flex: 1,
+                  padding: "12px",
+                  background: "rgba(255,60,60,0.1)",
+                  border: "1px solid rgba(255,60,60,0.3)",
+                  borderRadius: 12,
+                  color: "#ff6060",
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "0.65rem",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  letterSpacing: "0.1em",
+                }}
+              >
+                CANCEL
+              </button>
+              <button
+                type="button"
+                data-ocid="confirmed.confirm_button"
+                onClick={() => {
+                  window.location.href = "tel:+923001234567";
+                  setShowCallModal(false);
+                }}
+                style={{
+                  flex: 1,
+                  padding: "12px",
+                  background:
+                    "linear-gradient(135deg, rgba(0,255,255,0.3), rgba(0,200,200,0.2))",
+                  border: "1px solid rgba(0,255,255,0.6)",
+                  borderRadius: 12,
+                  color: "#00ffff",
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "0.65rem",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  letterSpacing: "0.1em",
+                  boxShadow: "0 0 15px rgba(0,255,255,0.3)",
+                }}
+              >
+                CONNECT 📞
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      <div style={{ display: "flex", gap: 10, marginBottom: 10 }}>
         <button
           type="button"
           data-ocid="confirmed.secondary_button"
@@ -5770,18 +7845,39 @@ function ProviderConfirmedScreen({
           style={{ flex: 1 }}
           onClick={onChat}
         >
-          💬 CHAT
+          💬 MESSAGE
         </button>
         <button
           type="button"
-          data-ocid="confirmed.primary_button"
-          className="btn-portal"
-          style={{ flex: 2 }}
-          onClick={onPay}
+          data-ocid="confirmed.call_button"
+          onClick={() => setShowCallModal(true)}
+          style={{
+            flex: 1,
+            padding: "12px",
+            background: "rgba(80,255,176,0.1)",
+            border: "1px solid rgba(80,255,176,0.4)",
+            borderRadius: 12,
+            color: "#50ffb0",
+            fontFamily: "Orbitron, sans-serif",
+            fontSize: "0.65rem",
+            fontWeight: 700,
+            cursor: "pointer",
+            letterSpacing: "0.08em",
+            boxShadow: "0 0 10px rgba(80,255,176,0.2)",
+          }}
         >
-          CONFIRM & PAY
+          📞 CALL
         </button>
       </div>
+      <button
+        type="button"
+        data-ocid="confirmed.primary_button"
+        className="btn-portal"
+        style={{ width: "100%" }}
+        onClick={onPay}
+      >
+        CONFIRM & PAY
+      </button>
     </div>
   );
 }
@@ -5806,13 +7902,21 @@ function PaymentPlanScreen({
 }) {
   const basePrice = service?.price ?? 1200;
   const total = basePrice;
-  const [method, setMethod] = useState("jazzcash");
+  const [method, setMethod] = useState("portals-bank");
   const methods = [
+    { id: "portals-bank", label: "The Portals Bank Account ⭐", icon: "🏦" },
     { id: "jazzcash", label: "JazzCash", icon: "📱" },
     { id: "easypaisa", label: "Easypaisa", icon: "💳" },
-    { id: "bank", label: "Bank Transfer", icon: "🏦" },
-    { id: "portals-bank", label: "The Portals Bank Account", icon: "🏦" },
+    { id: "bank", label: "Other Bank Transfer", icon: "🏛️" },
   ];
+  const [uniqueId, setUniqueId] = useState("");
+  const [uniqueIdName, setUniqueIdName] = useState("");
+  const uniqueIdNames: Record<string, string> = {
+    PK36MEZN0000291012345678: "The Portals (Pvt) Ltd",
+    "0312-3456789": "Ahmed Khan",
+    "0333-1234567": "Muhammad Ali",
+    "0321-9876543": "Sara Malik",
+  };
   const [copiedField, setCopiedField] = useState<string | null>(null);
   function handleCopy(label: string, value: string) {
     navigator.clipboard.writeText(value).catch(() => {});
@@ -6031,6 +8135,61 @@ function PaymentPlanScreen({
           </button>
         ))}
       </div>
+
+      {/* Unique ID field for JazzCash/Easypaisa */}
+      {(method === "jazzcash" || method === "easypaisa") && (
+        <div style={{ marginBottom: 16 }}>
+          <div
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "0.55rem",
+              color: "rgba(0,255,255,0.6)",
+              letterSpacing: "0.12em",
+              marginBottom: 8,
+            }}
+          >
+            ENTER UNIQUE ID / MOBILE NUMBER
+          </div>
+          <input
+            type="text"
+            data-ocid="payment.unique_id.input"
+            value={uniqueId}
+            onChange={(e) => {
+              setUniqueId(e.target.value);
+              setUniqueIdName(uniqueIdNames[e.target.value] || "");
+            }}
+            placeholder="Enter account number or mobile"
+            style={{
+              width: "100%",
+              background: "rgba(0,20,30,0.7)",
+              border: "1px solid rgba(0,255,255,0.25)",
+              borderRadius: 10,
+              color: "#e0f8ff",
+              fontFamily: "Rajdhani, sans-serif",
+              fontSize: "0.95rem",
+              padding: "12px 14px",
+              outline: "none",
+            }}
+          />
+          {uniqueIdName && (
+            <div
+              data-ocid="payment.success_state"
+              style={{
+                marginTop: 8,
+                padding: "8px 12px",
+                background: "rgba(80,255,176,0.08)",
+                border: "1px solid rgba(80,255,176,0.3)",
+                borderRadius: 8,
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "0.85rem",
+                color: "#50ffb0",
+              }}
+            >
+              ✓ Account holder: <strong>{uniqueIdName}</strong>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Bank details panel */}
       {method === "portals-bank" && (
@@ -6811,9 +8970,12 @@ function OtpScreen({
         <div
           style={{
             display: "flex",
-            gap: 12,
+            gap: 8,
             justifyContent: "center",
             marginBottom: 20,
+            width: "100%",
+            maxWidth: 280,
+            margin: "0 auto 20px",
           }}
         >
           {([0, 1, 2, 3] as const).map((i) => (
@@ -6831,6 +8993,7 @@ function OtpScreen({
                   refs[i - 1].current?.focus();
                 }
               }}
+              style={{ flex: 1, minWidth: 0, maxWidth: 64 }}
             />
           ))}
         </div>
@@ -7450,7 +9613,39 @@ function ChatScreen({ onBack }: { onBack: () => void }) {
         height: "100vh",
       }}
     >
-      <ScreenHeader title="MESSAGES" onBack={onBack} />
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <ScreenHeader title="MESSAGES" onBack={onBack} />
+        {tab === "live" && (
+          <button
+            type="button"
+            data-ocid="chat.call_button"
+            onClick={() => {
+              window.location.href = "tel:+923001234567";
+            }}
+            style={{
+              padding: "8px 14px",
+              background: "rgba(80,255,176,0.1)",
+              border: "1px solid rgba(80,255,176,0.4)",
+              borderRadius: 10,
+              color: "#50ffb0",
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "0.6rem",
+              fontWeight: 700,
+              cursor: "pointer",
+              letterSpacing: "0.08em",
+              marginBottom: 8,
+            }}
+          >
+            📞 CALL
+          </button>
+        )}
+      </div>
 
       {/* Tabs */}
       <div style={{ display: "flex", marginBottom: 16, gap: 2 }}>
@@ -7662,11 +9857,27 @@ function ProfileScreen({
   onBack,
   onDeleteAccount,
   onTopUp,
+  onEditProfile,
+  onPaymentMethod,
+  onTransactionHistory,
+  onHelpSupport,
+  qiksBalance = 0,
+  successfulDeliveries = 0,
+  warningCount = 0,
+  accountStatus = "active",
 }: {
   onSettings: () => void;
   onBack: () => void;
   onDeleteAccount: () => void;
   onTopUp: () => void;
+  onEditProfile?: () => void;
+  onPaymentMethod?: () => void;
+  onTransactionHistory?: () => void;
+  onHelpSupport?: () => void;
+  qiksBalance?: number;
+  successfulDeliveries?: number;
+  warningCount?: number;
+  accountStatus?: "active" | "warned" | "suspended" | "blocked";
 }) {
   const [profilePic, setProfilePic] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -7850,23 +10061,396 @@ function ProfileScreen({
         ))}
       </div>
 
+      {/* Warning Banner */}
+      {(accountStatus === "suspended" || accountStatus === "blocked") && (
+        <div
+          data-ocid="profile.error_state"
+          style={{
+            background:
+              accountStatus === "blocked"
+                ? "rgba(255,68,68,0.15)"
+                : "rgba(255,68,68,0.1)",
+            border: "1px solid rgba(255,68,68,0.5)",
+            borderRadius: 14,
+            padding: "12px 16px",
+            marginBottom: 16,
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            boxShadow: "0 0 20px rgba(255,68,68,0.2)",
+          }}
+        >
+          <span style={{ fontSize: "1.3rem" }}>
+            {accountStatus === "blocked" ? "⛔" : "🚫"}
+          </span>
+          <div>
+            <div
+              style={{
+                fontFamily: "Orbitron, sans-serif",
+                fontSize: "0.65rem",
+                color: "#FF4444",
+                fontWeight: 700,
+                letterSpacing: "0.1em",
+              }}
+            >
+              {accountStatus === "blocked"
+                ? "ACCOUNT BLOCKED — Contact Support"
+                : "ACCOUNT TEMPORARILY SUSPENDED"}
+            </div>
+            <div
+              style={{
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "0.8rem",
+                color: "rgba(255,100,100,0.8)",
+                marginTop: 2,
+              }}
+            >
+              {accountStatus === "blocked"
+                ? "Your account has been blocked due to policy violations."
+                : "Please contact support to resolve this issue."}
+            </div>
+          </div>
+        </div>
+      )}
+      {warningCount > 0 &&
+        accountStatus !== "suspended" &&
+        accountStatus !== "blocked" && (
+          <div
+            data-ocid="profile.warning_state"
+            style={{
+              background: "rgba(255,215,0,0.08)",
+              border: "1px solid rgba(255,215,0,0.35)",
+              borderRadius: 14,
+              padding: "12px 16px",
+              marginBottom: 16,
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+            }}
+          >
+            <span style={{ fontSize: "1.2rem" }}>⚠️</span>
+            <div style={{ flex: 1 }}>
+              <div
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "0.6rem",
+                  color: "#FFD700",
+                  fontWeight: 700,
+                  letterSpacing: "0.1em",
+                }}
+              >
+                ⚠️ {warningCount}/3 WARNINGS ISSUED
+              </div>
+              <div
+                style={{
+                  fontFamily: "Rajdhani, sans-serif",
+                  fontSize: "0.75rem",
+                  color: "rgba(255,215,0,0.7)",
+                  marginTop: 2,
+                  lineHeight: 1.4,
+                }}
+              >
+                1 warning per 5 rejections. After 3 warnings: suspension or 2%
+                account charge
+              </div>
+            </div>
+          </div>
+        )}
+
+      {/* QIKS REWARDS CARD */}
+      <div
+        data-ocid="profile.qiks.card"
+        style={{
+          background: "rgba(0,255,255,0.05)",
+          border: "1px solid rgba(0,255,255,0.3)",
+          borderRadius: 16,
+          padding: 20,
+          marginBottom: 20,
+          boxShadow: "0 0 30px rgba(0,255,255,0.5)",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginBottom: 14,
+          }}
+        >
+          <div
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "0.7rem",
+              fontWeight: 700,
+              color: "#00ffff",
+              letterSpacing: "0.15em",
+            }}
+          >
+            ⚡ QIKS REWARDS
+          </div>
+          <div
+            style={{
+              background: "rgba(255,215,0,0.15)",
+              border: "1px solid rgba(255,215,0,0.4)",
+              borderRadius: 8,
+              padding: "3px 10px",
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "0.5rem",
+              color: "#FFD700",
+              letterSpacing: "0.08em",
+            }}
+          >
+            10 QIKS = 1 FREE DELIVERY
+          </div>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "baseline",
+            gap: 6,
+            marginBottom: 12,
+          }}
+        >
+          <span
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "2.5rem",
+              fontWeight: 900,
+              color: "#00ffff",
+              textShadow: "0 0 20px rgba(0,255,255,0.6)",
+              lineHeight: 1,
+            }}
+          >
+            ⚡{qiksBalance}
+          </span>
+          <span
+            style={{
+              fontFamily: "Rajdhani, sans-serif",
+              fontSize: "0.9rem",
+              color: "rgba(176,255,255,0.6)",
+            }}
+          >
+            Qiks
+          </span>
+        </div>
+        <div
+          style={{
+            fontFamily: "Rajdhani, sans-serif",
+            fontSize: "0.85rem",
+            color: "rgba(176,255,255,0.6)",
+            marginBottom: 8,
+          }}
+        >
+          Progress: {successfulDeliveries % 20} / 20 deliveries until next Qik
+        </div>
+        <div
+          style={{
+            background: "rgba(0,255,255,0.08)",
+            borderRadius: 6,
+            height: 8,
+            overflow: "hidden",
+            marginBottom: 8,
+          }}
+        >
+          <div
+            style={{
+              height: "100%",
+              width: `${((successfulDeliveries % 20) / 20) * 100}%`,
+              background: "linear-gradient(90deg, #00ffff, #50ffb0)",
+              borderRadius: 6,
+              boxShadow: "0 0 8px rgba(0,255,255,0.6)",
+            }}
+          />
+        </div>
+        <div
+          style={{
+            fontFamily: "Rajdhani, sans-serif",
+            fontSize: "0.75rem",
+            color: "rgba(176,255,255,0.5)",
+          }}
+        >
+          Total deliveries: {successfulDeliveries} · 1 Qik earned per 20
+          successful deliveries
+        </div>
+        {qiksBalance >= 10 && (
+          <div
+            data-ocid="profile.success_state"
+            style={{
+              marginTop: 12,
+              padding: "10px 14px",
+              background: "rgba(80,255,176,0.12)",
+              border: "1px solid rgba(80,255,176,0.5)",
+              borderRadius: 12,
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "0.65rem",
+              color: "#50ffb0",
+              textAlign: "center",
+              letterSpacing: "0.1em",
+              fontWeight: 700,
+              boxShadow: "0 0 20px rgba(80,255,176,0.3)",
+            }}
+          >
+            🎉 FREE DELIVERY AVAILABLE! — Next service: The Portals charges
+            waived
+          </div>
+        )}
+        <div
+          style={{
+            marginTop: 16,
+            borderTop: "1px solid rgba(0,255,255,0.15)",
+            paddingTop: 14,
+          }}
+        >
+          <div
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "0.6rem",
+              color: "rgba(0,255,255,0.7)",
+              letterSpacing: "0.12em",
+              marginBottom: 10,
+            }}
+          >
+            🏆 MONTHLY TOP PROVIDERS
+          </div>
+          {[
+            { name: "Dr. Ayesha Malik", qiks: 18, emoji: "🥇" },
+            { name: "Usman Tariq", qiks: 15, emoji: "🥈" },
+            { name: "Chef Nadeem Rizvi", qiks: 12, emoji: "🥉" },
+            { name: "Nurse Farah Siddiqui", qiks: 9, emoji: "4️⃣" },
+            { name: "Bilal Hassan", qiks: 7, emoji: "5️⃣" },
+          ].map((leader) => (
+            <div
+              key={leader.name}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginBottom: 6,
+                padding: "5px 0",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <span style={{ fontSize: "0.9rem" }}>{leader.emoji}</span>
+                <span
+                  style={{
+                    fontFamily: "Rajdhani, sans-serif",
+                    fontSize: "0.85rem",
+                    color: "#e0f7ff",
+                    fontWeight: 600,
+                  }}
+                >
+                  {leader.name}
+                </span>
+              </div>
+              <span
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "0.6rem",
+                  color: "#FFD700",
+                  letterSpacing: "0.08em",
+                }}
+              >
+                ⚡{leader.qiks}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Rejection History */}
+      <div
+        style={{
+          background: "rgba(255,100,100,0.04)",
+          border: "1px solid rgba(255,100,100,0.15)",
+          borderRadius: 14,
+          padding: "14px 16px",
+          marginBottom: 20,
+        }}
+      >
+        <div
+          style={{
+            fontFamily: "Orbitron, sans-serif",
+            fontSize: "0.6rem",
+            color: "rgba(255,100,100,0.7)",
+            letterSpacing: "0.12em",
+            marginBottom: 10,
+          }}
+        >
+          📋 REJECTION HISTORY
+        </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <span
+            style={{
+              fontFamily: "Rajdhani, sans-serif",
+              fontSize: "0.9rem",
+              color: "rgba(176,255,255,0.7)",
+            }}
+          >
+            Total rejections this month
+          </span>
+          <span
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "0.85rem",
+              color: "#FF9999",
+              fontWeight: 700,
+            }}
+          >
+            3
+          </span>
+        </div>
+        <div
+          style={{
+            fontFamily: "Rajdhani, sans-serif",
+            fontSize: "0.75rem",
+            color: "rgba(176,255,255,0.4)",
+            marginTop: 6,
+            lineHeight: 1.5,
+          }}
+        >
+          Warnings issued: {warningCount}/3 · Next warning at 5 more rejections
+        </div>
+      </div>
+
       {/* Menu */}
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
         {[
-          { label: "Edit Profile", icon: "✏️", ocid: "profile.edit_button" },
+          {
+            label: "Edit Profile",
+            icon: "✏️",
+            ocid: "profile.edit_button",
+            action: onEditProfile,
+          },
           {
             label: "Payment Methods",
             icon: "💳",
             ocid: "profile.secondary_button",
+            action: onPaymentMethod,
           },
-          { label: "Transaction History", icon: "📊", ocid: "profile.item.1" },
+          {
+            label: "Transaction History",
+            icon: "📊",
+            ocid: "profile.item.1",
+            action: onTransactionHistory,
+          },
           {
             label: "Top Up Wallet",
             icon: "💰",
             ocid: "profile.item.2",
             action: onTopUp,
           },
-          { label: "Help & Support", icon: "❓", ocid: "profile.item.3" },
+          {
+            label: "Help & Support",
+            icon: "❓",
+            ocid: "profile.item.3",
+            action: onHelpSupport,
+          },
           {
             label: "Settings",
             icon: "⚙️",
@@ -9598,6 +12182,13 @@ function ProviderPricingScreen({
 
 function PortalApp() {
   const [screen, setScreen] = useState<Screen>("splash");
+  const [qiksBalance] = useState(3);
+  const [successfulDeliveries] = useState(67);
+  const [warningCount] = useState(1);
+  const [accountStatus] = useState<
+    "active" | "warned" | "suspended" | "blocked"
+  >("warned");
+  const [currentUserType] = useState<"user" | "provider">("user");
   const [selectedService, setSelectedService] = useState<
     (typeof SERVICES)[0] | null
   >(null);
@@ -9613,6 +12204,7 @@ function PortalApp() {
     {},
   );
   const [showLowBalance, setShowLowBalance] = useState(false);
+  const [workScopeSubmitted, setWorkScopeSubmitted] = useState(false);
   const [pricedItems, setPricedItems] = useState<
     Array<{ name: string; quantity: string; unit: string; price: string }>
   >([]);
@@ -9624,6 +12216,7 @@ function PortalApp() {
 
   const showBottomNav = [
     "home",
+    "tasks",
     "services",
     "providers",
     "confirmed",
@@ -9634,12 +12227,16 @@ function PortalApp() {
     "chat",
     "profile",
     "settings",
+    "edit-profile",
+    "payment-method",
+    "transaction-history",
+    "help-support",
   ];
 
   function handleNav(tab: NavTab) {
     setNavActive(tab);
     if (tab === "home") setScreen("home");
-    else if (tab === "tasks") setScreen("services");
+    else if (tab === "tasks") setScreen("tasks");
     else if (tab === "chat") setScreen("chat");
     else if (tab === "profile") setScreen("profile");
   }
@@ -9721,6 +12318,10 @@ function PortalApp() {
                 setScreen("services");
                 setNavActive("tasks");
               }}
+              onProfile={() => {
+                setScreen("profile");
+                setNavActive("profile");
+              }}
             />
           )}
           {screen === "services" && (
@@ -9739,6 +12340,7 @@ function PortalApp() {
               }}
               onSelect={(s) => {
                 setSelectedService(s);
+                setWorkScopeSubmitted(false);
                 const n = s.name.toLowerCase();
                 const c = s.category.toLowerCase();
                 const needs =
@@ -9759,7 +12361,21 @@ function PortalApp() {
                   n.includes("grocery") ||
                   n.includes("stationary") ||
                   n.includes("store") ||
-                  n.includes("shop");
+                  n.includes("shop") ||
+                  n.includes("agri-pharma") ||
+                  n.includes("home tutor") ||
+                  n.includes("tutor") ||
+                  n.includes("coaching") ||
+                  n.includes("school") ||
+                  n.includes("dry-clean") ||
+                  n.includes("maid") ||
+                  n.includes("food parcel") ||
+                  n.includes("dairy") ||
+                  n.includes("spice") ||
+                  n.includes("bakery") ||
+                  n.includes("tea & coffee") ||
+                  n.includes("personal care") ||
+                  n.includes("cleaning");
                 setScreen(needs ? "serviceBooking" : "providers");
               }}
               category={selectedCategory}
@@ -9810,15 +12426,31 @@ function PortalApp() {
             />
           )}
           {screen === "providers" && (
-            <NearbyProvidersScreen
-              service={selectedService}
-              onBack={() => setScreen(selectedService ? "services" : "home")}
-              onSelect={(p) => {
-                setSelectedProvider(p);
-                setScreen("confirmed");
-              }}
-              onLocationUpdate={(loc) => setUserLocation(loc)}
-            />
+            <>
+              <NearbyProvidersScreen
+                service={selectedService}
+                onBack={() => setScreen(selectedService ? "services" : "home")}
+                onSelect={(p) => {
+                  setSelectedProvider(p);
+                  setScreen("confirmed");
+                }}
+                onLocationUpdate={(loc) => setUserLocation(loc)}
+                currentUserType={currentUserType}
+              />
+              {selectedService?.category === "Repairs" &&
+                !workScopeSubmitted && (
+                  <WorkScopeModal
+                    isOpen={!workScopeSubmitted}
+                    onClose={() => {
+                      setWorkScopeSubmitted(true);
+                    }}
+                    onSubmit={(scope) => {
+                      console.log("Work scope:", scope);
+                      setWorkScopeSubmitted(true);
+                    }}
+                  />
+                )}
+            </>
           )}
           {screen === "confirmed" && (
             <ProviderConfirmedScreen
@@ -9881,6 +12513,26 @@ function PortalApp() {
               service={selectedService}
             />
           )}
+          {screen === "tasks" && (
+            <TasksScreen
+              onBack={() => {
+                setScreen("home");
+                setNavActive("home");
+              }}
+            />
+          )}
+          {screen === "edit-profile" && (
+            <EditProfileScreen onBack={() => setScreen("profile")} />
+          )}
+          {screen === "payment-method" && (
+            <PaymentMethodScreen onBack={() => setScreen("profile")} />
+          )}
+          {screen === "transaction-history" && (
+            <TransactionHistoryScreen onBack={() => setScreen("profile")} />
+          )}
+          {screen === "help-support" && (
+            <HelpSupportScreen onBack={() => setScreen("profile")} />
+          )}
           {screen === "chat" && (
             <ChatScreen
               onBack={() => {
@@ -9898,6 +12550,14 @@ function PortalApp() {
               onSettings={() => setScreen("settings")}
               onDeleteAccount={() => setScreen("provider-withdrawal")}
               onTopUp={() => setScreen("provider-topup")}
+              onEditProfile={() => setScreen("edit-profile")}
+              onPaymentMethod={() => setScreen("payment-method")}
+              onTransactionHistory={() => setScreen("transaction-history")}
+              onHelpSupport={() => setScreen("help-support")}
+              qiksBalance={qiksBalance}
+              successfulDeliveries={successfulDeliveries}
+              warningCount={warningCount}
+              accountStatus={accountStatus}
             />
           )}
           {screen === "provider-withdrawal" && (
