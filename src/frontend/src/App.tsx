@@ -842,13 +842,7 @@ const MESSAGES = [
   },
 ];
 
-const PORTALS_BANK = {
-  bankName: "Meezan Bank Limited",
-  accountTitle: "The Portals (Pvt) Ltd",
-  accountNumber: "0291-0123456789",
-  iban: "PK36MEZN0000291012345678",
-  branch: "Karachi Main Branch",
-};
+// PORTALS_BANK removed from UI — backend-only
 
 // ========================
 // UTILS
@@ -3313,27 +3307,39 @@ function HomeScreen({
   onAllServices: (category?: string) => void;
   onProfile?: () => void;
 }) {
-  const [activeCount, setActiveCount] = useState(0);
+  const [activeCount, setActiveCount] = useState<number | null>(null);
   const [activeUsers, setActiveUsers] = useState(0);
   const [onlineProviders, setOnlineProviders] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    const target = SERVICES.length;
-    const duration = 1500;
-    const steps = 30;
-    const increment = target / steps;
-    let current = 0;
-    const timer = setInterval(() => {
-      current += increment;
-      if (current >= target) {
-        setActiveCount(target);
-        clearInterval(timer);
-      } else {
-        setActiveCount(Math.floor(current));
-      }
-    }, duration / steps);
-    return () => clearInterval(timer);
+    // Simulate dynamic provider count (refreshes every 60s)
+    const fetchCount = () => {
+      // Simulate a live query with realistic variation
+      const base = 127;
+      const variation = Math.floor(Math.random() * 40) - 10;
+      const count = Math.max(
+        80,
+        base + variation + Math.floor(SERVICES.length * 0.6),
+      );
+      const duration = 1500;
+      const steps = 30;
+      const increment = count / steps;
+      let current = 0;
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= count) {
+          setActiveCount(count);
+          clearInterval(timer);
+        } else {
+          setActiveCount(Math.floor(current));
+        }
+      }, duration / steps);
+      return () => clearInterval(timer);
+    };
+    fetchCount();
+    const refreshTimer = setInterval(fetchCount, 60000);
+    return () => clearInterval(refreshTimer);
   }, []);
 
   useEffect(() => {
@@ -3779,7 +3785,11 @@ function HomeScreen({
                 letterSpacing: "0.1em",
               }}
             >
-              {activeCount} ACTIVE
+              {activeCount === null
+                ? "-- ACTIVE"
+                : activeCount === 0
+                  ? "SEARCHING FOR GATEWAYS..."
+                  : `${activeCount} ACTIVE`}
             </p>
           </div>
         </div>
@@ -5011,12 +5021,15 @@ function ServiceBookingFormScreen({
   const c = service.category.toLowerCase();
 
   const isHealth =
-    c === "health" ||
-    n.includes("doctor") ||
-    n.includes("nurse") ||
-    n.includes("dental") ||
-    n.includes("home visit") ||
-    n.includes("medical");
+    (c === "health" ||
+      n.includes("doctor") ||
+      n.includes("nurse") ||
+      n.includes("dental") ||
+      n.includes("home visit") ||
+      n.includes("medical")) &&
+    !n.includes("medical store") &&
+    !n.includes("agri-pharma") &&
+    !n.includes("agri pharma");
 
   const isCarRental =
     (c === "rentals" &&
@@ -5047,6 +5060,7 @@ function ServiceBookingFormScreen({
     n.includes("property") ||
     n.includes("residential") ||
     n.includes("commercial property");
+  const isCommercialVehicle = n.includes("commercial vehicle");
 
   const isOrderable =
     c === "groceries" ||
@@ -7993,6 +8007,125 @@ function ServiceBookingFormScreen({
             </>
           )}
 
+        {/* ---- COMMERCIAL VEHICLES ---- */}
+        {isCommercialVehicle && (
+          <>
+            <div>
+              <span style={labelStyle}>VEHICLE TYPE</span>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                {[
+                  "🚛 Mazda",
+                  "🚚 Truck",
+                  "🚜 Trolley",
+                  "⚙️ Loader",
+                  "🏗️ Crane",
+                  "🚐 Mini Truck",
+                  "🛻 Pickup",
+                ].map((v) => (
+                  <button
+                    key={v}
+                    type="button"
+                    data-ocid="booking.tab"
+                    onClick={() => set("vehicleType", v)}
+                    style={{
+                      ...(form.vehicleType === v ? chipActive : chipInactive),
+                      borderRadius: 10,
+                      padding: "8px 14px",
+                    }}
+                  >
+                    {v}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div style={{ display: "flex", gap: 10 }}>
+              <div style={{ flex: 1 }}>
+                <span style={labelStyle}>PICKUP LOCATION</span>
+                <input
+                  data-ocid="booking.input"
+                  style={inputStyle}
+                  placeholder="Pickup address"
+                  value={form.pickupLocation || ""}
+                  onChange={(e) => set("pickupLocation", e.target.value)}
+                />
+              </div>
+            </div>
+            <div>
+              <span style={labelStyle}>DROP LOCATION</span>
+              <input
+                data-ocid="booking.input"
+                style={inputStyle}
+                placeholder="Delivery destination"
+                value={form.dropLocation || ""}
+                onChange={(e) => set("dropLocation", e.target.value)}
+              />
+            </div>
+            <div>
+              <span style={labelStyle}>CARGO DESCRIPTION</span>
+              <textarea
+                data-ocid="booking.textarea"
+                style={{ ...inputStyle, minHeight: 70, resize: "vertical" }}
+                placeholder="What needs to be transported?"
+                value={form.cargoDescription || ""}
+                onChange={(e) => set("cargoDescription", e.target.value)}
+              />
+            </div>
+            <div style={{ display: "flex", gap: 10 }}>
+              <div style={{ flex: 1 }}>
+                <span style={labelStyle}>DATE</span>
+                <input
+                  data-ocid="booking.input"
+                  type="date"
+                  style={inputStyle}
+                  value={form.preferredDate || ""}
+                  onChange={(e) => set("preferredDate", e.target.value)}
+                />
+              </div>
+              <div style={{ flex: 1 }}>
+                <span style={labelStyle}>TIME</span>
+                <input
+                  data-ocid="booking.input"
+                  type="time"
+                  style={inputStyle}
+                  value={form.preferredTime || ""}
+                  onChange={(e) => set("preferredTime", e.target.value)}
+                />
+              </div>
+            </div>
+            <div
+              style={{
+                background: "rgba(0,255,255,0.06)",
+                border: "1px solid rgba(0,255,255,0.2)",
+                borderRadius: 12,
+                padding: 14,
+                marginTop: 4,
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "0.55rem",
+                  color: "rgba(0,255,255,0.6)",
+                  letterSpacing: "0.1em",
+                  marginBottom: 6,
+                }}
+              >
+                ESTIMATED RATE
+              </div>
+              <div
+                style={{
+                  fontFamily: "Rajdhani, sans-serif",
+                  fontSize: "0.95rem",
+                  color: "#50ffb0",
+                }}
+              >
+                Provider will quote based on vehicle type, distance & load.
+                You'll see all quotes before confirming.
+              </div>
+            </div>
+          </>
+        )}
+
         {/* ---- DEFAULT ---- */}
         {!isHealth &&
           !isCarRental &&
@@ -8008,7 +8141,7 @@ function ServiceBookingFormScreen({
           !isHomeChef &&
           !isHomeCleaning &&
           !isTechAccessories &&
-          !n.includes("commercial vehicle") &&
+          !isCommercialVehicle &&
           !n.includes("commercial property") && (
             <>
               <div>
@@ -12484,44 +12617,56 @@ function BankTransferConfirmScreen({
           style={{
             fontFamily: "Orbitron, sans-serif",
             fontSize: "0.6rem",
-            color: "rgba(176,255,255,0.5)",
+            color: "#00ffff",
             marginBottom: 12,
             letterSpacing: "0.1em",
           }}
         >
-          OFFICIAL BANK DETAILS
+          TRANSFER INSTRUCTIONS
         </div>
-        {[
-          { label: "Bank Name", value: PORTALS_BANK.bankName },
-          { label: "Account Title", value: PORTALS_BANK.accountTitle },
-          { label: "Account Number", value: PORTALS_BANK.accountNumber },
-          { label: "IBAN", value: PORTALS_BANK.iban },
-          { label: "Branch", value: PORTALS_BANK.branch },
-        ].map((item) => (
-          <div key={item.label} style={{ marginBottom: 10 }}>
-            <div
-              style={{
-                fontFamily: "Orbitron, sans-serif",
-                fontSize: "0.5rem",
-                color: "rgba(176,255,255,0.4)",
-                letterSpacing: "0.08em",
-                marginBottom: 2,
-              }}
-            >
-              {item.label.toUpperCase()}
-            </div>
-            <div
-              style={{
-                fontFamily: "Rajdhani, sans-serif",
-                fontSize: "0.9rem",
-                fontWeight: 600,
-                color: "#f0f0f0",
-              }}
-            >
-              {item.value}
-            </div>
+        <div
+          style={{
+            fontFamily: "Rajdhani, sans-serif",
+            fontSize: "0.9rem",
+            color: "rgba(176,255,255,0.8)",
+            lineHeight: 1.6,
+          }}
+        >
+          Use your preferred bank app to transfer the amount. After the transfer
+          is complete, enter your Transaction Reference (TRX ID) below to verify
+          and confirm your payment.
+        </div>
+        <div
+          style={{
+            marginTop: 12,
+            padding: "10px 12px",
+            background: "rgba(0,255,255,0.08)",
+            borderRadius: 8,
+            border: "1px solid rgba(0,255,255,0.2)",
+          }}
+        >
+          <div
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "0.5rem",
+              color: "rgba(176,255,255,0.5)",
+              letterSpacing: "0.08em",
+              marginBottom: 4,
+            }}
+          >
+            AMOUNT DUE
           </div>
-        ))}
+          <div
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "1.1rem",
+              fontWeight: 700,
+              color: "#50ffb0",
+            }}
+          >
+            PKR 1,400
+          </div>
+        </div>
       </div>
 
       <div className="glass" style={{ padding: 16, marginBottom: 12 }}>
@@ -14366,6 +14511,7 @@ function PortalApp() {
                   <WorkScopeModal
                     isOpen={!workScopeSubmitted}
                     onClose={() => {
+                      setSelectedCategory("Repairs");
                       setScreen("services");
                       setNavActive("home");
                       setWorkScopeSubmitted(false);
