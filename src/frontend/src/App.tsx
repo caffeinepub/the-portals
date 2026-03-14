@@ -184,20 +184,6 @@ const SERVICES = [
   },
   // Shopping
   {
-    id: 26,
-    emoji: "🛒",
-    name: "Supermarket",
-    price: 500,
-    category: "Shopping",
-  },
-  {
-    id: 27,
-    emoji: "👗",
-    name: "Clothing Store",
-    price: 1200,
-    category: "Shopping",
-  },
-  {
     id: 28,
     emoji: "📱",
     name: "Electronics Shop",
@@ -206,10 +192,10 @@ const SERVICES = [
   },
   {
     id: 29,
-    emoji: "📝",
+    emoji: "✏️",
     name: "Stationary Shop",
     price: 400,
-    category: "Shopping",
+    category: "Stationary",
   },
   {
     id: 30,
@@ -224,7 +210,7 @@ const SERVICES = [
     emoji: "✈️",
     name: "Travel Tickets",
     price: 5000,
-    category: "Rentals",
+    category: "Transport",
   },
   {
     id: 32,
@@ -232,6 +218,144 @@ const SERVICES = [
     name: "Driver Booking",
     price: 600,
     category: "Rentals",
+  },
+  // Transport additions
+  {
+    id: 33,
+    emoji: "🚌",
+    name: "Coaches Ticket",
+    price: 1500,
+    category: "Transport",
+  },
+  {
+    id: 34,
+    emoji: "🚙",
+    name: "Dome Service",
+    price: 800,
+    category: "Transport",
+  },
+  {
+    id: 36,
+    emoji: "🚐",
+    name: "Van Service",
+    price: 2000,
+    category: "Transport",
+  },
+  {
+    id: 37,
+    emoji: "🚂",
+    name: "Pakistan Railway",
+    price: 1200,
+    category: "Transport",
+  },
+  // Repairs additions
+  {
+    id: 35,
+    emoji: "🧱",
+    name: "Mason",
+    price: 1200,
+    category: "Repairs",
+  },
+  // Stationary sub-categories
+  {
+    id: 38,
+    emoji: "🖊️",
+    name: "Pens & Pencils",
+    price: 200,
+    category: "Stationary",
+  },
+  {
+    id: 39,
+    emoji: "📓",
+    name: "Notebooks",
+    price: 300,
+    category: "Stationary",
+  },
+  {
+    id: 40,
+    emoji: "🎨",
+    name: "Art Supplies",
+    price: 500,
+    category: "Stationary",
+  },
+  {
+    id: 41,
+    emoji: "📋",
+    name: "Office Supplies",
+    price: 400,
+    category: "Stationary",
+  },
+  {
+    id: 42,
+    emoji: "🏫",
+    name: "School Supplies",
+    price: 350,
+    category: "Stationary",
+  },
+  {
+    id: 43,
+    emoji: "🖨️",
+    name: "Printing & Binding",
+    price: 600,
+    category: "Stationary",
+  },
+  {
+    id: 44,
+    emoji: "📁",
+    name: "Envelopes & Files",
+    price: 200,
+    category: "Stationary",
+  },
+  {
+    id: 45,
+    emoji: "🔢",
+    name: "Calculators",
+    price: 800,
+    category: "Stationary",
+  },
+  // Grocery sub-categories
+  {
+    id: 46,
+    emoji: "🌾",
+    name: "Rice & Grain",
+    price: 250,
+    category: "Groceries",
+  },
+  {
+    id: 47,
+    emoji: "🫙",
+    name: "Oils & Ghee",
+    price: 400,
+    category: "Groceries",
+  },
+  {
+    id: 48,
+    emoji: "🧴",
+    name: "Home Hygiene",
+    price: 300,
+    category: "Groceries",
+  },
+  {
+    id: 49,
+    emoji: "🍅",
+    name: "Fruits & Vegetables",
+    price: 200,
+    category: "Groceries",
+  },
+  // IT sub-categories
+  {
+    id: 50,
+    emoji: "⌨️",
+    name: "IT Accessories",
+    price: 1000,
+    category: "Tech",
+  },
+  {
+    id: 51,
+    emoji: "🛠️",
+    name: "IT Technician",
+    price: 800,
+    category: "Tech",
   },
 ];
 
@@ -3290,7 +3414,7 @@ function HomeScreen({
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    const target = 127;
+    const target = SERVICES.length;
     const duration = 1500;
     const steps = 30;
     const increment = target / steps;
@@ -3333,10 +3457,10 @@ function HomeScreen({
     { name: "Education", emoji: "📚", border: "rgba(251,191,36,0.4)" },
     { name: "Home", emoji: "🏠", border: "rgba(0,200,255,0.4)" },
     { name: "Shopping", emoji: "🛒", border: "rgba(255,100,200,0.4)" },
-    { name: "Security", emoji: "🛡️", border: "rgba(255,120,120,0.4)" },
     { name: "Tech", emoji: "💻", border: "rgba(150,100,255,0.4)" },
     { name: "Transport", emoji: "🚌", border: "rgba(100,180,255,0.4)" },
     { name: "Groceries", emoji: "🛍️", border: "rgba(100,220,100,0.4)" },
+    { name: "Stationary", emoji: "✏️", border: "rgba(255,220,100,0.4)" },
     { name: "Agri-Pharma", emoji: "🌿", border: "rgba(100,255,150,0.4)" },
     { name: "All Services", emoji: "⚡", border: "rgba(0,255,255,0.4)" },
   ];
@@ -3845,11 +3969,11 @@ const CATEGORY_META: Record<string, { emoji: string; color: string }> = {
   Home: { emoji: "🏠", color: "rgba(0,200,255,0.25)" },
   Rentals: { emoji: "🚗", color: "rgba(180,180,180,0.25)" },
   Education: { emoji: "📚", color: "rgba(251,191,36,0.25)" },
-  Security: { emoji: "🛡️", color: "rgba(255,120,120,0.25)" },
   Tech: { emoji: "💻", color: "rgba(150,100,255,0.25)" },
   Transport: { emoji: "🚌", color: "rgba(100,180,255,0.25)" },
   Groceries: { emoji: "🛒", color: "rgba(100,220,100,0.25)" },
   Shopping: { emoji: "🛍️", color: "rgba(255,100,200,0.25)" },
+  Stationary: { emoji: "✏️", color: "rgba(255,220,100,0.25)" },
 };
 
 const ALL_CATEGORIES = [
@@ -3858,11 +3982,11 @@ const ALL_CATEGORIES = [
   "Home",
   "Rentals",
   "Education",
-  "Security",
   "Tech",
   "Transport",
   "Groceries",
   "Shopping",
+  "Stationary",
 ];
 
 function AllServicesScreen({
@@ -3878,6 +4002,9 @@ function AllServicesScreen({
 }) {
   const [activeCategory, setActiveCategory] = useState<string | undefined>(
     category,
+  );
+  const [itTab, setItTab] = useState<"accessories" | "technician">(
+    "accessories",
   );
   const filtered = activeCategory
     ? SERVICES.filter((s) => s.category === activeCategory)
@@ -4008,6 +4135,59 @@ function AllServicesScreen({
       {/* Step 2: Services grid when category selected */}
       {activeCategory && (
         <>
+          {/* IT Tabs */}
+          {activeCategory === "Tech" && (
+            <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
+              {(
+                [
+                  { key: "accessories", label: "IT ACCESSORIES", icon: "⌨️" },
+                  { key: "technician", label: "IT TECHNICIAN", icon: "🛠️" },
+                ] as {
+                  key: "accessories" | "technician";
+                  label: string;
+                  icon: string;
+                }[]
+              ).map((tab) => (
+                <button
+                  key={tab.key}
+                  type="button"
+                  data-ocid={`services.tech_${tab.key}.tab`}
+                  onClick={() => setItTab(tab.key)}
+                  style={{
+                    flex: 1,
+                    padding: "10px 8px",
+                    background:
+                      itTab === tab.key
+                        ? "rgba(0,255,255,0.15)"
+                        : "rgba(0,20,30,0.5)",
+                    border:
+                      itTab === tab.key
+                        ? "1px solid rgba(0,255,255,0.7)"
+                        : "1px solid rgba(0,255,255,0.2)",
+                    borderRadius: 10,
+                    color:
+                      itTab === tab.key ? "#00ffff" : "rgba(176,255,255,0.5)",
+                    fontFamily: "Orbitron, sans-serif",
+                    fontSize: "0.55rem",
+                    letterSpacing: "0.08em",
+                    cursor: "pointer",
+                    boxShadow:
+                      itTab === tab.key
+                        ? "0 0 12px rgba(0,255,255,0.2)"
+                        : "none",
+                    transition: "all 0.2s",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 6,
+                  }}
+                >
+                  <span style={{ fontSize: "1rem" }}>{tab.icon}</span>
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+          )}
           <div
             style={{
               display: "grid",
@@ -4016,7 +4196,154 @@ function AllServicesScreen({
               marginBottom: 24,
             }}
           >
-            {filtered.map((svc, idx) => (
+            {(activeCategory === "Tech"
+              ? itTab === "accessories"
+                ? [
+                    {
+                      id: 9001,
+                      emoji: "⌨️",
+                      name: "Keyboards & Mice",
+                      price: 800,
+                      category: "Tech",
+                    },
+                    {
+                      id: 9002,
+                      emoji: "🔌",
+                      name: "Cables & Adapters",
+                      price: 300,
+                      category: "Tech",
+                    },
+                    {
+                      id: 9003,
+                      emoji: "🔗",
+                      name: "USB Hubs",
+                      price: 500,
+                      category: "Tech",
+                    },
+                    {
+                      id: 9004,
+                      emoji: "🎧",
+                      name: "Headphones & Speakers",
+                      price: 1200,
+                      category: "Tech",
+                    },
+                    {
+                      id: 9005,
+                      emoji: "📷",
+                      name: "Webcams",
+                      price: 1500,
+                      category: "Tech",
+                    },
+                    {
+                      id: 9006,
+                      emoji: "💼",
+                      name: "Laptop Bags",
+                      price: 700,
+                      category: "Tech",
+                    },
+                    {
+                      id: 9007,
+                      emoji: "🔋",
+                      name: "Power Banks",
+                      price: 900,
+                      category: "Tech",
+                    },
+                    {
+                      id: 9008,
+                      emoji: "🔌",
+                      name: "Chargers",
+                      price: 400,
+                      category: "Tech",
+                    },
+                    {
+                      id: 9009,
+                      emoji: "📱",
+                      name: "Screen Protectors",
+                      price: 200,
+                      category: "Tech",
+                    },
+                    {
+                      id: 9010,
+                      emoji: "🖨️",
+                      name: "Printers",
+                      price: 3500,
+                      category: "Tech",
+                    },
+                  ]
+                : [
+                    {
+                      id: 9011,
+                      emoji: "🖥️",
+                      name: "PC Repair",
+                      price: 800,
+                      category: "Tech",
+                    },
+                    {
+                      id: 9012,
+                      emoji: "📡",
+                      name: "Network Setup",
+                      price: 1200,
+                      category: "Tech",
+                    },
+                    {
+                      id: 9013,
+                      emoji: "📹",
+                      name: "CCTV Installation",
+                      price: 2500,
+                      category: "Tech",
+                    },
+                    {
+                      id: 9014,
+                      emoji: "🖧",
+                      name: "Server Config",
+                      price: 3000,
+                      category: "Tech",
+                    },
+                    {
+                      id: 9015,
+                      emoji: "💾",
+                      name: "Data Recovery",
+                      price: 2000,
+                      category: "Tech",
+                    },
+                    {
+                      id: 9016,
+                      emoji: "💿",
+                      name: "Software Install",
+                      price: 600,
+                      category: "Tech",
+                    },
+                    {
+                      id: 9017,
+                      emoji: "🦠",
+                      name: "Virus Removal",
+                      price: 700,
+                      category: "Tech",
+                    },
+                    {
+                      id: 9018,
+                      emoji: "🌐",
+                      name: "Website Help",
+                      price: 1500,
+                      category: "Tech",
+                    },
+                    {
+                      id: 9019,
+                      emoji: "📺",
+                      name: "Smart TV Setup",
+                      price: 800,
+                      category: "Tech",
+                    },
+                    {
+                      id: 9020,
+                      emoji: "🖨️",
+                      name: "Printer Setup",
+                      price: 500,
+                      category: "Tech",
+                    },
+                  ]
+              : filtered
+            ).map((svc, idx) => (
               <button
                 key={svc.id}
                 type="button"
@@ -4793,20 +5120,41 @@ function ServiceBookingFormScreen({
         n.includes("van") ||
         n.includes("bike") ||
         n.includes("driver"))) ||
-    c === "transport";
+    (c === "transport" &&
+      !n.includes("coaches ticket") &&
+      !n.includes("pakistan railway") &&
+      !n.includes("dome service") &&
+      !n.includes("van service") &&
+      !n.includes("travel ticket"));
 
-  const isTravelTicket = n.includes("travel ticket");
+  const isTravelTicket =
+    n.includes("travel ticket") ||
+    n.includes("coaches ticket") ||
+    n.includes("pakistan railway");
+  const isCoachesTicket = n.includes("coaches ticket");
+  const isPakRailway = n.includes("pakistan railway");
+  const isDomeService = n.includes("dome service");
+  const isVanService = n.includes("van service");
 
   const isProperty = n.includes("property");
 
   const isOrderable =
     c === "groceries" ||
     c === "shopping" ||
+    c === "stationary" ||
     n.includes("pharmacy") ||
     n.includes("medical store") ||
     n.includes("grocery") ||
     n.includes("stationary") ||
-    n.includes("supermarket") ||
+    n.includes("agri-pharma") ||
+    n.includes("agri pharma") ||
+    n.includes("rice") ||
+    n.includes("grain") ||
+    n.includes("oils") ||
+    n.includes("ghee") ||
+    n.includes("hygiene") ||
+    n.includes("fruits") ||
+    n.includes("vegetables") ||
     n.includes("store") ||
     n.includes("shop");
 
@@ -4814,6 +5162,8 @@ function ServiceBookingFormScreen({
     n.includes("pharmacy") ||
     n.includes("medical store") ||
     n.includes("medicine");
+  const isAgriPharma = n.includes("agri-pharma") || n.includes("agri pharma");
+  const isMedicineOrder = isMedicine || isAgriPharma;
   const isStationary = n.includes("stationary");
   const isGrocery = n.includes("grocery") || c === "groceries";
   const isShopping = c === "shopping";
@@ -5478,6 +5828,453 @@ function ServiceBookingFormScreen({
           </>
         )}
 
+        {/* ---- COACHES TICKET ---- */}
+        {isCoachesTicket && (
+          <>
+            <div style={{ display: "flex", gap: 10 }}>
+              <div style={{ flex: 1 }}>
+                <span style={labelStyle}>FROM CITY</span>
+                <input
+                  data-ocid="booking.input"
+                  style={inputStyle}
+                  placeholder="Departure city"
+                  value={form.fromCity || ""}
+                  onChange={(e) => set("fromCity", e.target.value)}
+                />
+              </div>
+              <div style={{ flex: 1 }}>
+                <span style={labelStyle}>TO CITY</span>
+                <input
+                  data-ocid="booking.input"
+                  style={inputStyle}
+                  placeholder="Destination city"
+                  value={form.toCity || ""}
+                  onChange={(e) => set("toCity", e.target.value)}
+                />
+              </div>
+            </div>
+            <div>
+              <span style={labelStyle}>DATE</span>
+              <input
+                data-ocid="booking.input"
+                type="date"
+                style={inputStyle}
+                value={form.coachDate || ""}
+                onChange={(e) => set("coachDate", e.target.value)}
+              />
+            </div>
+            <div>
+              <span style={labelStyle}>PASSENGERS</span>
+              <input
+                data-ocid="booking.input"
+                type="number"
+                style={inputStyle}
+                placeholder="Number of passengers"
+                value={form.coachPassengers || ""}
+                onChange={(e) => set("coachPassengers", e.target.value)}
+              />
+            </div>
+            <div>
+              <span style={labelStyle}>SEAT TYPE</span>
+              {renderChips("coachSeatType", [
+                "AC Business",
+                "AC Standard",
+                "Economy",
+              ])}
+            </div>
+            <div
+              className="glass-bright"
+              style={{ borderRadius: 12, padding: "14px 16px", marginTop: 4 }}
+            >
+              <div
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "0.6rem",
+                  color: "rgba(0,255,255,0.6)",
+                  letterSpacing: "0.1em",
+                  marginBottom: 10,
+                }}
+              >
+                AVAILABLE COACHES
+              </div>
+              {[
+                {
+                  name: "Daewoo Express",
+                  time: "08:00 AM",
+                  fare: 1800,
+                  seats: 12,
+                },
+                {
+                  name: "Faisal Movers",
+                  time: "10:30 AM",
+                  fare: 1500,
+                  seats: 8,
+                },
+                {
+                  name: "Bilal Daewoo",
+                  time: "02:00 PM",
+                  fare: 1200,
+                  seats: 15,
+                },
+                { name: "Sky Daewoo", time: "06:00 PM", fare: 1600, seats: 5 },
+              ].map((coach) => (
+                <div
+                  key={coach.name}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    padding: "10px 0",
+                    borderBottom: "1px solid rgba(0,255,255,0.1)",
+                  }}
+                >
+                  <div>
+                    <div
+                      style={{
+                        fontFamily: "Rajdhani, sans-serif",
+                        fontWeight: 700,
+                        color: "#f0f0f0",
+                        fontSize: "0.9rem",
+                      }}
+                    >
+                      {coach.name}
+                    </div>
+                    <div
+                      style={{
+                        fontFamily: "Rajdhani, sans-serif",
+                        fontSize: "0.75rem",
+                        color: "rgba(176,255,255,0.5)",
+                      }}
+                    >
+                      Dep: {coach.time} · {coach.seats} seats left
+                    </div>
+                  </div>
+                  <div style={{ textAlign: "right" }}>
+                    <div
+                      style={{
+                        fontFamily: "Orbitron, sans-serif",
+                        fontSize: "0.7rem",
+                        color: "#50ffb0",
+                      }}
+                    >
+                      ₨{coach.fare.toLocaleString()}
+                    </div>
+                    <div
+                      style={{
+                        fontFamily: "Rajdhani, sans-serif",
+                        fontSize: "0.7rem",
+                        color: "rgba(176,255,255,0.4)",
+                      }}
+                    >
+                      per seat
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
+        {/* ---- DOME SERVICE ---- */}
+        {isDomeService && (
+          <>
+            <div>
+              <button
+                type="button"
+                data-ocid="booking.toggle"
+                onClick={handleGpsPickup}
+                style={{
+                  marginBottom: 8,
+                  padding: "8px 12px",
+                  background: "rgba(0,255,255,0.1)",
+                  border: "1px solid rgba(0,255,255,0.3)",
+                  borderRadius: 8,
+                  color: "#00ffff",
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "0.55rem",
+                  cursor: "pointer",
+                  letterSpacing: "0.08em",
+                }}
+              >
+                {gpsLoading ? "LOCATING..." : "📍 USE GPS LOCATION"}
+              </button>
+              <span style={labelStyle}>PICKUP LOCATION</span>
+              <input
+                data-ocid="booking.input"
+                style={inputStyle}
+                placeholder="Your current location"
+                value={form.pickupLocation || ""}
+                onChange={(e) => set("pickupLocation", e.target.value)}
+              />
+            </div>
+            <div>
+              <span style={labelStyle}>DROP LOCATION</span>
+              <input
+                data-ocid="booking.input"
+                style={inputStyle}
+                placeholder="Destination"
+                value={form.domeDropLocation || ""}
+                onChange={(e) => set("domeDropLocation", e.target.value)}
+              />
+            </div>
+            <div>
+              <span style={labelStyle}>PASSENGERS</span>
+              <input
+                data-ocid="booking.input"
+                type="number"
+                style={inputStyle}
+                placeholder="How many passengers?"
+                value={form.domePassengers || ""}
+                onChange={(e) => set("domePassengers", e.target.value)}
+              />
+            </div>
+            <div>
+              <span style={labelStyle}>WHEN</span>
+              {renderChips("domeWhen", ["Now", "Schedule Later"])}
+            </div>
+            {form.domeWhen === "Schedule Later" && (
+              <div>
+                <span style={labelStyle}>DATE & TIME</span>
+                <input
+                  data-ocid="booking.input"
+                  type="datetime-local"
+                  style={inputStyle}
+                  value={form.domeDateTime || ""}
+                  onChange={(e) => set("domeDateTime", e.target.value)}
+                />
+              </div>
+            )}
+          </>
+        )}
+
+        {/* ---- VAN SERVICE ---- */}
+        {isVanService && (
+          <>
+            <div>
+              <button
+                type="button"
+                data-ocid="booking.toggle"
+                onClick={handleGpsPickup}
+                style={{
+                  marginBottom: 8,
+                  padding: "8px 12px",
+                  background: "rgba(0,255,255,0.1)",
+                  border: "1px solid rgba(0,255,255,0.3)",
+                  borderRadius: 8,
+                  color: "#00ffff",
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "0.55rem",
+                  cursor: "pointer",
+                  letterSpacing: "0.08em",
+                }}
+              >
+                {gpsLoading ? "LOCATING..." : "📍 USE GPS LOCATION"}
+              </button>
+              <span style={labelStyle}>PICKUP LOCATION</span>
+              <input
+                data-ocid="booking.input"
+                style={inputStyle}
+                placeholder="Pickup address"
+                value={form.pickupLocation || ""}
+                onChange={(e) => set("pickupLocation", e.target.value)}
+              />
+            </div>
+            <div>
+              <span style={labelStyle}>DROP LOCATION</span>
+              <input
+                data-ocid="booking.input"
+                style={inputStyle}
+                placeholder="Destination"
+                value={form.vanDropLocation || ""}
+                onChange={(e) => set("vanDropLocation", e.target.value)}
+              />
+            </div>
+            <div>
+              <span style={labelStyle}>DATE & TIME</span>
+              <input
+                data-ocid="booking.input"
+                type="datetime-local"
+                style={inputStyle}
+                value={form.vanDateTime || ""}
+                onChange={(e) => set("vanDateTime", e.target.value)}
+              />
+            </div>
+            <div>
+              <span style={labelStyle}>PASSENGERS (UP TO 14)</span>
+              <input
+                data-ocid="booking.input"
+                type="number"
+                style={inputStyle}
+                placeholder="1-14 passengers"
+                min="1"
+                max="14"
+                value={form.vanPassengers || ""}
+                onChange={(e) => set("vanPassengers", e.target.value)}
+              />
+            </div>
+            <div>
+              <span style={labelStyle}>PURPOSE</span>
+              {renderChips("vanPurpose", [
+                "Family Trip",
+                "Airport",
+                "School",
+                "Goods",
+                "Other",
+              ])}
+            </div>
+          </>
+        )}
+
+        {/* ---- PAKISTAN RAILWAY ---- */}
+        {isPakRailway && (
+          <>
+            <div style={{ display: "flex", gap: 10 }}>
+              <div style={{ flex: 1 }}>
+                <span style={labelStyle}>FROM STATION</span>
+                <input
+                  data-ocid="booking.input"
+                  style={inputStyle}
+                  placeholder="e.g. Karachi City"
+                  value={form.railFromStation || ""}
+                  onChange={(e) => set("railFromStation", e.target.value)}
+                />
+              </div>
+              <div style={{ flex: 1 }}>
+                <span style={labelStyle}>TO STATION</span>
+                <input
+                  data-ocid="booking.input"
+                  style={inputStyle}
+                  placeholder="e.g. Lahore Jn."
+                  value={form.railToStation || ""}
+                  onChange={(e) => set("railToStation", e.target.value)}
+                />
+              </div>
+            </div>
+            <div>
+              <span style={labelStyle}>DATE</span>
+              <input
+                data-ocid="booking.input"
+                type="date"
+                style={inputStyle}
+                value={form.railDate || ""}
+                onChange={(e) => set("railDate", e.target.value)}
+              />
+            </div>
+            <div>
+              <span style={labelStyle}>CLASS</span>
+              {renderChips("railClass", [
+                "AC Sleeper",
+                "AC Sitter",
+                "Economy AC",
+                "Economy",
+              ])}
+            </div>
+            <div>
+              <span style={labelStyle}>PASSENGERS</span>
+              <input
+                data-ocid="booking.input"
+                type="number"
+                style={inputStyle}
+                placeholder="Number of passengers"
+                value={form.railPassengers || ""}
+                onChange={(e) => set("railPassengers", e.target.value)}
+              />
+            </div>
+            <div
+              className="glass-bright"
+              style={{ borderRadius: 12, padding: "14px 16px", marginTop: 4 }}
+            >
+              <div
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "0.6rem",
+                  color: "rgba(0,255,255,0.6)",
+                  letterSpacing: "0.1em",
+                  marginBottom: 10,
+                }}
+              >
+                AVAILABLE TRAINS
+              </div>
+              {[
+                {
+                  name: "Karachi Express",
+                  departs: "07:00",
+                  arrives: "15:30",
+                  fare: 1200,
+                  seats: 34,
+                },
+                {
+                  name: "Shah Express",
+                  departs: "09:30",
+                  arrives: "19:00",
+                  fare: 950,
+                  seats: 18,
+                },
+                {
+                  name: "Tezgam Express",
+                  departs: "12:00",
+                  arrives: "22:00",
+                  fare: 1500,
+                  seats: 6,
+                },
+              ].map((train) => (
+                <div
+                  key={train.name}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    padding: "10px 0",
+                    borderBottom: "1px solid rgba(0,255,255,0.1)",
+                  }}
+                >
+                  <div>
+                    <div
+                      style={{
+                        fontFamily: "Rajdhani, sans-serif",
+                        fontWeight: 700,
+                        color: "#f0f0f0",
+                        fontSize: "0.9rem",
+                      }}
+                    >
+                      {train.name}
+                    </div>
+                    <div
+                      style={{
+                        fontFamily: "Rajdhani, sans-serif",
+                        fontSize: "0.75rem",
+                        color: "rgba(176,255,255,0.5)",
+                      }}
+                    >
+                      {train.departs} → {train.arrives} · {train.seats} seats
+                    </div>
+                  </div>
+                  <div style={{ textAlign: "right" }}>
+                    <div
+                      style={{
+                        fontFamily: "Orbitron, sans-serif",
+                        fontSize: "0.7rem",
+                        color: "#50ffb0",
+                      }}
+                    >
+                      ₨{train.fare.toLocaleString()}
+                    </div>
+                    <div
+                      style={{
+                        fontFamily: "Rajdhani, sans-serif",
+                        fontSize: "0.7rem",
+                        color: "rgba(176,255,255,0.4)",
+                      }}
+                    >
+                      per person
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
         {/* ---- PROPERTY RENTAL ---- */}
         {isProperty && (
           <>
@@ -5493,119 +6290,234 @@ function ServiceBookingFormScreen({
             </div>
             <div>
               <span style={labelStyle}>PROPERTY TYPE</span>
-              {renderChips("propertyType", ["Flat", "House", "Room", "Office"])}
-            </div>
-            <div>
-              <span style={labelStyle}>RATE TYPE</span>
-              {renderChips("rateType", [
-                "Per Day",
-                "Per Night",
-                "Per Room",
-                "Monthly Lump Sum",
+              {renderChips("propertyType", [
+                "Flat",
+                "House",
+                "Room",
+                "Office",
+                "Hotel",
+                "Guest House",
               ])}
             </div>
             <div>
-              <span style={labelStyle}>RATE (PKR)</span>
+              <span style={labelStyle}>NUMBER OF ROOMS</span>
               <input
                 data-ocid="booking.input"
                 type="number"
                 style={inputStyle}
-                placeholder="Enter rate amount"
-                value={form.propertyRate || ""}
-                onChange={(e) => set("propertyRate", e.target.value)}
+                placeholder="e.g. 2"
+                value={form.numRooms || ""}
+                onChange={(e) => set("numRooms", e.target.value)}
               />
             </div>
             <div>
-              <span style={labelStyle}>
-                DURATION (
-                {form.rateType === "Monthly Lump Sum"
-                  ? "MONTHS"
-                  : form.rateType === "Per Night"
-                    ? "NIGHTS"
-                    : "DAYS"}
-                )
-              </span>
+              <span style={labelStyle}>NUMBER OF DAYS/NIGHTS</span>
               <input
                 data-ocid="booking.input"
                 type="number"
                 style={inputStyle}
-                placeholder="Number of days/nights/months"
-                value={form.propertyDuration || ""}
-                onChange={(e) => set("propertyDuration", e.target.value)}
+                placeholder="e.g. 3"
+                value={form.numDays || ""}
+                onChange={(e) => set("numDays", e.target.value)}
               />
             </div>
-            {form.propertyRate &&
-              form.propertyDuration &&
-              Number(form.propertyRate) > 0 &&
-              Number(form.propertyDuration) > 0 && (
+            <div>
+              <span style={labelStyle}>BUDGET (PKR)</span>
+              <input
+                data-ocid="booking.input"
+                type="number"
+                style={inputStyle}
+                placeholder="Your maximum budget per night"
+                value={form.budget || ""}
+                onChange={(e) => set("budget", e.target.value)}
+              />
+            </div>
+            {form.area &&
+              form.propertyType &&
+              form.numDays &&
+              !form._propertyPortalOpen && (
+                <button
+                  type="button"
+                  data-ocid="property.open_portal.primary_button"
+                  className="btn-portal"
+                  onClick={() => set("_propertyPortalOpen", "true")}
+                >
+                  🌀 OPEN PORTAL
+                </button>
+              )}
+            {form._propertyPortalOpen === "true" && (
+              <div
+                data-ocid="property.card"
+                style={{
+                  background: "rgba(0,255,255,0.06)",
+                  border: "1px solid rgba(0,255,255,0.3)",
+                  borderRadius: 14,
+                  padding: 16,
+                }}
+              >
                 <div
-                  data-ocid="property.card"
                   style={{
-                    background: "rgba(0,255,255,0.08)",
-                    border: "1px solid rgba(0,255,255,0.35)",
-                    borderRadius: 14,
-                    padding: "14px 16px",
+                    fontFamily: "Orbitron, sans-serif",
+                    fontSize: "0.6rem",
+                    color: "#00ffff",
+                    letterSpacing: "0.12em",
+                    marginBottom: 12,
                   }}
                 >
-                  <div
-                    style={{
-                      fontFamily: "Orbitron, sans-serif",
-                      fontSize: 11,
-                      color: "rgba(0,255,255,0.7)",
-                      letterSpacing: "0.12em",
-                      marginBottom: 8,
-                    }}
-                  >
-                    TOTAL COST PREVIEW
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      fontFamily: "Rajdhani, sans-serif",
-                      fontSize: 14,
-                      color: "rgba(255,255,255,0.7)",
-                      marginBottom: 4,
-                    }}
-                  >
-                    <span>
-                      {form.rateType || "Per Day"} × {form.propertyDuration}
-                    </span>
-                    <span>
-                      PKR{" "}
-                      {(
-                        Number(form.propertyRate) *
-                        Number(form.propertyDuration)
-                      ).toLocaleString()}
-                    </span>
-                  </div>
-                  <div
-                    style={{
-                      borderTop: "1px solid rgba(0,255,255,0.2)",
-                      paddingTop: 8,
-                      display: "flex",
-                      justifyContent: "space-between",
-                      fontFamily: "Orbitron, sans-serif",
-                      fontSize: 13,
-                      color: "#00ffff",
-                    }}
-                  >
-                    <span>TOTAL</span>
-                    <span
-                      style={{
-                        fontWeight: 700,
-                        textShadow: "0 0 10px rgba(0,255,255,0.5)",
-                      }}
-                    >
-                      PKR{" "}
-                      {(
-                        Number(form.propertyRate) *
-                        Number(form.propertyDuration)
-                      ).toLocaleString()}
-                    </span>
-                  </div>
+                  AVAILABLE PROPERTIES NEARBY
                 </div>
-              )}
+                {[
+                  {
+                    name: "Pearl Continental Suites",
+                    type: "Hotel",
+                    perNight: 8500,
+                    distance: "0.4 km",
+                    rating: 4.8,
+                  },
+                  {
+                    name: "Green Valley Guest House",
+                    type: "Guest House",
+                    perNight: 3200,
+                    distance: "0.7 km",
+                    rating: 4.5,
+                  },
+                  {
+                    name: "Clifton Luxury Flat",
+                    type: "Flat",
+                    perNight: 5000,
+                    distance: "1.2 km",
+                    rating: 4.6,
+                  },
+                  {
+                    name: "DHA Executive Office",
+                    type: "Office",
+                    perNight: 6000,
+                    distance: "2.1 km",
+                    rating: 4.3,
+                  },
+                ].map((prop) => (
+                  <div
+                    key={prop.name}
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      padding: "10px 0",
+                      borderBottom: "1px solid rgba(0,255,255,0.1)",
+                    }}
+                  >
+                    <div>
+                      <div
+                        style={{
+                          fontFamily: "Rajdhani, sans-serif",
+                          fontWeight: 700,
+                          color: "#f0f0f0",
+                          fontSize: "0.95rem",
+                        }}
+                      >
+                        {prop.name}
+                      </div>
+                      <div
+                        style={{
+                          fontFamily: "Rajdhani, sans-serif",
+                          fontSize: "0.8rem",
+                          color: "rgba(176,255,255,0.5)",
+                        }}
+                      >
+                        {prop.type} · {prop.distance} · ⭐ {prop.rating}
+                      </div>
+                    </div>
+                    <div style={{ textAlign: "right" }}>
+                      <div
+                        style={{
+                          fontFamily: "Orbitron, sans-serif",
+                          fontSize: "0.7rem",
+                          color: "#50ffb0",
+                        }}
+                      >
+                        ₨{prop.perNight.toLocaleString()}
+                      </div>
+                      <div
+                        style={{
+                          fontFamily: "Rajdhani, sans-serif",
+                          fontSize: "0.7rem",
+                          color: "rgba(176,255,255,0.4)",
+                        }}
+                      >
+                        per night
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+            {false && (
+              <div
+                data-ocid="property.card"
+                style={{
+                  background: "rgba(0,255,255,0.08)",
+                  border: "1px solid rgba(0,255,255,0.35)",
+                  borderRadius: 14,
+                  padding: "14px 16px",
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: "Orbitron, sans-serif",
+                    fontSize: 11,
+                    color: "rgba(0,255,255,0.7)",
+                    letterSpacing: "0.12em",
+                    marginBottom: 8,
+                  }}
+                >
+                  TOTAL COST PREVIEW
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    fontFamily: "Rajdhani, sans-serif",
+                    fontSize: 14,
+                    color: "rgba(255,255,255,0.7)",
+                    marginBottom: 4,
+                  }}
+                >
+                  <span>
+                    {form.rateType || "Per Day"} × {form.propertyDuration}
+                  </span>
+                  <span>
+                    PKR{" "}
+                    {(
+                      Number(form.propertyRate) * Number(form.propertyDuration)
+                    ).toLocaleString()}
+                  </span>
+                </div>
+                <div
+                  style={{
+                    borderTop: "1px solid rgba(0,255,255,0.2)",
+                    paddingTop: 8,
+                    display: "flex",
+                    justifyContent: "space-between",
+                    fontFamily: "Orbitron, sans-serif",
+                    fontSize: 13,
+                    color: "#00ffff",
+                  }}
+                >
+                  <span>TOTAL</span>
+                  <span
+                    style={{
+                      fontWeight: 700,
+                      textShadow: "0 0 10px rgba(0,255,255,0.5)",
+                    }}
+                  >
+                    PKR{" "}
+                    {(
+                      Number(form.propertyRate) * Number(form.propertyDuration)
+                    ).toLocaleString()}
+                  </span>
+                </div>
+              </div>
+            )}
             <div>
               <span style={labelStyle}>MOVE-IN DATE</span>
               <input
@@ -5638,7 +6550,7 @@ function ServiceBookingFormScreen({
             <>
               <div>
                 <span style={labelStyle}>
-                  {isMedicine
+                  {isMedicineOrder
                     ? "MEDICINES & ITEMS"
                     : isStationary
                       ? "STATIONARY ITEMS"
@@ -6548,7 +7460,21 @@ function WorkScopeModal({
   onSubmit: (scope: string) => void;
 }) {
   const [scope, setScope] = useState("");
+  const [scopeLang, setScopeLang] = useState<"en" | "ur" | "sd">("en");
   const [recording, setRecording] = useState(false);
+  const [voiceNotes, setVoiceNotes] = useState(0);
+  const [recordingTime, setRecordingTime] = useState(0);
+  const [recordingTimer, setRecordingTimer] = useState<ReturnType<
+    typeof setInterval
+  > | null>(null);
+  const MAX_VOICE_NOTES = 3;
+  const MAX_RECORDING_SECONDS = 30;
+
+  useEffect(() => {
+    return () => {
+      if (recordingTimer) clearInterval(recordingTimer);
+    };
+  }, [recordingTimer]);
 
   if (!isOpen) return null;
 
@@ -6620,11 +7546,61 @@ function WorkScopeModal({
           their rates.
         </div>
 
+        {/* Language selector */}
+        <div style={{ display: "flex", gap: 6, marginBottom: 10 }}>
+          {(
+            [
+              { code: "en", label: "English" },
+              { code: "ur", label: "اردو Urdu" },
+              { code: "sd", label: "سنڌي Sindhi" },
+            ] as { code: "en" | "ur" | "sd"; label: string }[]
+          ).map((lang) => (
+            <button
+              key={lang.code}
+              type="button"
+              data-ocid="repair.workscope.lang.toggle"
+              onClick={() => setScopeLang(lang.code)}
+              style={{
+                flex: 1,
+                padding: "7px 4px",
+                background:
+                  scopeLang === lang.code
+                    ? "rgba(0,255,255,0.15)"
+                    : "rgba(0,20,30,0.5)",
+                border:
+                  scopeLang === lang.code
+                    ? "1px solid rgba(0,255,255,0.6)"
+                    : "1px solid rgba(0,255,255,0.2)",
+                borderRadius: 8,
+                color:
+                  scopeLang === lang.code ? "#00ffff" : "rgba(176,255,255,0.5)",
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "0.75rem",
+                cursor: "pointer",
+                transition: "all 0.2s",
+                boxShadow:
+                  scopeLang === lang.code
+                    ? "0 0 8px rgba(0,255,255,0.15)"
+                    : "none",
+              }}
+            >
+              {lang.label}
+            </button>
+          ))}
+        </div>
+
         <textarea
           data-ocid="repair.workscope.textarea"
           value={scope}
           onChange={(e) => setScope(e.target.value)}
-          placeholder="e.g. Kitchen tap is leaking, need to replace the pipe under the sink..."
+          placeholder={
+            scopeLang === "ur"
+              ? "مثال: باتھ روم میں پائپ لیک ہو رہا ہے..."
+              : scopeLang === "sd"
+                ? "مثال: باٿروم ۾ پائيپ لڪ ٿي رهي آهي..."
+                : "e.g. Kitchen tap is leaking, pipe needs fixing..."
+          }
+          dir={scopeLang !== "en" ? "rtl" : "ltr"}
           rows={4}
           style={{
             width: "100%",
@@ -6637,39 +7613,97 @@ function WorkScopeModal({
             padding: "12px 14px",
             outline: "none",
             resize: "none",
-            lineHeight: 1.6,
+            lineHeight: 1.8,
+            textAlign: scopeLang !== "en" ? "right" : "left",
           }}
         />
 
         <button
           type="button"
           data-ocid="repair.voicenote.button"
-          onClick={() => setRecording((r) => !r)}
+          disabled={voiceNotes >= MAX_VOICE_NOTES}
+          onClick={() => {
+            if (recording) {
+              // Stop recording
+              if (recordingTimer) clearInterval(recordingTimer);
+              setRecordingTimer(null);
+              setRecording(false);
+              setRecordingTime(0);
+              setVoiceNotes((v) => v + 1);
+            } else {
+              // Start recording
+              setRecording(true);
+              setRecordingTime(0);
+              const timer = setInterval(() => {
+                setRecordingTime((t) => {
+                  if (t + 1 >= MAX_RECORDING_SECONDS) {
+                    clearInterval(timer);
+                    setRecording(false);
+                    setVoiceNotes((v) => v + 1);
+                    return 0;
+                  }
+                  return t + 1;
+                });
+              }, 1000);
+              setRecordingTimer(timer);
+            }
+          }}
           style={{
             width: "100%",
             marginTop: 10,
             padding: "12px",
-            background: recording
-              ? "rgba(255,107,91,0.15)"
-              : "rgba(0,255,255,0.06)",
-            border: recording
-              ? "1px solid rgba(255,107,91,0.4)"
-              : "1px solid rgba(0,255,255,0.25)",
+            background:
+              voiceNotes >= MAX_VOICE_NOTES
+                ? "rgba(100,100,100,0.1)"
+                : recording
+                  ? "rgba(255,107,91,0.15)"
+                  : "rgba(0,255,255,0.06)",
+            border:
+              voiceNotes >= MAX_VOICE_NOTES
+                ? "1px solid rgba(100,100,100,0.3)"
+                : recording
+                  ? "1px solid rgba(255,107,91,0.4)"
+                  : "1px solid rgba(0,255,255,0.25)",
             borderRadius: 12,
-            color: recording ? "#ff6b5b" : "rgba(0,255,255,0.8)",
+            color:
+              voiceNotes >= MAX_VOICE_NOTES
+                ? "rgba(100,100,100,0.5)"
+                : recording
+                  ? "#ff6b5b"
+                  : "rgba(0,255,255,0.8)",
             fontFamily: "Orbitron, sans-serif",
             fontSize: "0.65rem",
             letterSpacing: "0.1em",
-            cursor: "pointer",
+            cursor: voiceNotes >= MAX_VOICE_NOTES ? "not-allowed" : "pointer",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             gap: 8,
           }}
         >
-          <span style={{ fontSize: "1.1rem" }}>{recording ? "⏹️" : "🎙️"}</span>
-          {recording ? "STOP RECORDING" : "SEND VOICE NOTE INSTEAD"}
+          <span style={{ fontSize: "1.1rem" }}>
+            {voiceNotes >= MAX_VOICE_NOTES ? "🚫" : recording ? "⏹️" : "🎙️"}
+          </span>
+          {voiceNotes >= MAX_VOICE_NOTES
+            ? "VOICE NOTE LIMIT REACHED (3/3)"
+            : recording
+              ? `STOP RECORDING (${MAX_RECORDING_SECONDS - recordingTime}s)`
+              : "SEND VOICE NOTE INSTEAD"}
         </button>
+        <div
+          style={{
+            fontFamily: "Rajdhani, sans-serif",
+            fontSize: "0.8rem",
+            color: "rgba(176,255,255,0.5)",
+            textAlign: "center",
+            marginTop: 4,
+          }}
+        >
+          Voice notes: {voiceNotes}/{MAX_VOICE_NOTES}{" "}
+          {recording
+            ? `(${MAX_RECORDING_SECONDS - recordingTime}s remaining)`
+            : ""}
+        </div>
 
         <div
           style={{
@@ -7888,7 +8922,7 @@ function ProviderConfirmedScreen({
 function PaymentPlanScreen({
   onBack,
   onLock,
-  onBankTransfer,
+  onBankTransfer: _onBankTransfer,
   service,
   userBalance,
   onLowBalance,
@@ -7902,27 +8936,50 @@ function PaymentPlanScreen({
 }) {
   const basePrice = service?.price ?? 1200;
   const total = basePrice;
-  const [method, setMethod] = useState("portals-bank");
+  const [method, setMethod] = useState("portal-id");
   const methods = [
-    { id: "portals-bank", label: "The Portals Bank Account ⭐", icon: "🏦" },
-    { id: "jazzcash", label: "JazzCash", icon: "📱" },
-    { id: "easypaisa", label: "Easypaisa", icon: "💳" },
-    { id: "bank", label: "Other Bank Transfer", icon: "🏛️" },
+    {
+      id: "portal-id",
+      label: "Portal ID to Portal ID",
+      icon: "⬡",
+      sub: "Instant internal transfer — zero fees",
+    },
+    { id: "jazzcash", label: "JazzCash", icon: "📱", sub: "" },
+    { id: "easypaisa", label: "Easypaisa", icon: "💳", sub: "" },
+    { id: "bank", label: "Other Bank Transfer", icon: "🏛️", sub: "" },
   ];
+  const [portalIdInput, setPortalIdInput] = useState("");
+  const [portalIdVerified, setPortalIdVerified] = useState<
+    "idle" | "ok" | "error"
+  >("idle");
+  const [portalIdName, setPortalIdName] = useState("");
+  const portalIdDatabase: Record<string, string> = {
+    "PP-A1B2": "Ahmed Hassan",
+    "PP-C3D4": "Sara Malik",
+    "PP-E5F6": "Muhammad Ali",
+    "PP-G7H8": "Fatima Noor",
+    "PP-X9Y0": "Usman Tariq",
+  };
+  const verifyPortalId = (id: string) => {
+    const trimmed = id.toUpperCase().trim();
+    if (portalIdDatabase[trimmed]) {
+      setPortalIdVerified("ok");
+      setPortalIdName(portalIdDatabase[trimmed]);
+    } else if (trimmed.length >= 7) {
+      setPortalIdVerified("error");
+      setPortalIdName("");
+    } else {
+      setPortalIdVerified("idle");
+      setPortalIdName("");
+    }
+  };
   const [uniqueId, setUniqueId] = useState("");
   const [uniqueIdName, setUniqueIdName] = useState("");
   const uniqueIdNames: Record<string, string> = {
-    PK36MEZN0000291012345678: "The Portals (Pvt) Ltd",
     "0312-3456789": "Ahmed Khan",
     "0333-1234567": "Muhammad Ali",
     "0321-9876543": "Sara Malik",
   };
-  const [copiedField, setCopiedField] = useState<string | null>(null);
-  function handleCopy(label: string, value: string) {
-    navigator.clipboard.writeText(value).catch(() => {});
-    setCopiedField(label);
-    setTimeout(() => setCopiedField(null), 2000);
-  }
 
   return (
     <div style={{ padding: "20px 16px 100px" }}>
@@ -8098,25 +9155,73 @@ function PaymentPlanScreen({
               cursor: "pointer",
               border:
                 method === m.id
-                  ? "1px solid rgba(0,255,255,0.5)"
+                  ? m.id === "portal-id"
+                    ? "1px solid rgba(0,255,255,0.8)"
+                    : "1px solid rgba(0,255,255,0.5)"
                   : "1px solid rgba(0,255,255,0.15)",
               boxShadow:
-                method === m.id ? "0 0 8px rgba(0,255,255,0.2)" : "none",
+                method === m.id
+                  ? m.id === "portal-id"
+                    ? "0 0 16px rgba(0,255,255,0.35)"
+                    : "0 0 8px rgba(0,255,255,0.2)"
+                  : "none",
+              background:
+                m.id === "portal-id" && method === m.id
+                  ? "rgba(0,255,255,0.07)"
+                  : undefined,
               transition: "all 0.2s",
             }}
           >
-            <span style={{ fontSize: "1.4rem" }}>{m.icon}</span>
             <span
-              style={{
-                fontFamily: "Rajdhani, sans-serif",
-                fontSize: "1rem",
-                fontWeight: 600,
-                color: "#f0f0f0",
-                flex: 1,
-              }}
+              style={{ fontSize: m.id === "portal-id" ? "1.5rem" : "1.4rem" }}
             >
-              {m.label}
+              {m.icon}
             </span>
+            <div style={{ flex: 1 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <span
+                  style={{
+                    fontFamily: "Rajdhani, sans-serif",
+                    fontSize: "1rem",
+                    fontWeight: 600,
+                    color:
+                      m.id === "portal-id" && method === m.id
+                        ? "#00ffff"
+                        : "#f0f0f0",
+                  }}
+                >
+                  {m.label}
+                </span>
+                {m.id === "portal-id" && (
+                  <span
+                    style={{
+                      background: "rgba(0,255,255,0.12)",
+                      border: "1px solid rgba(0,255,255,0.3)",
+                      borderRadius: 999,
+                      padding: "2px 7px",
+                      fontFamily: "Orbitron, sans-serif",
+                      fontSize: "0.42rem",
+                      color: "#00ffff",
+                      letterSpacing: "0.06em",
+                    }}
+                  >
+                    PREFERRED
+                  </span>
+                )}
+              </div>
+              {(m as { sub?: string }).sub && (
+                <div
+                  style={{
+                    fontFamily: "Rajdhani, sans-serif",
+                    fontSize: "0.78rem",
+                    color: "rgba(0,255,255,0.5)",
+                    marginTop: 2,
+                  }}
+                >
+                  {(m as { sub?: string }).sub}
+                </div>
+              )}
+            </div>
             <div
               style={{
                 width: 18,
@@ -8135,6 +9240,87 @@ function PaymentPlanScreen({
           </button>
         ))}
       </div>
+
+      {/* Portal ID to Portal ID flow */}
+      {method === "portal-id" && (
+        <div style={{ marginBottom: 16 }}>
+          <div
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "0.55rem",
+              color: "rgba(0,255,255,0.6)",
+              letterSpacing: "0.12em",
+              marginBottom: 8,
+            }}
+          >
+            RECIPIENT PORTAL ID
+          </div>
+          <input
+            type="text"
+            data-ocid="payment.portal_id.input"
+            value={portalIdInput}
+            onChange={(e) => {
+              setPortalIdInput(e.target.value);
+              verifyPortalId(e.target.value);
+            }}
+            placeholder="e.g. PP-A1B2"
+            style={{
+              width: "100%",
+              background: "rgba(0,20,30,0.7)",
+              border:
+                portalIdVerified === "ok"
+                  ? "1px solid rgba(80,255,176,0.5)"
+                  : portalIdVerified === "error"
+                    ? "1px solid rgba(255,107,91,0.5)"
+                    : "1px solid rgba(0,255,255,0.25)",
+              borderRadius: 10,
+              color: "#e0f8ff",
+              fontFamily: "Rajdhani, sans-serif",
+              fontSize: "0.95rem",
+              padding: "12px 14px",
+              outline: "none",
+              letterSpacing: "0.06em",
+            }}
+          />
+          {portalIdVerified === "ok" && (
+            <div
+              data-ocid="payment.success_state"
+              style={{
+                marginTop: 8,
+                padding: "8px 12px",
+                background: "rgba(80,255,176,0.08)",
+                border: "1px solid rgba(80,255,176,0.3)",
+                borderRadius: 8,
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "0.85rem",
+                color: "#50ffb0",
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+              }}
+            >
+              ✓ Sending to: <strong>{portalIdName}</strong>
+            </div>
+          )}
+          {portalIdVerified === "error" && (
+            <div
+              data-ocid="payment.error_state"
+              style={{
+                marginTop: 8,
+                padding: "8px 12px",
+                background: "rgba(255,107,91,0.08)",
+                border: "1px solid rgba(255,107,91,0.3)",
+                borderRadius: 8,
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "0.85rem",
+                color: "#ff6b5b",
+              }}
+            >
+              ✗ Portal ID not found. Please check and try again.
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Unique ID field for JazzCash/Easypaisa */}
       {(method === "jazzcash" || method === "easypaisa") && (
@@ -8191,99 +9377,6 @@ function PaymentPlanScreen({
         </div>
       )}
 
-      {/* Bank details panel */}
-      {method === "portals-bank" && (
-        <div
-          className="glass-bright"
-          style={{
-            padding: 16,
-            marginBottom: 16,
-            border: "1px solid rgba(0,255,255,0.35)",
-          }}
-        >
-          <div
-            style={{
-              fontFamily: "Orbitron, sans-serif",
-              fontSize: "0.6rem",
-              color: "rgba(176,255,255,0.5)",
-              marginBottom: 12,
-              letterSpacing: "0.1em",
-            }}
-          >
-            OFFICIAL BANK DETAILS
-          </div>
-          {[
-            { label: "Bank Name", value: PORTALS_BANK.bankName },
-            { label: "Account Title", value: PORTALS_BANK.accountTitle },
-            { label: "Account Number", value: PORTALS_BANK.accountNumber },
-            { label: "IBAN", value: PORTALS_BANK.iban },
-            { label: "Branch", value: PORTALS_BANK.branch },
-          ].map((item) => (
-            <div
-              key={item.label}
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginBottom: 10,
-                gap: 8,
-              }}
-            >
-              <div>
-                <div
-                  style={{
-                    fontFamily: "Orbitron, sans-serif",
-                    fontSize: "0.5rem",
-                    color: "rgba(176,255,255,0.4)",
-                    letterSpacing: "0.08em",
-                    marginBottom: 2,
-                  }}
-                >
-                  {item.label.toUpperCase()}
-                </div>
-                <div
-                  style={{
-                    fontFamily: "Rajdhani, sans-serif",
-                    fontSize: "0.85rem",
-                    fontWeight: 600,
-                    color: "#f0f0f0",
-                  }}
-                >
-                  {item.value}
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={() => handleCopy(item.label, item.value)}
-                style={{
-                  background: "rgba(0,255,255,0.08)",
-                  border: "1px solid rgba(0,255,255,0.25)",
-                  borderRadius: 6,
-                  padding: "4px 8px",
-                  cursor: "pointer",
-                  color: copiedField === item.label ? "#50ffb0" : "#00ffff",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 4,
-                  flexShrink: 0,
-                }}
-              >
-                <Copy size={12} />
-                <span
-                  style={{
-                    fontFamily: "Orbitron, sans-serif",
-                    fontSize: "0.45rem",
-                    letterSpacing: "0.08em",
-                  }}
-                >
-                  {copiedField === item.label ? "COPIED!" : "COPY"}
-                </span>
-              </button>
-            </div>
-          ))}
-        </div>
-      )}
-
       <button
         type="button"
         data-ocid="payment.primary_button"
@@ -8293,11 +9386,11 @@ function PaymentPlanScreen({
             onLowBalance();
             return;
           }
-          if (method === "portals-bank") {
-            onBankTransfer();
-          } else {
-            onLock();
+          if (method === "portal-id" && portalIdVerified !== "ok") {
+            alert("Please verify a recipient Portal ID first.");
+            return;
           }
+          onLock();
         }}
       >
         🔒 LOCK PAYMENT
@@ -12442,7 +13535,9 @@ function PortalApp() {
                   <WorkScopeModal
                     isOpen={!workScopeSubmitted}
                     onClose={() => {
-                      setWorkScopeSubmitted(true);
+                      setScreen("services");
+                      setNavActive("home");
+                      setWorkScopeSubmitted(false);
                     }}
                     onSubmit={(scope) => {
                       console.log("Work scope:", scope);

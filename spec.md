@@ -1,49 +1,45 @@
-# The Portals — Structure Update Version 20+
+# The Portals
 
 ## Current State
-Full celestial glassmorphism app with 20+ screens: splash, login, registration (user/provider), home dashboard, services grid, nearby providers, provider confirmed, booking forms (health, rentals, repairs, education, home, groceries), payment plan, OTP/payment locked, success/invoice, chat, tasks, profile, settings, privacy policy. Bottom nav with Home/Tasks/Chat/Profile. Orbitron + Rajdhani fonts, deep space background, neon cyan theme.
+Full-stack celestial glassmorphism service marketplace app for Pakistan with React frontend. App has 22 versions of updates. The last build failed. The current codebase has all screens but some features from the latest structural update (v22) may be missing or broken.
 
 ## Requested Changes (Diff)
 
 ### Add
-- Welcome greeting with small profile icon (avatar) on top-right of home screen
-- Colorful icons for bottom nav (Home, Tasks, Chat, Profile) with Orbitron/Rajdhani font styling matching "The Portals" title font color
-- Functional search bar on home screen searching services/keywords
-- Tasks screen split into two tabs: "Current Tasks" (in-progress) and "Tasks History" (date/service wise, chat history)
-- Help & Support FAQ screen (for end-users and service providers)
-- User ratings system displayed to service providers; users can earn/use Qiks tokens
-- Repair sub-category: work scope prompt modal before provider selection (text or voice note), encrypted communication note, internal message/call dialog (no phone numbers shown)
-- Payment plan: The Portals Bank Account first, then JazzCash/Easypaisa/Other; show ID holder name when Unique ID entered
-- OTP boxes responsive fix (fit to screen)
-- Health: item list with quantities (20 basic medicine items with auto-price), GPS auto-fill delivery address, payment mode selector (online/COD prefer online), show provider list after item list complete with invoice, rename Pharmacy to Agri-Pharma with leaf/herb icon
-- Rentals: "Now" option (immediate) vs date/time; estimated reaching time for "Now" bookings; OTP generated after task completion; property rental rate set by provider at registration
-- Education: rename Tutor to Home Tutor with level/subject prompt before provider list; add Coaching Centers/Academies category; add Schools category
-- Home: add Female/Male Maid category; add Dry-Cleaner category (pickup/deliver, item type list with auto rates); separate Shopping from Home; Chef/Gardner/Cleaner on daily basis; rename Home Chef to Food Parcels with food type selection (Tea/cold drinks/meals); Food Parcels on daily basis
-- Shopping: new top-level category with 6 sub-categories: Dairy & Eggs, Spices, Cleaning, Personal Care, Bakery & Bread, Tea & Coffee; item list with auto-prices; provider selection after list
-- Profile options fully working: edit profile, payment method, transaction history, top-up, help & support, delete account
+- IT/Tech: Two tabs — IT Accessories (product list) and IT Technician (service providers)
+- Transport: Coaches Ticket, Dome Service, Van Service, Pakistan Railway sub-categories
+- Stationary as a separate home screen category (moved from Shopping)
+- Groceries: 4 sub-categories — Rice & Grain, Oils & Ghee, Home Hygiene, Fruits & Vegetable
+- Portal ID to Portal ID as primary payment method (replaces The Portals Bank Account in UI)
+- Repair: Mason sub-category, Urdu/Sindhi language support in work scope, voice note limits (30s, max 3)
+- Property Rental: spec-first flow with 'Open Portal' button showing provider list
+- Medicine/Agri-Pharma: item list flow with 'Open Portal' button
+- Shopping: Remove Supermarket and Clothing Store sub-categories
+- Dynamic service counter on home screen (not hardcoded 127)
 
 ### Modify
-- Home categories grid: fix visibility — all categories (including Security, Tech, Transport, Shopping, etc.) must be visible and scrollable; icon sizes consistent
-- Bottom nav labels: use Orbitron/Rajdhani font matching "The Portals" branding color (cyan), same current size
-- Tasks tab: split into Current Tasks and Tasks History tabs
-- Health services: medical store/pharmacy uses item list flow; delivery address from GPS
-- Rentals booking: add "Now" toggle; show ETA on confirmation
-- Repair flow: add scope of work modal popup before provider list
+- Home screen: Remove Security category, dynamic Portals to Services count
+- Payment Plan: Remove The Portals Bank Account from user-facing UI; add Portal ID to Portal ID as first option
+- Repair work scope: RTL support for Urdu/Sindhi, voice note 30s limit and max 3 restriction, cancel returns to Repairs screen
+- Rental: Traveler Tickets moved to Transport
+- Groceries sub-categories updated
 
 ### Remove
-- Contact phone numbers from provider cards (use internal messaging only)
+- Security category from home screen
+- The Portals Bank Account from payment UI visible to regular users
+- Supermarket and Clothing Store from Shopping
+- Stationary from Shopping (moved to own category)
+- Traveler Tickets from Rentals (moved to Transport)
 
 ## Implementation Plan
-1. Home screen: add user greeting + profile avatar top-right; fix category grid to show all categories with scroll; make bottom nav icons colorful (use emoji or colored lucide icons) with Orbitron font labels in cyan
-2. Search bar: implement functional keyword search filtering services and categories
-3. Tasks screen: add two-tab layout (Current Tasks / Tasks History)
-4. Profile screen: wire up all menu items (edit profile modal, payment method screen, transaction history, top-up, help & support, delete account) as navigable screens
-5. Help & Support FAQ screen: add FAQ accordion for users and providers
-6. User ratings: add rating display in profile and show to providers; user Qiks balance
-7. Repair flow: add work scope modal dialog before provider list; remove phone numbers; update payment order
-8. OTP screen: fix box sizing to be responsive/fit screen
-9. Health: add 20-item medicine list with auto-prices; GPS delivery address; payment mode; rename Pharmacy to Agri-Pharma; show provider list after item selection
-10. Rentals: add Now toggle; ETA on confirmation; OTP after task complete
-11. Education: rename to Home Tutor with prompts; add Coaching Centers and Schools categories
-12. Home: add Maid, Dry-Cleaner; rename to Food Parcels; separate Shopping; daily basis for Chef/Gardner/Cleaner
-13. Shopping: create as category with 6 sub-categories and item list flow
+1. Remove Security from home categories grid
+2. Make Portals to Services counter dynamic (count available services, not hardcoded)
+3. Add IT tabs: IT Accessories + IT Technician
+4. Add Transport sub-categories: Coaches Ticket, Dome Service, Van Service, Pakistan Railway
+5. Update Payment Plan: remove The Portals Bank Account from UI, add Portal ID to Portal ID as first option with instant ID verification flow
+6. Update Repair: add Mason, add language selector (English/Urdu/Sindhi) with RTL support, voice note limits, cancel button fix
+7. Update Rental: remove Traveler Tickets, update Property Rental to spec-first flow
+8. Update Health: Medicine & Agri-Pharma item list with Open Portal flow
+9. Update Shopping: remove Supermarket and Clothing Store
+10. Create Stationary as separate home screen category
+11. Update Groceries: Rice & Grain, Oils & Ghee, Home Hygiene, Fruits & Vegetable
