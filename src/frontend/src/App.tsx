@@ -23,15 +23,15 @@ const SERVICES = [
   { id: 4, emoji: "🎨", name: "Painter", price: 900, category: "Repairs" },
   { id: 5, emoji: "❄️", name: "HVAC Tech", price: 2500, category: "Repairs" },
   // Home
-  { id: 6, emoji: "🧹", name: "Cleaner", price: 500, category: "Home" },
-  { id: 7, emoji: "🌿", name: "Gardener", price: 600, category: "Home" },
-  { id: 8, emoji: "👨‍🍳", name: "Chef", price: 1500, category: "Home" },
+  { id: 6, emoji: "🧹", name: "Cleaner", price: 500, category: "House" },
+  { id: 7, emoji: "🌿", name: "Gardener", price: 600, category: "House" },
+  { id: 8, emoji: "👨‍🍳", name: "Chef", price: 1500, category: "House" },
   {
     id: 8001,
     emoji: "🍱",
     name: "Food Parcels",
     price: 0,
-    category: "Home",
+    category: "House",
   },
   // Health
   {
@@ -51,16 +51,16 @@ const SERVICES = [
   },
   { id: 12, emoji: "🦷", name: "Dental Care", price: 2500, category: "Health" },
   // Rentals
-  { id: 13, emoji: "🚗", name: "Car Rental", price: 3500, category: "Rentals" },
-  { id: 14, emoji: "🛵", name: "Bike Rental", price: 800, category: "Rentals" },
+  { id: 13, emoji: "🛺", name: "Passenger", price: 3500, category: "Rentals" },
+
   {
     id: 15,
     emoji: "🏠",
-    name: "Property Rental",
+    name: "Residential",
     price: 5000,
     category: "Rentals",
   },
-  { id: 16, emoji: "🚐", name: "Van Hire", price: 2500, category: "Rentals" },
+
   // Education
   {
     id: 17,
@@ -97,13 +97,7 @@ const SERVICES = [
   },
   { id: 23, emoji: "🌿", name: "Agri-Pharma", price: 500, category: "Health" },
   // Education additions
-  {
-    id: 24,
-    emoji: "📖",
-    name: "Book Store",
-    price: 400,
-    category: "Education",
-  },
+
   {
     id: 201,
     emoji: "🏫",
@@ -118,19 +112,13 @@ const SERVICES = [
     price: 2000,
     category: "Education",
   },
-  {
-    id: 203,
-    emoji: "🧺",
-    name: "Maid Service",
-    price: 800,
-    category: "Home",
-  },
+
   {
     id: 204,
     emoji: "👔",
     name: "Dry-Cleaner",
     price: 600,
-    category: "Home",
+    category: "House",
   },
   {
     id: 205,
@@ -175,13 +163,7 @@ const SERVICES = [
     category: "Shopping",
   },
   // Groceries
-  {
-    id: 25,
-    emoji: "🛒",
-    name: "Grocery Store",
-    price: 300,
-    category: "Groceries",
-  },
+
   // Shopping
   {
     id: 28,
@@ -208,17 +190,11 @@ const SERVICES = [
   {
     id: 31,
     emoji: "✈️",
-    name: "Travel Tickets",
+    name: "Air Travel",
     price: 5000,
     category: "Transport",
   },
-  {
-    id: 32,
-    emoji: "🚐",
-    name: "Driver Booking",
-    price: 600,
-    category: "Rentals",
-  },
+
   // Transport additions
   {
     id: 33,
@@ -257,62 +233,7 @@ const SERVICES = [
     category: "Repairs",
   },
   // Stationary sub-categories
-  {
-    id: 38,
-    emoji: "🖊️",
-    name: "Pens & Pencils",
-    price: 200,
-    category: "Stationary",
-  },
-  {
-    id: 39,
-    emoji: "📓",
-    name: "Notebooks",
-    price: 300,
-    category: "Stationary",
-  },
-  {
-    id: 40,
-    emoji: "🎨",
-    name: "Art Supplies",
-    price: 500,
-    category: "Stationary",
-  },
-  {
-    id: 41,
-    emoji: "📋",
-    name: "Office Supplies",
-    price: 400,
-    category: "Stationary",
-  },
-  {
-    id: 42,
-    emoji: "🏫",
-    name: "School Supplies",
-    price: 350,
-    category: "Stationary",
-  },
-  {
-    id: 43,
-    emoji: "🖨️",
-    name: "Printing & Binding",
-    price: 600,
-    category: "Stationary",
-  },
-  {
-    id: 44,
-    emoji: "📁",
-    name: "Envelopes & Files",
-    price: 200,
-    category: "Stationary",
-  },
-  {
-    id: 45,
-    emoji: "🔢",
-    name: "Calculators",
-    price: 800,
-    category: "Stationary",
-  },
+
   // Grocery sub-categories
   {
     id: 46,
@@ -356,6 +277,29 @@ const SERVICES = [
     name: "IT Technician",
     price: 800,
     category: "Tech",
+  },
+  // New Rentals categories
+  {
+    id: 300,
+    emoji: "🚛",
+    name: "Commercial Vehicles",
+    price: 5000,
+    category: "Rentals",
+  },
+  {
+    id: 301,
+    emoji: "🏢",
+    name: "Commercial Property",
+    price: 15000,
+    category: "Rentals",
+  },
+  // Grocery Utensils
+  {
+    id: 302,
+    emoji: "🍳",
+    name: "Utensils",
+    price: 500,
+    category: "Groceries",
   },
 ];
 
@@ -478,7 +422,7 @@ const PROVIDERS = [
     name: "Chef Nadeem Rizvi",
     initials: "NR",
     profession: "Chef",
-    category: "Home",
+    category: "House",
     distance: "1.1 km",
     rating: 4.8,
     rate: 1500,
@@ -488,7 +432,7 @@ const PROVIDERS = [
     name: "Cleaner Razia Bibi",
     initials: "RB",
     profession: "Cleaner",
-    category: "Home",
+    category: "House",
     distance: "0.6 km",
     rating: 4.5,
     rate: 500,
@@ -498,47 +442,29 @@ const PROVIDERS = [
     name: "Gardener Tariq Baig",
     initials: "TB",
     profession: "Gardener",
-    category: "Home",
+    category: "House",
     distance: "1.7 km",
     rating: 4.4,
     rate: 600,
   },
-  {
-    id: 15,
-    name: "HomeHelp Nadia",
-    initials: "HN",
-    profession: "Maid Service",
-    category: "Home",
-    distance: "0.8 km",
-    rating: 4.6,
-    rate: 700,
-  },
+
   // Rentals
   {
     id: 16,
     name: "CityDrive Cars",
     initials: "CC",
-    profession: "Car Rental",
+    profession: "Passenger",
     category: "Rentals",
     distance: "1.2 km",
     rating: 4.7,
     rate: 3500,
   },
-  {
-    id: 17,
-    name: "SpeedBike Asif",
-    initials: "SA",
-    profession: "Bike Rental",
-    category: "Rentals",
-    distance: "0.5 km",
-    rating: 4.5,
-    rate: 800,
-  },
+
   {
     id: 18,
     name: "TravelPak Tickets",
     initials: "TP",
-    profession: "Travel Tickets",
+    profession: "Air Travel",
     category: "Rentals",
     distance: "2.3 km",
     rating: 4.8,
@@ -554,22 +480,13 @@ const PROVIDERS = [
     rating: 4.9,
     rate: 600,
   },
-  {
-    id: 20,
-    name: "PakVan Rentals",
-    initials: "PV",
-    profession: "Van Hire",
-    category: "Rentals",
-    distance: "3.1 km",
-    rating: 4.3,
-    rate: 2500,
-  },
+
   // Education
   {
     id: 21,
     name: "Tutor Zainab Noor",
     initials: "ZN",
-    profession: "Tutor",
+    profession: "Home Tutor",
     category: "Education",
     distance: "0.7 km",
     rating: 4.9,
@@ -585,16 +502,7 @@ const PROVIDERS = [
     rating: 4.7,
     rate: 900,
   },
-  {
-    id: 23,
-    name: "BookHub Rawalpindi",
-    initials: "BR",
-    profession: "Book Store",
-    category: "Education",
-    distance: "1.9 km",
-    rating: 4.4,
-    rate: 400,
-  },
+
   {
     id: 24,
     name: "Tutor Arif Qureshi",
@@ -1439,7 +1347,7 @@ function LoginScreen({
   onDone,
   onRegister,
 }: { onDone: () => void; onRegister: () => void }) {
-  const [mode, setMode] = useState<"customer" | "provider">("customer");
+  const [_mode, _setMode] = useState<"customer" | "provider">("customer");
   const [portalId, setPortalId] = useState("");
 
   return (
@@ -1486,38 +1394,6 @@ function LoginScreen({
         >
           PORTALS TO SERVICES
         </div>
-      </div>
-
-      {/* Mode tabs */}
-      <div
-        className="glass"
-        style={{ display: "flex", padding: 4, gap: 4, borderRadius: 12 }}
-      >
-        {(["customer", "provider"] as const).map((m) => (
-          <button
-            key={m}
-            type="button"
-            data-ocid={`login.${m}.tab`}
-            onClick={() => setMode(m)}
-            style={{
-              flex: 1,
-              padding: "10px",
-              borderRadius: 8,
-              border: "none",
-              background: mode === m ? "rgba(0,255,255,0.15)" : "transparent",
-              color: mode === m ? "#00ffff" : "rgba(176,255,255,0.4)",
-              fontFamily: "Orbitron, sans-serif",
-              fontSize: "0.65rem",
-              fontWeight: 700,
-              letterSpacing: "0.1em",
-              cursor: "pointer",
-              transition: "all 0.2s",
-              boxShadow: mode === m ? "0 0 8px rgba(0,255,255,0.3)" : "none",
-            }}
-          >
-            {m.toUpperCase()}
-          </button>
-        ))}
       </div>
 
       <div
@@ -1577,15 +1453,44 @@ function LoginScreen({
           Enter your 5-character unique Portal ID — no password needed
         </p>
 
-        <button
-          type="button"
-          data-ocid="login.primary_button"
-          className="btn-portal"
-          onClick={onDone}
-          style={{ width: "100%" }}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 12,
+            width: "100%",
+          }}
         >
-          ENTER PORTAL
-        </button>
+          <button
+            type="button"
+            data-ocid="login.enter_portal.primary_button"
+            onClick={onDone}
+            style={{
+              width: "100%",
+              padding: "22px 18px",
+              background:
+                "linear-gradient(135deg, rgba(0,255,255,0.18) 0%, rgba(0,180,200,0.25) 50%, rgba(0,255,255,0.12) 100%)",
+              border: "2px solid rgba(0,255,255,0.7)",
+              borderRadius: 20,
+              color: "#00ffff",
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "1.15rem",
+              fontWeight: 900,
+              letterSpacing: "0.2em",
+              cursor: "pointer",
+              boxShadow:
+                "0 0 40px rgba(0,255,255,0.35), 0 0 80px rgba(0,255,255,0.12), inset 0 1px 0 rgba(0,255,255,0.2)",
+              textShadow: "0 0 16px rgba(0,255,255,0.8)",
+              backdropFilter: "blur(12px)",
+              WebkitBackdropFilter: "blur(12px)",
+              position: "relative",
+              overflow: "hidden",
+              transition: "all 0.3s ease",
+            }}
+          >
+            ⬡ ENTER PORTAL
+          </button>
+        </div>
 
         <div
           style={{
@@ -2277,7 +2182,7 @@ function ProviderRegisterScreen({
                 {[
                   "Repairs",
                   "Health",
-                  "Home",
+                  "House",
                   "Rentals",
                   "Education",
                   "Security",
@@ -2894,7 +2799,7 @@ function CustomerRegisterScreen({
                 {[
                   "Repairs",
                   "Health",
-                  "Home",
+                  "House",
                   "Rentals",
                   "Education",
                   "Security",
@@ -3455,13 +3360,12 @@ function HomeScreen({
     { name: "Health", emoji: "❤️", border: "rgba(52,211,153,0.4)" },
     { name: "Rentals", emoji: "🔑", border: "rgba(180,180,180,0.4)" },
     { name: "Education", emoji: "📚", border: "rgba(251,191,36,0.4)" },
-    { name: "Home", emoji: "🏠", border: "rgba(0,200,255,0.4)" },
+    { name: "House", emoji: "🏠", border: "rgba(0,200,255,0.4)" },
     { name: "Shopping", emoji: "🛒", border: "rgba(255,100,200,0.4)" },
     { name: "Tech", emoji: "💻", border: "rgba(150,100,255,0.4)" },
     { name: "Transport", emoji: "🚌", border: "rgba(100,180,255,0.4)" },
     { name: "Groceries", emoji: "🛍️", border: "rgba(100,220,100,0.4)" },
     { name: "Stationary", emoji: "✏️", border: "rgba(255,220,100,0.4)" },
-    { name: "Agri-Pharma", emoji: "🌿", border: "rgba(100,255,150,0.4)" },
     { name: "All Services", emoji: "⚡", border: "rgba(0,255,255,0.4)" },
   ];
 
@@ -3966,7 +3870,7 @@ function HomeScreen({
 const CATEGORY_META: Record<string, { emoji: string; color: string }> = {
   Repairs: { emoji: "🔧", color: "rgba(251,146,60,0.25)" },
   Health: { emoji: "🏥", color: "rgba(52,211,153,0.25)" },
-  Home: { emoji: "🏠", color: "rgba(0,200,255,0.25)" },
+  House: { emoji: "🏠", color: "rgba(0,200,255,0.25)" },
   Rentals: { emoji: "🚗", color: "rgba(180,180,180,0.25)" },
   Education: { emoji: "📚", color: "rgba(251,191,36,0.25)" },
   Tech: { emoji: "💻", color: "rgba(150,100,255,0.25)" },
@@ -3979,7 +3883,7 @@ const CATEGORY_META: Record<string, { emoji: string; color: string }> = {
 const ALL_CATEGORIES = [
   "Repairs",
   "Health",
-  "Home",
+  "House",
   "Rentals",
   "Education",
   "Tech",
@@ -5116,10 +5020,12 @@ function ServiceBookingFormScreen({
 
   const isCarRental =
     (c === "rentals" &&
-      (n.includes("car") ||
+      (n.includes("passenger") ||
+        n.includes("car") ||
         n.includes("van") ||
         n.includes("bike") ||
-        n.includes("driver"))) ||
+        n.includes("driver")) &&
+      !n.includes("commercial vehicle")) ||
     (c === "transport" &&
       !n.includes("coaches ticket") &&
       !n.includes("pakistan railway") &&
@@ -5129,6 +5035,7 @@ function ServiceBookingFormScreen({
 
   const isTravelTicket =
     n.includes("travel ticket") ||
+    n.includes("air travel") ||
     n.includes("coaches ticket") ||
     n.includes("pakistan railway");
   const isCoachesTicket = n.includes("coaches ticket");
@@ -5136,7 +5043,10 @@ function ServiceBookingFormScreen({
   const isDomeService = n.includes("dome service");
   const isVanService = n.includes("van service");
 
-  const isProperty = n.includes("property");
+  const isProperty =
+    n.includes("property") ||
+    n.includes("residential") ||
+    n.includes("commercial property");
 
   const isOrderable =
     c === "groceries" ||
@@ -5166,27 +5076,40 @@ function ServiceBookingFormScreen({
   const isMedicineOrder = isMedicine || isAgriPharma;
   const isStationary = n.includes("stationary");
   const isGrocery = n.includes("grocery") || c === "groceries";
-  const isShopping = c === "shopping";
+  const isShopping =
+    c === "shopping" ||
+    n.includes("dairy") ||
+    n.includes("spices") ||
+    n.includes("cleaning supplies") ||
+    n.includes("personal care") ||
+    n.includes("bakery") ||
+    n.includes("tea & coffee");
 
   const isRepairs = c === "repairs";
   const isEducation =
     c === "education" || n.includes("tutor") || n.includes("teacher");
   const isSecurity =
     c === "security" || n.includes("guard") || n.includes("security");
+  const isTechAccessories =
+    n.includes("it accessories") || n.includes("accessories");
   const isTechSupport =
     c === "tech" ||
     n.includes("it support") ||
     n.includes("laptop") ||
     n.includes("computer") ||
     n.includes("tech");
+  const isFoodParcels = n.includes("food parcel");
   const isHomeChef =
     n.includes("home chef") ||
     n.includes("chef") ||
-    n.includes("food delivery");
+    n.includes("food delivery") ||
+    n.includes("food parcel");
+  const isDryCleaner = n.includes("dry-clean") || n.includes("dry clean");
   const isHomeCleaning =
-    (c === "home" || n.includes("clean") || n.includes("garden")) &&
+    (c === "house" || n.includes("clean") || n.includes("garden")) &&
     !isOrderable &&
-    !isHomeChef;
+    !isHomeChef &&
+    !isDryCleaner;
 
   const RIDER_FEE = 150;
   const PROVIDER_FEE = 500;
@@ -5211,9 +5134,12 @@ function ServiceBookingFormScreen({
   const totalPayment = itemsTotal + RIDER_FEE + PROVIDER_FEE;
 
   const FARE_RATES: Record<string, number> = {
+    Bike: 20,
+    Rickshaw: 30,
+    Cars: 45,
+    Van: 55,
     Sedan: 45,
     SUV: 65,
-    Van: 55,
     Motorcycle: 25,
     default: 40,
   };
@@ -5646,12 +5572,7 @@ function ServiceBookingFormScreen({
             </div>
             <div>
               <span style={labelStyle}>VEHICLE TYPE</span>
-              {renderChips("vehicleType", [
-                "Sedan",
-                "SUV",
-                "Van",
-                "Motorcycle",
-              ])}
+              {renderChips("vehicleType", ["Bike", "Rickshaw", "Cars", "Van"])}
             </div>
             <div>
               <span style={labelStyle}>NUMBER OF PASSENGERS</span>
@@ -5821,10 +5742,6 @@ function ServiceBookingFormScreen({
                 "First Class",
               ])}
             </div>
-            <div>
-              <span style={labelStyle}>TRANSPORT TYPE</span>
-              {renderChips("transportType", ["🚌 Bus", "🚆 Train", "✈️ Air"])}
-            </div>
           </>
         )}
 
@@ -5853,15 +5770,27 @@ function ServiceBookingFormScreen({
                 />
               </div>
             </div>
-            <div>
-              <span style={labelStyle}>DATE</span>
-              <input
-                data-ocid="booking.input"
-                type="date"
-                style={inputStyle}
-                value={form.coachDate || ""}
-                onChange={(e) => set("coachDate", e.target.value)}
-              />
+            <div style={{ display: "flex", gap: 10 }}>
+              <div style={{ flex: 1 }}>
+                <span style={labelStyle}>DATE OF TRAVEL</span>
+                <input
+                  data-ocid="booking.input"
+                  type="date"
+                  style={inputStyle}
+                  value={form.coachDate || ""}
+                  onChange={(e) => set("coachDate", e.target.value)}
+                />
+              </div>
+              <div style={{ flex: 1 }}>
+                <span style={labelStyle}>TIME OF DEPARTURE</span>
+                <input
+                  data-ocid="booking.input"
+                  type="time"
+                  style={inputStyle}
+                  value={form.coachTime || ""}
+                  onChange={(e) => set("coachTime", e.target.value)}
+                />
+              </div>
             </div>
             <div>
               <span style={labelStyle}>PASSENGERS</span>
@@ -6294,9 +6223,10 @@ function ServiceBookingFormScreen({
                 "Flat",
                 "House",
                 "Room",
-                "Office",
                 "Hotel",
                 "Guest House",
+                "Hostal",
+                "Farmhouse",
               ])}
             </div>
             <div>
@@ -6783,6 +6713,22 @@ function ServiceBookingFormScreen({
                 </div>
               </div>
 
+              {isGrocery && (
+                <div
+                  style={{
+                    padding: "10px 14px",
+                    background: "rgba(255,215,0,0.06)",
+                    border: "1px solid rgba(255,215,0,0.25)",
+                    borderRadius: 10,
+                    fontFamily: "Rajdhani, sans-serif",
+                    fontSize: "0.85rem",
+                    color: "rgba(255,215,0,0.8)",
+                  }}
+                >
+                  💡 Service charges (PKR 50–100) + rider charges will be added
+                  after order confirmation.
+                </div>
+              )}
               <div>
                 <span style={labelStyle}>DELIVERY ADDRESS</span>
                 <input
@@ -7046,12 +6992,40 @@ function ServiceBookingFormScreen({
           !isRepairs &&
           isEducation && (
             <>
+              {(n.includes("tutor") || n.includes("language teacher")) && (
+                <div>
+                  <span style={labelStyle}>TYPE OF SERVICE</span>
+                  {renderChips("tutorServiceType", [
+                    "Home Visit",
+                    "Online",
+                    "Academy",
+                  ])}
+                </div>
+              )}
+              {n.includes("language") && (
+                <div>
+                  <span style={labelStyle}>LANGUAGE</span>
+                  {renderChips("language", [
+                    "English",
+                    "Arabic",
+                    "French",
+                    "Chinese",
+                    "Urdu",
+                  ])}
+                </div>
+              )}
               <div>
-                <span style={labelStyle}>SUBJECT</span>
+                <span style={labelStyle}>
+                  {n.includes("school") ? "GRADE" : "SUBJECT"}
+                </span>
                 <input
                   data-ocid="booking.input"
                   style={inputStyle}
-                  placeholder="e.g. Mathematics, Physics, English"
+                  placeholder={
+                    n.includes("school")
+                      ? "e.g. Grade 5, Grade 9, O-Level"
+                      : "e.g. Mathematics, Physics, English"
+                  }
                   value={form.subject || ""}
                   onChange={(e) => set("subject", e.target.value)}
                 />
@@ -7117,6 +7091,7 @@ function ServiceBookingFormScreen({
           !isOrderable &&
           !isRepairs &&
           !isEducation &&
+          !isTechAccessories &&
           isSecurity && (
             <>
               <div>
@@ -7182,6 +7157,229 @@ function ServiceBookingFormScreen({
             </>
           )}
 
+        {/* ---- TECH / IT - Product Search Form ---- */}
+        {!isHealth &&
+          !isCarRental &&
+          !isTravelTicket &&
+          !isProperty &&
+          !isOrderable &&
+          !isRepairs &&
+          !isEducation &&
+          !isSecurity &&
+          isTechAccessories && (
+            <div>
+              <div
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "0.65rem",
+                  color: "rgba(0,255,255,0.7)",
+                  letterSpacing: "0.12em",
+                  marginBottom: 12,
+                }}
+              >
+                💻 SEARCH PRODUCTS
+              </div>
+              <div
+                style={{ display: "flex", flexDirection: "column", gap: 10 }}
+              >
+                {items.map((item, idx) => (
+                  <div
+                    key={item.id}
+                    data-ocid={`tech.item.${idx + 1}`}
+                    style={{
+                      display: "flex",
+                      gap: 6,
+                      alignItems: "center",
+                      background: "rgba(0,255,255,0.04)",
+                      border: "1px solid rgba(0,255,255,0.15)",
+                      borderRadius: 10,
+                      padding: "8px 10px",
+                    }}
+                  >
+                    <input
+                      data-ocid="tech.input"
+                      style={{
+                        ...inputStyle,
+                        flex: 2,
+                        padding: "8px 10px",
+                        fontSize: "0.85rem",
+                      }}
+                      placeholder="Product Name (e.g. HDMI Cable)"
+                      value={item.name}
+                      onChange={(e) => updateItem(idx, "name", e.target.value)}
+                    />
+                    <input
+                      data-ocid="tech.input"
+                      style={{
+                        ...inputStyle,
+                        flex: 1,
+                        padding: "8px 10px",
+                        fontSize: "0.85rem",
+                      }}
+                      placeholder="Brand/Company"
+                      value={item.unit}
+                      onChange={(e) => updateItem(idx, "unit", e.target.value)}
+                    />
+                    <input
+                      data-ocid="tech.item_qty.input"
+                      type="number"
+                      style={{
+                        ...inputStyle,
+                        width: 60,
+                        padding: "8px 8px",
+                        fontSize: "0.85rem",
+                        textAlign: "center",
+                      }}
+                      placeholder="Qty"
+                      value={item.quantity}
+                      onChange={(e) =>
+                        updateItem(idx, "quantity", e.target.value)
+                      }
+                    />
+                    {items.length > 1 && (
+                      <button
+                        type="button"
+                        data-ocid={`tech.delete_button.${idx + 1}`}
+                        onClick={() => removeItem(item.id)}
+                        style={{
+                          background: "rgba(255,60,60,0.15)",
+                          border: "1px solid rgba(255,60,60,0.4)",
+                          borderRadius: 8,
+                          color: "#ff6060",
+                          width: 30,
+                          height: 30,
+                          cursor: "pointer",
+                          fontSize: "1rem",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          flexShrink: 0,
+                        }}
+                      >
+                        ×
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </div>
+              <button
+                type="button"
+                data-ocid="tech.add_button"
+                onClick={addItem}
+                style={{
+                  marginTop: 10,
+                  width: "100%",
+                  padding: "8px",
+                  background: "rgba(0,255,255,0.08)",
+                  border: "1px dashed rgba(0,255,255,0.4)",
+                  borderRadius: 10,
+                  color: "#00ffff",
+                  fontFamily: "Rajdhani, sans-serif",
+                  fontSize: "0.85rem",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                }}
+              >
+                + ADD PRODUCT
+              </button>
+              {!form._techPortalOpen && items.some((i) => i.name) && (
+                <button
+                  type="button"
+                  data-ocid="tech.primary_button"
+                  className="btn-portal"
+                  onClick={() => set("_techPortalOpen", "true")}
+                  style={{ width: "100%", marginTop: 12 }}
+                >
+                  🔍 FIND PROVIDERS
+                </button>
+              )}
+              {form._techPortalOpen === "true" && (
+                <div style={{ marginTop: 12 }}>
+                  <div
+                    style={{
+                      fontFamily: "Orbitron, sans-serif",
+                      fontSize: "0.6rem",
+                      color: "#00ffff",
+                      letterSpacing: "0.12em",
+                      marginBottom: 10,
+                    }}
+                  >
+                    PROVIDERS FOR YOUR PRODUCTS
+                  </div>
+                  {[
+                    {
+                      name: "TechBazaar Karachi",
+                      rating: 4.8,
+                      distance: "0.5 km",
+                      note: "All items available",
+                      price: "Best Price",
+                    },
+                    {
+                      name: "Digital Mall Online",
+                      rating: 4.6,
+                      distance: "1.2 km",
+                      note: "Most items in stock",
+                      price: "Competitive",
+                    },
+                    {
+                      name: "TechZone Lahore",
+                      rating: 4.5,
+                      distance: "2.1 km",
+                      note: "Bulk orders available",
+                      price: "Wholesale",
+                    },
+                  ].map((p, idx2) => (
+                    <div
+                      key={p.name}
+                      data-ocid={`tech.provider.item.${idx2 + 1}`}
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        padding: "10px 12px",
+                        background: "rgba(0,255,255,0.04)",
+                        border: "1px solid rgba(0,255,255,0.15)",
+                        borderRadius: 10,
+                        marginBottom: 8,
+                      }}
+                    >
+                      <div>
+                        <div
+                          style={{
+                            fontFamily: "Rajdhani, sans-serif",
+                            fontWeight: 700,
+                            color: "#f0f0f0",
+                            fontSize: "0.9rem",
+                          }}
+                        >
+                          {p.name}
+                        </div>
+                        <div
+                          style={{
+                            fontFamily: "Rajdhani, sans-serif",
+                            fontSize: "0.75rem",
+                            color: "rgba(176,255,255,0.5)",
+                          }}
+                        >
+                          ⭐ {p.rating} · {p.distance} · {p.note}
+                        </div>
+                      </div>
+                      <div
+                        style={{
+                          fontFamily: "Orbitron, sans-serif",
+                          fontSize: "0.65rem",
+                          color: "#50ffb0",
+                        }}
+                      >
+                        {p.price}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
         {/* ---- TECH / IT SUPPORT ---- */}
         {!isHealth &&
           !isCarRental &&
@@ -7191,6 +7389,7 @@ function ServiceBookingFormScreen({
           !isRepairs &&
           !isEducation &&
           !isSecurity &&
+          !isTechAccessories &&
           isTechSupport && (
             <>
               <div>
@@ -7248,6 +7447,449 @@ function ServiceBookingFormScreen({
             </>
           )}
 
+        {/* ---- FOOD PARCELS - Provider list with weekly menu ---- */}
+        {!isHealth &&
+          !isCarRental &&
+          !isTravelTicket &&
+          !isProperty &&
+          !isOrderable &&
+          !isRepairs &&
+          !isEducation &&
+          !isSecurity &&
+          !isTechSupport &&
+          isFoodParcels && (
+            <div>
+              <div
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "0.65rem",
+                  color: "rgba(0,255,255,0.7)",
+                  letterSpacing: "0.12em",
+                  marginBottom: 12,
+                }}
+              >
+                🍱 SELECT FOOD PROVIDER
+              </div>
+              <div
+                style={{
+                  fontFamily: "Rajdhani, sans-serif",
+                  fontSize: "0.85rem",
+                  color: "rgba(176,255,255,0.5)",
+                  marginBottom: 12,
+                }}
+              >
+                Choose from nearby home-made food providers. Service is on daily
+                basis.
+              </div>
+              {[
+                {
+                  name: "Amma Ka Khana",
+                  rating: 4.9,
+                  daily: 350,
+                  weekly: 2200,
+                  menu: {
+                    Mon: "Daal Chawal, Chapati",
+                    Tue: "Chicken Karahi, Rice",
+                    Wed: "Biryani",
+                    Thu: "Qorma, Naan",
+                    Fri: "Fish Curry, Rice",
+                    Sat: "BBQ Platter",
+                    Sun: "Nihari, Naan",
+                  },
+                },
+                {
+                  name: "Fatima's Kitchen",
+                  rating: 4.7,
+                  daily: 300,
+                  weekly: 1900,
+                  menu: {
+                    Mon: "Aloo Gosht, Roti",
+                    Tue: "Daal Mash, Rice",
+                    Wed: "Palak Gosht",
+                    Thu: "Haleem",
+                    Fri: "Fried Rice, Chicken",
+                    Sat: "Mutton Karahi",
+                    Sun: "Paye, Naan",
+                  },
+                },
+                {
+                  name: "Ghar Ka Zaika",
+                  rating: 4.6,
+                  daily: 280,
+                  weekly: 1750,
+                  menu: {
+                    Mon: "Daal Tadka, Rice",
+                    Tue: "Butter Chicken, Naan",
+                    Wed: "Kabab Platter",
+                    Thu: "Saag Gosht",
+                    Fri: "Chicken Handi",
+                    Sat: "Biryani",
+                    Sun: "Korma, Roti",
+                  },
+                },
+              ].map((provider, idx) => (
+                <div
+                  key={provider.name}
+                  data-ocid={`food_parcels.item.${idx + 1}`}
+                  style={{
+                    background: "rgba(0,255,255,0.05)",
+                    border:
+                      form.selectedFoodProvider === provider.name
+                        ? "2px solid rgba(0,255,255,0.7)"
+                        : "1px solid rgba(0,255,255,0.2)",
+                    borderRadius: 14,
+                    padding: 14,
+                    marginBottom: 12,
+                    boxShadow:
+                      form.selectedFoodProvider === provider.name
+                        ? "0 0 16px rgba(0,255,255,0.2)"
+                        : "none",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginBottom: 8,
+                    }}
+                  >
+                    <div>
+                      <div
+                        style={{
+                          fontFamily: "Rajdhani, sans-serif",
+                          fontWeight: 700,
+                          color: "#f0f0f0",
+                          fontSize: "1rem",
+                        }}
+                      >
+                        {provider.name}
+                      </div>
+                      <div
+                        style={{
+                          fontFamily: "Rajdhani, sans-serif",
+                          fontSize: "0.8rem",
+                          color: "rgba(176,255,255,0.5)",
+                        }}
+                      >
+                        ⭐ {provider.rating} · Daily meals service
+                      </div>
+                    </div>
+                    <div style={{ textAlign: "right" }}>
+                      <div
+                        style={{
+                          fontFamily: "Orbitron, sans-serif",
+                          fontSize: "0.7rem",
+                          color: "#50ffb0",
+                        }}
+                      >
+                        PKR {provider.daily}/day
+                      </div>
+                      <div
+                        style={{
+                          fontFamily: "Rajdhani, sans-serif",
+                          fontSize: "0.7rem",
+                          color: "rgba(176,255,255,0.4)",
+                        }}
+                      >
+                        PKR {provider.weekly}/week
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "repeat(7, 1fr)",
+                      gap: 4,
+                      marginBottom: 10,
+                    }}
+                  >
+                    {Object.entries(provider.menu).map(([day, meal]) => (
+                      <div key={day} style={{ textAlign: "center" }}>
+                        <div
+                          style={{
+                            fontFamily: "Rajdhani, sans-serif",
+                            fontSize: "0.65rem",
+                            color: "rgba(0,255,255,0.6)",
+                            marginBottom: 2,
+                          }}
+                        >
+                          {day}
+                        </div>
+                        <div
+                          style={{
+                            fontFamily: "Rajdhani, sans-serif",
+                            fontSize: "0.6rem",
+                            color: "rgba(255,255,255,0.6)",
+                            lineHeight: 1.3,
+                          }}
+                        >
+                          {meal.split(",")[0]}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div style={{ marginBottom: 8 }}>
+                    <span style={labelStyle}>FOOD TYPE</span>
+                    <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                      {["Meals", "Tea", "Cold Drinks", "All"].map((ft) => (
+                        <button
+                          key={ft}
+                          type="button"
+                          data-ocid="food_parcels.toggle"
+                          onClick={() => set("foodType", ft)}
+                          style={
+                            form.foodType === ft ? chipActive : chipInactive
+                          }
+                        >
+                          {ft}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    data-ocid={`food_parcels.select.button.${idx + 1}`}
+                    className="btn-portal"
+                    style={{ width: "100%", padding: "8px" }}
+                    onClick={() => set("selectedFoodProvider", provider.name)}
+                  >
+                    {form.selectedFoodProvider === provider.name
+                      ? "✓ SELECTED"
+                      : "SELECT PROVIDER"}
+                  </button>
+                </div>
+              ))}
+              {form.selectedFoodProvider && (
+                <div
+                  style={{
+                    padding: "10px 14px",
+                    background: "rgba(80,255,176,0.08)",
+                    border: "1px solid rgba(80,255,176,0.3)",
+                    borderRadius: 10,
+                    fontFamily: "Rajdhani, sans-serif",
+                    fontSize: "0.9rem",
+                    color: "#50ffb0",
+                    textAlign: "center",
+                  }}
+                >
+                  ✓ Provider selected: {form.selectedFoodProvider}
+                </div>
+              )}
+            </div>
+          )}
+
+        {/* ---- DRY-CLEANER - Provider list with per-suit pricing ---- */}
+        {!isHealth &&
+          !isCarRental &&
+          !isTravelTicket &&
+          !isProperty &&
+          !isOrderable &&
+          !isRepairs &&
+          !isEducation &&
+          !isSecurity &&
+          !isTechSupport &&
+          !isFoodParcels &&
+          isDryCleaner && (
+            <div>
+              <div
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "0.65rem",
+                  color: "rgba(0,255,255,0.7)",
+                  letterSpacing: "0.12em",
+                  marginBottom: 12,
+                }}
+              >
+                👔 DRY-CLEANING SERVICE PROVIDERS
+              </div>
+              <div
+                style={{
+                  fontFamily: "Rajdhani, sans-serif",
+                  fontSize: "0.85rem",
+                  color: "rgba(176,255,255,0.5)",
+                  marginBottom: 12,
+                }}
+              >
+                Provider will pick up your items and return them on the agreed
+                date.
+              </div>
+              {[
+                {
+                  name: "CleanMaster Karachi",
+                  rating: 4.8,
+                  wash: 250,
+                  washIron: 350,
+                  ironOnly: 150,
+                  distance: "0.5 km",
+                },
+                {
+                  name: "Royal Dry Cleaners",
+                  rating: 4.6,
+                  wash: 300,
+                  washIron: 420,
+                  ironOnly: 180,
+                  distance: "1.2 km",
+                },
+                {
+                  name: "FreshFit Laundry",
+                  rating: 4.4,
+                  wash: 220,
+                  washIron: 320,
+                  ironOnly: 130,
+                  distance: "2.0 km",
+                },
+              ].map((provider, idx) => (
+                <div
+                  key={provider.name}
+                  data-ocid={`dryclean.item.${idx + 1}`}
+                  style={{
+                    background: "rgba(0,255,255,0.05)",
+                    border:
+                      form.selectedDryClean === provider.name
+                        ? "2px solid rgba(0,255,255,0.7)"
+                        : "1px solid rgba(0,255,255,0.2)",
+                    borderRadius: 14,
+                    padding: 14,
+                    marginBottom: 12,
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginBottom: 10,
+                    }}
+                  >
+                    <div>
+                      <div
+                        style={{
+                          fontFamily: "Rajdhani, sans-serif",
+                          fontWeight: 700,
+                          color: "#f0f0f0",
+                          fontSize: "1rem",
+                        }}
+                      >
+                        {provider.name}
+                      </div>
+                      <div
+                        style={{
+                          fontFamily: "Rajdhani, sans-serif",
+                          fontSize: "0.8rem",
+                          color: "rgba(176,255,255,0.5)",
+                        }}
+                      >
+                        ⭐ {provider.rating} · {provider.distance}
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "repeat(3, 1fr)",
+                      gap: 8,
+                      marginBottom: 10,
+                    }}
+                  >
+                    {[
+                      { label: "Washing", price: provider.wash },
+                      { label: "Wash+Iron", price: provider.washIron },
+                      { label: "Iron Only", price: provider.ironOnly },
+                    ].map((item) => (
+                      <div
+                        key={item.label}
+                        style={{
+                          textAlign: "center",
+                          padding: "8px 4px",
+                          background: "rgba(0,255,255,0.04)",
+                          borderRadius: 8,
+                          border: "1px solid rgba(0,255,255,0.15)",
+                        }}
+                      >
+                        <div
+                          style={{
+                            fontFamily: "Rajdhani, sans-serif",
+                            fontSize: "0.75rem",
+                            color: "rgba(176,255,255,0.6)",
+                          }}
+                        >
+                          {item.label}
+                        </div>
+                        <div
+                          style={{
+                            fontFamily: "Orbitron, sans-serif",
+                            fontSize: "0.7rem",
+                            color: "#50ffb0",
+                            fontWeight: 700,
+                          }}
+                        >
+                          PKR {item.price}
+                        </div>
+                        <div
+                          style={{
+                            fontFamily: "Rajdhani, sans-serif",
+                            fontSize: "0.65rem",
+                            color: "rgba(176,255,255,0.4)",
+                          }}
+                        >
+                          per suit
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <button
+                    type="button"
+                    data-ocid={`dryclean.select.button.${idx + 1}`}
+                    className="btn-portal"
+                    style={{ width: "100%", padding: "8px" }}
+                    onClick={() => set("selectedDryClean", provider.name)}
+                  >
+                    {form.selectedDryClean === provider.name
+                      ? "✓ SELECTED"
+                      : "SELECT PROVIDER"}
+                  </button>
+                </div>
+              ))}
+              {form.selectedDryClean && (
+                <>
+                  <div style={{ display: "flex", gap: 10 }}>
+                    <div style={{ flex: 1 }}>
+                      <span style={labelStyle}>PICKUP DATE</span>
+                      <input
+                        data-ocid="dryclean.input"
+                        type="date"
+                        style={inputStyle}
+                        value={form.pickupDate || ""}
+                        onChange={(e) => set("pickupDate", e.target.value)}
+                      />
+                    </div>
+                    <div style={{ flex: 1 }}>
+                      <span style={labelStyle}>RETURN DATE</span>
+                      <input
+                        data-ocid="dryclean.input"
+                        type="date"
+                        style={inputStyle}
+                        value={form.returnDate || ""}
+                        onChange={(e) => set("returnDate", e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <span style={labelStyle}>PICKUP ADDRESS</span>
+                    <input
+                      data-ocid="dryclean.input"
+                      style={inputStyle}
+                      placeholder="Your address for pickup"
+                      value={form.pickupAddress || ""}
+                      onChange={(e) => set("pickupAddress", e.target.value)}
+                    />
+                  </div>
+                </>
+              )}
+            </div>
+          )}
+
         {/* ---- HOME CHEF / FOOD DELIVERY ---- */}
         {!isHealth &&
           !isCarRental &&
@@ -7258,6 +7900,8 @@ function ServiceBookingFormScreen({
           !isEducation &&
           !isSecurity &&
           !isTechSupport &&
+          !isFoodParcels &&
+          !isDryCleaner &&
           isHomeChef && (
             <HomeChefOrderFormSection
               form={form}
@@ -7281,6 +7925,8 @@ function ServiceBookingFormScreen({
           !isEducation &&
           !isSecurity &&
           !isTechSupport &&
+          !isFoodParcels &&
+          !isDryCleaner &&
           !isHomeChef &&
           isHomeCleaning && (
             <>
@@ -7357,8 +8003,13 @@ function ServiceBookingFormScreen({
           !isEducation &&
           !isSecurity &&
           !isTechSupport &&
+          !isFoodParcels &&
+          !isDryCleaner &&
           !isHomeChef &&
-          !isHomeCleaning && (
+          !isHomeCleaning &&
+          !isTechAccessories &&
+          !n.includes("commercial vehicle") &&
+          !n.includes("commercial property") && (
             <>
               <div>
                 <span style={labelStyle}>
@@ -7460,8 +8111,11 @@ function WorkScopeModal({
   onSubmit: (scope: string) => void;
 }) {
   const [scope, setScope] = useState("");
+  const [withMaterial, setWithMaterial] = useState(false);
   const [scopeLang, setScopeLang] = useState<"en" | "ur" | "sd">("en");
   const [recording, setRecording] = useState(false);
+  const [sttActive, setSttActive] = useState(false);
+  const [voiceNoteBlobs, setVoiceNoteBlobs] = useState<string[]>([]);
   const [voiceNotes, setVoiceNotes] = useState(0);
   const [recordingTime, setRecordingTime] = useState(0);
   const [recordingTimer, setRecordingTimer] = useState<ReturnType<
@@ -7589,6 +8243,55 @@ function WorkScopeModal({
           ))}
         </div>
 
+        {/* With Material checkbox */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            padding: "10px 14px",
+            background: "rgba(0,255,255,0.05)",
+            border: "1px solid rgba(0,255,255,0.2)",
+            borderRadius: 10,
+            marginBottom: 10,
+          }}
+        >
+          <input
+            type="checkbox"
+            id="with-material"
+            data-ocid="repair.workscope.checkbox"
+            checked={withMaterial}
+            onChange={(e) => setWithMaterial(e.target.checked)}
+            style={{
+              width: 18,
+              height: 18,
+              cursor: "pointer",
+              accentColor: "#00ffff",
+            }}
+          />
+          <label
+            htmlFor="with-material"
+            style={{
+              fontFamily: "Rajdhani, sans-serif",
+              fontSize: "0.9rem",
+              color: "#e0f7ff",
+              cursor: "pointer",
+            }}
+          >
+            With Material
+          </label>
+          <span
+            style={{
+              fontFamily: "Rajdhani, sans-serif",
+              fontSize: "0.75rem",
+              color: "rgba(176,255,255,0.5)",
+              marginLeft: 4,
+            }}
+          >
+            (Provider will add material cost + quantities)
+          </span>
+        </div>
+
         <textarea
           data-ocid="repair.workscope.textarea"
           value={scope}
@@ -7618,20 +8321,136 @@ function WorkScopeModal({
           }}
         />
 
+        {/* Voice note recordings display below textarea */}
+        {voiceNoteBlobs.length > 0 && (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 8,
+              marginTop: 8,
+            }}
+          >
+            <div
+              style={{
+                fontFamily: "Orbitron, sans-serif",
+                fontSize: "0.6rem",
+                color: "rgba(0,255,255,0.6)",
+                letterSpacing: "0.1em",
+              }}
+            >
+              VOICE NOTES ({voiceNoteBlobs.length}/{MAX_VOICE_NOTES})
+            </div>
+            {voiceNoteBlobs.map((blob, idx) => (
+              <div
+                key={`voice-note-${String(idx)}`}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                  padding: "8px 12px",
+                  background: "rgba(0,255,255,0.05)",
+                  border: "1px solid rgba(0,255,255,0.2)",
+                  borderRadius: 10,
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: "Rajdhani, sans-serif",
+                    fontSize: "0.8rem",
+                    color: "rgba(176,255,255,0.6)",
+                  }}
+                >
+                  🎙️ Note {idx + 1}
+                </span>
+                <audio
+                  src={blob}
+                  controls
+                  controlsList="nodownload"
+                  onContextMenu={(e) => e.preventDefault()}
+                  style={{ flex: 1, height: 32 }}
+                >
+                  <track kind="captions" src="" label="Voice note transcript" />
+                </audio>
+              </div>
+            ))}
+          </div>
+        )}
+        {sttActive && (
+          <div
+            style={{
+              padding: "8px 12px",
+              background: "rgba(255,215,0,0.08)",
+              border: "1px solid rgba(255,215,0,0.3)",
+              borderRadius: 8,
+              fontFamily: "Rajdhani, sans-serif",
+              fontSize: "0.85rem",
+              color: "#ffd700",
+              textAlign: "center",
+            }}
+          >
+            🔄 Converting voice to text...
+          </div>
+        )}
         <button
           type="button"
           data-ocid="repair.voicenote.button"
           disabled={voiceNotes >= MAX_VOICE_NOTES}
           onClick={() => {
             if (recording) {
-              // Stop recording
               if (recordingTimer) clearInterval(recordingTimer);
               setRecordingTimer(null);
               setRecording(false);
               setRecordingTime(0);
               setVoiceNotes((v) => v + 1);
+              // Try Speech-to-Text (Web Speech API)
+              type STTCtor = new () => {
+                lang: string;
+                onresult:
+                  | ((e: { results: { 0: { transcript: string } }[] }) => void)
+                  | null;
+                onerror: (() => void) | null;
+                onend: (() => void) | null;
+                start: () => void;
+              };
+              const w = window as unknown as {
+                SpeechRecognition?: STTCtor;
+                webkitSpeechRecognition?: STTCtor;
+              };
+              const STTAPI = w.SpeechRecognition || w.webkitSpeechRecognition;
+              if (STTAPI) {
+                try {
+                  setSttActive(true);
+                  const recognition = new STTAPI();
+                  recognition.lang =
+                    scopeLang === "ur"
+                      ? "ur-PK"
+                      : scopeLang === "sd"
+                        ? "sd-PK"
+                        : "en-PK";
+                  recognition.onresult = (e) => {
+                    const transcript = e.results
+                      .map((r) => r[0].transcript)
+                      .join(" ");
+                    setScope((prev) =>
+                      prev ? `${prev} ${transcript}` : transcript,
+                    );
+                    setSttActive(false);
+                  };
+                  recognition.onerror = () => {
+                    setSttActive(false);
+                  };
+                  recognition.onend = () => {
+                    setSttActive(false);
+                  };
+                  recognition.start();
+                } catch {
+                  setSttActive(false);
+                }
+              }
+              // Add placeholder audio blob
+              setVoiceNoteBlobs((prev) => [...prev, "about:blank"]);
             } else {
-              // Start recording
               setRecording(true);
               setRecordingTime(0);
               const timer = setInterval(() => {
@@ -7640,6 +8459,7 @@ function WorkScopeModal({
                     clearInterval(timer);
                     setRecording(false);
                     setVoiceNotes((v) => v + 1);
+                    setVoiceNoteBlobs((prev) => [...prev, "about:blank"]);
                     return 0;
                   }
                   return t + 1;
@@ -7687,8 +8507,8 @@ function WorkScopeModal({
           {voiceNotes >= MAX_VOICE_NOTES
             ? "VOICE NOTE LIMIT REACHED (3/3)"
             : recording
-              ? `STOP RECORDING (${MAX_RECORDING_SECONDS - recordingTime}s)`
-              : "SEND VOICE NOTE INSTEAD"}
+              ? `STOP RECORDING (${MAX_RECORDING_SECONDS - recordingTime}s) — Speech-to-Text Active`
+              : "RECORD VOICE NOTE (Speech-to-Text)"}
         </button>
         <div
           style={{
@@ -8540,10 +9360,12 @@ function NearbyProvidersScreen({
                       fontWeight: 600,
                     }}
                   >
-                    {/* Rate hidden from other providers for privacy */}
+                    {/* Rate hidden from other providers for privacy, and from users until confirmed for Repairs */}
                     {currentUserType === "provider"
                       ? "Rate: Private"
-                      : `₨${p.rate}/hr`}
+                      : service?.category === "Repairs"
+                        ? "Rate: On Confirmation"
+                        : `₨${p.rate}/hr`}
                   </div>
                 </div>
               </div>
@@ -13440,14 +14262,20 @@ function PortalApp() {
                   c === "health" ||
                   c === "groceries" ||
                   c === "shopping" ||
+                  c === "tech" ||
                   n.includes("doctor") ||
                   n.includes("nurse") ||
                   n.includes("dental") ||
                   n.includes("car rental") ||
+                  n.includes("passenger") ||
+                  n.includes("commercial vehicle") ||
+                  n.includes("residential") ||
+                  n.includes("commercial property") ||
                   n.includes("van") ||
                   n.includes("bike rental") ||
                   n.includes("driver") ||
                   n.includes("travel") ||
+                  n.includes("air travel") ||
                   n.includes("property") ||
                   n.includes("pharmacy") ||
                   n.includes("medical") ||
@@ -13457,18 +14285,21 @@ function PortalApp() {
                   n.includes("shop") ||
                   n.includes("agri-pharma") ||
                   n.includes("home tutor") ||
+                  n.includes("language teacher") ||
                   n.includes("tutor") ||
                   n.includes("coaching") ||
                   n.includes("school") ||
                   n.includes("dry-clean") ||
-                  n.includes("maid") ||
                   n.includes("food parcel") ||
                   n.includes("dairy") ||
                   n.includes("spice") ||
                   n.includes("bakery") ||
                   n.includes("tea & coffee") ||
                   n.includes("personal care") ||
-                  n.includes("cleaning");
+                  n.includes("cleaning") ||
+                  n.includes("utensil") ||
+                  n.includes("it accessories") ||
+                  n.includes("it technician");
                 setScreen(needs ? "serviceBooking" : "providers");
               }}
               category={selectedCategory}
