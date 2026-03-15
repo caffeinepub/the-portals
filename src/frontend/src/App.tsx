@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { AlertTriangle, CheckCircle, Clock, Copy } from "lucide-react";
+import { AlertTriangle, CheckCircle, Clock } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { PortalLogo } from "./components/PortalLogo";
 import { PrivacyPolicyScreen } from "./components/PrivacyPolicy";
@@ -31,7 +31,7 @@ const SERVICES = [
     emoji: "🍱",
     name: "Food Parcels",
     price: 0,
-    category: "House",
+    category: "Food Parcels",
   },
   // Health
   {
@@ -95,7 +95,6 @@ const SERVICES = [
     price: 500,
     category: "Health",
   },
-  { id: 23, emoji: "🌿", name: "Agri-Pharma", price: 500, category: "Health" },
   // Education additions
 
   {
@@ -118,7 +117,7 @@ const SERVICES = [
     emoji: "👔",
     name: "Dry-Cleaner",
     price: 600,
-    category: "House",
+    category: "Dry-Cleaner",
   },
   {
     id: 205,
@@ -292,14 +291,6 @@ const SERVICES = [
     name: "Commercial Property",
     price: 15000,
     category: "Rentals",
-  },
-  // Grocery Utensils
-  {
-    id: 302,
-    emoji: "🍳",
-    name: "Utensils",
-    price: 500,
-    category: "Groceries",
   },
 ];
 
@@ -1461,14 +1452,14 @@ function LoginScreen({
             onClick={onDone}
             style={{
               width: "100%",
-              padding: "22px 18px",
+              padding: "16px 18px",
               background:
                 "linear-gradient(135deg, rgba(0,255,255,0.18) 0%, rgba(0,180,200,0.25) 50%, rgba(0,255,255,0.12) 100%)",
               border: "2px solid rgba(0,255,255,0.7)",
               borderRadius: 20,
               color: "#00ffff",
               fontFamily: "Orbitron, sans-serif",
-              fontSize: "1.15rem",
+              fontSize: "1rem",
               fontWeight: 900,
               letterSpacing: "0.2em",
               cursor: "pointer",
@@ -3366,13 +3357,12 @@ function HomeScreen({
     { name: "Health", emoji: "❤️", border: "rgba(52,211,153,0.4)" },
     { name: "Rentals", emoji: "🔑", border: "rgba(180,180,180,0.4)" },
     { name: "Education", emoji: "📚", border: "rgba(251,191,36,0.4)" },
-    { name: "House", emoji: "🏠", border: "rgba(0,200,255,0.4)" },
     { name: "Shopping", emoji: "🛒", border: "rgba(255,100,200,0.4)" },
-    { name: "Tech", emoji: "💻", border: "rgba(150,100,255,0.4)" },
-    { name: "Transport", emoji: "🚌", border: "rgba(100,180,255,0.4)" },
     { name: "Groceries", emoji: "🛍️", border: "rgba(100,220,100,0.4)" },
     { name: "Stationary", emoji: "✏️", border: "rgba(255,220,100,0.4)" },
-    { name: "All Services", emoji: "⚡", border: "rgba(0,255,255,0.4)" },
+    { name: "Transport", emoji: "🚌", border: "rgba(100,180,255,0.4)" },
+    { name: "Dry-Cleaner", emoji: "👔", border: "rgba(0,200,255,0.4)" },
+    { name: "Food Parcels", emoji: "🍱", border: "rgba(100,255,150,0.4)" },
   ];
 
   return (
@@ -3888,6 +3878,8 @@ const CATEGORY_META: Record<string, { emoji: string; color: string }> = {
   Groceries: { emoji: "🛒", color: "rgba(100,220,100,0.25)" },
   Shopping: { emoji: "🛍️", color: "rgba(255,100,200,0.25)" },
   Stationary: { emoji: "✏️", color: "rgba(255,220,100,0.25)" },
+  "Dry-Cleaner": { emoji: "👔", color: "rgba(0,200,255,0.25)" },
+  "Food Parcels": { emoji: "🍱", color: "rgba(100,255,150,0.25)" },
 };
 
 const ALL_CATEGORIES = [
@@ -3901,6 +3893,8 @@ const ALL_CATEGORIES = [
   "Groceries",
   "Shopping",
   "Stationary",
+  "Dry-Cleaner",
+  "Food Parcels",
 ];
 
 function AllServicesScreen({
@@ -4862,6 +4856,175 @@ function HomeChefOrderFormSection({
 // ========================
 // SERVICE BOOKING FORM SCREEN
 // ========================
+const GROCERY_ITEMS: Record<
+  string,
+  { name: string; price: number; unit: string }[]
+> = {
+  "rice & grain": [
+    { name: "Basmati Rice", price: 280, unit: "kg" },
+    { name: "Super Kernel Rice", price: 320, unit: "kg" },
+    { name: "Sella Rice", price: 260, unit: "kg" },
+    { name: "Brown Rice", price: 350, unit: "kg" },
+    { name: "Atta (Wheat Flour)", price: 120, unit: "kg" },
+    { name: "Maida", price: 110, unit: "kg" },
+    { name: "Makki Flour", price: 130, unit: "kg" },
+    { name: "Suji", price: 150, unit: "kg" },
+    { name: "Besan", price: 180, unit: "kg" },
+    { name: "Oats", price: 220, unit: "pack" },
+  ],
+  "oils & ghee": [
+    { name: "Cooking Oil (1L)", price: 480, unit: "bottle" },
+    { name: "Sunflower Oil (1L)", price: 520, unit: "bottle" },
+    { name: "Canola Oil (1L)", price: 560, unit: "bottle" },
+    { name: "Olive Oil (500ml)", price: 950, unit: "bottle" },
+    { name: "Banaspati Ghee (1kg)", price: 680, unit: "pack" },
+    { name: "Desi Ghee (1kg)", price: 2200, unit: "kg" },
+    { name: "Butter (200g)", price: 280, unit: "pack" },
+    { name: "Coconut Oil (500ml)", price: 650, unit: "bottle" },
+  ],
+  "home hygiene": [
+    { name: "Surf Excel (1kg)", price: 420, unit: "pack" },
+    { name: "Ariel (1kg)", price: 450, unit: "pack" },
+    { name: "Vim Bar", price: 80, unit: "pcs" },
+    { name: "Dettol Liquid (500ml)", price: 350, unit: "bottle" },
+    { name: "Harpic (500ml)", price: 280, unit: "bottle" },
+    { name: "Floor Cleaner (1L)", price: 220, unit: "bottle" },
+    { name: "Toilet Tissue x6", price: 180, unit: "pack" },
+    { name: "Trash Bags (30pcs)", price: 150, unit: "pack" },
+    { name: "Scrubber", price: 60, unit: "pcs" },
+    { name: "Glass Cleaner (500ml)", price: 240, unit: "bottle" },
+    { name: "Glade Spray", price: 380, unit: "bottle" },
+    { name: "Pest Spray", price: 320, unit: "bottle" },
+    { name: "Mosquito Coils (10pcs)", price: 120, unit: "pack" },
+  ],
+  "fruits & vegetables": [
+    { name: "Tomatoes", price: 80, unit: "kg" },
+    { name: "Onions", price: 60, unit: "kg" },
+    { name: "Potatoes", price: 70, unit: "kg" },
+    { name: "Garlic", price: 400, unit: "kg" },
+    { name: "Ginger", price: 350, unit: "kg" },
+    { name: "Green Chillies", price: 120, unit: "kg" },
+    { name: "Coriander", price: 40, unit: "bunch" },
+    { name: "Spinach", price: 50, unit: "bunch" },
+    { name: "Carrots", price: 90, unit: "kg" },
+    { name: "Bananas", price: 120, unit: "dozen" },
+    { name: "Apples", price: 280, unit: "kg" },
+    { name: "Mangoes", price: 350, unit: "kg" },
+    { name: "Oranges", price: 200, unit: "kg" },
+    { name: "Lemon", price: 150, unit: "kg" },
+  ],
+};
+
+const STATIONARY_ITEMS = [
+  { name: "Ballpoint Pen", price: 20, unit: "pcs" },
+  { name: "Pencil HB", price: 15, unit: "pcs" },
+  { name: "A4 Paper Ream (500 sheets)", price: 650, unit: "ream" },
+  { name: "A4 Notebook", price: 180, unit: "pcs" },
+  { name: "Spiral Notebook", price: 120, unit: "pcs" },
+  { name: "Highlighter", price: 60, unit: "pcs" },
+  { name: "Marker (Permanent)", price: 80, unit: "pcs" },
+  { name: "Ruler 30cm", price: 40, unit: "pcs" },
+  { name: "Eraser", price: 20, unit: "pcs" },
+  { name: "Stapler", price: 250, unit: "pcs" },
+  { name: "Staple Pins (box)", price: 60, unit: "box" },
+  { name: "Scissors", price: 120, unit: "pcs" },
+  { name: "Tape Roll", price: 80, unit: "roll" },
+  { name: "File Folder", price: 50, unit: "pcs" },
+  { name: "Envelope (25pcs)", price: 100, unit: "pack" },
+  { name: "Calculator (Basic)", price: 350, unit: "pcs" },
+  { name: "Color Pencils (12pcs)", price: 180, unit: "set" },
+  { name: "Drawing Book", price: 150, unit: "pcs" },
+];
+
+const MEDICINE_ITEMS = [
+  { name: "Panadol Extra (10 tabs)", price: 50, unit: "Strip" },
+  { name: "Disprin (10 tabs)", price: 40, unit: "Strip" },
+  { name: "ORS Sachet", price: 30, unit: "Pcs" },
+  { name: "Brufen 400mg (10 tabs)", price: 80, unit: "Strip" },
+  { name: "Flagyl 400mg (10 tabs)", price: 70, unit: "Strip" },
+  { name: "Augmentin 625mg (6 tabs)", price: 320, unit: "Strip" },
+  { name: "Omeprazole 20mg (14 tabs)", price: 150, unit: "Box" },
+  { name: "Metformin 500mg (20 tabs)", price: 120, unit: "Strip" },
+  { name: "Vitamin C 500mg (10 tabs)", price: 90, unit: "Strip" },
+  { name: "Zinc 50mg (10 tabs)", price: 110, unit: "Strip" },
+  { name: "Calcium 500mg (10 tabs)", price: 130, unit: "Strip" },
+  { name: "Iron Tablets (20 tabs)", price: 100, unit: "Strip" },
+  { name: "Cough Syrup (100ml)", price: 180, unit: "Bottle" },
+  { name: "Amoxicillin 500mg (12 tabs)", price: 220, unit: "Strip" },
+  { name: "Eye Drops (5ml)", price: 150, unit: "Bottle" },
+  { name: "Nasal Spray (10ml)", price: 280, unit: "Bottle" },
+  { name: "Antacid Syrup (200ml)", price: 160, unit: "Bottle" },
+  { name: "Antihistamine (10 tabs)", price: 95, unit: "Strip" },
+  { name: "Pain Relief Cream (30g)", price: 250, unit: "Box" },
+  { name: "Multivitamin (30 tabs)", price: 350, unit: "Box" },
+];
+
+const SHOPPING_ITEMS: Record<
+  string,
+  { name: string; price: number; unit: string }[]
+> = {
+  "dairy & eggs": [
+    { name: "Fresh Milk (1L)", price: 180, unit: "bottle" },
+    { name: "Doodh Patti Milk (1L)", price: 160, unit: "pack" },
+    { name: "Eggs (12pcs)", price: 320, unit: "dozen" },
+    { name: "Yogurt (500g)", price: 130, unit: "pack" },
+    { name: "Butter (200g)", price: 280, unit: "pack" },
+    { name: "Cream (200ml)", price: 160, unit: "pack" },
+    { name: "Cheese (200g)", price: 380, unit: "pack" },
+    { name: "Lassi (500ml)", price: 120, unit: "bottle" },
+  ],
+  spices: [
+    { name: "Red Chilli Powder (100g)", price: 90, unit: "pack" },
+    { name: "Turmeric Powder (100g)", price: 70, unit: "pack" },
+    { name: "Coriander Powder (100g)", price: 80, unit: "pack" },
+    { name: "Garam Masala (50g)", price: 120, unit: "pack" },
+    { name: "Cumin Seeds (100g)", price: 100, unit: "pack" },
+    { name: "Black Pepper (50g)", price: 150, unit: "pack" },
+    { name: "Biryani Masala (50g)", price: 110, unit: "pack" },
+    { name: "Salt (800g)", price: 60, unit: "pack" },
+  ],
+  cleaning: [
+    { name: "Ariel Detergent (500g)", price: 240, unit: "pack" },
+    { name: "Surf Excel (500g)", price: 220, unit: "pack" },
+    { name: "Vim Dishwash Bar", price: 80, unit: "pcs" },
+    { name: "Colin Glass Cleaner", price: 220, unit: "bottle" },
+    { name: "Dettol Floor Cleaner (1L)", price: 280, unit: "bottle" },
+    { name: "Bathroom Cleaner", price: 180, unit: "bottle" },
+    { name: "Broom & Dustpan Set", price: 350, unit: "pcs" },
+    { name: "Scrubbing Pad (3pcs)", price: 90, unit: "pack" },
+  ],
+  "personal care": [
+    { name: "Head & Shoulders Shampoo", price: 350, unit: "bottle" },
+    { name: "Sunsilk Shampoo", price: 280, unit: "bottle" },
+    { name: "Lux Soap (3pcs)", price: 180, unit: "pack" },
+    { name: "Colgate Toothpaste", price: 150, unit: "pcs" },
+    { name: "Gillette Razor", price: 220, unit: "pcs" },
+    { name: "Dettol Hand Wash", price: 180, unit: "bottle" },
+    { name: "Body Lotion (200ml)", price: 280, unit: "bottle" },
+    { name: "Deodorant Spray", price: 320, unit: "pcs" },
+  ],
+  bakery: [
+    { name: "Bread Loaf (Large)", price: 120, unit: "pcs" },
+    { name: "Bun (6pcs)", price: 80, unit: "pack" },
+    { name: "Rusk (250g)", price: 150, unit: "pack" },
+    { name: "Cake Slice", price: 200, unit: "pcs" },
+    { name: "Biscuits (200g)", price: 160, unit: "pack" },
+    { name: "Croissant (2pcs)", price: 180, unit: "pack" },
+    { name: "Nan (4pcs)", price: 100, unit: "pack" },
+    { name: "Cookies (250g)", price: 200, unit: "pack" },
+  ],
+  "tea & coffee": [
+    { name: "Tapal Danedar (200g)", price: 280, unit: "pack" },
+    { name: "Lipton Yellow Label (100 bags)", price: 320, unit: "box" },
+    { name: "Vital Tea (200g)", price: 260, unit: "pack" },
+    { name: "Nestle Coffee (200g)", price: 680, unit: "jar" },
+    { name: "Brooke Bond Supreme (200g)", price: 300, unit: "pack" },
+    { name: "Green Tea (25 bags)", price: 250, unit: "box" },
+    { name: "Milo (400g)", price: 420, unit: "pack" },
+    { name: "Cocoa Powder (250g)", price: 380, unit: "pack" },
+  ],
+};
+
 function ServiceBookingFormScreen({
   service,
   onBack,
@@ -4903,13 +5066,37 @@ function ServiceBookingFormScreen({
     typeof setTimeout
   > | null>(null);
   const [items, setItems] = useState<
-    { id: number; name: string; quantity: string; unit: string }[]
-  >([{ id: 1, name: "", quantity: "", unit: "" }]);
+    {
+      id: number;
+      name: string;
+      quantity: string;
+      unit: string;
+      price: number;
+    }[]
+  >([{ id: 1, name: "", quantity: "", unit: "", price: 0 }]);
+  const [dryCleanItems, setDryCleanItems] = useState<
+    { id: number; clothType: string; qty: string; serviceType: string }[]
+  >([{ id: 1, clothType: "", qty: "1", serviceType: "Washing" }]);
+  const [dryCleanCounter, setDryCleanCounter] = useState(2);
+
+  const addDryCleanItem = () => {
+    setDryCleanItems((prev) => [
+      ...prev,
+      { id: dryCleanCounter, clothType: "", qty: "1", serviceType: "Washing" },
+    ]);
+    setDryCleanCounter((c) => c + 1);
+  };
+  const removeDryCleanItem = (id: number) =>
+    setDryCleanItems((prev) => prev.filter((i) => i.id !== id));
+  const updateDryCleanItem = (id: number, field: string, val: string) =>
+    setDryCleanItems((prev) =>
+      prev.map((i) => (i.id === id ? { ...i, [field]: val } : i)),
+    );
 
   const addItem = () => {
     setItems((prev) => [
       ...prev,
-      { id: itemIdCounter, name: "", quantity: "", unit: "" },
+      { id: itemIdCounter, name: "", quantity: "", unit: "", price: 0 },
     ]);
     setItemIdCounter((c) => c + 1);
   };
@@ -5027,9 +5214,7 @@ function ServiceBookingFormScreen({
       n.includes("dental") ||
       n.includes("home visit") ||
       n.includes("medical")) &&
-    !n.includes("medical store") &&
-    !n.includes("agri-pharma") &&
-    !n.includes("agri pharma");
+    !n.includes("medical store");
 
   const isCarRental =
     (c === "rentals" &&
@@ -5070,8 +5255,6 @@ function ServiceBookingFormScreen({
     n.includes("medical store") ||
     n.includes("grocery") ||
     n.includes("stationary") ||
-    n.includes("agri-pharma") ||
-    n.includes("agri pharma") ||
     n.includes("rice") ||
     n.includes("grain") ||
     n.includes("oils") ||
@@ -5086,15 +5269,14 @@ function ServiceBookingFormScreen({
     n.includes("pharmacy") ||
     n.includes("medical store") ||
     n.includes("medicine");
-  const isAgriPharma = n.includes("agri-pharma") || n.includes("agri pharma");
-  const isMedicineOrder = isMedicine || isAgriPharma;
+  const isMedicineOrder = isMedicine;
   const isStationary = n.includes("stationary");
   const isGrocery = n.includes("grocery") || c === "groceries";
   const isShopping =
     c === "shopping" ||
     n.includes("dairy") ||
     n.includes("spices") ||
-    n.includes("cleaning supplies") ||
+    n.includes("cleaning") ||
     n.includes("personal care") ||
     n.includes("bakery") ||
     n.includes("tea & coffee");
@@ -5143,6 +5325,7 @@ function ServiceBookingFormScreen({
   };
   const itemsTotal = items.reduce((sum, it) => {
     const qty = Number.parseFloat(it.quantity) || 0;
+    if (it.price > 0) return sum + qty * it.price;
     return sum + qty * getUnitPrice();
   }, 0);
   const totalPayment = itemsTotal + RIDER_FEE + PROVIDER_FEE;
@@ -5807,12 +5990,12 @@ function ServiceBookingFormScreen({
               </div>
             </div>
             <div>
-              <span style={labelStyle}>PASSENGERS</span>
+              <span style={labelStyle}>NUMBER OF SEATS</span>
               <input
                 data-ocid="booking.input"
                 type="number"
                 style={inputStyle}
-                placeholder="Number of passengers"
+                placeholder="Number of seats required"
                 value={form.coachPassengers || ""}
                 onChange={(e) => set("coachPassengers", e.target.value)}
               />
@@ -5825,168 +6008,67 @@ function ServiceBookingFormScreen({
                 "Economy",
               ])}
             </div>
-            <div
-              className="glass-bright"
-              style={{ borderRadius: 12, padding: "14px 16px", marginTop: 4 }}
-            >
-              <div
-                style={{
-                  fontFamily: "Orbitron, sans-serif",
-                  fontSize: "0.6rem",
-                  color: "rgba(0,255,255,0.6)",
-                  letterSpacing: "0.1em",
-                  marginBottom: 10,
-                }}
-              >
-                AVAILABLE COACHES
-              </div>
-              {[
-                {
-                  name: "Daewoo Express",
-                  time: "08:00 AM",
-                  fare: 1800,
-                  seats: 12,
-                },
-                {
-                  name: "Faisal Movers",
-                  time: "10:30 AM",
-                  fare: 1500,
-                  seats: 8,
-                },
-                {
-                  name: "Bilal Daewoo",
-                  time: "02:00 PM",
-                  fare: 1200,
-                  seats: 15,
-                },
-                { name: "Sky Daewoo", time: "06:00 PM", fare: 1600, seats: 5 },
-              ].map((coach) => (
-                <div
-                  key={coach.name}
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    padding: "10px 0",
-                    borderBottom: "1px solid rgba(0,255,255,0.1)",
-                  }}
-                >
-                  <div>
-                    <div
-                      style={{
-                        fontFamily: "Rajdhani, sans-serif",
-                        fontWeight: 700,
-                        color: "#f0f0f0",
-                        fontSize: "0.9rem",
-                      }}
-                    >
-                      {coach.name}
-                    </div>
-                    <div
-                      style={{
-                        fontFamily: "Rajdhani, sans-serif",
-                        fontSize: "0.75rem",
-                        color: "rgba(176,255,255,0.5)",
-                      }}
-                    >
-                      Dep: {coach.time} · {coach.seats} seats left
-                    </div>
-                  </div>
-                  <div style={{ textAlign: "right" }}>
-                    <div
-                      style={{
-                        fontFamily: "Orbitron, sans-serif",
-                        fontSize: "0.7rem",
-                        color: "#50ffb0",
-                      }}
-                    >
-                      ₨{coach.fare.toLocaleString()}
-                    </div>
-                    <div
-                      style={{
-                        fontFamily: "Rajdhani, sans-serif",
-                        fontSize: "0.7rem",
-                        color: "rgba(176,255,255,0.4)",
-                      }}
-                    >
-                      per seat
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
           </>
         )}
 
         {/* ---- DOME SERVICE ---- */}
         {isDomeService && (
           <>
-            <div>
-              <button
-                type="button"
-                data-ocid="booking.toggle"
-                onClick={handleGpsPickup}
-                style={{
-                  marginBottom: 8,
-                  padding: "8px 12px",
-                  background: "rgba(0,255,255,0.1)",
-                  border: "1px solid rgba(0,255,255,0.3)",
-                  borderRadius: 8,
-                  color: "#00ffff",
-                  fontFamily: "Orbitron, sans-serif",
-                  fontSize: "0.55rem",
-                  cursor: "pointer",
-                  letterSpacing: "0.08em",
-                }}
-              >
-                {gpsLoading ? "LOCATING..." : "📍 USE GPS LOCATION"}
-              </button>
-              <span style={labelStyle}>PICKUP LOCATION</span>
-              <input
-                data-ocid="booking.input"
-                style={inputStyle}
-                placeholder="Your current location"
-                value={form.pickupLocation || ""}
-                onChange={(e) => set("pickupLocation", e.target.value)}
-              />
+            <div style={{ display: "flex", gap: 10 }}>
+              <div style={{ flex: 1 }}>
+                <span style={labelStyle}>FROM CITY</span>
+                <input
+                  data-ocid="booking.input"
+                  style={inputStyle}
+                  placeholder="Departure city"
+                  value={form.domeFromCity || ""}
+                  onChange={(e) => set("domeFromCity", e.target.value)}
+                />
+              </div>
+              <div style={{ flex: 1 }}>
+                <span style={labelStyle}>TO CITY</span>
+                <input
+                  data-ocid="booking.input"
+                  style={inputStyle}
+                  placeholder="Destination city"
+                  value={form.domeToCity || ""}
+                  onChange={(e) => set("domeToCity", e.target.value)}
+                />
+              </div>
             </div>
             <div>
-              <span style={labelStyle}>DROP LOCATION</span>
-              <input
-                data-ocid="booking.input"
-                style={inputStyle}
-                placeholder="Destination"
-                value={form.domeDropLocation || ""}
-                onChange={(e) => set("domeDropLocation", e.target.value)}
-              />
-            </div>
-            <div>
-              <span style={labelStyle}>PASSENGERS</span>
+              <span style={labelStyle}>NUMBER OF SEATS</span>
               <input
                 data-ocid="booking.input"
                 type="number"
                 style={inputStyle}
-                placeholder="How many passengers?"
-                value={form.domePassengers || ""}
-                onChange={(e) => set("domePassengers", e.target.value)}
+                placeholder="Number of seats"
+                value={form.domeSeats || ""}
+                onChange={(e) => set("domeSeats", e.target.value)}
               />
             </div>
-            <div>
-              <span style={labelStyle}>WHEN</span>
-              {renderChips("domeWhen", ["Now", "Schedule Later"])}
-            </div>
-            {form.domeWhen === "Schedule Later" && (
-              <div>
-                <span style={labelStyle}>DATE & TIME</span>
+            <div style={{ display: "flex", gap: 10 }}>
+              <div style={{ flex: 1 }}>
+                <span style={labelStyle}>DATE OF TRAVEL</span>
                 <input
                   data-ocid="booking.input"
-                  type="datetime-local"
+                  type="date"
                   style={inputStyle}
-                  value={form.domeDateTime || ""}
-                  onChange={(e) => set("domeDateTime", e.target.value)}
+                  value={form.domeDate || ""}
+                  onChange={(e) => set("domeDate", e.target.value)}
                 />
               </div>
-            )}
+              <div style={{ flex: 1 }}>
+                <span style={labelStyle}>TIME OF DEPARTURE</span>
+                <input
+                  data-ocid="booking.input"
+                  type="time"
+                  style={inputStyle}
+                  value={form.domeTime || ""}
+                  onChange={(e) => set("domeTime", e.target.value)}
+                />
+              </div>
+            </div>
           </>
         )}
 
@@ -6093,15 +6175,27 @@ function ServiceBookingFormScreen({
                 />
               </div>
             </div>
-            <div>
-              <span style={labelStyle}>DATE</span>
-              <input
-                data-ocid="booking.input"
-                type="date"
-                style={inputStyle}
-                value={form.railDate || ""}
-                onChange={(e) => set("railDate", e.target.value)}
-              />
+            <div style={{ display: "flex", gap: 10 }}>
+              <div style={{ flex: 1 }}>
+                <span style={labelStyle}>DATE</span>
+                <input
+                  data-ocid="booking.input"
+                  type="date"
+                  style={inputStyle}
+                  value={form.railDate || ""}
+                  onChange={(e) => set("railDate", e.target.value)}
+                />
+              </div>
+              <div style={{ flex: 1 }}>
+                <span style={labelStyle}>DEPARTURE TIME</span>
+                <input
+                  data-ocid="booking.input"
+                  type="time"
+                  style={inputStyle}
+                  value={form.railTime || ""}
+                  onChange={(e) => set("railTime", e.target.value)}
+                />
+              </div>
             </div>
             <div>
               <span style={labelStyle}>CLASS</span>
@@ -6123,98 +6217,6 @@ function ServiceBookingFormScreen({
                 onChange={(e) => set("railPassengers", e.target.value)}
               />
             </div>
-            <div
-              className="glass-bright"
-              style={{ borderRadius: 12, padding: "14px 16px", marginTop: 4 }}
-            >
-              <div
-                style={{
-                  fontFamily: "Orbitron, sans-serif",
-                  fontSize: "0.6rem",
-                  color: "rgba(0,255,255,0.6)",
-                  letterSpacing: "0.1em",
-                  marginBottom: 10,
-                }}
-              >
-                AVAILABLE TRAINS
-              </div>
-              {[
-                {
-                  name: "Karachi Express",
-                  departs: "07:00",
-                  arrives: "15:30",
-                  fare: 1200,
-                  seats: 34,
-                },
-                {
-                  name: "Shah Express",
-                  departs: "09:30",
-                  arrives: "19:00",
-                  fare: 950,
-                  seats: 18,
-                },
-                {
-                  name: "Tezgam Express",
-                  departs: "12:00",
-                  arrives: "22:00",
-                  fare: 1500,
-                  seats: 6,
-                },
-              ].map((train) => (
-                <div
-                  key={train.name}
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    padding: "10px 0",
-                    borderBottom: "1px solid rgba(0,255,255,0.1)",
-                  }}
-                >
-                  <div>
-                    <div
-                      style={{
-                        fontFamily: "Rajdhani, sans-serif",
-                        fontWeight: 700,
-                        color: "#f0f0f0",
-                        fontSize: "0.9rem",
-                      }}
-                    >
-                      {train.name}
-                    </div>
-                    <div
-                      style={{
-                        fontFamily: "Rajdhani, sans-serif",
-                        fontSize: "0.75rem",
-                        color: "rgba(176,255,255,0.5)",
-                      }}
-                    >
-                      {train.departs} → {train.arrives} · {train.seats} seats
-                    </div>
-                  </div>
-                  <div style={{ textAlign: "right" }}>
-                    <div
-                      style={{
-                        fontFamily: "Orbitron, sans-serif",
-                        fontSize: "0.7rem",
-                        color: "#50ffb0",
-                      }}
-                    >
-                      ₨{train.fare.toLocaleString()}
-                    </div>
-                    <div
-                      style={{
-                        fontFamily: "Rajdhani, sans-serif",
-                        fontSize: "0.7rem",
-                        color: "rgba(176,255,255,0.4)",
-                      }}
-                    >
-                      per person
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
           </>
         )}
 
@@ -6233,15 +6235,24 @@ function ServiceBookingFormScreen({
             </div>
             <div>
               <span style={labelStyle}>PROPERTY TYPE</span>
-              {renderChips("propertyType", [
-                "Flat",
-                "House",
-                "Room",
-                "Hotel",
-                "Guest House",
-                "Hostal",
-                "Farmhouse",
-              ])}
+              {n.includes("commercial property")
+                ? renderChips("propertyType", [
+                    "Office",
+                    "Godown/Warehouse",
+                    "School Building",
+                    "Coaching Center",
+                    "Shop/Showroom",
+                    "Industrial Unit",
+                  ])
+                : renderChips("propertyType", [
+                    "Flat",
+                    "House",
+                    "Guest House",
+                    "Hostel",
+                    "Room",
+                    "Hotel",
+                    "Farmhouse",
+                  ])}
             </div>
             <div>
               <span style={labelStyle}>NUMBER OF ROOMS</span>
@@ -6254,17 +6265,46 @@ function ServiceBookingFormScreen({
                 onChange={(e) => set("numRooms", e.target.value)}
               />
             </div>
-            <div>
-              <span style={labelStyle}>NUMBER OF DAYS/NIGHTS</span>
-              <input
-                data-ocid="booking.input"
-                type="number"
-                style={inputStyle}
-                placeholder="e.g. 3"
-                value={form.numDays || ""}
-                onChange={(e) => set("numDays", e.target.value)}
-              />
-            </div>
+            {n.includes("commercial property") ? (
+              <>
+                <div>
+                  <span style={labelStyle}>DURATION TYPE</span>
+                  {renderChips("commercialDurationType", ["Monthly", "Yearly"])}
+                </div>
+                <div>
+                  <span style={labelStyle}>
+                    {form.commercialDurationType === "Yearly"
+                      ? "NUMBER OF YEARS"
+                      : "NUMBER OF MONTHS"}
+                  </span>
+                  <input
+                    data-ocid="booking.input"
+                    type="number"
+                    min="1"
+                    style={inputStyle}
+                    placeholder={
+                      form.commercialDurationType === "Yearly"
+                        ? "e.g. 1"
+                        : "e.g. 6"
+                    }
+                    value={form.numDays || ""}
+                    onChange={(e) => set("numDays", e.target.value)}
+                  />
+                </div>
+              </>
+            ) : (
+              <div>
+                <span style={labelStyle}>NUMBER OF DAYS/NIGHTS</span>
+                <input
+                  data-ocid="booking.input"
+                  type="number"
+                  style={inputStyle}
+                  placeholder="e.g. 3"
+                  value={form.numDays || ""}
+                  onChange={(e) => set("numDays", e.target.value)}
+                />
+              </div>
+            )}
             <div>
               <span style={labelStyle}>BUDGET (PKR)</span>
               <input
@@ -6395,73 +6435,6 @@ function ServiceBookingFormScreen({
                 ))}
               </div>
             )}
-            {false && (
-              <div
-                data-ocid="property.card"
-                style={{
-                  background: "rgba(0,255,255,0.08)",
-                  border: "1px solid rgba(0,255,255,0.35)",
-                  borderRadius: 14,
-                  padding: "14px 16px",
-                }}
-              >
-                <div
-                  style={{
-                    fontFamily: "Orbitron, sans-serif",
-                    fontSize: 11,
-                    color: "rgba(0,255,255,0.7)",
-                    letterSpacing: "0.12em",
-                    marginBottom: 8,
-                  }}
-                >
-                  TOTAL COST PREVIEW
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    fontFamily: "Rajdhani, sans-serif",
-                    fontSize: 14,
-                    color: "rgba(255,255,255,0.7)",
-                    marginBottom: 4,
-                  }}
-                >
-                  <span>
-                    {form.rateType || "Per Day"} × {form.propertyDuration}
-                  </span>
-                  <span>
-                    PKR{" "}
-                    {(
-                      Number(form.propertyRate) * Number(form.propertyDuration)
-                    ).toLocaleString()}
-                  </span>
-                </div>
-                <div
-                  style={{
-                    borderTop: "1px solid rgba(0,255,255,0.2)",
-                    paddingTop: 8,
-                    display: "flex",
-                    justifyContent: "space-between",
-                    fontFamily: "Orbitron, sans-serif",
-                    fontSize: 13,
-                    color: "#00ffff",
-                  }}
-                >
-                  <span>TOTAL</span>
-                  <span
-                    style={{
-                      fontWeight: 700,
-                      textShadow: "0 0 10px rgba(0,255,255,0.5)",
-                    }}
-                  >
-                    PKR{" "}
-                    {(
-                      Number(form.propertyRate) * Number(form.propertyDuration)
-                    ).toLocaleString()}
-                  </span>
-                </div>
-              </div>
-            )}
             <div>
               <span style={labelStyle}>MOVE-IN DATE</span>
               <input
@@ -6520,20 +6493,116 @@ function ServiceBookingFormScreen({
                         padding: "8px 10px",
                       }}
                     >
-                      <input
-                        data-ocid="booking.item_name.input"
-                        style={{
-                          ...inputStyle,
-                          flex: 2,
-                          padding: "8px 10px",
-                          fontSize: "0.85rem",
-                        }}
-                        placeholder={getItemPlaceholder()}
-                        value={item.name}
-                        onChange={(e) =>
-                          updateItem(idx, "name", e.target.value)
-                        }
-                      />
+                      {isGrocery || isStationary || isMedicine || isShopping ? (
+                        <select
+                          data-ocid="booking.item_name.input"
+                          style={{
+                            ...inputStyle,
+                            flex: 2,
+                            padding: "8px 10px",
+                            fontSize: "0.85rem",
+                            appearance: "none" as const,
+                            cursor: "pointer",
+                          }}
+                          value={item.name}
+                          onChange={(e) => {
+                            const selectedName = e.target.value;
+                            const itemList = isStationary
+                              ? STATIONARY_ITEMS
+                              : isMedicine
+                                ? MEDICINE_ITEMS
+                                : isShopping
+                                  ? (() => {
+                                      const key = Object.keys(
+                                        SHOPPING_ITEMS,
+                                      ).find((k) =>
+                                        n.toLowerCase().includes(k),
+                                      );
+                                      return key
+                                        ? SHOPPING_ITEMS[key]
+                                        : SHOPPING_ITEMS["dairy & eggs"];
+                                    })()
+                                  : (() => {
+                                      const key = Object.keys(
+                                        GROCERY_ITEMS,
+                                      ).find((k) =>
+                                        n.toLowerCase().includes(k),
+                                      );
+                                      return key
+                                        ? GROCERY_ITEMS[key]
+                                        : STATIONARY_ITEMS;
+                                    })();
+                            const found = itemList.find(
+                              (gi) => gi.name === selectedName,
+                            );
+                            if (found) {
+                              setItems((prev) =>
+                                prev.map((it) =>
+                                  it.id === item.id
+                                    ? {
+                                        ...it,
+                                        name: selectedName,
+                                        unit: found.unit,
+                                        price: found.price,
+                                      }
+                                    : it,
+                                ),
+                              );
+                            } else {
+                              updateItem(item.id, "name", selectedName);
+                            }
+                          }}
+                        >
+                          <option value="" style={{ background: "#05070A" }}>
+                            Select Item
+                          </option>
+                          {(isStationary
+                            ? STATIONARY_ITEMS
+                            : isMedicine
+                              ? MEDICINE_ITEMS
+                              : isShopping
+                                ? (() => {
+                                    const key = Object.keys(
+                                      SHOPPING_ITEMS,
+                                    ).find((k) => n.toLowerCase().includes(k));
+                                    return key
+                                      ? SHOPPING_ITEMS[key]
+                                      : SHOPPING_ITEMS["dairy & eggs"];
+                                  })()
+                                : (() => {
+                                    const key = Object.keys(GROCERY_ITEMS).find(
+                                      (k) => n.toLowerCase().includes(k),
+                                    );
+                                    return key
+                                      ? GROCERY_ITEMS[key]
+                                      : STATIONARY_ITEMS;
+                                  })()
+                          ).map((gi) => (
+                            <option
+                              key={gi.name}
+                              value={gi.name}
+                              style={{ background: "#05070A" }}
+                            >
+                              {gi.name} — PKR {gi.price}/{gi.unit}
+                            </option>
+                          ))}
+                        </select>
+                      ) : (
+                        <input
+                          data-ocid="booking.item_name.input"
+                          style={{
+                            ...inputStyle,
+                            flex: 2,
+                            padding: "8px 10px",
+                            fontSize: "0.85rem",
+                          }}
+                          placeholder={getItemPlaceholder()}
+                          value={item.name}
+                          onChange={(e) =>
+                            updateItem(item.id, "name", e.target.value)
+                          }
+                        />
+                      )}
                       <input
                         data-ocid="booking.item_qty.input"
                         type="number"
@@ -6547,7 +6616,7 @@ function ServiceBookingFormScreen({
                         placeholder="Qty"
                         value={item.quantity}
                         onChange={(e) =>
-                          updateItem(idx, "quantity", e.target.value)
+                          updateItem(item.id, "quantity", e.target.value)
                         }
                       />
                       <select
@@ -6561,7 +6630,7 @@ function ServiceBookingFormScreen({
                         }}
                         value={item.unit}
                         onChange={(e) =>
-                          updateItem(idx, "unit", e.target.value)
+                          updateItem(item.id, "unit", e.target.value)
                         }
                       >
                         <option value="" style={{ background: "#05070A" }}>
@@ -6647,23 +6716,34 @@ function ServiceBookingFormScreen({
                 >
                   COST BREAKDOWN
                 </div>
-                {[
-                  {
-                    icon: "🛵",
-                    label: "Rider / Delivery Charges",
-                    value: RIDER_FEE,
-                  },
-                  {
-                    icon: "👷",
-                    label: "Service Provider Charges",
-                    value: PROVIDER_FEE,
-                  },
-                  {
-                    icon: "🛒",
-                    label: "Estimated Items Total",
-                    value: itemsTotal,
-                  },
-                ].map(({ icon, label, value }) => (
+                {(isMedicineOrder
+                  ? [
+                      { icon: "💊", label: "Service Charges", value: 150 },
+                      { icon: "🛵", label: "Rider Charges", value: 150 },
+                      {
+                        icon: "🏥",
+                        label: "Medicine Charges",
+                        value: itemsTotal,
+                      },
+                    ]
+                  : [
+                      {
+                        icon: "🛵",
+                        label: "Rider / Delivery Charges",
+                        value: RIDER_FEE,
+                      },
+                      {
+                        icon: "👷",
+                        label: "Service Provider Charges",
+                        value: PROVIDER_FEE,
+                      },
+                      {
+                        icon: "🛒",
+                        label: "Estimated Items Total",
+                        value: itemsTotal,
+                      },
+                    ]
+                ).map(({ icon, label, value }) => (
                   <div
                     key={label}
                     style={{
@@ -6722,7 +6802,11 @@ function ServiceBookingFormScreen({
                       textShadow: "0 0 10px rgba(0,255,255,0.6)",
                     }}
                   >
-                    PKR {totalPayment.toLocaleString()}
+                    PKR{" "}
+                    {(isMedicineOrder
+                      ? 150 + 150 + itemsTotal
+                      : totalPayment
+                    ).toLocaleString()}
                   </span>
                 </div>
               </div>
@@ -7012,48 +7096,112 @@ function ServiceBookingFormScreen({
                   {renderChips("tutorServiceType", [
                     "Home Visit",
                     "Online",
-                    "Academy",
+                    "Both",
                   ])}
                 </div>
               )}
               {n.includes("language") && (
+                <>
+                  <div>
+                    <span style={labelStyle}>LANGUAGE</span>
+                    {renderChips("language", [
+                      "English",
+                      "Arabic",
+                      "Chinese",
+                      "French",
+                      "Urdu",
+                      "Sindhi",
+                      "Other",
+                    ])}
+                  </div>
+                  <div>
+                    <span style={labelStyle}>PROFICIENCY LEVEL</span>
+                    {renderChips("langLevel", [
+                      "Beginner",
+                      "Intermediate",
+                      "Advanced",
+                      "Conversational",
+                    ])}
+                  </div>
+                  <div>
+                    <span style={labelStyle}>SESSION FORMAT</span>
+                    {renderChips("langFormat", [
+                      "Home Visit",
+                      "Online",
+                      "At Teacher's Place",
+                    ])}
+                  </div>
+                </>
+              )}
+              {n.includes("school") ? (
                 <div>
-                  <span style={labelStyle}>LANGUAGE</span>
-                  {renderChips("language", [
-                    "English",
-                    "Arabic",
-                    "French",
-                    "Chinese",
-                    "Urdu",
+                  <span style={labelStyle}>GRADE</span>
+                  <select
+                    data-ocid="booking.select"
+                    style={{
+                      ...inputStyle,
+                      appearance: "none" as const,
+                      cursor: "pointer",
+                    }}
+                    value={form.grade || ""}
+                    onChange={(e) => set("grade", e.target.value)}
+                  >
+                    <option value="" style={{ background: "#05070A" }}>
+                      Select Grade
+                    </option>
+                    {[
+                      "Nursery",
+                      "KG",
+                      "Grade 1",
+                      "Grade 2",
+                      "Grade 3",
+                      "Grade 4",
+                      "Grade 5",
+                      "Grade 6",
+                      "Grade 7",
+                      "Grade 8",
+                      "Grade 9",
+                      "Grade 10",
+                      "Grade 11",
+                      "Grade 12",
+                      "O-Level",
+                      "A-Level",
+                      "University",
+                    ].map((g) => (
+                      <option
+                        key={g}
+                        value={g}
+                        style={{ background: "#05070A" }}
+                      >
+                        {g}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              ) : !n.includes("language") ? (
+                <div>
+                  <span style={labelStyle}>SUBJECT</span>
+                  <input
+                    data-ocid="booking.input"
+                    style={inputStyle}
+                    placeholder="e.g. Mathematics, Physics, English"
+                    value={form.subject || ""}
+                    onChange={(e) => set("subject", e.target.value)}
+                  />
+                </div>
+              ) : null}
+              {!n.includes("school") && (
+                <div>
+                  <span style={labelStyle}>EDUCATION LEVEL</span>
+                  {renderChips("educationLevel", [
+                    "Primary",
+                    "Secondary",
+                    "O-Level",
+                    "A-Level",
+                    "University",
                   ])}
                 </div>
               )}
-              <div>
-                <span style={labelStyle}>
-                  {n.includes("school") ? "GRADE" : "SUBJECT"}
-                </span>
-                <input
-                  data-ocid="booking.input"
-                  style={inputStyle}
-                  placeholder={
-                    n.includes("school")
-                      ? "e.g. Grade 5, Grade 9, O-Level"
-                      : "e.g. Mathematics, Physics, English"
-                  }
-                  value={form.subject || ""}
-                  onChange={(e) => set("subject", e.target.value)}
-                />
-              </div>
-              <div>
-                <span style={labelStyle}>EDUCATION LEVEL</span>
-                {renderChips("educationLevel", [
-                  "Primary",
-                  "Secondary",
-                  "O-Level",
-                  "A-Level",
-                  "University",
-                ])}
-              </div>
               <div>
                 <span style={labelStyle}>SESSION DURATION</span>
                 {renderChips("sessionDuration", [
@@ -7220,7 +7368,9 @@ function ServiceBookingFormScreen({
                       }}
                       placeholder="Product Name (e.g. HDMI Cable)"
                       value={item.name}
-                      onChange={(e) => updateItem(idx, "name", e.target.value)}
+                      onChange={(e) =>
+                        updateItem(item.id, "name", e.target.value)
+                      }
                     />
                     <input
                       data-ocid="tech.input"
@@ -7232,7 +7382,9 @@ function ServiceBookingFormScreen({
                       }}
                       placeholder="Brand/Company"
                       value={item.unit}
-                      onChange={(e) => updateItem(idx, "unit", e.target.value)}
+                      onChange={(e) =>
+                        updateItem(item.id, "unit", e.target.value)
+                      }
                     />
                     <input
                       data-ocid="tech.item_qty.input"
@@ -7247,7 +7399,7 @@ function ServiceBookingFormScreen({
                       placeholder="Qty"
                       value={item.quantity}
                       onChange={(e) =>
-                        updateItem(idx, "quantity", e.target.value)
+                        updateItem(item.id, "quantity", e.target.value)
                       }
                     />
                     {items.length > 1 && (
@@ -7675,20 +7827,90 @@ function ServiceBookingFormScreen({
                 </div>
               ))}
               {form.selectedFoodProvider && (
-                <div
-                  style={{
-                    padding: "10px 14px",
-                    background: "rgba(80,255,176,0.08)",
-                    border: "1px solid rgba(80,255,176,0.3)",
-                    borderRadius: 10,
-                    fontFamily: "Rajdhani, sans-serif",
-                    fontSize: "0.9rem",
-                    color: "#50ffb0",
-                    textAlign: "center",
-                  }}
-                >
-                  ✓ Provider selected: {form.selectedFoodProvider}
-                </div>
+                <>
+                  <div
+                    style={{
+                      padding: "10px 14px",
+                      background: "rgba(80,255,176,0.08)",
+                      border: "1px solid rgba(80,255,176,0.3)",
+                      borderRadius: 10,
+                      fontFamily: "Rajdhani, sans-serif",
+                      fontSize: "0.9rem",
+                      color: "#50ffb0",
+                      textAlign: "center",
+                      marginBottom: 12,
+                    }}
+                  >
+                    ✓ Provider selected: {form.selectedFoodProvider}
+                  </div>
+                  <div>
+                    <span style={labelStyle}>SERVICE TYPE</span>
+                    <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                      {["Daily", "Weekly", "Monthly"].map((st) => (
+                        <button
+                          key={st}
+                          type="button"
+                          data-ocid="food_parcels.toggle"
+                          onClick={() => set("foodServiceType", st)}
+                          style={
+                            form.foodServiceType === st
+                              ? chipActive
+                              : chipInactive
+                          }
+                        >
+                          {st}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <button
+                      type="button"
+                      data-ocid="food_parcels.toggle"
+                      onClick={handleGpsPickup}
+                      style={{
+                        marginBottom: 8,
+                        padding: "8px 12px",
+                        background: "rgba(0,255,255,0.1)",
+                        border: "1px solid rgba(0,255,255,0.3)",
+                        borderRadius: 8,
+                        color: "#00ffff",
+                        fontFamily: "Orbitron, sans-serif",
+                        fontSize: "0.55rem",
+                        cursor: "pointer",
+                        letterSpacing: "0.08em",
+                      }}
+                    >
+                      {gpsLoading ? "LOCATING..." : "📍 USE GPS LOCATION"}
+                    </button>
+                    <span style={labelStyle}>DELIVERY ADDRESS</span>
+                    <input
+                      data-ocid="food_parcels.input"
+                      style={inputStyle}
+                      placeholder="Your delivery address"
+                      value={
+                        form.foodDeliveryAddress || form.pickupLocation || ""
+                      }
+                      onChange={(e) =>
+                        set("foodDeliveryAddress", e.target.value)
+                      }
+                    />
+                  </div>
+                  <div>
+                    <span style={labelStyle}>SPECIAL NOTES (OPTIONAL)</span>
+                    <textarea
+                      data-ocid="food_parcels.textarea"
+                      style={{
+                        ...inputStyle,
+                        minHeight: 60,
+                        resize: "vertical" as const,
+                      }}
+                      placeholder="Dietary preferences, allergies, etc."
+                      value={form.foodSpecialNotes || ""}
+                      onChange={(e) => set("foodSpecialNotes", e.target.value)}
+                    />
+                  </div>
+                </>
               )}
             </div>
           )}
@@ -7867,7 +8089,274 @@ function ServiceBookingFormScreen({
               ))}
               {form.selectedDryClean && (
                 <>
-                  <div style={{ display: "flex", gap: 10 }}>
+                  <div
+                    style={{
+                      fontFamily: "Orbitron, sans-serif",
+                      fontSize: "0.6rem",
+                      color: "rgba(0,255,255,0.7)",
+                      letterSpacing: "0.12em",
+                      marginBottom: 10,
+                    }}
+                  >
+                    👕 ITEMS FOR DRY-CLEANING
+                  </div>
+                  {dryCleanItems.map((dcItem, idx) => (
+                    <div
+                      key={dcItem.id}
+                      data-ocid={`dryclean.item.${idx + 1}`}
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "1fr 60px 1fr auto",
+                        gap: 6,
+                        alignItems: "center",
+                        background: "rgba(0,255,255,0.04)",
+                        border: "1px solid rgba(0,255,255,0.15)",
+                        borderRadius: 10,
+                        padding: "8px 10px",
+                        marginBottom: 8,
+                      }}
+                    >
+                      <select
+                        style={{
+                          ...inputStyle,
+                          padding: "8px 6px",
+                          fontSize: "0.82rem",
+                          appearance: "none" as const,
+                        }}
+                        value={dcItem.clothType}
+                        onChange={(e) =>
+                          updateDryCleanItem(
+                            dcItem.id,
+                            "clothType",
+                            e.target.value,
+                          )
+                        }
+                      >
+                        <option value="" style={{ background: "#05070A" }}>
+                          Type of Cloth
+                        </option>
+                        {[
+                          "Suit",
+                          "Pant",
+                          "Shirt",
+                          "Curtain",
+                          "Kameez",
+                          "Shawl",
+                          "Coat",
+                        ].map((ct) => (
+                          <option
+                            key={ct}
+                            value={ct}
+                            style={{ background: "#05070A" }}
+                          >
+                            {ct}
+                          </option>
+                        ))}
+                      </select>
+                      <input
+                        type="number"
+                        min="1"
+                        style={{
+                          ...inputStyle,
+                          padding: "8px 6px",
+                          fontSize: "0.82rem",
+                          textAlign: "center",
+                        }}
+                        placeholder="Qty"
+                        value={dcItem.qty}
+                        onChange={(e) =>
+                          updateDryCleanItem(dcItem.id, "qty", e.target.value)
+                        }
+                      />
+                      <select
+                        style={{
+                          ...inputStyle,
+                          padding: "8px 6px",
+                          fontSize: "0.82rem",
+                          appearance: "none" as const,
+                        }}
+                        value={dcItem.serviceType}
+                        onChange={(e) =>
+                          updateDryCleanItem(
+                            dcItem.id,
+                            "serviceType",
+                            e.target.value,
+                          )
+                        }
+                      >
+                        {["Washing", "Washing+Iron", "Iron Only"].map((st) => (
+                          <option
+                            key={st}
+                            value={st}
+                            style={{ background: "#05070A" }}
+                          >
+                            {st}
+                          </option>
+                        ))}
+                      </select>
+                      {dryCleanItems.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => removeDryCleanItem(dcItem.id)}
+                          style={{
+                            background: "rgba(255,60,60,0.15)",
+                            border: "1px solid rgba(255,60,60,0.4)",
+                            borderRadius: 8,
+                            color: "#ff6060",
+                            width: 30,
+                            height: 30,
+                            cursor: "pointer",
+                            fontSize: "1rem",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          ×
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    data-ocid="dryclean.add_button"
+                    onClick={addDryCleanItem}
+                    style={{
+                      width: "100%",
+                      padding: "8px",
+                      background: "rgba(0,255,255,0.08)",
+                      border: "1px dashed rgba(0,255,255,0.4)",
+                      borderRadius: 10,
+                      color: "#00ffff",
+                      fontFamily: "Rajdhani, sans-serif",
+                      fontSize: "0.85rem",
+                      fontWeight: 700,
+                      cursor: "pointer",
+                      letterSpacing: "0.08em",
+                      marginBottom: 12,
+                    }}
+                  >
+                    + ADD ITEM
+                  </button>
+                  {/* Dry-Clean Invoice */}
+                  {dryCleanItems.some((i) => i.clothType && i.qty) &&
+                    (() => {
+                      const selectedProv = [
+                        {
+                          name: "CleanMaster Karachi",
+                          wash: 250,
+                          washIron: 350,
+                          ironOnly: 150,
+                        },
+                        {
+                          name: "Royal Dry Cleaners",
+                          wash: 300,
+                          washIron: 420,
+                          ironOnly: 180,
+                        },
+                        {
+                          name: "FreshFit Laundry",
+                          wash: 220,
+                          washIron: 320,
+                          ironOnly: 130,
+                        },
+                      ].find((p) => p.name === form.selectedDryClean) || {
+                        wash: 250,
+                        washIron: 350,
+                        ironOnly: 150,
+                      };
+                      const multipliers: Record<string, number> = {
+                        Suit: 1,
+                        Pant: 0.6,
+                        Shirt: 0.4,
+                        Curtain: 0.8,
+                        Kameez: 0.5,
+                        Shawl: 0.7,
+                        Coat: 1.2,
+                      };
+                      const getRate = (
+                        clothType: string,
+                        serviceType: string,
+                      ) => {
+                        const m = multipliers[clothType] || 0.6;
+                        if (serviceType === "Washing")
+                          return Math.round(selectedProv.wash * m);
+                        if (serviceType === "Washing+Iron")
+                          return Math.round(selectedProv.washIron * m);
+                        return Math.round(selectedProv.ironOnly * m);
+                      };
+                      const invoiceItems = dryCleanItems.filter(
+                        (i) => i.clothType && i.qty,
+                      );
+                      const grandTotal = invoiceItems.reduce(
+                        (sum, i) =>
+                          sum +
+                          getRate(i.clothType, i.serviceType) * Number(i.qty),
+                        0,
+                      );
+                      return (
+                        <div
+                          style={{
+                            background: "rgba(0,10,20,0.85)",
+                            border: "1px solid rgba(0,255,255,0.35)",
+                            borderRadius: 14,
+                            padding: 16,
+                          }}
+                        >
+                          <div
+                            style={{
+                              fontFamily: "Orbitron, sans-serif",
+                              fontSize: "0.6rem",
+                              color: "rgba(0,255,255,0.7)",
+                              letterSpacing: "0.12em",
+                              marginBottom: 10,
+                            }}
+                          >
+                            INVOICE
+                          </div>
+                          {invoiceItems.map((i, ii) => (
+                            <div
+                              key={`${i.clothType}-${ii}`}
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                padding: "4px 0",
+                                borderBottom: "1px solid rgba(0,255,255,0.08)",
+                                fontFamily: "Rajdhani, sans-serif",
+                                fontSize: "0.9rem",
+                                color: "rgba(176,255,255,0.8)",
+                              }}
+                            >
+                              <span>
+                                {i.clothType} × {i.qty} ({i.serviceType})
+                              </span>
+                              <span style={{ color: "#e0f7ff" }}>
+                                PKR{" "}
+                                {(
+                                  getRate(i.clothType, i.serviceType) *
+                                  Number(i.qty)
+                                ).toLocaleString()}
+                              </span>
+                            </div>
+                          ))}
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              marginTop: 10,
+                              fontFamily: "Orbitron, sans-serif",
+                              fontSize: "0.75rem",
+                              color: "#00ffff",
+                              fontWeight: 700,
+                            }}
+                          >
+                            <span>GRAND TOTAL</span>
+                            <span>PKR {grandTotal.toLocaleString()}</span>
+                          </div>
+                        </div>
+                      );
+                    })()}
+                  <div style={{ display: "flex", gap: 10, marginTop: 8 }}>
                     <div style={{ flex: 1 }}>
                       <span style={labelStyle}>PICKUP DATE</span>
                       <input
@@ -8225,7 +8714,13 @@ function ServiceBookingFormScreen({
           transition: "all 0.2s",
         }}
       >
-        CONFIRM BOOKING →
+        {isRepairs || isCoachesTicket || isDomeService || isPakRailway
+          ? "FIND PROVIDERS →"
+          : isMedicineOrder
+            ? "CONFIRM ORDER → SELECT PROVIDER"
+            : isGrocery
+              ? "CONFIRM ORDER →"
+              : "CONFIRM BOOKING →"}
       </button>
     </div>
   );
@@ -8234,6 +8729,108 @@ function ServiceBookingFormScreen({
 // ========================
 // WORK SCOPE MODAL (Repair Services)
 // ========================
+// ========================
+// VOICE NOTE PLAYER (Play Only - No Download)
+// ========================
+function VoiceNotePlayer({
+  src,
+  noteIndex,
+}: { src: string; noteIndex: number }) {
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const [playing, setPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+
+  const togglePlay = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (playing) {
+      audio.pause();
+    } else {
+      audio.play().catch(() => {});
+    }
+  };
+
+  const formatTime = (s: number) => {
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60);
+    return `${m}:${sec.toString().padStart(2, "0")}`;
+  };
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 10,
+        padding: "8px 12px",
+        background: "rgba(0,255,255,0.05)",
+        border: "1px solid rgba(0,255,255,0.2)",
+        borderRadius: 10,
+      }}
+    >
+      <audio
+        ref={audioRef}
+        src={src}
+        onPlay={() => setPlaying(true)}
+        onPause={() => setPlaying(false)}
+        onEnded={() => {
+          setPlaying(false);
+          setCurrentTime(0);
+        }}
+        onTimeUpdate={() => setCurrentTime(audioRef.current?.currentTime ?? 0)}
+        onLoadedMetadata={() => setDuration(audioRef.current?.duration ?? 0)}
+      >
+        <track kind="captions" src="" label="Voice note transcript" />
+      </audio>
+      <button
+        type="button"
+        data-ocid={`voicenote.button.${noteIndex}`}
+        onClick={togglePlay}
+        style={{
+          width: 32,
+          height: 32,
+          borderRadius: "50%",
+          background: playing ? "rgba(0,255,255,0.2)" : "rgba(0,255,255,0.1)",
+          border: "1px solid rgba(0,255,255,0.4)",
+          color: "#00ffff",
+          cursor: "pointer",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontSize: "0.85rem",
+          flexShrink: 0,
+        }}
+      >
+        {playing ? "⏸" : "▶"}
+      </button>
+      <div style={{ flex: 1 }}>
+        <div
+          style={{
+            fontFamily: "Rajdhani, sans-serif",
+            fontSize: "0.8rem",
+            color: "rgba(176,255,255,0.8)",
+          }}
+        >
+          🎙️ Voice Note {noteIndex}
+        </div>
+        {duration > 0 && (
+          <div
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "0.55rem",
+              color: "rgba(176,255,255,0.5)",
+              marginTop: 2,
+            }}
+          >
+            {formatTime(currentTime)} / {formatTime(duration)}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function WorkScopeModal({
   isOpen,
   onClose,
@@ -8496,15 +9093,7 @@ function WorkScopeModal({
                 >
                   🎙️ Note {idx + 1}
                 </span>
-                <audio
-                  src={blob}
-                  controls
-                  controlsList="nodownload"
-                  onContextMenu={(e) => e.preventDefault()}
-                  style={{ flex: 1, height: 32 }}
-                >
-                  <track kind="captions" src="" label="Voice note transcript" />
-                </audio>
+                <VoiceNotePlayer src={blob} noteIndex={idx + 1} />
               </div>
             ))}
           </div>
@@ -8784,6 +9373,7 @@ function NearbyProvidersScreen({
   const [unavailableVehicle, setUnavailableVehicle] = useState<string | null>(
     null,
   );
+  const [taskConfirmed, setTaskConfirmed] = useState(false);
   const isRentalCarService = !!(
     service?.name?.toLowerCase().includes("car rental") ||
     service?.name?.toLowerCase().includes("van hire") ||
@@ -8887,6 +9477,66 @@ function NearbyProvidersScreen({
           }}
         >
           {service.emoji} {service.name}
+        </div>
+      )}
+
+      {/* Change 4: Task confirmation banner */}
+      {!taskConfirmed && (
+        <div
+          style={{
+            background: "rgba(0,255,255,0.04)",
+            border: "1px solid rgba(0,255,255,0.2)",
+            borderRadius: 12,
+            padding: "12px 14px",
+            marginBottom: 14,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 12,
+          }}
+        >
+          <div>
+            <div
+              style={{
+                fontFamily: "Orbitron, sans-serif",
+                fontSize: "0.55rem",
+                color: "rgba(0,255,255,0.7)",
+                letterSpacing: "0.1em",
+              }}
+            >
+              RATES HIDDEN
+            </div>
+            <div
+              style={{
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "0.82rem",
+                color: "rgba(176,255,255,0.6)",
+              }}
+            >
+              Confirm task to see provider rates
+            </div>
+          </div>
+          <button
+            type="button"
+            data-ocid="providers.confirm_task.button"
+            onClick={() => setTaskConfirmed(true)}
+            style={{
+              padding: "8px 14px",
+              background: "rgba(0,255,255,0.15)",
+              border: "1px solid rgba(0,255,255,0.5)",
+              borderRadius: 8,
+              color: "#00ffff",
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "0.55rem",
+              fontWeight: 700,
+              cursor: "pointer",
+              letterSpacing: "0.08em",
+              whiteSpace: "nowrap",
+              boxShadow: "0 0 10px rgba(0,255,255,0.15)",
+            }}
+          >
+            CONFIRM TASK →
+          </button>
         </div>
       )}
 
@@ -9493,15 +10143,188 @@ function NearbyProvidersScreen({
                       fontWeight: 600,
                     }}
                   >
-                    {/* Rate hidden from other providers for privacy, and from users until confirmed for Repairs */}
+                    {/* Change 4: Rates hidden until task confirmed */}
                     {currentUserType === "provider"
                       ? "Rate: Private"
-                      : service?.category === "Repairs"
-                        ? "Rate: On Confirmation"
-                        : `₨${p.rate}/hr`}
+                      : taskConfirmed
+                        ? `₨${p.rate}/hr`
+                        : "Rate: On Confirmation"}
                   </div>
                 </div>
               </div>
+              {/* Repair material rates breakdown after task confirmed */}
+              {taskConfirmed && service?.category === "Repairs" && (
+                <div
+                  style={{
+                    marginTop: 10,
+                    background: "rgba(0,255,255,0.05)",
+                    border: "1px solid rgba(0,255,255,0.2)",
+                    borderRadius: 10,
+                    padding: "10px 12px",
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: "Orbitron, sans-serif",
+                      fontSize: "0.5rem",
+                      color: "rgba(0,255,255,0.7)",
+                      letterSpacing: "0.1em",
+                      marginBottom: 8,
+                    }}
+                  >
+                    RATE & MATERIAL BREAKDOWN
+                  </div>
+                  {[
+                    {
+                      item: "Labour / Service Charge",
+                      qty: "1 day",
+                      rate: p.rate,
+                    },
+                    ...(service?.name?.toLowerCase().includes("mason")
+                      ? [
+                          {
+                            item: "Cement (50kg bag)",
+                            qty: "2 bags",
+                            rate: 850,
+                          },
+                          { item: "Sand (trolley)", qty: "1", rate: 1200 },
+                          { item: "Bricks (per 100)", qty: "1", rate: 2500 },
+                        ]
+                      : service?.name?.toLowerCase().includes("plumber")
+                        ? [
+                            {
+                              item: "PVC Pipe (10ft)",
+                              qty: "2 pcs",
+                              rate: 280,
+                            },
+                            { item: "Elbow Fittings", qty: "4 pcs", rate: 60 },
+                            { item: "Thread Tape", qty: "1 roll", rate: 30 },
+                          ]
+                        : service?.name?.toLowerCase().includes("electrician")
+                          ? [
+                              { item: "Wire (per meter)", qty: "5m", rate: 85 },
+                              { item: "MCB Breaker", qty: "1 pcs", rate: 350 },
+                              {
+                                item: "Socket/Switch",
+                                qty: "2 pcs",
+                                rate: 180,
+                              },
+                            ]
+                          : service?.name?.toLowerCase().includes("carpenter")
+                            ? [
+                                {
+                                  item: "Plywood Sheet (8x4ft)",
+                                  qty: "1 sheet",
+                                  rate: 1800,
+                                },
+                                {
+                                  item: "Wood Screws (box)",
+                                  qty: "1 box",
+                                  rate: 120,
+                                },
+                                {
+                                  item: "Wood Polish",
+                                  qty: "1 tin",
+                                  rate: 450,
+                                },
+                              ]
+                            : service?.name?.toLowerCase().includes("painter")
+                              ? [
+                                  {
+                                    item: "Wall Paint (1 gallon)",
+                                    qty: "2 cans",
+                                    rate: 1200,
+                                  },
+                                  {
+                                    item: "Primer (1 gallon)",
+                                    qty: "1 can",
+                                    rate: 900,
+                                  },
+                                  {
+                                    item: "Paint Brush Set",
+                                    qty: "1 set",
+                                    rate: 350,
+                                  },
+                                ]
+                              : [
+                                  {
+                                    item: "Filter/Coolant",
+                                    qty: "1 set",
+                                    rate: 1500,
+                                  },
+                                  {
+                                    item: "Gas Refill",
+                                    qty: "1 kg",
+                                    rate: 800,
+                                  },
+                                  {
+                                    item: "Service Kit",
+                                    qty: "1 set",
+                                    rate: 600,
+                                  },
+                                ]),
+                  ].map((row) => (
+                    <div
+                      key={row.item}
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        paddingBottom: 4,
+                        marginBottom: 4,
+                        borderBottom: "1px solid rgba(0,255,255,0.08)",
+                        fontFamily: "Rajdhani, sans-serif",
+                        fontSize: "0.78rem",
+                        color: "rgba(176,255,255,0.8)",
+                      }}
+                    >
+                      <span>
+                        {row.item} ({row.qty})
+                      </span>
+                      <span style={{ color: "#50ffb0", fontWeight: 600 }}>
+                        PKR {row.rate.toLocaleString()}
+                      </span>
+                    </div>
+                  ))}
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      fontFamily: "Orbitron, sans-serif",
+                      fontSize: "0.6rem",
+                      color: "#00ffff",
+                      marginTop: 6,
+                      paddingTop: 6,
+                      borderTop: "1px solid rgba(0,255,255,0.2)",
+                    }}
+                  >
+                    <span>TOTAL ESTIMATE</span>
+                    <span style={{ fontWeight: 700 }}>
+                      PKR{" "}
+                      {(
+                        p.rate +
+                        (service?.name?.toLowerCase().includes("mason")
+                          ? 4550
+                          : service?.name?.toLowerCase().includes("plumber")
+                            ? 730
+                            : service?.name
+                                  ?.toLowerCase()
+                                  .includes("electrician")
+                              ? 1095
+                              : service?.name
+                                    ?.toLowerCase()
+                                    .includes("carpenter")
+                                ? 2370
+                                : service?.name
+                                      ?.toLowerCase()
+                                      .includes("painter")
+                                  ? 4750
+                                  : 2900)
+                      ).toLocaleString()}
+                    </span>
+                  </div>
+                </div>
+              )}
               <button
                 type="button"
                 data-ocid={`providers.item.${i + 1}`}
@@ -14260,19 +15083,15 @@ function PortalApp() {
     undefined,
   );
   const [userBalance, setUserBalance] = useState(8500);
-  const [_bookingDetails, setBookingDetails] = useState<Record<string, string>>(
-    {},
-  );
+
   const [showLowBalance, setShowLowBalance] = useState(false);
   const [workScopeSubmitted, setWorkScopeSubmitted] = useState(false);
   const [pricedItems, setPricedItems] = useState<
     Array<{ name: string; quantity: string; unit: string; price: string }>
   >([]);
-  const [_userLocation, setUserLocation] = useState<{
-    lat: number;
-    lng: number;
-    city: string;
-  } | null>(null);
+  const setUserLocation = (
+    _loc: { lat: number; lng: number; city: string } | null,
+  ) => {};
 
   const showBottomNav = [
     "home",
@@ -14428,7 +15247,6 @@ function PortalApp() {
                   n.includes("stationary") ||
                   n.includes("store") ||
                   n.includes("shop") ||
-                  n.includes("agri-pharma") ||
                   n.includes("home tutor") ||
                   n.includes("language teacher") ||
                   n.includes("tutor") ||
@@ -14455,7 +15273,6 @@ function PortalApp() {
               service={selectedService}
               onBack={() => setScreen("services")}
               onSubmit={(details) => {
-                setBookingDetails(details);
                 const sn = selectedService?.name?.toLowerCase() ?? "";
                 const sc = selectedService?.category ?? "";
                 const isOrderable =
@@ -14516,8 +15333,7 @@ function PortalApp() {
                       setNavActive("home");
                       setWorkScopeSubmitted(false);
                     }}
-                    onSubmit={(scope) => {
-                      console.log("Work scope:", scope);
+                    onSubmit={(_scope) => {
                       setWorkScopeSubmitted(true);
                     }}
                   />
