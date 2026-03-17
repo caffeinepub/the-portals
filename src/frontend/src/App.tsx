@@ -207,6 +207,20 @@ const SERVICES = [
     price: 300,
     category: "Shopping",
   },
+  {
+    id: 80,
+    emoji: "🛒",
+    name: "GS Grocery",
+    price: 0,
+    category: "GS-Grocery",
+  },
+  {
+    id: 81,
+    emoji: "🎒",
+    name: "GS Accessories",
+    price: 0,
+    category: "GS-Accessories",
+  },
   // Rentals additions
   {
     id: 31,
@@ -936,7 +950,9 @@ type Screen =
   | "edit-profile"
   | "payment-method"
   | "transaction-history"
-  | "help-support";
+  | "help-support"
+  | "stationary-subs"
+  | "general-store-subs";
 
 type NavTab = "home" | "tasks" | "chat" | "profile";
 
@@ -3410,8 +3426,6 @@ function HomeScreen({
   }, []);
 
   const categories = [
-    { name: "Accessories", emoji: "🎒", border: "rgba(255,140,0,0.4)" },
-    { name: "Book Store", emoji: "📖", border: "rgba(255,220,100,0.4)" },
     { name: "Dry-Cleaner", emoji: "👔", border: "rgba(0,200,255,0.4)" },
     { name: "Education", emoji: "📚", border: "rgba(251,191,36,0.4)" },
     { name: "Food Parcels", emoji: "🍱", border: "rgba(100,255,150,0.4)" },
@@ -4740,6 +4754,52 @@ function HomeChefOrderFormSection({
 // ========================
 // SERVICE BOOKING FORM SCREEN
 // ========================
+const GS_GROCERY_ITEMS = [
+  { name: "Basmati Rice", price: 280, unit: "kg" },
+  { name: "Atta (Wheat Flour)", price: 120, unit: "kg" },
+  { name: "Sugar", price: 150, unit: "kg" },
+  { name: "Salt", price: 50, unit: "kg" },
+  { name: "Cooking Oil (1L)", price: 480, unit: "bottle" },
+  { name: "Desi Ghee (1kg)", price: 2200, unit: "kg" },
+  { name: "Milk (1L)", price: 160, unit: "bottle" },
+  { name: "Eggs (12pcs)", price: 320, unit: "dozen" },
+  { name: "Yogurt (500g)", price: 120, unit: "pack" },
+  { name: "Butter (200g)", price: 280, unit: "pack" },
+  { name: "Tomatoes", price: 80, unit: "kg" },
+  { name: "Onions", price: 60, unit: "kg" },
+  { name: "Potatoes", price: 70, unit: "kg" },
+  { name: "Garlic", price: 400, unit: "kg" },
+  { name: "Green Chillies", price: 120, unit: "kg" },
+  { name: "Apples", price: 280, unit: "kg" },
+  { name: "Bananas", price: 120, unit: "dozen" },
+  { name: "Tea (500g)", price: 650, unit: "pack" },
+  { name: "Surf Excel (1kg)", price: 420, unit: "pack" },
+  { name: "Dettol Liquid (500ml)", price: 350, unit: "bottle" },
+];
+
+const GS_ACCESSORIES_ITEMS = [
+  { name: "School Bag", price: 1500, unit: "pcs" },
+  { name: "Laptop Bag", price: 2500, unit: "pcs" },
+  { name: "Backpack", price: 1800, unit: "pcs" },
+  { name: "Handbag", price: 2000, unit: "pcs" },
+  { name: "Travel Bag", price: 3500, unit: "pcs" },
+  { name: "Water Cooler (5L)", price: 4500, unit: "pcs" },
+  { name: "Water Cooler (10L)", price: 6500, unit: "pcs" },
+  { name: "Water Bottle (1L)", price: 350, unit: "pcs" },
+  { name: "Lunch Box (3-tier)", price: 450, unit: "pcs" },
+  { name: "Umbrella", price: 600, unit: "pcs" },
+  { name: "Headphones (Wired)", price: 1500, unit: "pcs" },
+  { name: "Earphones", price: 800, unit: "pcs" },
+  { name: "Cap/Hat", price: 400, unit: "pcs" },
+  { name: "Wallet", price: 700, unit: "pcs" },
+  { name: "Belt (Leather)", price: 500, unit: "pcs" },
+  { name: "Phone Cover", price: 300, unit: "pcs" },
+  { name: "Watch (Casual)", price: 2000, unit: "pcs" },
+  { name: "Sunglasses", price: 800, unit: "pcs" },
+  { name: "Keychain", price: 150, unit: "pcs" },
+  { name: "Gym Bag", price: 1200, unit: "pcs" },
+];
+
 const GROCERY_ITEMS: Record<
   string,
   { name: string; price: number; unit: string }[]
@@ -5161,6 +5221,8 @@ function ServiceBookingFormScreen({
     c === "groceries" ||
     c === "shopping" ||
     c === "stationery" ||
+    c === "gs-grocery" ||
+    c === "gs-accessories" ||
     n.includes("pharmacy") ||
     n.includes("medical store") ||
     n.includes("grocery") ||
@@ -5193,6 +5255,8 @@ function ServiceBookingFormScreen({
     c === "accessories" || n.toLowerCase() === "accessories";
   const isGrocery =
     n.includes("grocery") || c === "groceries" || c === "grocery";
+  const isGSGrocery = c === "gs-grocery";
+  const isGSAccessories = c === "gs-accessories";
   const isShopping =
     c === "shopping" ||
     c === "general store" ||
@@ -5241,8 +5305,8 @@ function ServiceBookingFormScreen({
   };
   const getUnitPrice = () => {
     if (isMedicine) return unitPrices.medicine;
-    if (isGrocery) return unitPrices.grocery;
-    if (isAccessories) return 500;
+    if (isGrocery || isGSGrocery) return unitPrices.grocery;
+    if (isAccessories || isGSAccessories) return 500;
     if (isStationary || isStationery || isBookStore)
       return unitPrices.stationery;
     if (isShopping) return unitPrices.shopping;
@@ -5254,7 +5318,12 @@ function ServiceBookingFormScreen({
     return sum + qty * getUnitPrice();
   }, 0);
   const totalPayment =
-    isMedicine || isBookStore || isStationary || isAccessories
+    isMedicine ||
+    isBookStore ||
+    isStationary ||
+    isAccessories ||
+    isGSGrocery ||
+    isGSAccessories
       ? itemsTotal + 50 + RIDER_FEE
       : itemsTotal + RIDER_FEE + PROVIDER_FEE;
 
@@ -5275,17 +5344,18 @@ function ServiceBookingFormScreen({
 
   const getItemPlaceholder = () => {
     if (isMedicine) return "e.g. Panadol Extra";
-    if (isAccessories) return "e.g. School Bag, Water Cooler, Headphones";
+    if (isAccessories || isGSAccessories)
+      return "e.g. School Bag, Water Cooler, Headphones";
     if (isStationary || isStationery || isBookStore)
       return "e.g. Notebook, Pen, Drawing Book";
-    if (isGrocery) return "e.g. Basmati Rice";
+    if (isGrocery || isGSGrocery) return "e.g. Basmati Rice";
     if (isShopping) return "e.g. Men's Shirt";
     return "Item name";
   };
   const getUnitOptions = () => {
     if (isMedicine) return ["Tablets", "Strip", "Box", "Bottle", "Syrup"];
-    if (isGrocery) return ["pcs", "kg", "L", "pack", "box"];
-    if (isAccessories) return ["pcs", "pair", "set", "box"];
+    if (isGrocery || isGSGrocery) return ["pcs", "kg", "L", "pack", "box"];
+    if (isAccessories || isGSAccessories) return ["pcs", "pair", "set", "box"];
     if (isStationary || isStationery || isBookStore)
       return ["pcs", "kg", "L", "pack", "box"];
     if (isShopping) return ["pcs", "kg", "L", "pack", "box"];
@@ -6968,7 +7038,9 @@ function ServiceBookingFormScreen({
                       isAccessories ||
                       isBookStore ||
                       isMedicine ||
-                      isShopping ? (
+                      isShopping ||
+                      isGSGrocery ||
+                      isGSAccessories ? (
                         <select
                           data-ocid="booking.item_name.input"
                           style={{
@@ -6982,37 +7054,43 @@ function ServiceBookingFormScreen({
                           value={item.name}
                           onChange={(e) => {
                             const selectedName = e.target.value;
-                            const itemList = isAccessories
-                              ? ACCESSORIES_ITEMS
-                              : isBookStore
-                                ? BOOK_STORE_ITEMS
-                                : isStationary
-                                  ? STATIONERY_ITEMS
-                                  : isStationery
-                                    ? STATIONERY_ITEMS
-                                    : isMedicine
-                                      ? MEDICINE_ITEMS
-                                      : isShopping
-                                        ? (() => {
-                                            const key = Object.keys(
-                                              SHOPPING_ITEMS,
-                                            ).find((k) =>
-                                              n.toLowerCase().includes(k),
-                                            );
-                                            return key
-                                              ? SHOPPING_ITEMS[key]
-                                              : SHOPPING_ITEMS["dairy & eggs"];
-                                          })()
-                                        : (() => {
-                                            const key = Object.keys(
-                                              GROCERY_ITEMS,
-                                            ).find((k) =>
-                                              n.toLowerCase().includes(k),
-                                            );
-                                            return key
-                                              ? GROCERY_ITEMS[key]
-                                              : STATIONERY_ITEMS;
-                                          })();
+                            const itemList = isGSGrocery
+                              ? GS_GROCERY_ITEMS
+                              : isGSAccessories
+                                ? GS_ACCESSORIES_ITEMS
+                                : isAccessories
+                                  ? ACCESSORIES_ITEMS
+                                  : isBookStore
+                                    ? BOOK_STORE_ITEMS
+                                    : isStationary
+                                      ? STATIONERY_ITEMS
+                                      : isStationery
+                                        ? STATIONERY_ITEMS
+                                        : isMedicine
+                                          ? MEDICINE_ITEMS
+                                          : isShopping
+                                            ? (() => {
+                                                const key = Object.keys(
+                                                  SHOPPING_ITEMS,
+                                                ).find((k) =>
+                                                  n.toLowerCase().includes(k),
+                                                );
+                                                return key
+                                                  ? SHOPPING_ITEMS[key]
+                                                  : SHOPPING_ITEMS[
+                                                      "dairy & eggs"
+                                                    ];
+                                              })()
+                                            : (() => {
+                                                const key = Object.keys(
+                                                  GROCERY_ITEMS,
+                                                ).find((k) =>
+                                                  n.toLowerCase().includes(k),
+                                                );
+                                                return key
+                                                  ? GROCERY_ITEMS[key]
+                                                  : STATIONERY_ITEMS;
+                                              })();
                             const found = itemList.find(
                               (gi) => gi.name === selectedName,
                             );
@@ -7037,37 +7115,43 @@ function ServiceBookingFormScreen({
                           <option value="" style={{ background: "#05070A" }}>
                             Select Item
                           </option>
-                          {(isAccessories
-                            ? ACCESSORIES_ITEMS
-                            : isBookStore
-                              ? BOOK_STORE_ITEMS
-                              : isStationary
-                                ? STATIONERY_ITEMS
-                                : isStationery
-                                  ? STATIONERY_ITEMS
-                                  : isMedicine
-                                    ? MEDICINE_ITEMS
-                                    : isShopping
-                                      ? (() => {
-                                          const key = Object.keys(
-                                            SHOPPING_ITEMS,
-                                          ).find((k) =>
-                                            n.toLowerCase().includes(k),
-                                          );
-                                          return key
-                                            ? SHOPPING_ITEMS[key]
-                                            : SHOPPING_ITEMS["dairy & eggs"];
-                                        })()
-                                      : (() => {
-                                          const key = Object.keys(
-                                            GROCERY_ITEMS,
-                                          ).find((k) =>
-                                            n.toLowerCase().includes(k),
-                                          );
-                                          return key
-                                            ? GROCERY_ITEMS[key]
-                                            : STATIONERY_ITEMS;
-                                        })()
+                          {(isGSGrocery
+                            ? GS_GROCERY_ITEMS
+                            : isGSAccessories
+                              ? GS_ACCESSORIES_ITEMS
+                              : isAccessories
+                                ? ACCESSORIES_ITEMS
+                                : isBookStore
+                                  ? BOOK_STORE_ITEMS
+                                  : isStationary
+                                    ? STATIONERY_ITEMS
+                                    : isStationery
+                                      ? STATIONERY_ITEMS
+                                      : isMedicine
+                                        ? MEDICINE_ITEMS
+                                        : isShopping
+                                          ? (() => {
+                                              const key = Object.keys(
+                                                SHOPPING_ITEMS,
+                                              ).find((k) =>
+                                                n.toLowerCase().includes(k),
+                                              );
+                                              return key
+                                                ? SHOPPING_ITEMS[key]
+                                                : SHOPPING_ITEMS[
+                                                    "dairy & eggs"
+                                                  ];
+                                            })()
+                                          : (() => {
+                                              const key = Object.keys(
+                                                GROCERY_ITEMS,
+                                              ).find((k) =>
+                                                n.toLowerCase().includes(k),
+                                              );
+                                              return key
+                                                ? GROCERY_ITEMS[key]
+                                                : STATIONERY_ITEMS;
+                                            })()
                           ).map((gi) => (
                             <option
                               key={gi.name}
@@ -7390,13 +7474,31 @@ function ServiceBookingFormScreen({
                     🏪 SERVICE PROVIDERS NEARBY
                   </div>
                   {[
-                    { name: "Quick Delivery Store", distance: 0.8 },
-                    { name: "City Mart Express", distance: 1.5 },
-                    { name: "Al-Madina Traders", distance: 2.3 },
+                    {
+                      name: "Ahmed Traders",
+                      storeName: "Ahmed General Store",
+                      distance: 0.8,
+                    },
+                    {
+                      name: "City Mart Express",
+                      storeName: "City Mart Superstore",
+                      distance: 1.5,
+                    },
+                    {
+                      name: "Al-Madina Traders",
+                      storeName: "Al-Madina General Store",
+                      distance: 2.3,
+                    },
                   ].map((p, idx2) => {
                     const riderCharge = p.distance <= 1 ? 150 : 250;
                     const serviceCharge =
-                      isMedicine || isBookStore || isStationary || isAccessories
+                      isMedicine ||
+                      isBookStore ||
+                      isStationary ||
+                      isAccessories ||
+                      isShopping ||
+                      isGSGrocery ||
+                      isGSAccessories
                         ? 50
                         : 0;
                     const grandTotal = itemsTotal + riderCharge + serviceCharge;
@@ -7424,11 +7526,32 @@ function ServiceBookingFormScreen({
                             fontWeight: 700,
                             color: "#f0f0f0",
                             fontSize: "0.95rem",
-                            marginBottom: 8,
+                            marginBottom: 4,
                           }}
                         >
                           {p.name}
                         </div>
+                        {"storeName" in p && (
+                          <div
+                            style={{
+                              fontFamily: "Rajdhani, sans-serif",
+                              fontSize: "0.82rem",
+                              color: "rgba(0,255,255,0.7)",
+                              marginBottom: 8,
+                            }}
+                          >
+                            🏪{" "}
+                            {
+                              (
+                                p as {
+                                  name: string;
+                                  storeName: string;
+                                  distance: number;
+                                }
+                              ).storeName
+                            }
+                          </div>
+                        )}
                         {items
                           .filter((i) => i.name)
                           .map((item) => (
@@ -7461,7 +7584,13 @@ function ServiceBookingFormScreen({
                             paddingTop: 8,
                           }}
                         >
-                          {(isMedicine || isBookStore) && (
+                          {(isMedicine ||
+                            isBookStore ||
+                            isStationary ||
+                            isAccessories ||
+                            isShopping ||
+                            isGSGrocery ||
+                            isGSAccessories) && (
                             <div
                               style={{
                                 display: "flex",
@@ -9838,7 +9967,7 @@ function ServiceBookingFormScreen({
             ? "CONFIRM ORDER → PAYMENT PLAN"
             : isMedicineOrder
               ? "CONFIRM ORDER → SELECT PROVIDER"
-              : isGrocery
+              : isGrocery || isGSGrocery || isGSAccessories
                 ? "CONFIRM ORDER →"
                 : isTravelTicket
                   ? "FIND PROVIDERS →"
@@ -16192,19 +16321,12 @@ function PortalApp() {
                 setScreen("providers");
               }}
               onAllServices={(category) => {
-                if (
-                  category === "Book Store" ||
-                  category === "Stationary" ||
-                  category === "Accessories"
-                ) {
-                  const svc =
-                    SERVICES.find((s) => s.category === category) ??
-                    SERVICES.find((s) => s.name === category);
-                  if (svc) {
-                    setSelectedService(svc);
-                    _setWorkScopeSubmitted(false);
-                    setScreen("serviceBooking");
-                  }
+                if (category === "Stationary") {
+                  setScreen("stationary-subs");
+                  return;
+                }
+                if (category === "General Store") {
+                  setScreen("general-store-subs");
                   return;
                 }
                 setSelectedCategory(category);
@@ -16216,6 +16338,380 @@ function PortalApp() {
                 setNavActive("profile");
               }}
             />
+          )}
+          {screen === "stationary-subs" && (
+            <div
+              style={{
+                minHeight: "100dvh",
+                background: "#05070A",
+                display: "flex",
+                flexDirection: "column",
+                position: "relative",
+                overflow: "hidden",
+              }}
+            >
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  zIndex: 0,
+                  background:
+                    "radial-gradient(ellipse at 30% 20%, rgba(0,255,255,0.05) 0%, transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(100,0,255,0.05) 0%, transparent 60%)",
+                  pointerEvents: "none",
+                }}
+              />
+              <div
+                style={{
+                  position: "relative",
+                  zIndex: 1,
+                  padding: "20px 20px 16px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 12,
+                  borderBottom: "1px solid rgba(0,255,255,0.12)",
+                }}
+              >
+                <button
+                  type="button"
+                  data-ocid="stationary-subs.back.button"
+                  onClick={() => setScreen("home")}
+                  style={{
+                    background: "rgba(0,255,255,0.08)",
+                    border: "1px solid rgba(0,255,255,0.3)",
+                    borderRadius: 8,
+                    color: "#00ffff",
+                    padding: "6px 12px",
+                    fontFamily: "Orbitron, sans-serif",
+                    fontSize: "0.6rem",
+                    letterSpacing: "0.1em",
+                    cursor: "pointer",
+                  }}
+                >
+                  ← BACK
+                </button>
+                <div>
+                  <div
+                    style={{
+                      fontFamily: "Orbitron, sans-serif",
+                      fontSize: "0.7rem",
+                      color: "#00ffff",
+                      letterSpacing: "0.15em",
+                    }}
+                  >
+                    ✏️ STATIONARY
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "Rajdhani, sans-serif",
+                      fontSize: "0.8rem",
+                      color: "rgba(176,255,255,0.5)",
+                      marginTop: 2,
+                    }}
+                  >
+                    Select a category
+                  </div>
+                </div>
+              </div>
+              <div
+                style={{
+                  position: "relative",
+                  zIndex: 1,
+                  flex: 1,
+                  padding: "32px 24px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 20,
+                  justifyContent: "center",
+                }}
+              >
+                {[
+                  {
+                    name: "Book Store",
+                    emoji: "📖",
+                    desc: "Books, textbooks, novels & more",
+                    border: "rgba(255,220,100,0.4)",
+                    color: "#ffd700",
+                  },
+                  {
+                    name: "Accessories",
+                    emoji: "🎒",
+                    desc: "Bags, water coolers, stationery items & more",
+                    border: "rgba(255,140,0,0.4)",
+                    color: "#ff8c00",
+                  },
+                ].map((sub) => (
+                  <button
+                    type="button"
+                    key={sub.name}
+                    data-ocid={`stationary-subs.${sub.name.toLowerCase().replace(/ /g, "-")}.button`}
+                    onClick={() => {
+                      const svc =
+                        SERVICES.find((s) => s.category === sub.name) ??
+                        SERVICES.find((s) => s.name === sub.name);
+                      if (svc) {
+                        setSelectedService(svc);
+                        _setWorkScopeSubmitted(false);
+                        setScreen("serviceBooking");
+                      }
+                    }}
+                    style={{
+                      background: "rgba(0,0,0,0.4)",
+                      border: `2px solid ${sub.border}`,
+                      borderRadius: 18,
+                      padding: "28px 24px",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 20,
+                      cursor: "pointer",
+                      textAlign: "left",
+                      backdropFilter: "blur(10px)",
+                      transition: "all 0.2s",
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: "2.8rem",
+                        background:
+                          sub.color === "#ffd700"
+                            ? "rgba(255,215,0,0.1)"
+                            : "rgba(255,140,0,0.1)",
+                        borderRadius: 14,
+                        width: 72,
+                        height: 72,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexShrink: 0,
+                        border: `1px solid ${sub.border}`,
+                      }}
+                    >
+                      {sub.emoji}
+                    </div>
+                    <div>
+                      <div
+                        style={{
+                          fontFamily: "Orbitron, sans-serif",
+                          fontSize: "0.75rem",
+                          color: sub.color,
+                          letterSpacing: "0.12em",
+                          marginBottom: 6,
+                        }}
+                      >
+                        {sub.name.toUpperCase()}
+                      </div>
+                      <div
+                        style={{
+                          fontFamily: "Rajdhani, sans-serif",
+                          fontSize: "0.9rem",
+                          color: "rgba(176,255,255,0.7)",
+                          lineHeight: 1.4,
+                        }}
+                      >
+                        {sub.desc}
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        marginLeft: "auto",
+                        color: sub.color,
+                        fontSize: "1.2rem",
+                        flexShrink: 0,
+                      }}
+                    >
+                      ›
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+          {screen === "general-store-subs" && (
+            <div
+              style={{
+                minHeight: "100dvh",
+                background: "#05070A",
+                display: "flex",
+                flexDirection: "column",
+                position: "relative",
+                overflow: "hidden",
+              }}
+            >
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  zIndex: 0,
+                  background:
+                    "radial-gradient(ellipse at 30% 20%, rgba(0,255,255,0.05) 0%, transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(255,100,200,0.05) 0%, transparent 60%)",
+                  pointerEvents: "none",
+                }}
+              />
+              <div
+                style={{
+                  position: "relative",
+                  zIndex: 1,
+                  padding: "20px 20px 16px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 12,
+                  borderBottom: "1px solid rgba(0,255,255,0.12)",
+                }}
+              >
+                <button
+                  type="button"
+                  data-ocid="general-store-subs.back.button"
+                  onClick={() => setScreen("home")}
+                  style={{
+                    background: "rgba(0,255,255,0.08)",
+                    border: "1px solid rgba(0,255,255,0.3)",
+                    borderRadius: 8,
+                    color: "#00ffff",
+                    padding: "6px 12px",
+                    fontFamily: "Orbitron, sans-serif",
+                    fontSize: "0.6rem",
+                    letterSpacing: "0.1em",
+                    cursor: "pointer",
+                  }}
+                >
+                  ← BACK
+                </button>
+                <div>
+                  <div
+                    style={{
+                      fontFamily: "Orbitron, sans-serif",
+                      fontSize: "0.7rem",
+                      color: "#00ffff",
+                      letterSpacing: "0.15em",
+                    }}
+                  >
+                    🏪 GENERAL STORE
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "Rajdhani, sans-serif",
+                      fontSize: "0.8rem",
+                      color: "rgba(176,255,255,0.5)",
+                      marginTop: 2,
+                    }}
+                  >
+                    Select a category
+                  </div>
+                </div>
+              </div>
+              <div
+                style={{
+                  position: "relative",
+                  zIndex: 1,
+                  flex: 1,
+                  padding: "32px 24px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 20,
+                  justifyContent: "center",
+                }}
+              >
+                {[
+                  {
+                    name: "GS Grocery",
+                    emoji: "🛒",
+                    desc: "Fresh groceries, dairy, grains, spices & more",
+                    border: "rgba(100,220,100,0.4)",
+                    color: "#64dc64",
+                    catKey: "GS-Grocery",
+                  },
+                  {
+                    name: "GS Accessories",
+                    emoji: "🎒",
+                    desc: "Bags, water coolers, watches, headphones & more",
+                    border: "rgba(255,140,0,0.4)",
+                    color: "#ff8c00",
+                    catKey: "GS-Accessories",
+                  },
+                ].map((sub) => (
+                  <button
+                    type="button"
+                    key={sub.name}
+                    data-ocid={`general-store-subs.${sub.catKey.toLowerCase()}.button`}
+                    onClick={() => {
+                      const svc =
+                        SERVICES.find((s) => s.category === sub.catKey) ??
+                        SERVICES.find((s) => s.name === sub.name);
+                      if (svc) {
+                        setSelectedService(svc);
+                        _setWorkScopeSubmitted(false);
+                        setScreen("serviceBooking");
+                      }
+                    }}
+                    style={{
+                      background: "rgba(0,0,0,0.4)",
+                      border: `2px solid ${sub.border}`,
+                      borderRadius: 18,
+                      padding: "28px 24px",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 20,
+                      cursor: "pointer",
+                      textAlign: "left",
+                      backdropFilter: "blur(10px)",
+                      transition: "all 0.2s",
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: "2.8rem",
+                        background:
+                          sub.color === "#64dc64"
+                            ? "rgba(100,220,100,0.1)"
+                            : "rgba(255,140,0,0.1)",
+                        borderRadius: 14,
+                        width: 72,
+                        height: 72,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexShrink: 0,
+                        border: `1px solid ${sub.border}`,
+                      }}
+                    >
+                      {sub.emoji}
+                    </div>
+                    <div>
+                      <div
+                        style={{
+                          fontFamily: "Orbitron, sans-serif",
+                          fontSize: "0.75rem",
+                          color: sub.color,
+                          letterSpacing: "0.12em",
+                          marginBottom: 6,
+                        }}
+                      >
+                        {sub.name.replace("GS ", "").toUpperCase()}
+                      </div>
+                      <div
+                        style={{
+                          fontFamily: "Rajdhani, sans-serif",
+                          fontSize: "0.9rem",
+                          color: "rgba(176,255,255,0.7)",
+                          lineHeight: 1.4,
+                        }}
+                      >
+                        {sub.desc}
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        marginLeft: "auto",
+                        color: sub.color,
+                        fontSize: "1.2rem",
+                        flexShrink: 0,
+                      }}
+                    >
+                      ›
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
           )}
           {screen === "services" && (
             <AllServicesScreen
@@ -16289,14 +16785,30 @@ function PortalApp() {
           {screen === "serviceBooking" && selectedService && (
             <ServiceBookingFormScreen
               service={selectedService}
-              onBack={() => setScreen("services")}
+              onBack={() => {
+                const sc = selectedService?.category?.toLowerCase() ?? "";
+                if (sc === "gs-grocery" || sc === "gs-accessories") {
+                  setScreen("general-store-subs");
+                } else if (
+                  sc === "book store" ||
+                  sc === "accessories" ||
+                  sc === "stationary"
+                ) {
+                  setScreen("stationary-subs");
+                } else {
+                  setScreen("services");
+                }
+              }}
               onSubmit={(_details) => {
                 const sn = selectedService?.name?.toLowerCase() ?? "";
                 const sc = selectedService?.category?.toLowerCase() ?? "";
                 // Book Store goes directly to payment (skip provider selection)
                 const isBookStoreOrder =
                   sc === "book store" || sn.includes("book store");
-                if (isBookStoreOrder) {
+                // GS Grocery and GS Accessories have inline provider cards → payment
+                const isGSOrder =
+                  sc === "gs-grocery" || sc === "gs-accessories";
+                if (isBookStoreOrder || isGSOrder) {
                   setScreen("payment");
                 } else {
                   setScreen("providers");
