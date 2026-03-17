@@ -187,6 +187,20 @@ const SERVICES = [
     category: "Book Store",
   },
   {
+    id: 50,
+    emoji: "✏️",
+    name: "Stationary",
+    price: 300,
+    category: "Stationary",
+  },
+  {
+    id: 51,
+    emoji: "🎒",
+    name: "Accessories",
+    price: 500,
+    category: "Accessories",
+  },
+  {
     id: 30,
     emoji: "🏪",
     name: "General Store",
@@ -3396,6 +3410,7 @@ function HomeScreen({
   }, []);
 
   const categories = [
+    { name: "Accessories", emoji: "🎒", border: "rgba(255,140,0,0.4)" },
     { name: "Book Store", emoji: "📖", border: "rgba(255,220,100,0.4)" },
     { name: "Dry-Cleaner", emoji: "👔", border: "rgba(0,200,255,0.4)" },
     { name: "Education", emoji: "📚", border: "rgba(251,191,36,0.4)" },
@@ -3405,6 +3420,7 @@ function HomeScreen({
     { name: "House", emoji: "🏠", border: "rgba(0,200,255,0.4)" },
     { name: "Maintenance", emoji: "🔧", border: "rgba(251,146,60,0.4)" },
     { name: "Rentals", emoji: "🔑", border: "rgba(180,180,180,0.4)" },
+    { name: "Stationary", emoji: "✏️", border: "rgba(255,220,100,0.4)" },
     { name: "Transport", emoji: "🚌", border: "rgba(100,180,255,0.4)" },
   ];
 
@@ -3921,6 +3937,8 @@ const CATEGORY_META: Record<string, { emoji: string; color: string }> = {
   Grocery: { emoji: "🛒", color: "rgba(100,220,100,0.25)" },
   Shopping: { emoji: "🛍️", color: "rgba(255,100,200,0.25)" },
   Stationery: { emoji: "✏️", color: "rgba(255,220,100,0.25)" },
+  Stationary: { emoji: "✏️", color: "rgba(255,220,100,0.25)" },
+  Accessories: { emoji: "🎒", color: "rgba(255,140,0,0.25)" },
   "Dry-Cleaner": { emoji: "👔", color: "rgba(0,200,255,0.25)" },
   "Food Parcels": { emoji: "🍱", color: "rgba(100,255,150,0.25)" },
 };
@@ -3933,6 +3951,8 @@ const ALL_CATEGORIES = [
   "Shopping",
   "Grocery",
   "Stationery",
+  "Stationary",
+  "Accessories",
   "House",
   "Transport",
   "Dry-Cleaner",
@@ -4800,6 +4820,62 @@ const STATIONERY_ITEMS = [
   { name: "Drawing Book", price: 150, unit: "pcs" },
 ];
 
+const BOOK_STORE_ITEMS = [
+  { name: "A4 Notebook (200 pages)", price: 180, unit: "pcs" },
+  { name: "Spiral Notebook", price: 120, unit: "pcs" },
+  { name: "Register (100 pages)", price: 90, unit: "pcs" },
+  { name: "Drawing Book (A3)", price: 150, unit: "pcs" },
+  { name: "Ballpoint Pen", price: 20, unit: "pcs" },
+  { name: "Pencil HB", price: 15, unit: "pcs" },
+  { name: "Color Pencils (12pcs)", price: 180, unit: "set" },
+  { name: "Marker (Permanent)", price: 80, unit: "pcs" },
+  { name: "Highlighter", price: 60, unit: "pcs" },
+  { name: "Eraser", price: 20, unit: "pcs" },
+  { name: "Ruler 30cm", price: 40, unit: "pcs" },
+  { name: "Geometry Box", price: 250, unit: "pcs" },
+  { name: "Sharpener", price: 25, unit: "pcs" },
+  { name: "Scissors", price: 120, unit: "pcs" },
+  { name: "Glue Stick", price: 80, unit: "pcs" },
+  { name: "A4 Paper Ream (500 sheets)", price: 650, unit: "ream" },
+  { name: "Stapler", price: 250, unit: "pcs" },
+  { name: "Staple Pins (box)", price: 60, unit: "box" },
+  { name: "File Folder", price: 50, unit: "pcs" },
+  { name: "Tape Roll", price: 80, unit: "roll" },
+  { name: "Paint Box (12 colors)", price: 350, unit: "set" },
+  { name: "Water Colors Set", price: 280, unit: "set" },
+  { name: "Craft Paper (10 sheets)", price: 100, unit: "pack" },
+  { name: "Calculator (Scientific)", price: 850, unit: "pcs" },
+  { name: "Calculator (Basic)", price: 350, unit: "pcs" },
+];
+
+const ACCESSORIES_ITEMS = [
+  { name: "School Bag", price: 1500, unit: "pcs" },
+  { name: "Laptop Bag", price: 2500, unit: "pcs" },
+  { name: "Backpack", price: 1800, unit: "pcs" },
+  { name: "Handbag", price: 2000, unit: "pcs" },
+  { name: "Travel Bag", price: 3500, unit: "pcs" },
+  { name: "Gym Bag", price: 1200, unit: "pcs" },
+  { name: "Water Cooler (5L)", price: 4500, unit: "pcs" },
+  { name: "Water Cooler (10L)", price: 6500, unit: "pcs" },
+  { name: "Water Bottle (1L)", price: 350, unit: "pcs" },
+  { name: "Lunch Box (3-tier)", price: 450, unit: "pcs" },
+  { name: "Umbrella", price: 600, unit: "pcs" },
+  { name: "Sunglasses", price: 800, unit: "pcs" },
+  { name: "Headphones (Wired)", price: 1500, unit: "pcs" },
+  { name: "Earphones", price: 800, unit: "pcs" },
+  { name: "Cap/Hat", price: 400, unit: "pcs" },
+  { name: "Wallet", price: 700, unit: "pcs" },
+  { name: "Belt (Leather)", price: 500, unit: "pcs" },
+  { name: "Phone Cover", price: 300, unit: "pcs" },
+  { name: "Keychain", price: 150, unit: "pcs" },
+  { name: "Watch (Casual)", price: 2000, unit: "pcs" },
+  { name: "Watch (Sports)", price: 3000, unit: "pcs" },
+  { name: "Gloves", price: 350, unit: "pair" },
+  { name: "Scarf", price: 500, unit: "pcs" },
+  { name: "Pencil Pouch", price: 300, unit: "pcs" },
+  { name: "Card Holder", price: 450, unit: "pcs" },
+];
+
 const MEDICINE_ITEMS = [
   { name: "Panadol Extra (10 tabs)", price: 50, unit: "Strip" },
   { name: "Disprin (10 tabs)", price: 40, unit: "Strip" },
@@ -5089,6 +5165,12 @@ function ServiceBookingFormScreen({
     n.includes("medical store") ||
     n.includes("grocery") ||
     n.includes("stationery") ||
+    n.includes("book store") ||
+    c === "book store" ||
+    c === "stationary" ||
+    n.includes("stationary") ||
+    c === "accessories" ||
+    n.includes("accessories") ||
     n.includes("rice") ||
     n.includes("grain") ||
     n.includes("oils") ||
@@ -5105,6 +5187,10 @@ function ServiceBookingFormScreen({
     n.includes("medicine");
   const isMedicineOrder = isMedicine;
   const isStationery = n.includes("stationery");
+  const isBookStore = c === "book store" || n.includes("book store");
+  const isStationary = c === "stationary" || n.toLowerCase() === "stationary";
+  const isAccessories =
+    c === "accessories" || n.toLowerCase() === "accessories";
   const isGrocery =
     n.includes("grocery") || c === "groceries" || c === "grocery";
   const isShopping =
@@ -5123,8 +5209,7 @@ function ServiceBookingFormScreen({
     c === "education" || n.includes("tutor") || n.includes("teacher");
   const isSecurity =
     c === "security" || n.includes("guard") || n.includes("security");
-  const isTechAccessories =
-    n.includes("it accessories") || n.includes("accessories");
+  const isTechAccessories = n.includes("it accessories");
   const isTechSupport =
     c === "tech" ||
     n.includes("it support") ||
@@ -5157,7 +5242,9 @@ function ServiceBookingFormScreen({
   const getUnitPrice = () => {
     if (isMedicine) return unitPrices.medicine;
     if (isGrocery) return unitPrices.grocery;
-    if (isStationery) return unitPrices.stationery;
+    if (isAccessories) return 500;
+    if (isStationary || isStationery || isBookStore)
+      return unitPrices.stationery;
     if (isShopping) return unitPrices.shopping;
     return unitPrices.default;
   };
@@ -5166,9 +5253,10 @@ function ServiceBookingFormScreen({
     if (it.price > 0) return sum + qty * it.price;
     return sum + qty * getUnitPrice();
   }, 0);
-  const totalPayment = isMedicine
-    ? itemsTotal + 50 + RIDER_FEE
-    : itemsTotal + RIDER_FEE + PROVIDER_FEE;
+  const totalPayment =
+    isMedicine || isBookStore || isStationary || isAccessories
+      ? itemsTotal + 50 + RIDER_FEE
+      : itemsTotal + RIDER_FEE + PROVIDER_FEE;
 
   const FARE_RATES: Record<string, number> = {
     Bike: 20,
@@ -5187,7 +5275,9 @@ function ServiceBookingFormScreen({
 
   const getItemPlaceholder = () => {
     if (isMedicine) return "e.g. Panadol Extra";
-    if (isStationery) return "e.g. A4 Paper Ream";
+    if (isAccessories) return "e.g. School Bag, Water Cooler, Headphones";
+    if (isStationary || isStationery || isBookStore)
+      return "e.g. Notebook, Pen, Drawing Book";
     if (isGrocery) return "e.g. Basmati Rice";
     if (isShopping) return "e.g. Men's Shirt";
     return "Item name";
@@ -5195,7 +5285,9 @@ function ServiceBookingFormScreen({
   const getUnitOptions = () => {
     if (isMedicine) return ["Tablets", "Strip", "Box", "Bottle", "Syrup"];
     if (isGrocery) return ["pcs", "kg", "L", "pack", "box"];
-    if (isStationery) return ["pcs", "kg", "L", "pack", "box"];
+    if (isAccessories) return ["pcs", "pair", "set", "box"];
+    if (isStationary || isStationery || isBookStore)
+      return ["pcs", "kg", "L", "pack", "box"];
     if (isShopping) return ["pcs", "kg", "L", "pack", "box"];
     return ["Pcs", "Pack", "Box"];
   };
@@ -6846,8 +6938,8 @@ function ServiceBookingFormScreen({
                 <span style={labelStyle}>
                   {isMedicineOrder
                     ? "MEDICINES & ITEMS"
-                    : isStationery
-                      ? "STATIONARY ITEMS"
+                    : isStationery || isBookStore
+                      ? "BOOK STORE ITEMS"
                       : isGrocery
                         ? "GROCERY ITEMS"
                         : "ORDER ITEMS"}
@@ -6870,7 +6962,13 @@ function ServiceBookingFormScreen({
                         padding: "8px 10px",
                       }}
                     >
-                      {isGrocery || isStationery || isMedicine || isShopping ? (
+                      {isGrocery ||
+                      isStationery ||
+                      isStationary ||
+                      isAccessories ||
+                      isBookStore ||
+                      isMedicine ||
+                      isShopping ? (
                         <select
                           data-ocid="booking.item_name.input"
                           style={{
@@ -6884,31 +6982,37 @@ function ServiceBookingFormScreen({
                           value={item.name}
                           onChange={(e) => {
                             const selectedName = e.target.value;
-                            const itemList = isStationery
-                              ? STATIONERY_ITEMS
-                              : isMedicine
-                                ? MEDICINE_ITEMS
-                                : isShopping
-                                  ? (() => {
-                                      const key = Object.keys(
-                                        SHOPPING_ITEMS,
-                                      ).find((k) =>
-                                        n.toLowerCase().includes(k),
-                                      );
-                                      return key
-                                        ? SHOPPING_ITEMS[key]
-                                        : SHOPPING_ITEMS["dairy & eggs"];
-                                    })()
-                                  : (() => {
-                                      const key = Object.keys(
-                                        GROCERY_ITEMS,
-                                      ).find((k) =>
-                                        n.toLowerCase().includes(k),
-                                      );
-                                      return key
-                                        ? GROCERY_ITEMS[key]
-                                        : STATIONERY_ITEMS;
-                                    })();
+                            const itemList = isAccessories
+                              ? ACCESSORIES_ITEMS
+                              : isBookStore
+                                ? BOOK_STORE_ITEMS
+                                : isStationary
+                                  ? STATIONERY_ITEMS
+                                  : isStationery
+                                    ? STATIONERY_ITEMS
+                                    : isMedicine
+                                      ? MEDICINE_ITEMS
+                                      : isShopping
+                                        ? (() => {
+                                            const key = Object.keys(
+                                              SHOPPING_ITEMS,
+                                            ).find((k) =>
+                                              n.toLowerCase().includes(k),
+                                            );
+                                            return key
+                                              ? SHOPPING_ITEMS[key]
+                                              : SHOPPING_ITEMS["dairy & eggs"];
+                                          })()
+                                        : (() => {
+                                            const key = Object.keys(
+                                              GROCERY_ITEMS,
+                                            ).find((k) =>
+                                              n.toLowerCase().includes(k),
+                                            );
+                                            return key
+                                              ? GROCERY_ITEMS[key]
+                                              : STATIONERY_ITEMS;
+                                          })();
                             const found = itemList.find(
                               (gi) => gi.name === selectedName,
                             );
@@ -6933,27 +7037,37 @@ function ServiceBookingFormScreen({
                           <option value="" style={{ background: "#05070A" }}>
                             Select Item
                           </option>
-                          {(isStationery
-                            ? STATIONERY_ITEMS
-                            : isMedicine
-                              ? MEDICINE_ITEMS
-                              : isShopping
-                                ? (() => {
-                                    const key = Object.keys(
-                                      SHOPPING_ITEMS,
-                                    ).find((k) => n.toLowerCase().includes(k));
-                                    return key
-                                      ? SHOPPING_ITEMS[key]
-                                      : SHOPPING_ITEMS["dairy & eggs"];
-                                  })()
-                                : (() => {
-                                    const key = Object.keys(GROCERY_ITEMS).find(
-                                      (k) => n.toLowerCase().includes(k),
-                                    );
-                                    return key
-                                      ? GROCERY_ITEMS[key]
-                                      : STATIONERY_ITEMS;
-                                  })()
+                          {(isAccessories
+                            ? ACCESSORIES_ITEMS
+                            : isBookStore
+                              ? BOOK_STORE_ITEMS
+                              : isStationary
+                                ? STATIONERY_ITEMS
+                                : isStationery
+                                  ? STATIONERY_ITEMS
+                                  : isMedicine
+                                    ? MEDICINE_ITEMS
+                                    : isShopping
+                                      ? (() => {
+                                          const key = Object.keys(
+                                            SHOPPING_ITEMS,
+                                          ).find((k) =>
+                                            n.toLowerCase().includes(k),
+                                          );
+                                          return key
+                                            ? SHOPPING_ITEMS[key]
+                                            : SHOPPING_ITEMS["dairy & eggs"];
+                                        })()
+                                      : (() => {
+                                          const key = Object.keys(
+                                            GROCERY_ITEMS,
+                                          ).find((k) =>
+                                            n.toLowerCase().includes(k),
+                                          );
+                                          return key
+                                            ? GROCERY_ITEMS[key]
+                                            : STATIONERY_ITEMS;
+                                        })()
                           ).map((gi) => (
                             <option
                               key={gi.name}
@@ -7245,10 +7359,14 @@ function ServiceBookingFormScreen({
                   type="button"
                   data-ocid="booking.primary_button"
                   className="btn-portal"
-                  onClick={() => set("_orderProviderOpen", "true")}
+                  onClick={() =>
+                    isBookStore
+                      ? handleSubmit()
+                      : set("_orderProviderOpen", "true")
+                  }
                   style={{ width: "100%" }}
                 >
-                  📦 BOOK ORDER
+                  {isBookStore ? "✅ CONFIRM ORDER" : "📦 BOOK ORDER"}
                 </button>
               )}
               {form._orderProviderOpen === "true" && (
@@ -7277,8 +7395,11 @@ function ServiceBookingFormScreen({
                     { name: "Al-Madina Traders", distance: 2.3 },
                   ].map((p, idx2) => {
                     const riderCharge = p.distance <= 1 ? 150 : 250;
-                    const grandTotal =
-                      itemsTotal + riderCharge + (isMedicine ? 50 : 0);
+                    const serviceCharge =
+                      isMedicine || isBookStore || isStationary || isAccessories
+                        ? 50
+                        : 0;
+                    const grandTotal = itemsTotal + riderCharge + serviceCharge;
                     return (
                       <div
                         key={p.name}
@@ -7340,7 +7461,7 @@ function ServiceBookingFormScreen({
                             paddingTop: 8,
                           }}
                         >
-                          {isMedicine && (
+                          {(isMedicine || isBookStore) && (
                             <div
                               style={{
                                 display: "flex",
@@ -9713,15 +9834,17 @@ function ServiceBookingFormScreen({
         isGasCylinder ||
         isDryCleaner
           ? "FIND PROVIDERS →"
-          : isMedicineOrder
-            ? "CONFIRM ORDER → SELECT PROVIDER"
-            : isGrocery
-              ? "CONFIRM ORDER →"
-              : isTravelTicket
-                ? "FIND PROVIDERS →"
-                : isCarRental
-                  ? "SERVICE PROVIDERS →"
-                  : "CONFIRM BOOKING →"}
+          : isBookStore
+            ? "CONFIRM ORDER → PAYMENT PLAN"
+            : isMedicineOrder
+              ? "CONFIRM ORDER → SELECT PROVIDER"
+              : isGrocery
+                ? "CONFIRM ORDER →"
+                : isTravelTicket
+                  ? "FIND PROVIDERS →"
+                  : isCarRental
+                    ? "SERVICE PROVIDERS →"
+                    : "CONFIRM BOOKING →"}
       </button>
     </div>
   );
@@ -16069,6 +16192,21 @@ function PortalApp() {
                 setScreen("providers");
               }}
               onAllServices={(category) => {
+                if (
+                  category === "Book Store" ||
+                  category === "Stationary" ||
+                  category === "Accessories"
+                ) {
+                  const svc =
+                    SERVICES.find((s) => s.category === category) ??
+                    SERVICES.find((s) => s.name === category);
+                  if (svc) {
+                    setSelectedService(svc);
+                    _setWorkScopeSubmitted(false);
+                    setScreen("serviceBooking");
+                  }
+                  return;
+                }
                 setSelectedCategory(category);
                 setScreen("services");
                 setNavActive("tasks");
@@ -16120,6 +16258,10 @@ function PortalApp() {
                   n.includes("medical") ||
                   n.includes("grocery") ||
                   n.includes("stationery") ||
+                  n.includes("stationary") ||
+                  c === "stationary" ||
+                  c === "accessories" ||
+                  n.includes("accessories") ||
                   n.includes("store") ||
                   n.includes("shop") ||
                   c === "general store" ||
@@ -16148,36 +16290,18 @@ function PortalApp() {
             <ServiceBookingFormScreen
               service={selectedService}
               onBack={() => setScreen("services")}
-              onSubmit={(details) => {
+              onSubmit={(_details) => {
                 const sn = selectedService?.name?.toLowerCase() ?? "";
-                const sc = selectedService?.category ?? "";
-                const isOrderable =
-                  sc === "Grocery" ||
-                  sc === "Shopping" ||
-                  sc === "General Store" ||
-                  sn.includes("pharmacy") ||
-                  sn.includes("medical store") ||
-                  sn.includes("stationery") ||
-                  sn.includes("book store");
-                // Medical Store and similar go directly to providers, not provider-pricing
-                const skipPricing =
-                  sn.includes("medical store") || sn.includes("pharmacy");
-                if (isOrderable && !skipPricing) {
-                  try {
-                    const items = JSON.parse(details.orderItems || "[]");
-                    setPricedItems(
-                      items.map((i: Record<string, string>) => ({
-                        ...i,
-                        price: "",
-                      })),
-                    );
-                  } catch {
-                    setPricedItems([]);
-                  }
-                  setScreen("providers");
+                const sc = selectedService?.category?.toLowerCase() ?? "";
+                // Book Store goes directly to payment (skip provider selection)
+                const isBookStoreOrder =
+                  sc === "book store" || sn.includes("book store");
+                if (isBookStoreOrder) {
+                  setScreen("payment");
                 } else {
                   setScreen("providers");
                 }
+                // Stationary and Accessories always go to providers
               }}
             />
           )}
