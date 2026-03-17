@@ -89,13 +89,6 @@ const SERVICES = [
   { id: 20, emoji: "💻", name: "IT Support", price: 800, category: "Tech" },
   // Transport
   // Health additions
-  {
-    id: 22,
-    emoji: "💊",
-    name: "Medical Store",
-    price: 500,
-    category: "Health",
-  },
   // Education additions
 
   {
@@ -113,13 +106,6 @@ const SERVICES = [
     category: "Education",
   },
 
-  {
-    id: 204,
-    emoji: "👔",
-    name: "Dry-Cleaner",
-    price: 600,
-    category: "Dry-Cleaner",
-  },
   {
     id: 401,
     emoji: "💧",
@@ -509,16 +495,6 @@ const PROVIDERS = [
     rate: 2500,
   },
   {
-    id: 9,
-    name: "MedStore Saleem",
-    initials: "MS",
-    profession: "Medical Store",
-    category: "Health",
-    distance: "0.4 km",
-    rating: 4.6,
-    rate: 500,
-  },
-  {
     id: 10,
     name: "PharmaCare Hussain",
     initials: "PH",
@@ -745,119 +721,6 @@ const PROVIDERS = [
 // ========================
 // RENTAL VEHICLE & PROPERTY DATA
 // ========================
-const RENTAL_VEHICLES = [
-  {
-    id: "v1",
-    type: "Sedan",
-    model: "Toyota Corolla",
-    seats: 5,
-    ratePerKm: 25,
-    available: true,
-    emoji: "🚗",
-  },
-  {
-    id: "v2",
-    type: "SUV",
-    model: "Honda BRV",
-    seats: 7,
-    ratePerKm: 35,
-    available: true,
-    emoji: "🚙",
-  },
-  {
-    id: "v3",
-    type: "Van",
-    model: "Toyota Hiace",
-    seats: 12,
-    ratePerKm: 45,
-    available: false,
-    emoji: "🚐",
-  },
-  {
-    id: "v4",
-    type: "Motorcycle",
-    model: "Honda CD70",
-    seats: 2,
-    ratePerKm: 12,
-    available: true,
-    emoji: "🛵",
-  },
-  {
-    id: "v5",
-    type: "Luxury",
-    model: "Toyota Camry",
-    seats: 5,
-    ratePerKm: 60,
-    available: true,
-    emoji: "🏎️",
-  },
-  {
-    id: "v6",
-    type: "Pickup",
-    model: "Toyota Hilux",
-    seats: 5,
-    ratePerKm: 40,
-    available: true,
-    emoji: "🚛",
-  },
-];
-
-const RENTAL_PROPERTIES = [
-  {
-    id: "p1",
-    type: "Studio",
-    locality: "DHA Phase 5, Karachi",
-    ratePerNight: 2500,
-    ratePerMonth: 35000,
-    available: true,
-    emoji: "🏠",
-  },
-  {
-    id: "p2",
-    type: "1 Bedroom Flat",
-    locality: "Gulshan-e-Iqbal, Karachi",
-    ratePerNight: 3500,
-    ratePerMonth: 45000,
-    available: true,
-    emoji: "🏢",
-  },
-  {
-    id: "p3",
-    type: "2 Bedroom Flat",
-    locality: "Clifton Block 4, Karachi",
-    ratePerNight: 5000,
-    ratePerMonth: 65000,
-    available: false,
-    emoji: "🏡",
-  },
-  {
-    id: "p4",
-    type: "House (5 Marla)",
-    locality: "Johar Town, Lahore",
-    ratePerNight: 8000,
-    ratePerMonth: 90000,
-    available: true,
-    emoji: "🏘️",
-  },
-  {
-    id: "p5",
-    type: "Penthouse",
-    locality: "Bahria Town, Islamabad",
-    ratePerNight: 15000,
-    ratePerMonth: 180000,
-    available: true,
-    emoji: "🌆",
-  },
-  {
-    id: "p6",
-    type: "3 Bedroom Flat",
-    locality: "F-11, Islamabad",
-    ratePerNight: 7000,
-    ratePerMonth: 85000,
-    available: true,
-    emoji: "🏬",
-  },
-];
 
 const CHATS = [
   {
@@ -2239,14 +2102,11 @@ function ProviderRegisterScreen({
                   "Maintenance",
                   "Health",
                   "Rentals",
-                  "Education",
                   "Shopping",
                   "Grocery",
                   "Stationery",
                   "House",
                   "Transport",
-                  "Dry-Cleaner",
-                  "Food Parcels",
                 ].map((cat) => (
                   <option
                     key={cat}
@@ -2857,14 +2717,11 @@ function CustomerRegisterScreen({
                   "Maintenance",
                   "Health",
                   "Rentals",
-                  "Education",
                   "Shopping",
                   "Grocery",
                   "Stationery",
                   "House",
                   "Transport",
-                  "Dry-Cleaner",
-                  "Food Parcels",
                 ].map((cat) => (
                   <option
                     key={cat}
@@ -3426,9 +3283,6 @@ function HomeScreen({
   }, []);
 
   const categories = [
-    { name: "Dry-Cleaner", emoji: "👔", border: "rgba(0,200,255,0.4)" },
-    { name: "Education", emoji: "📚", border: "rgba(251,191,36,0.4)" },
-    { name: "Food Parcels", emoji: "🍱", border: "rgba(100,255,150,0.4)" },
     { name: "General Store", emoji: "🏪", border: "rgba(255,100,200,0.4)" },
     { name: "Health", emoji: "❤️", border: "rgba(52,211,153,0.4)" },
     { name: "House", emoji: "🏠", border: "rgba(0,200,255,0.4)" },
@@ -3953,7 +3807,6 @@ const CATEGORY_META: Record<string, { emoji: string; color: string }> = {
   Stationery: { emoji: "✏️", color: "rgba(255,220,100,0.25)" },
   Stationary: { emoji: "✏️", color: "rgba(255,220,100,0.25)" },
   Accessories: { emoji: "🎒", color: "rgba(255,140,0,0.25)" },
-  "Dry-Cleaner": { emoji: "👔", color: "rgba(0,200,255,0.25)" },
   "Food Parcels": { emoji: "🍱", color: "rgba(100,255,150,0.25)" },
 };
 
@@ -3961,7 +3814,6 @@ const ALL_CATEGORIES = [
   "Maintenance",
   "Health",
   "Rentals",
-  "Education",
   "Shopping",
   "Grocery",
   "Stationery",
@@ -3969,8 +3821,6 @@ const ALL_CATEGORIES = [
   "Accessories",
   "House",
   "Transport",
-  "Dry-Cleaner",
-  "Food Parcels",
 ];
 
 function AllServicesScreen({
@@ -4936,7 +4786,7 @@ const ACCESSORIES_ITEMS = [
   { name: "Card Holder", price: 450, unit: "pcs" },
 ];
 
-const MEDICINE_ITEMS = [
+const _MEDICINE_ITEMS = [
   { name: "Panadol Extra (10 tabs)", price: 50, unit: "Strip" },
   { name: "Disprin (10 tabs)", price: 40, unit: "Strip" },
   { name: "ORS Sachet", price: 30, unit: "Pcs" },
@@ -5058,8 +4908,8 @@ function ServiceBookingFormScreen({
     lat: number;
     lon: number;
   } | null>(null);
-  const [gpsLoading, setGpsLoading] = useState(false);
-  const [destSuggestions, setDestSuggestions] = useState<
+  const [_gpsLoading, _setGpsLoading] = useState(false);
+  const [_destSuggestions, _setDestSuggestions] = useState<
     { display_name: string; lat: string; lon: string }[]
   >([]);
   const [destSearchTimer, setDestSearchTimer] = useState<ReturnType<
@@ -5109,9 +4959,9 @@ function ServiceBookingFormScreen({
     return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   };
 
-  const handleGpsPickup = () => {
+  const _handleGpsPickup = () => {
     if (!navigator.geolocation) return;
-    setGpsLoading(true);
+    _setGpsLoading(true);
     navigator.geolocation.getCurrentPosition(
       async (pos) => {
         const { latitude: lat, longitude: lon } = pos.coords;
@@ -5137,17 +4987,17 @@ function ServiceBookingFormScreen({
         } catch {
           set("pickupLocation", `${lat.toFixed(4)}, ${lon.toFixed(4)}`);
         }
-        setGpsLoading(false);
+        _setGpsLoading(false);
       },
-      () => setGpsLoading(false),
+      () => _setGpsLoading(false),
     );
   };
 
-  const handleDestSearch = (query: string) => {
+  const _handleDestSearch = (query: string) => {
     set("destination", query);
     if (destSearchTimer) clearTimeout(destSearchTimer);
     if (query.length < 3) {
-      setDestSuggestions([]);
+      _setDestSuggestions([]);
       return;
     }
     const t = setTimeout(async () => {
@@ -5156,15 +5006,15 @@ function ServiceBookingFormScreen({
           `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=4&countrycodes=pk`,
         );
         const d = await r.json();
-        setDestSuggestions(d);
+        _setDestSuggestions(d);
       } catch {
-        setDestSuggestions([]);
+        _setDestSuggestions([]);
       }
     }, 600);
     setDestSearchTimer(t);
   };
 
-  const selectDestSuggestion = (s: {
+  const _selectDestSuggestion = (s: {
     display_name: string;
     lat: string;
     lon: string;
@@ -5173,7 +5023,7 @@ function ServiceBookingFormScreen({
     const dLon = Number.parseFloat(s.lon);
     setDestCoords({ lat: dLat, lon: dLon });
     set("destination", s.display_name);
-    setDestSuggestions([]);
+    _setDestSuggestions([]);
     if (pickupCoords) {
       const dist = haversineDistance(
         pickupCoords.lat,
@@ -5189,33 +5039,19 @@ function ServiceBookingFormScreen({
   const c = service.category.toLowerCase();
 
   const isHealth =
-    (c === "health" ||
-      n.includes("doctor") ||
-      n.includes("nurse") ||
-      n.includes("dental") ||
-      n.includes("home visit") ||
-      n.includes("medical")) &&
-    !n.includes("medical store");
-
-  const isCarRental =
-    c === "rentals" &&
-    (n.includes("passenger") || n.includes("car") || n.includes("bike")) &&
-    !n.includes("commercial vehicle");
+    c === "health" ||
+    n.includes("doctor") ||
+    n.includes("nurse") ||
+    n.includes("dental") ||
+    n.includes("home visit") ||
+    n.includes("medical");
 
   const isTravelTicket =
     n.includes("travel ticket") || n.includes("air travel");
-  const isDrinkingWater = n.includes("drinking water");
-  const isGasCylinder = n.includes("gas cylinder");
   const isCoachesTicket =
     n.includes("coaches ticket") || n.includes("coach service");
   const isPakRailway = n.includes("pakistan railway") || n.includes("railway");
   const isDomeService = n.includes("dome service");
-
-  const isProperty =
-    n.includes("property") ||
-    n.includes("residential") ||
-    n.includes("commercial property");
-  const isCommercialVehicle = n.includes("commercial vehicle");
 
   const isOrderable =
     c === "groceries" ||
@@ -5224,7 +5060,6 @@ function ServiceBookingFormScreen({
     c === "gs-grocery" ||
     c === "gs-accessories" ||
     n.includes("pharmacy") ||
-    n.includes("medical store") ||
     n.includes("grocery") ||
     n.includes("stationery") ||
     n.includes("book store") ||
@@ -5243,11 +5078,6 @@ function ServiceBookingFormScreen({
     n.includes("store") ||
     n.includes("shop");
 
-  const isMedicine =
-    n.includes("pharmacy") ||
-    n.includes("medical store") ||
-    n.includes("medicine");
-  const isMedicineOrder = isMedicine;
   const isStationery = n.includes("stationery");
   const isBookStore = c === "book store" || n.includes("book store");
   const isStationary = c === "stationary" || n.toLowerCase() === "stationary";
@@ -5268,9 +5098,6 @@ function ServiceBookingFormScreen({
     n.includes("tea & coffee") ||
     n.includes("general store");
 
-  const isMaintenance = c === "maintenance";
-  const isEducation =
-    c === "education" || n.includes("tutor") || n.includes("teacher");
   const isSecurity =
     c === "security" || n.includes("guard") || n.includes("security");
   const isTechAccessories = n.includes("it accessories");
@@ -5280,18 +5107,15 @@ function ServiceBookingFormScreen({
     n.includes("laptop") ||
     n.includes("computer") ||
     n.includes("tech");
-  const isFoodParcels = n.includes("food parcel");
   const isHomeChef =
     n.includes("home chef") ||
     n.includes("chef") ||
     n.includes("food delivery") ||
     n.includes("food parcel");
-  const isDryCleaner = n.includes("dry-clean") || n.includes("dry clean");
   const isHomeCleaning =
     (c === "house" || n.includes("clean") || n.includes("garden")) &&
     !isOrderable &&
-    !isHomeChef &&
-    !isDryCleaner;
+    !isHomeChef;
 
   const RIDER_FEE = 150;
   const _MEDICINE_SERVICE_FEE = 50;
@@ -5304,7 +5128,6 @@ function ServiceBookingFormScreen({
     default: 100,
   };
   const getUnitPrice = () => {
-    if (isMedicine) return unitPrices.medicine;
     if (isGrocery || isGSGrocery) return unitPrices.grocery;
     if (isAccessories || isGSAccessories) return 500;
     if (isStationary || isStationery || isBookStore)
@@ -5318,7 +5141,6 @@ function ServiceBookingFormScreen({
     return sum + qty * getUnitPrice();
   }, 0);
   const totalPayment =
-    isMedicine ||
     isBookStore ||
     isStationary ||
     isAccessories ||
@@ -5338,12 +5160,11 @@ function ServiceBookingFormScreen({
     default: 40,
   };
   const getPerKmRate = () => FARE_RATES[form.vehicleType] || FARE_RATES.default;
-  const estimatedFare = estimatedDistance
+  const _estimatedFare = estimatedDistance
     ? Math.round(estimatedDistance * getPerKmRate())
     : null;
 
   const getItemPlaceholder = () => {
-    if (isMedicine) return "e.g. Panadol Extra";
     if (isAccessories || isGSAccessories)
       return "e.g. School Bag, Water Cooler, Headphones";
     if (isStationary || isStationery || isBookStore)
@@ -5353,7 +5174,6 @@ function ServiceBookingFormScreen({
     return "Item name";
   };
   const getUnitOptions = () => {
-    if (isMedicine) return ["Tablets", "Strip", "Box", "Bottle", "Syrup"];
     if (isGrocery || isGSGrocery) return ["pcs", "kg", "L", "pack", "box"];
     if (isAccessories || isGSAccessories) return ["pcs", "pair", "set", "box"];
     if (isStationary || isStationery || isBookStore)
@@ -5520,16 +5340,7 @@ function ServiceBookingFormScreen({
                 onChange={(e) => set("patientAge", e.target.value)}
               />
             </div>
-            <div>
-              <span style={labelStyle}>PREFERRED DATE</span>
-              <input
-                data-ocid="booking.input"
-                type="date"
-                style={inputStyle}
-                value={form.preferredDate || ""}
-                onChange={(e) => set("preferredDate", e.target.value)}
-              />
-            </div>
+
             <div>
               <span style={labelStyle}>PREFERRED TIME SLOT</span>
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
@@ -5582,336 +5393,6 @@ function ServiceBookingFormScreen({
           </>
         )}
 
-        {/* ---- CAR / DRIVER RENTAL ---- */}
-        {!isHealth && isCarRental && !isTravelTicket && !isProperty && (
-          <>
-            {/* GPS Map Pickup/Destination */}
-            <div
-              style={{
-                background: "rgba(0,255,255,0.04)",
-                border: "1px solid rgba(0,255,255,0.3)",
-                borderRadius: 14,
-                padding: "14px 12px",
-              }}
-            >
-              <div
-                style={{
-                  fontFamily: "Orbitron, sans-serif",
-                  fontSize: "0.65rem",
-                  color: "rgba(0,255,255,0.8)",
-                  letterSpacing: "0.12em",
-                  marginBottom: 12,
-                }}
-              >
-                📍 PICKUP & DESTINATION
-              </div>
-              {/* Pickup */}
-              <div style={{ marginBottom: 10 }}>
-                <span style={labelStyle}>PICKUP LOCATION</span>
-                <div style={{ display: "flex", gap: 8 }}>
-                  <input
-                    data-ocid="booking.input"
-                    style={{ ...inputStyle, flex: 1 }}
-                    placeholder="Enter pickup address or use GPS"
-                    value={form.pickupLocation || ""}
-                    onChange={(e) => set("pickupLocation", e.target.value)}
-                  />
-                  <button
-                    type="button"
-                    data-ocid="booking.button"
-                    onClick={handleGpsPickup}
-                    disabled={gpsLoading}
-                    style={{
-                      background: gpsLoading
-                        ? "rgba(0,255,255,0.1)"
-                        : "rgba(0,255,255,0.2)",
-                      border: "1px solid rgba(0,255,255,0.5)",
-                      borderRadius: 10,
-                      padding: "8px 12px",
-                      color: "#00ffff",
-                      cursor: gpsLoading ? "wait" : "pointer",
-                      fontFamily: "Rajdhani, sans-serif",
-                      fontSize: "0.8rem",
-                      fontWeight: 700,
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {gpsLoading ? "⏳" : "📍 GPS"}
-                  </button>
-                </div>
-              </div>
-              {/* Destination with autocomplete */}
-              <div style={{ position: "relative" }}>
-                <span style={labelStyle}>DESTINATION</span>
-                <input
-                  data-ocid="booking.input"
-                  style={inputStyle}
-                  placeholder="Type destination address..."
-                  value={form.destination || ""}
-                  onChange={(e) => handleDestSearch(e.target.value)}
-                />
-                {destSuggestions.length > 0 && (
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: "100%",
-                      left: 0,
-                      right: 0,
-                      zIndex: 50,
-                      background: "#08121a",
-                      border: "1px solid rgba(0,255,255,0.3)",
-                      borderRadius: 10,
-                      overflow: "hidden",
-                      marginTop: 4,
-                    }}
-                  >
-                    {destSuggestions.map((s) => (
-                      <button
-                        key={s.display_name}
-                        type="button"
-                        onClick={() => selectDestSuggestion(s)}
-                        style={{
-                          display: "block",
-                          width: "100%",
-                          textAlign: "left",
-                          background: "none",
-                          border: "none",
-                          borderBottom: "1px solid rgba(0,255,255,0.1)",
-                          padding: "8px 12px",
-                          color: "#b0f0ff",
-                          fontFamily: "Rajdhani, sans-serif",
-                          fontSize: "0.85rem",
-                          cursor: "pointer",
-                        }}
-                      >
-                        📍 {s.display_name}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-              {/* Map iframe preview when both coords set */}
-              {pickupCoords && (
-                <div
-                  style={{
-                    marginTop: 12,
-                    borderRadius: 10,
-                    overflow: "hidden",
-                    border: "1px solid rgba(0,255,255,0.25)",
-                  }}
-                >
-                  <iframe
-                    title="Map Preview"
-                    style={{
-                      width: "100%",
-                      height: 160,
-                      border: "none",
-                      display: "block",
-                    }}
-                    src={`https://www.openstreetmap.org/export/embed.html?bbox=${pickupCoords.lon - 0.05},${pickupCoords.lat - 0.05},${pickupCoords.lon + 0.05},${pickupCoords.lat + 0.05}&layer=mapnik&marker=${pickupCoords.lat},${pickupCoords.lon}`}
-                  />
-                </div>
-              )}
-              {/* Auto-calculated distance */}
-              {estimatedDistance !== null && (
-                <div
-                  style={{
-                    marginTop: 10,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    padding: "8px 12px",
-                    background: "rgba(0,255,255,0.08)",
-                    borderRadius: 8,
-                  }}
-                >
-                  <span
-                    style={{
-                      fontFamily: "Rajdhani, sans-serif",
-                      fontSize: "0.9rem",
-                      color: "rgba(176,255,255,0.8)",
-                    }}
-                  >
-                    🗺️ Distance
-                  </span>
-                  <span
-                    style={{
-                      fontFamily: "Orbitron, sans-serif",
-                      fontSize: "0.85rem",
-                      color: "#00ffff",
-                      fontWeight: 700,
-                    }}
-                  >
-                    {estimatedDistance} km
-                  </span>
-                </div>
-              )}
-            </div>
-            <div style={{ display: "flex", gap: 10 }}>
-              <div style={{ flex: 1 }}>
-                <span style={labelStyle}>DATE</span>
-                <input
-                  data-ocid="booking.input"
-                  type="date"
-                  style={inputStyle}
-                  value={form.rideDate || ""}
-                  onChange={(e) => set("rideDate", e.target.value)}
-                />
-              </div>
-              <div style={{ flex: 1 }}>
-                <span style={labelStyle}>TIME</span>
-                <input
-                  data-ocid="booking.input"
-                  type="time"
-                  style={inputStyle}
-                  value={form.rideTime || ""}
-                  onChange={(e) => set("rideTime", e.target.value)}
-                />
-              </div>
-            </div>
-            <div>
-              <span style={labelStyle}>VEHICLE TYPE</span>
-              {renderChips("vehicleType", [
-                "Bike 🚲",
-                "Rikshaw 🛺",
-                "Car 🚗",
-                "Van 🚐",
-              ])}
-            </div>
-            <div>
-              <span style={labelStyle}>TOTAL PASSENGERS</span>
-              <input
-                data-ocid="booking.input"
-                type="number"
-                style={inputStyle}
-                placeholder="How many passengers?"
-                value={form.passengers || ""}
-                onChange={(e) => set("passengers", e.target.value)}
-              />
-            </div>
-            <div>
-              <span style={labelStyle}>COMFORT</span>
-              <div style={{ display: "flex", gap: 10 }}>
-                {["Comfort (AC)", "Economy (Non-AC)"].map((opt) => (
-                  <button
-                    key={opt}
-                    type="button"
-                    onClick={() => set("comfortLevel", opt)}
-                    style={{
-                      flex: 1,
-                      padding: "10px",
-                      background:
-                        form.comfortLevel === opt
-                          ? "rgba(0,255,255,0.2)"
-                          : "rgba(0,255,255,0.05)",
-                      border: `1px solid ${form.comfortLevel === opt ? "rgba(0,255,255,0.7)" : "rgba(0,255,255,0.2)"}`,
-                      borderRadius: 10,
-                      color:
-                        form.comfortLevel === opt
-                          ? "#00ffff"
-                          : "rgba(176,255,255,0.6)",
-                      fontFamily: "Rajdhani, sans-serif",
-                      fontSize: "0.85rem",
-                      fontWeight: 600,
-                      cursor: "pointer",
-                    }}
-                  >
-                    {opt}
-                  </button>
-                ))}
-              </div>
-            </div>
-            {estimatedFare !== null && estimatedDistance !== null && (
-              <div
-                data-ocid="booking.card"
-                style={{
-                  background: "rgba(0,255,255,0.08)",
-                  border: "1px solid rgba(0,255,255,0.35)",
-                  borderRadius: 14,
-                  padding: "14px 16px",
-                  marginBottom: 4,
-                }}
-              >
-                <div
-                  style={{
-                    fontFamily: "Orbitron, sans-serif",
-                    fontSize: 12,
-                    color: "#00ffff",
-                    letterSpacing: 2,
-                    marginBottom: 10,
-                  }}
-                >
-                  FARE ESTIMATE
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    marginBottom: 6,
-                    fontFamily: "Rajdhani, sans-serif",
-                    fontSize: 14,
-                    color: "rgba(255,255,255,0.8)",
-                  }}
-                >
-                  <span>Distance</span>
-                  <span style={{ color: "#fff" }}>{estimatedDistance} km</span>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    marginBottom: 6,
-                    fontFamily: "Rajdhani, sans-serif",
-                    fontSize: 14,
-                    color: "rgba(255,255,255,0.8)",
-                  }}
-                >
-                  <span>Rate ({form.vehicleType || "Standard"})</span>
-                  <span style={{ color: "#fff" }}>PKR {getPerKmRate()}/km</span>
-                </div>
-                <div
-                  style={{
-                    borderTop: "1px solid rgba(0,255,255,0.2)",
-                    marginTop: 8,
-                    paddingTop: 8,
-                    display: "flex",
-                    justifyContent: "space-between",
-                    fontFamily: "Orbitron, sans-serif",
-                    fontSize: 13,
-                    color: "#00ffff",
-                  }}
-                >
-                  <span>Estimated Fare</span>
-                  <span style={{ fontWeight: 700 }}>
-                    PKR {estimatedFare?.toLocaleString()}
-                  </span>
-                </div>
-                <div
-                  style={{
-                    marginTop: 8,
-                    fontFamily: "Rajdhani, sans-serif",
-                    fontSize: 12,
-                    color: "rgba(0,255,255,0.6)",
-                    fontStyle: "italic",
-                  }}
-                >
-                  * Final fare may vary based on actual route
-                </div>
-              </div>
-            )}
-            <div>
-              <span style={labelStyle}>SPECIAL REQUIREMENTS (OPTIONAL)</span>
-              <input
-                data-ocid="booking.input"
-                style={inputStyle}
-                placeholder="AC, child seat, etc."
-                value={form.specialReq || ""}
-                onChange={(e) => set("specialReq", e.target.value)}
-              />
-            </div>
-          </>
-        )}
-
         {/* ---- AIR TRAVEL ---- */}
         {isTravelTicket && (
           <>
@@ -5939,16 +5420,6 @@ function ServiceBookingFormScreen({
             </div>
             <div style={{ display: "flex", gap: 10 }}>
               <div style={{ flex: 1 }}>
-                <span style={labelStyle}>TRAVEL DATE</span>
-                <input
-                  data-ocid="booking.input"
-                  type="date"
-                  style={inputStyle}
-                  value={form.travelDate || ""}
-                  onChange={(e) => set("travelDate", e.target.value)}
-                />
-              </div>
-              <div style={{ flex: 1 }}>
                 <span style={labelStyle}>TRAVEL TIME</span>
                 <input
                   data-ocid="booking.input"
@@ -5963,18 +5434,7 @@ function ServiceBookingFormScreen({
               <span style={labelStyle}>TYPE OF TICKET</span>
               {renderChips("ticketType", ["One Way", "Return"])}
             </div>
-            {form.ticketType === "Return" && (
-              <div>
-                <span style={labelStyle}>RETURN DATE</span>
-                <input
-                  data-ocid="booking.input"
-                  type="date"
-                  style={inputStyle}
-                  value={form.returnDate || ""}
-                  onChange={(e) => set("returnDate", e.target.value)}
-                />
-              </div>
-            )}
+
             <div>
               <span style={labelStyle}>TRAVEL CLASS</span>
               {renderChips("travelClass", ["First", "Business", "Economy"])}
@@ -6160,16 +5620,6 @@ function ServiceBookingFormScreen({
               </div>
             </div>
             <div style={{ display: "flex", gap: 10 }}>
-              <div style={{ flex: 1 }}>
-                <span style={labelStyle}>DATE OF TRAVEL</span>
-                <input
-                  data-ocid="booking.input"
-                  type="date"
-                  style={inputStyle}
-                  value={form.coachDate || ""}
-                  onChange={(e) => set("coachDate", e.target.value)}
-                />
-              </div>
               <div style={{ flex: 1 }}>
                 <span style={labelStyle}>TIME OF DEPARTURE</span>
                 <input
@@ -6369,16 +5819,6 @@ function ServiceBookingFormScreen({
             </div>
             <div style={{ display: "flex", gap: 10 }}>
               <div style={{ flex: 1 }}>
-                <span style={labelStyle}>DATE OF TRAVEL</span>
-                <input
-                  data-ocid="booking.input"
-                  type="date"
-                  style={inputStyle}
-                  value={form.domeDate || ""}
-                  onChange={(e) => set("domeDate", e.target.value)}
-                />
-              </div>
-              <div style={{ flex: 1 }}>
                 <span style={labelStyle}>TIME OF DEPARTURE</span>
                 <input
                   data-ocid="booking.input"
@@ -6541,16 +5981,6 @@ function ServiceBookingFormScreen({
               </div>
             </div>
             <div style={{ display: "flex", gap: 10 }}>
-              <div style={{ flex: 1 }}>
-                <span style={labelStyle}>TRAVEL DATE</span>
-                <input
-                  data-ocid="booking.input"
-                  type="date"
-                  style={inputStyle}
-                  value={form.railDate || ""}
-                  onChange={(e) => set("railDate", e.target.value)}
-                />
-              </div>
               <div style={{ flex: 1 }}>
                 <span style={labelStyle}>TRAVEL TIME</span>
                 <input
@@ -6721,107 +6151,428 @@ function ServiceBookingFormScreen({
           </>
         )}
 
-        {/* ---- PROPERTY RENTAL ---- */}
-        {isProperty && (
+        {/* ---- ORDERABLE / SHOPPING / GROCERIES / MEDICINE ---- */}
+        {!isHealth && !isTravelTicket && isOrderable && (
           <>
             <div>
-              <span style={labelStyle}>AREA / LOCALITY</span>
+              <span style={labelStyle}>
+                {isStationery || isBookStore
+                  ? "BOOK STORE ITEMS"
+                  : isGrocery
+                    ? "GROCERY ITEMS"
+                    : "ORDER ITEMS"}
+              </span>
+              {/* Dynamic Item Rows */}
+              <div
+                style={{ display: "flex", flexDirection: "column", gap: 10 }}
+              >
+                {items.map((item, idx) => (
+                  <div
+                    key={item.id}
+                    data-ocid={`booking.item.${idx + 1}`}
+                    style={{
+                      display: "flex",
+                      gap: 6,
+                      alignItems: "center",
+                      background: "rgba(0,255,255,0.04)",
+                      border: "1px solid rgba(0,255,255,0.15)",
+                      borderRadius: 10,
+                      padding: "8px 10px",
+                    }}
+                  >
+                    {isGrocery ||
+                    isStationery ||
+                    isStationary ||
+                    isAccessories ||
+                    isBookStore ||
+                    isShopping ||
+                    isGSGrocery ||
+                    isGSAccessories ? (
+                      <select
+                        data-ocid="booking.item_name.input"
+                        style={{
+                          ...inputStyle,
+                          flex: 2,
+                          padding: "8px 10px",
+                          fontSize: "0.85rem",
+                          appearance: "none" as const,
+                          cursor: "pointer",
+                        }}
+                        value={item.name}
+                        onChange={(e) => {
+                          const selectedName = e.target.value;
+                          const itemList = isGSGrocery
+                            ? GS_GROCERY_ITEMS
+                            : isGSAccessories
+                              ? GS_ACCESSORIES_ITEMS
+                              : isAccessories
+                                ? ACCESSORIES_ITEMS
+                                : isBookStore
+                                  ? BOOK_STORE_ITEMS
+                                  : isStationary
+                                    ? STATIONERY_ITEMS
+                                    : isStationery
+                                      ? STATIONERY_ITEMS
+                                      : isShopping
+                                        ? (() => {
+                                            const key = Object.keys(
+                                              SHOPPING_ITEMS,
+                                            ).find((k) =>
+                                              n.toLowerCase().includes(k),
+                                            );
+                                            return key
+                                              ? SHOPPING_ITEMS[key]
+                                              : SHOPPING_ITEMS["dairy & eggs"];
+                                          })()
+                                        : (() => {
+                                            const key = Object.keys(
+                                              GROCERY_ITEMS,
+                                            ).find((k) =>
+                                              n.toLowerCase().includes(k),
+                                            );
+                                            return key
+                                              ? GROCERY_ITEMS[key]
+                                              : STATIONERY_ITEMS;
+                                          })();
+                          const found = itemList.find(
+                            (gi) => gi.name === selectedName,
+                          );
+                          if (found) {
+                            setItems((prev) =>
+                              prev.map((it) =>
+                                it.id === item.id
+                                  ? {
+                                      ...it,
+                                      name: selectedName,
+                                      unit: found.unit,
+                                      price: found.price,
+                                    }
+                                  : it,
+                              ),
+                            );
+                          } else {
+                            updateItem(item.id, "name", selectedName);
+                          }
+                        }}
+                      >
+                        <option value="" style={{ background: "#05070A" }}>
+                          Select Item
+                        </option>
+                        {(isGSGrocery
+                          ? GS_GROCERY_ITEMS
+                          : isGSAccessories
+                            ? GS_ACCESSORIES_ITEMS
+                            : isAccessories
+                              ? ACCESSORIES_ITEMS
+                              : isBookStore
+                                ? BOOK_STORE_ITEMS
+                                : isStationary
+                                  ? STATIONERY_ITEMS
+                                  : isStationery
+                                    ? STATIONERY_ITEMS
+                                    : isShopping
+                                      ? (() => {
+                                          const key = Object.keys(
+                                            SHOPPING_ITEMS,
+                                          ).find((k) =>
+                                            n.toLowerCase().includes(k),
+                                          );
+                                          return key
+                                            ? SHOPPING_ITEMS[key]
+                                            : SHOPPING_ITEMS["dairy & eggs"];
+                                        })()
+                                      : (() => {
+                                          const key = Object.keys(
+                                            GROCERY_ITEMS,
+                                          ).find((k) =>
+                                            n.toLowerCase().includes(k),
+                                          );
+                                          return key
+                                            ? GROCERY_ITEMS[key]
+                                            : STATIONERY_ITEMS;
+                                        })()
+                        ).map((gi) => (
+                          <option
+                            key={gi.name}
+                            value={gi.name}
+                            style={{ background: "#05070A" }}
+                          >
+                            {gi.name} — PKR {gi.price}/{gi.unit}
+                          </option>
+                        ))}
+                      </select>
+                    ) : (
+                      <input
+                        data-ocid="booking.item_name.input"
+                        style={{
+                          ...inputStyle,
+                          flex: 2,
+                          padding: "8px 10px",
+                          fontSize: "0.85rem",
+                        }}
+                        placeholder={getItemPlaceholder()}
+                        value={item.name}
+                        onChange={(e) =>
+                          updateItem(item.id, "name", e.target.value)
+                        }
+                      />
+                    )}
+                    <input
+                      data-ocid="booking.item_qty.input"
+                      type="number"
+                      style={{
+                        ...inputStyle,
+                        width: 60,
+                        padding: "8px 8px",
+                        fontSize: "0.85rem",
+                        textAlign: "center",
+                      }}
+                      placeholder="Qty"
+                      value={item.quantity}
+                      onChange={(e) =>
+                        updateItem(item.id, "quantity", e.target.value)
+                      }
+                    />
+                    <select
+                      style={{
+                        ...inputStyle,
+                        width: 80,
+                        padding: "8px 6px",
+                        fontSize: "0.8rem",
+                        appearance: "none" as const,
+                        cursor: "pointer",
+                      }}
+                      value={item.unit}
+                      onChange={(e) =>
+                        updateItem(item.id, "unit", e.target.value)
+                      }
+                    >
+                      <option value="" style={{ background: "#05070A" }}>
+                        Unit
+                      </option>
+                      {getUnitOptions().map((u) => (
+                        <option
+                          key={u}
+                          value={u}
+                          style={{ background: "#05070A" }}
+                        >
+                          {u}
+                        </option>
+                      ))}
+                    </select>
+                    {items.length > 1 && (
+                      <button
+                        type="button"
+                        data-ocid={`booking.remove_item.button.${idx + 1}`}
+                        onClick={() => removeItem(item.id)}
+                        style={{
+                          background: "rgba(255,60,60,0.15)",
+                          border: "1px solid rgba(255,60,60,0.4)",
+                          borderRadius: 8,
+                          color: "#ff6060",
+                          width: 30,
+                          height: 30,
+                          cursor: "pointer",
+                          fontSize: "1rem",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          flexShrink: 0,
+                        }}
+                      >
+                        ×
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </div>
+              <button
+                type="button"
+                data-ocid="booking.add_item.button"
+                onClick={addItem}
+                style={{
+                  marginTop: 10,
+                  width: "100%",
+                  padding: "8px",
+                  background: "rgba(0,255,255,0.08)",
+                  border: "1px dashed rgba(0,255,255,0.4)",
+                  borderRadius: 10,
+                  color: "#00ffff",
+                  fontFamily: "Rajdhani, sans-serif",
+                  fontSize: "0.85rem",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  letterSpacing: "0.08em",
+                }}
+              >
+                + ADD ITEM
+              </button>
+            </div>
+
+            {/* Cost Breakdown Panel */}
+            <div
+              style={{
+                background: "rgba(0,10,20,0.85)",
+                border: "1px solid rgba(0,255,255,0.35)",
+                borderRadius: 14,
+                padding: "16px",
+                boxShadow: "0 0 20px rgba(0,255,255,0.1)",
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "0.6rem",
+                  color: "rgba(0,255,255,0.6)",
+                  letterSpacing: "0.12em",
+                  marginBottom: 12,
+                }}
+              >
+                COST BREAKDOWN
+              </div>
+              {[
+                {
+                  icon: "🛵",
+                  label: "Rider / Delivery Charges",
+                  value: RIDER_FEE,
+                },
+                {
+                  icon: "👷",
+                  label: "Service Provider Charges",
+                  value: PROVIDER_FEE,
+                },
+                {
+                  icon: "🛒",
+                  label: "Estimated Items Total",
+                  value: itemsTotal,
+                },
+              ].map(({ icon, label, value }) => (
+                <div
+                  key={label}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    padding: "6px 0",
+                    borderBottom: "1px solid rgba(0,255,255,0.08)",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: "Rajdhani, sans-serif",
+                      fontSize: "0.9rem",
+                      color: "rgba(176,255,255,0.8)",
+                    }}
+                  >
+                    {icon} {label}
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: "Orbitron, sans-serif",
+                      fontSize: "0.75rem",
+                      color: "#e0f7ff",
+                    }}
+                  >
+                    PKR {value.toLocaleString()}
+                  </span>
+                </div>
+              ))}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginTop: 12,
+                  padding: "10px 0 0",
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: "Rajdhani, sans-serif",
+                    fontSize: "1.05rem",
+                    fontWeight: 700,
+                    color: "#00ffff",
+                  }}
+                >
+                  💰 TOTAL PAYMENT
+                </span>
+                <span
+                  style={{
+                    fontFamily: "Orbitron, sans-serif",
+                    fontSize: "1rem",
+                    fontWeight: 700,
+                    color: "#00ffff",
+                    textShadow: "0 0 10px rgba(0,255,255,0.6)",
+                  }}
+                >
+                  PKR {totalPayment.toLocaleString()}
+                </span>
+              </div>
+            </div>
+
+            {isGrocery && (
+              <div
+                style={{
+                  padding: "10px 14px",
+                  background: "rgba(255,215,0,0.06)",
+                  border: "1px solid rgba(255,215,0,0.25)",
+                  borderRadius: 10,
+                  fontFamily: "Rajdhani, sans-serif",
+                  fontSize: "0.85rem",
+                  color: "rgba(255,215,0,0.8)",
+                }}
+              >
+                💡 Service charges (PKR 50–100) + rider charges will be added
+                after order confirmation.
+              </div>
+            )}
+            <div>
+              <span style={labelStyle}>{"DELIVERY ADDRESS"}</span>
               <input
                 data-ocid="booking.input"
                 style={inputStyle}
-                placeholder="Preferred area or locality"
-                value={form.area || ""}
-                onChange={(e) => set("area", e.target.value)}
+                placeholder={"Your delivery address"}
+                value={form.deliveryAddress || ""}
+                onChange={(e) => set("deliveryAddress", e.target.value)}
               />
             </div>
             <div>
-              <span style={labelStyle}>TYPE OF SERVICE</span>
-              {n.includes("commercial property")
-                ? renderChips("propertyType", [
-                    "Office",
-                    "School",
-                    "Showroom",
-                    "Warehouse",
-                    "Coaching Centre",
-                    "Shop",
-                  ])
-                : renderChips("propertyType", [
-                    "Flat",
-                    "House",
-                    "Guest House",
-                    "Farmhouse",
-                    "Hotel",
-                  ])}
+              <span style={labelStyle}>PREFERRED DELIVERY TIME</span>
+              {renderChips("deliveryTime", [
+                "ASAP",
+                "Within 2 Hours",
+                "Today Evening",
+                "Tomorrow",
+              ])}
             </div>
-            {n.includes("commercial property") ? (
-              <>
-                <div>
-                  <span style={labelStyle}>TOTAL ROOMS</span>
-                  <input
-                    data-ocid="booking.input"
-                    type="number"
-                    style={inputStyle}
-                    placeholder="e.g. 5"
-                    value={form.numRooms || ""}
-                    onChange={(e) => set("numRooms", e.target.value)}
-                  />
-                </div>
-                <div>
-                  <span style={labelStyle}>DURATION (MONTHS)</span>
-                  <input
-                    data-ocid="property.input"
-                    type="number"
-                    style={inputStyle}
-                    placeholder="e.g. 12"
-                    min="1"
-                    value={form.commercialDuration || ""}
-                    onChange={(e) => set("commercialDuration", e.target.value)}
-                  />
-                </div>
-              </>
-            ) : (
-              <>
-                <div>
-                  <span style={labelStyle}>CHECK-IN DATE</span>
-                  <input
-                    data-ocid="booking.input"
-                    type="date"
-                    style={inputStyle}
-                    value={form.checkInDate || ""}
-                    onChange={(e) => set("checkInDate", e.target.value)}
-                  />
-                </div>
-                {(form.propertyType === "Flat" ||
-                  form.propertyType === "Hostel") && (
-                  <div>
-                    <span style={labelStyle}>TOTAL ROOMS</span>
-                    <input
-                      data-ocid="booking.input"
-                      type="number"
-                      style={inputStyle}
-                      placeholder="e.g. 2"
-                      value={form.numRooms || ""}
-                      onChange={(e) => set("numRooms", e.target.value)}
-                    />
-                  </div>
-                )}
-              </>
-            )}
-            {form.area && form.propertyType && !form._propertyPortalOpen && (
+            <div>
+              <span style={labelStyle}>SPECIAL INSTRUCTIONS (OPTIONAL)</span>
+              <textarea
+                data-ocid="booking.textarea"
+                style={{ ...inputStyle, minHeight: 60, resize: "vertical" }}
+                placeholder="Allergies, alternatives, etc."
+                value={form.specialInstructions || ""}
+                onChange={(e) => set("specialInstructions", e.target.value)}
+              />
+            </div>
+            {/* Book Order + Provider Cards */}
+            {items.some((i) => i.name) && !form._orderProviderOpen && (
               <button
                 type="button"
-                data-ocid="property.open_portal.primary_button"
+                data-ocid="booking.primary_button"
                 className="btn-portal"
-                onClick={() => set("_propertyPortalOpen", "true")}
+                onClick={() =>
+                  isBookStore
+                    ? handleSubmit()
+                    : set("_orderProviderOpen", "true")
+                }
+                style={{ width: "100%" }}
               >
-                {n.includes("commercial property")
-                  ? "🌀 BOOK SERVICE"
-                  : "🔍 FIND PROVIDER"}
+                {isBookStore ? "✅ CONFIRM ORDER" : "📦 BOOK ORDER"}
               </button>
             )}
-            {form._propertyPortalOpen === "true" && (
+            {form._orderProviderOpen === "true" && (
               <div
-                data-ocid="property.card"
                 style={{
                   background: "rgba(0,255,255,0.06)",
                   border: "1px solid rgba(0,255,255,0.3)",
@@ -6838,773 +6589,124 @@ function ServiceBookingFormScreen({
                     marginBottom: 12,
                   }}
                 >
-                  {n.includes("commercial property")
-                    ? "🏢 COMMERCIAL PROPERTIES NEARBY"
-                    : "🏠 PROPERTIES NEARBY"}
+                  🏪 SERVICE PROVIDERS NEARBY
                 </div>
-                {(n.includes("commercial property")
-                  ? [
-                      {
-                        name: "DHA Executive Office",
-                        location: "DHA Phase 2, Karachi",
-                        type: form.propertyType || "Office",
-                        monthly: 85000,
-                        yearly: 950000,
-                        rating: 4.7,
-                      },
-                      {
-                        name: "Business Square Center",
-                        location: "Clifton Block 8",
-                        type: form.propertyType || "Office",
-                        monthly: 70000,
-                        yearly: 800000,
-                        rating: 4.5,
-                      },
-                      {
-                        name: "City Business Hub",
-                        location: "North Karachi",
-                        type: form.propertyType || "Showroom",
-                        monthly: 55000,
-                        yearly: 620000,
-                        rating: 4.4,
-                      },
-                    ]
-                  : [
-                      {
-                        name: "Pearl Continental Suites",
-                        location: "Clifton Block 4",
-                        type: form.propertyType || "Hotel",
-                        perDay: 8500,
-                        lumpsum: false,
-                        rating: 4.8,
-                      },
-                      {
-                        name: "Green Valley Guest House",
-                        location: "DHA Phase 5",
-                        type: form.propertyType || "Guest House",
-                        perDay: 3200,
-                        lumpsum: false,
-                        rating: 4.5,
-                      },
-                      {
-                        name: "Clifton Luxury Flat",
-                        location: "Clifton Block 2",
-                        type: form.propertyType || "Flat",
-                        perDay: 5000,
-                        lumpsum: false,
-                        rating: 4.6,
-                      },
-                    ]
-                ).map(
-                  (
-                    prop: {
-                      name: string;
-                      location: string;
-                      type: string;
-                      monthly?: number;
-                      yearly?: number;
-                      perDay?: number;
-                      lumpsum?: boolean;
-                      rating: number;
-                    },
-                    idx,
-                  ) => (
+                {[
+                  {
+                    name: "Ahmed Traders",
+                    storeName: "Ahmed General Store",
+                    distance: 0.8,
+                  },
+                  {
+                    name: "City Mart Express",
+                    storeName: "City Mart Superstore",
+                    distance: 1.5,
+                  },
+                  {
+                    name: "Al-Madina Traders",
+                    storeName: "Al-Madina General Store",
+                    distance: 2.3,
+                  },
+                ].map((p, idx2) => {
+                  const riderCharge = p.distance <= 1 ? 150 : 250;
+                  const serviceCharge =
+                    isBookStore ||
+                    isStationary ||
+                    isAccessories ||
+                    isShopping ||
+                    isGSGrocery ||
+                    isGSAccessories
+                      ? 50
+                      : 0;
+                  const grandTotal = itemsTotal + riderCharge + serviceCharge;
+                  return (
                     <div
-                      key={prop.name}
-                      data-ocid={`property.item.${idx + 1}`}
+                      key={p.name}
+                      data-ocid={`order.item.${idx2 + 1}`}
                       style={{
-                        padding: "12px 0",
-                        borderBottom: "1px solid rgba(0,255,255,0.1)",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
+                        background:
+                          form.selectedOrderProvider === p.name
+                            ? "rgba(0,255,255,0.08)"
+                            : "rgba(0,255,255,0.03)",
+                        border:
+                          form.selectedOrderProvider === p.name
+                            ? "2px solid rgba(0,255,255,0.6)"
+                            : "1px solid rgba(0,255,255,0.15)",
+                        borderRadius: 12,
+                        padding: 14,
+                        marginBottom: 10,
                       }}
                     >
-                      <div>
-                        <div
-                          style={{
-                            fontFamily: "Rajdhani, sans-serif",
-                            fontWeight: 700,
-                            color: "#f0f0f0",
-                            fontSize: "0.95rem",
-                          }}
-                        >
-                          {prop.name}
-                        </div>
-                        <div
-                          style={{
-                            fontFamily: "Rajdhani, sans-serif",
-                            fontSize: "0.8rem",
-                            color: "rgba(176,255,255,0.5)",
-                          }}
-                        >
-                          📍 {prop.location} · {prop.type} · ⭐ {prop.rating}
-                        </div>
-                        {n.includes("commercial property") ? (
-                          <div
-                            style={{
-                              fontFamily: "Orbitron, sans-serif",
-                              fontSize: "0.65rem",
-                              color: "#50ffb0",
-                            }}
-                          >
-                            PKR {prop.monthly?.toLocaleString()}/month ·
-                            Advance: PKR{" "}
-                            {(prop.monthly
-                              ? prop.monthly * 2
-                              : 0
-                            ).toLocaleString()}
-                          </div>
-                        ) : (
-                          <div
-                            style={{
-                              fontFamily: "Orbitron, sans-serif",
-                              fontSize: "0.65rem",
-                              color: "#50ffb0",
-                            }}
-                          >
-                            PKR {prop.perDay?.toLocaleString()}/day
-                          </div>
-                        )}
-                      </div>
-                      <button
-                        type="button"
-                        data-ocid={`property.select.${idx + 1}`}
-                        onClick={() => set("selectedProperty", prop.name)}
-                        style={{
-                          padding: "6px 12px",
-                          background:
-                            form.selectedProperty === prop.name
-                              ? "rgba(0,255,255,0.3)"
-                              : "rgba(0,255,255,0.1)",
-                          border: "1px solid rgba(0,255,255,0.5)",
-                          borderRadius: 8,
-                          color: "#00ffff",
-                          fontFamily: "Orbitron, sans-serif",
-                          fontSize: "0.55rem",
-                          cursor: "pointer",
-                        }}
-                      >
-                        {form.selectedProperty === prop.name
-                          ? "✓ CONFIRM SERVICE"
-                          : "SELECT"}
-                      </button>
-                    </div>
-                  ),
-                )}
-              </div>
-            )}
-          </>
-        )}
-
-        {/* ---- ORDERABLE / SHOPPING / GROCERIES / MEDICINE ---- */}
-        {!isHealth &&
-          !isCarRental &&
-          !isTravelTicket &&
-          !isProperty &&
-          isOrderable && (
-            <>
-              <div>
-                <span style={labelStyle}>
-                  {isMedicineOrder
-                    ? "MEDICINES & ITEMS"
-                    : isStationery || isBookStore
-                      ? "BOOK STORE ITEMS"
-                      : isGrocery
-                        ? "GROCERY ITEMS"
-                        : "ORDER ITEMS"}
-                </span>
-                {/* Dynamic Item Rows */}
-                <div
-                  style={{ display: "flex", flexDirection: "column", gap: 10 }}
-                >
-                  {items.map((item, idx) => (
-                    <div
-                      key={item.id}
-                      data-ocid={`booking.item.${idx + 1}`}
-                      style={{
-                        display: "flex",
-                        gap: 6,
-                        alignItems: "center",
-                        background: "rgba(0,255,255,0.04)",
-                        border: "1px solid rgba(0,255,255,0.15)",
-                        borderRadius: 10,
-                        padding: "8px 10px",
-                      }}
-                    >
-                      {isGrocery ||
-                      isStationery ||
-                      isStationary ||
-                      isAccessories ||
-                      isBookStore ||
-                      isMedicine ||
-                      isShopping ||
-                      isGSGrocery ||
-                      isGSAccessories ? (
-                        <select
-                          data-ocid="booking.item_name.input"
-                          style={{
-                            ...inputStyle,
-                            flex: 2,
-                            padding: "8px 10px",
-                            fontSize: "0.85rem",
-                            appearance: "none" as const,
-                            cursor: "pointer",
-                          }}
-                          value={item.name}
-                          onChange={(e) => {
-                            const selectedName = e.target.value;
-                            const itemList = isGSGrocery
-                              ? GS_GROCERY_ITEMS
-                              : isGSAccessories
-                                ? GS_ACCESSORIES_ITEMS
-                                : isAccessories
-                                  ? ACCESSORIES_ITEMS
-                                  : isBookStore
-                                    ? BOOK_STORE_ITEMS
-                                    : isStationary
-                                      ? STATIONERY_ITEMS
-                                      : isStationery
-                                        ? STATIONERY_ITEMS
-                                        : isMedicine
-                                          ? MEDICINE_ITEMS
-                                          : isShopping
-                                            ? (() => {
-                                                const key = Object.keys(
-                                                  SHOPPING_ITEMS,
-                                                ).find((k) =>
-                                                  n.toLowerCase().includes(k),
-                                                );
-                                                return key
-                                                  ? SHOPPING_ITEMS[key]
-                                                  : SHOPPING_ITEMS[
-                                                      "dairy & eggs"
-                                                    ];
-                                              })()
-                                            : (() => {
-                                                const key = Object.keys(
-                                                  GROCERY_ITEMS,
-                                                ).find((k) =>
-                                                  n.toLowerCase().includes(k),
-                                                );
-                                                return key
-                                                  ? GROCERY_ITEMS[key]
-                                                  : STATIONERY_ITEMS;
-                                              })();
-                            const found = itemList.find(
-                              (gi) => gi.name === selectedName,
-                            );
-                            if (found) {
-                              setItems((prev) =>
-                                prev.map((it) =>
-                                  it.id === item.id
-                                    ? {
-                                        ...it,
-                                        name: selectedName,
-                                        unit: found.unit,
-                                        price: found.price,
-                                      }
-                                    : it,
-                                ),
-                              );
-                            } else {
-                              updateItem(item.id, "name", selectedName);
-                            }
-                          }}
-                        >
-                          <option value="" style={{ background: "#05070A" }}>
-                            Select Item
-                          </option>
-                          {(isGSGrocery
-                            ? GS_GROCERY_ITEMS
-                            : isGSAccessories
-                              ? GS_ACCESSORIES_ITEMS
-                              : isAccessories
-                                ? ACCESSORIES_ITEMS
-                                : isBookStore
-                                  ? BOOK_STORE_ITEMS
-                                  : isStationary
-                                    ? STATIONERY_ITEMS
-                                    : isStationery
-                                      ? STATIONERY_ITEMS
-                                      : isMedicine
-                                        ? MEDICINE_ITEMS
-                                        : isShopping
-                                          ? (() => {
-                                              const key = Object.keys(
-                                                SHOPPING_ITEMS,
-                                              ).find((k) =>
-                                                n.toLowerCase().includes(k),
-                                              );
-                                              return key
-                                                ? SHOPPING_ITEMS[key]
-                                                : SHOPPING_ITEMS[
-                                                    "dairy & eggs"
-                                                  ];
-                                            })()
-                                          : (() => {
-                                              const key = Object.keys(
-                                                GROCERY_ITEMS,
-                                              ).find((k) =>
-                                                n.toLowerCase().includes(k),
-                                              );
-                                              return key
-                                                ? GROCERY_ITEMS[key]
-                                                : STATIONERY_ITEMS;
-                                            })()
-                          ).map((gi) => (
-                            <option
-                              key={gi.name}
-                              value={gi.name}
-                              style={{ background: "#05070A" }}
-                            >
-                              {gi.name} — PKR {gi.price}/{gi.unit}
-                            </option>
-                          ))}
-                        </select>
-                      ) : (
-                        <input
-                          data-ocid="booking.item_name.input"
-                          style={{
-                            ...inputStyle,
-                            flex: 2,
-                            padding: "8px 10px",
-                            fontSize: "0.85rem",
-                          }}
-                          placeholder={getItemPlaceholder()}
-                          value={item.name}
-                          onChange={(e) =>
-                            updateItem(item.id, "name", e.target.value)
-                          }
-                        />
-                      )}
-                      <input
-                        data-ocid="booking.item_qty.input"
-                        type="number"
-                        style={{
-                          ...inputStyle,
-                          width: 60,
-                          padding: "8px 8px",
-                          fontSize: "0.85rem",
-                          textAlign: "center",
-                        }}
-                        placeholder="Qty"
-                        value={item.quantity}
-                        onChange={(e) =>
-                          updateItem(item.id, "quantity", e.target.value)
-                        }
-                      />
-                      <select
-                        style={{
-                          ...inputStyle,
-                          width: 80,
-                          padding: "8px 6px",
-                          fontSize: "0.8rem",
-                          appearance: "none" as const,
-                          cursor: "pointer",
-                        }}
-                        value={item.unit}
-                        onChange={(e) =>
-                          updateItem(item.id, "unit", e.target.value)
-                        }
-                      >
-                        <option value="" style={{ background: "#05070A" }}>
-                          Unit
-                        </option>
-                        {getUnitOptions().map((u) => (
-                          <option
-                            key={u}
-                            value={u}
-                            style={{ background: "#05070A" }}
-                          >
-                            {u}
-                          </option>
-                        ))}
-                      </select>
-                      {items.length > 1 && (
-                        <button
-                          type="button"
-                          data-ocid={`booking.remove_item.button.${idx + 1}`}
-                          onClick={() => removeItem(item.id)}
-                          style={{
-                            background: "rgba(255,60,60,0.15)",
-                            border: "1px solid rgba(255,60,60,0.4)",
-                            borderRadius: 8,
-                            color: "#ff6060",
-                            width: 30,
-                            height: 30,
-                            cursor: "pointer",
-                            fontSize: "1rem",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            flexShrink: 0,
-                          }}
-                        >
-                          ×
-                        </button>
-                      )}
-                    </div>
-                  ))}
-                </div>
-                <button
-                  type="button"
-                  data-ocid="booking.add_item.button"
-                  onClick={addItem}
-                  style={{
-                    marginTop: 10,
-                    width: "100%",
-                    padding: "8px",
-                    background: "rgba(0,255,255,0.08)",
-                    border: "1px dashed rgba(0,255,255,0.4)",
-                    borderRadius: 10,
-                    color: "#00ffff",
-                    fontFamily: "Rajdhani, sans-serif",
-                    fontSize: "0.85rem",
-                    fontWeight: 700,
-                    cursor: "pointer",
-                    letterSpacing: "0.08em",
-                  }}
-                >
-                  + ADD ITEM
-                </button>
-              </div>
-
-              {/* Cost Breakdown Panel */}
-              <div
-                style={{
-                  background: "rgba(0,10,20,0.85)",
-                  border: "1px solid rgba(0,255,255,0.35)",
-                  borderRadius: 14,
-                  padding: "16px",
-                  boxShadow: "0 0 20px rgba(0,255,255,0.1)",
-                }}
-              >
-                <div
-                  style={{
-                    fontFamily: "Orbitron, sans-serif",
-                    fontSize: "0.6rem",
-                    color: "rgba(0,255,255,0.6)",
-                    letterSpacing: "0.12em",
-                    marginBottom: 12,
-                  }}
-                >
-                  COST BREAKDOWN
-                </div>
-                {(isMedicineOrder
-                  ? [
-                      { icon: "💊", label: "Service Charges", value: 50 },
-                      { icon: "🛵", label: "Rider Charges", value: 150 },
-                      {
-                        icon: "🏥",
-                        label: "Medicine Charges",
-                        value: itemsTotal,
-                      },
-                    ]
-                  : [
-                      {
-                        icon: "🛵",
-                        label: "Rider / Delivery Charges",
-                        value: RIDER_FEE,
-                      },
-                      {
-                        icon: "👷",
-                        label: "Service Provider Charges",
-                        value: PROVIDER_FEE,
-                      },
-                      {
-                        icon: "🛒",
-                        label: "Estimated Items Total",
-                        value: itemsTotal,
-                      },
-                    ]
-                ).map(({ icon, label, value }) => (
-                  <div
-                    key={label}
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      padding: "6px 0",
-                      borderBottom: "1px solid rgba(0,255,255,0.08)",
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontFamily: "Rajdhani, sans-serif",
-                        fontSize: "0.9rem",
-                        color: "rgba(176,255,255,0.8)",
-                      }}
-                    >
-                      {icon} {label}
-                    </span>
-                    <span
-                      style={{
-                        fontFamily: "Orbitron, sans-serif",
-                        fontSize: "0.75rem",
-                        color: "#e0f7ff",
-                      }}
-                    >
-                      PKR {value.toLocaleString()}
-                    </span>
-                  </div>
-                ))}
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    marginTop: 12,
-                    padding: "10px 0 0",
-                  }}
-                >
-                  <span
-                    style={{
-                      fontFamily: "Rajdhani, sans-serif",
-                      fontSize: "1.05rem",
-                      fontWeight: 700,
-                      color: "#00ffff",
-                    }}
-                  >
-                    💰 TOTAL PAYMENT
-                  </span>
-                  <span
-                    style={{
-                      fontFamily: "Orbitron, sans-serif",
-                      fontSize: "1rem",
-                      fontWeight: 700,
-                      color: "#00ffff",
-                      textShadow: "0 0 10px rgba(0,255,255,0.6)",
-                    }}
-                  >
-                    PKR{" "}
-                    {(isMedicineOrder
-                      ? 50 + 150 + itemsTotal
-                      : totalPayment
-                    ).toLocaleString()}
-                  </span>
-                </div>
-              </div>
-
-              {isGrocery && (
-                <div
-                  style={{
-                    padding: "10px 14px",
-                    background: "rgba(255,215,0,0.06)",
-                    border: "1px solid rgba(255,215,0,0.25)",
-                    borderRadius: 10,
-                    fontFamily: "Rajdhani, sans-serif",
-                    fontSize: "0.85rem",
-                    color: "rgba(255,215,0,0.8)",
-                  }}
-                >
-                  💡 Service charges (PKR 50–100) + rider charges will be added
-                  after order confirmation.
-                </div>
-              )}
-              <div>
-                <span style={labelStyle}>
-                  {isMedicine ? "DELIVERY ADDRESS" : "DELIVERY ADDRESS"}
-                </span>
-                <input
-                  data-ocid="booking.input"
-                  style={inputStyle}
-                  placeholder={
-                    isMedicine
-                      ? "Your address for medicine delivery"
-                      : "Your delivery address"
-                  }
-                  value={form.deliveryAddress || ""}
-                  onChange={(e) => set("deliveryAddress", e.target.value)}
-                />
-              </div>
-              <div>
-                <span style={labelStyle}>PREFERRED DELIVERY TIME</span>
-                {renderChips("deliveryTime", [
-                  "ASAP",
-                  "Within 2 Hours",
-                  "Today Evening",
-                  "Tomorrow",
-                ])}
-              </div>
-              <div>
-                <span style={labelStyle}>SPECIAL INSTRUCTIONS (OPTIONAL)</span>
-                <textarea
-                  data-ocid="booking.textarea"
-                  style={{ ...inputStyle, minHeight: 60, resize: "vertical" }}
-                  placeholder="Allergies, alternatives, etc."
-                  value={form.specialInstructions || ""}
-                  onChange={(e) => set("specialInstructions", e.target.value)}
-                />
-              </div>
-              {/* Book Order + Provider Cards */}
-              {items.some((i) => i.name) && !form._orderProviderOpen && (
-                <button
-                  type="button"
-                  data-ocid="booking.primary_button"
-                  className="btn-portal"
-                  onClick={() =>
-                    isBookStore
-                      ? handleSubmit()
-                      : set("_orderProviderOpen", "true")
-                  }
-                  style={{ width: "100%" }}
-                >
-                  {isBookStore ? "✅ CONFIRM ORDER" : "📦 BOOK ORDER"}
-                </button>
-              )}
-              {form._orderProviderOpen === "true" && (
-                <div
-                  style={{
-                    background: "rgba(0,255,255,0.06)",
-                    border: "1px solid rgba(0,255,255,0.3)",
-                    borderRadius: 14,
-                    padding: 16,
-                  }}
-                >
-                  <div
-                    style={{
-                      fontFamily: "Orbitron, sans-serif",
-                      fontSize: "0.6rem",
-                      color: "#00ffff",
-                      letterSpacing: "0.12em",
-                      marginBottom: 12,
-                    }}
-                  >
-                    🏪 SERVICE PROVIDERS NEARBY
-                  </div>
-                  {[
-                    {
-                      name: "Ahmed Traders",
-                      storeName: "Ahmed General Store",
-                      distance: 0.8,
-                    },
-                    {
-                      name: "City Mart Express",
-                      storeName: "City Mart Superstore",
-                      distance: 1.5,
-                    },
-                    {
-                      name: "Al-Madina Traders",
-                      storeName: "Al-Madina General Store",
-                      distance: 2.3,
-                    },
-                  ].map((p, idx2) => {
-                    const riderCharge = p.distance <= 1 ? 150 : 250;
-                    const serviceCharge =
-                      isMedicine ||
-                      isBookStore ||
-                      isStationary ||
-                      isAccessories ||
-                      isShopping ||
-                      isGSGrocery ||
-                      isGSAccessories
-                        ? 50
-                        : 0;
-                    const grandTotal = itemsTotal + riderCharge + serviceCharge;
-                    return (
                       <div
-                        key={p.name}
-                        data-ocid={`order.item.${idx2 + 1}`}
                         style={{
-                          background:
-                            form.selectedOrderProvider === p.name
-                              ? "rgba(0,255,255,0.08)"
-                              : "rgba(0,255,255,0.03)",
-                          border:
-                            form.selectedOrderProvider === p.name
-                              ? "2px solid rgba(0,255,255,0.6)"
-                              : "1px solid rgba(0,255,255,0.15)",
-                          borderRadius: 12,
-                          padding: 14,
-                          marginBottom: 10,
+                          fontFamily: "Rajdhani, sans-serif",
+                          fontWeight: 700,
+                          color: "#f0f0f0",
+                          fontSize: "0.95rem",
+                          marginBottom: 4,
                         }}
                       >
+                        {p.name}
+                      </div>
+                      {"storeName" in p && (
                         <div
                           style={{
                             fontFamily: "Rajdhani, sans-serif",
-                            fontWeight: 700,
-                            color: "#f0f0f0",
-                            fontSize: "0.95rem",
-                            marginBottom: 4,
+                            fontSize: "0.82rem",
+                            color: "rgba(0,255,255,0.7)",
+                            marginBottom: 8,
                           }}
                         >
-                          {p.name}
+                          🏪{" "}
+                          {
+                            (
+                              p as {
+                                name: string;
+                                storeName: string;
+                                distance: number;
+                              }
+                            ).storeName
+                          }
                         </div>
-                        {"storeName" in p && (
+                      )}
+                      {items
+                        .filter((i) => i.name)
+                        .map((item) => (
                           <div
+                            key={item.id}
                             style={{
+                              display: "flex",
+                              justifyContent: "space-between",
                               fontFamily: "Rajdhani, sans-serif",
                               fontSize: "0.82rem",
-                              color: "rgba(0,255,255,0.7)",
-                              marginBottom: 8,
+                              color: "rgba(176,255,255,0.7)",
+                              marginBottom: 3,
                             }}
                           >
-                            🏪{" "}
-                            {
-                              (
-                                p as {
-                                  name: string;
-                                  storeName: string;
-                                  distance: number;
-                                }
-                              ).storeName
-                            }
+                            <span>
+                              {item.name} × {item.quantity || 1} {item.unit}
+                            </span>
+                            <span>
+                              PKR{" "}
+                              {(
+                                (Number(item.quantity) || 1) * item.price
+                              ).toLocaleString()}
+                            </span>
                           </div>
-                        )}
-                        {items
-                          .filter((i) => i.name)
-                          .map((item) => (
-                            <div
-                              key={item.id}
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                fontFamily: "Rajdhani, sans-serif",
-                                fontSize: "0.82rem",
-                                color: "rgba(176,255,255,0.7)",
-                                marginBottom: 3,
-                              }}
-                            >
-                              <span>
-                                {item.name} × {item.quantity || 1} {item.unit}
-                              </span>
-                              <span>
-                                PKR{" "}
-                                {(
-                                  (Number(item.quantity) || 1) * item.price
-                                ).toLocaleString()}
-                              </span>
-                            </div>
-                          ))}
-                        <div
-                          style={{
-                            borderTop: "1px solid rgba(0,255,255,0.15)",
-                            marginTop: 8,
-                            paddingTop: 8,
-                          }}
-                        >
-                          {(isMedicine ||
-                            isBookStore ||
-                            isStationary ||
-                            isAccessories ||
-                            isShopping ||
-                            isGSGrocery ||
-                            isGSAccessories) && (
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                fontFamily: "Rajdhani, sans-serif",
-                                fontSize: "0.82rem",
-                                color: "rgba(176,255,255,0.6)",
-                                marginBottom: 3,
-                              }}
-                            >
-                              <span>Service Charges</span>
-                              <span>PKR 50</span>
-                            </div>
-                          )}
+                        ))}
+                      <div
+                        style={{
+                          borderTop: "1px solid rgba(0,255,255,0.15)",
+                          marginTop: 8,
+                          paddingTop: 8,
+                        }}
+                      >
+                        {(isBookStore ||
+                          isStationary ||
+                          isAccessories ||
+                          isShopping ||
+                          isGSGrocery ||
+                          isGSAccessories) && (
                           <div
                             style={{
                               display: "flex",
@@ -7612,534 +6714,69 @@ function ServiceBookingFormScreen({
                               fontFamily: "Rajdhani, sans-serif",
                               fontSize: "0.82rem",
                               color: "rgba(176,255,255,0.6)",
-                              marginBottom: 6,
+                              marginBottom: 3,
                             }}
                           >
-                            <span>
-                              Rider Charges ({p.distance <= 1 ? "≤1km" : ">1km"}
-                              )
-                            </span>
-                            <span>PKR {riderCharge}</span>
+                            <span>Service Charges</span>
+                            <span>PKR 50</span>
                           </div>
-                          <div
-                            style={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                              fontFamily: "Orbitron, sans-serif",
-                              fontSize: "0.7rem",
-                              color: "#50ffb0",
-                              fontWeight: 700,
-                            }}
-                          >
-                            <span>TOTAL</span>
-                            <span>PKR {grandTotal.toLocaleString()}</span>
-                          </div>
-                        </div>
-                        <button
-                          type="button"
-                          data-ocid={`order.select.button.${idx2 + 1}`}
-                          className="btn-portal"
-                          style={{
-                            width: "100%",
-                            padding: "8px",
-                            marginTop: 10,
-                          }}
-                          onClick={() => set("selectedOrderProvider", p.name)}
-                        >
-                          {form.selectedOrderProvider === p.name
-                            ? "✓ SELECTED"
-                            : "SELECT PROVIDER"}
-                        </button>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-            </>
-          )}
-
-        {/* ---- EDUCATION / TUTOR / SCHOOLS / COACHING ---- */}
-        {!isHealth &&
-          !isCarRental &&
-          !isTravelTicket &&
-          !isProperty &&
-          !isOrderable &&
-          !isMaintenance &&
-          isEducation && (
-            <>
-              {/* Coaching Centers flow */}
-              {n.includes("coaching") && (
-                <>
-                  <div>
-                    <span style={labelStyle}>GRADE</span>
-                    {renderChips("grade", [
-                      "Nursery",
-                      "KG",
-                      "Grade 1-5",
-                      "Grade 6-8",
-                      "Grade 9-10",
-                      "O-Level",
-                      "A-Level",
-                    ])}
-                  </div>
-                  <div>
-                    <span style={labelStyle}>SUBJECT</span>
-                    <input
-                      data-ocid="booking.input"
-                      style={inputStyle}
-                      placeholder="e.g. Mathematics, Physics"
-                      value={form.subject || ""}
-                      onChange={(e) => set("subject", e.target.value)}
-                    />
-                  </div>
-                  <div>
-                    <span style={labelStyle}>SHIFT / TIME SLOT</span>
-                    {renderChips("coachingShift", [
-                      "Morning",
-                      "Afternoon",
-                      "Evening",
-                    ])}
-                  </div>
-                  <div>
-                    <span style={labelStyle}>START DATE</span>
-                    <input
-                      data-ocid="booking.input"
-                      type="date"
-                      style={inputStyle}
-                      value={form.preferredDate || ""}
-                      onChange={(e) => set("preferredDate", e.target.value)}
-                    />
-                  </div>
-                  {form.subject &&
-                    form.coachingShift &&
-                    !form._coachPortalOpen && (
-                      <button
-                        type="button"
-                        data-ocid="coaching.primary_button"
-                        className="btn-portal"
-                        onClick={() => set("_coachPortalOpen", "true")}
-                        style={{ width: "100%" }}
-                      >
-                        🏫 FIND CENTER
-                      </button>
-                    )}
-                  {form.subject &&
-                    form.coachingShift &&
-                    form._coachPortalOpen === "true" && (
-                      <div
-                        style={{
-                          background: "rgba(0,255,255,0.06)",
-                          border: "1px solid rgba(0,255,255,0.3)",
-                          borderRadius: 14,
-                          padding: 16,
-                        }}
-                      >
+                        )}
                         <div
                           style={{
-                            fontFamily: "Orbitron, sans-serif",
-                            fontSize: "0.6rem",
-                            color: "#00ffff",
-                            letterSpacing: "0.12em",
-                            marginBottom: 12,
-                          }}
-                        >
-                          🏫 COACHING CENTERS NEARBY
-                        </div>
-                        {[
-                          {
-                            name: "Excellence Academy",
-                            location: "Gulshan Block 13",
-                            fees: 3500,
-                            rating: 4.8,
-                          },
-                          {
-                            name: "Bright Future Institute",
-                            location: "North Nazimabad",
-                            fees: 2800,
-                            rating: 4.6,
-                          },
-                          {
-                            name: "Star Coaching Center",
-                            location: "Federal B Area",
-                            fees: 3200,
-                            rating: 4.7,
-                          },
-                        ].map((c, idx) => (
-                          <div
-                            key={c.name}
-                            data-ocid={`coaching.item.${idx + 1}`}
-                            style={{
-                              borderBottom: "1px solid rgba(0,255,255,0.1)",
-                              padding: "10px 0",
-                              display: "flex",
-                              justifyContent: "space-between",
-                              alignItems: "center",
-                            }}
-                          >
-                            <div>
-                              <div
-                                style={{
-                                  fontFamily: "Rajdhani, sans-serif",
-                                  fontWeight: 700,
-                                  color: "#f0f0f0",
-                                  fontSize: "0.95rem",
-                                }}
-                              >
-                                {c.name}
-                              </div>
-                              <div
-                                style={{
-                                  fontFamily: "Rajdhani, sans-serif",
-                                  fontSize: "0.8rem",
-                                  color: "rgba(176,255,255,0.5)",
-                                }}
-                              >
-                                📍 {c.location} · ⭐ {c.rating}
-                              </div>
-                              <div
-                                style={{
-                                  fontFamily: "Rajdhani, sans-serif",
-                                  fontSize: "0.8rem",
-                                  color: "rgba(176,255,255,0.5)",
-                                }}
-                              >
-                                Fees: PKR {c.fees.toLocaleString()} / subject /
-                                shift
-                              </div>
-                            </div>
-                            <button
-                              type="button"
-                              data-ocid={`coaching.select.${idx + 1}`}
-                              onClick={() => set("selectedCoaching", c.name)}
-                              style={{
-                                padding: "6px 12px",
-                                background:
-                                  form.selectedCoaching === c.name
-                                    ? "rgba(0,255,255,0.3)"
-                                    : "rgba(0,255,255,0.1)",
-                                border: "1px solid rgba(0,255,255,0.5)",
-                                borderRadius: 8,
-                                color: "#00ffff",
-                                fontFamily: "Orbitron, sans-serif",
-                                fontSize: "0.55rem",
-                                cursor: "pointer",
-                              }}
-                            >
-                              {form.selectedCoaching === c.name
-                                ? "✓"
-                                : "SELECT"}
-                            </button>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                </>
-              )}
-              {/* Schools flow */}
-              {n.includes("school") && !n.includes("coaching") && (
-                <>
-                  <div>
-                    <span style={labelStyle}>SELECT GRADE</span>
-                    <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                      {[
-                        "Nursery",
-                        "KG",
-                        "Grade 1-5",
-                        "Grade 6-8",
-                        "Grade 9-10",
-                        "O-Level",
-                        "A-Level",
-                      ].map((g) => (
-                        <button
-                          key={g}
-                          type="button"
-                          data-ocid="school.tab"
-                          onClick={() => set("grade", g)}
-                          style={form.grade === g ? chipActive : chipInactive}
-                        >
-                          {g}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <span style={labelStyle}>AREA</span>
-                    <input
-                      data-ocid="school.input"
-                      style={inputStyle}
-                      placeholder="Your preferred area"
-                      value={form.area || ""}
-                      onChange={(e) => set("area", e.target.value)}
-                    />
-                  </div>
-                  {form.grade && form.area && !form._schoolPortalOpen && (
-                    <button
-                      type="button"
-                      data-ocid="school.primary_button"
-                      className="btn-portal"
-                      onClick={() => set("_schoolPortalOpen", "true")}
-                      style={{ width: "100%" }}
-                    >
-                      🏫 FIND SCHOOL
-                    </button>
-                  )}
-                  {form.grade &&
-                    form.area &&
-                    form._schoolPortalOpen === "true" &&
-                    (() => {
-                      const getFees = (g: string) => {
-                        if (g === "Nursery") return 2000;
-                        if (g === "KG") return 2500;
-                        if (g === "Grade 1-5") return 3000;
-                        if (g === "Grade 6-8") return 4000;
-                        if (g === "Grade 9-10") return 5000;
-                        if (g === "O-Level") return 8000;
-                        if (g === "A-Level") return 10000;
-                        return 3000;
-                      };
-                      const getType = (g: string) => {
-                        if (g === "Nursery" || g === "KG" || g === "Grade 1-5")
-                          return "Primary";
-                        if (g === "Grade 6-8") return "Middle";
-                        if (g === "Grade 9-10") return "High School";
-                        return "O/A Level School";
-                      };
-                      const fees = getFees(form.grade || "");
-                      const schoolType = getType(form.grade || "");
-                      return (
-                        <div
-                          style={{
-                            background: "rgba(0,255,255,0.06)",
-                            border: "1px solid rgba(0,255,255,0.3)",
-                            borderRadius: 14,
-                            padding: 16,
-                          }}
-                        >
-                          <div
-                            style={{
-                              fontFamily: "Orbitron, sans-serif",
-                              fontSize: "0.6rem",
-                              color: "#00ffff",
-                              letterSpacing: "0.12em",
-                              marginBottom: 12,
-                            }}
-                          >
-                            🏫 SCHOOLS NEARBY — {form.grade}
-                          </div>
-                          {[
-                            {
-                              name: "Beacon House School",
-                              location: "DHA Phase 2",
-                            },
-                            {
-                              name: "City School",
-                              location: "Gulshan-e-Iqbal",
-                            },
-                            {
-                              name: "Foundation Public School",
-                              location: "North Nazimabad",
-                            },
-                          ].map((s, idx2) => (
-                            <div
-                              key={s.name}
-                              data-ocid={`school.item.${idx2 + 1}`}
-                              style={{
-                                background:
-                                  form.selectedSchool === s.name
-                                    ? "rgba(0,255,255,0.1)"
-                                    : "rgba(0,255,255,0.03)",
-                                border:
-                                  form.selectedSchool === s.name
-                                    ? "2px solid rgba(0,255,255,0.6)"
-                                    : "1px solid rgba(0,255,255,0.15)",
-                                borderRadius: 12,
-                                padding: 14,
-                                marginBottom: 10,
-                              }}
-                            >
-                              <div
-                                style={{
-                                  fontFamily: "Rajdhani, sans-serif",
-                                  fontWeight: 700,
-                                  color: "#f0f0f0",
-                                  fontSize: "0.95rem",
-                                  marginBottom: 4,
-                                }}
-                              >
-                                {s.name}
-                              </div>
-                              <div
-                                style={{
-                                  fontFamily: "Rajdhani, sans-serif",
-                                  fontSize: "0.8rem",
-                                  color: "rgba(176,255,255,0.5)",
-                                  marginBottom: 4,
-                                }}
-                              >
-                                📍 {s.location} · {schoolType}
-                              </div>
-                              <div
-                                style={{
-                                  fontFamily: "Orbitron, sans-serif",
-                                  fontSize: "0.65rem",
-                                  color: "#50ffb0",
-                                  marginBottom: 10,
-                                }}
-                              >
-                                PKR {fees.toLocaleString()} / month
-                              </div>
-                              <button
-                                type="button"
-                                data-ocid={`school.select.${idx2 + 1}`}
-                                className="btn-portal"
-                                style={{ width: "100%", padding: "8px" }}
-                                onClick={() => set("selectedSchool", s.name)}
-                              >
-                                {form.selectedSchool === s.name
-                                  ? "✓ CONFIRM ADMISSION"
-                                  : "CONFIRM ADMISSION"}
-                              </button>
-                            </div>
-                          ))}
-                        </div>
-                      );
-                    })()}
-                </>
-              )}
-
-              {/* Show teacher/tutor cards */}
-              {(n.includes("tutor") || n.includes("language teacher")) &&
-                !n.includes("coaching") &&
-                !n.includes("school") && (
-                  <div
-                    style={{
-                      background: "rgba(0,255,255,0.06)",
-                      border: "1px solid rgba(0,255,255,0.3)",
-                      borderRadius: 14,
-                      padding: 16,
-                    }}
-                  >
-                    <div
-                      style={{
-                        fontFamily: "Orbitron, sans-serif",
-                        fontSize: "0.6rem",
-                        color: "#00ffff",
-                        letterSpacing: "0.12em",
-                        marginBottom: 12,
-                      }}
-                    >
-                      👩‍🏫 HOME TUTORS NEARBY
-                    </div>
-                    {[
-                      {
-                        name: "Zainab Noor",
-                        exp: 5,
-                        subject: "Mathematics",
-                        distance: "0.7 km",
-                        fees: 800,
-                        rating: 4.9,
-                      },
-                      {
-                        name: "Arif Qureshi",
-                        exp: 8,
-                        subject: "Physics & Chemistry",
-                        distance: "1.2 km",
-                        fees: 900,
-                        rating: 4.7,
-                      },
-                      {
-                        name: "Sara Ahmed",
-                        exp: 3,
-                        subject: "English Literature",
-                        distance: "2.0 km",
-                        fees: 700,
-                        rating: 4.6,
-                      },
-                    ].map((t, idx2) => (
-                      <div
-                        key={t.name}
-                        data-ocid={`tutor.item.${idx2 + 1}`}
-                        style={{
-                          background:
-                            form.selectedTutor === t.name
-                              ? "rgba(0,255,255,0.08)"
-                              : "rgba(0,255,255,0.03)",
-                          border:
-                            form.selectedTutor === t.name
-                              ? "2px solid rgba(0,255,255,0.6)"
-                              : "1px solid rgba(0,255,255,0.12)",
-                          borderRadius: 12,
-                          padding: 14,
-                          marginBottom: 10,
-                        }}
-                      >
-                        <div
-                          style={{
-                            fontFamily: "Rajdhani, sans-serif",
-                            fontWeight: 700,
-                            color: "#f0f0f0",
-                            fontSize: "0.95rem",
-                            marginBottom: 4,
-                          }}
-                        >
-                          {t.name}
-                        </div>
-                        <div
-                          style={{
-                            fontFamily: "Rajdhani, sans-serif",
-                            fontSize: "0.82rem",
-                            color: "rgba(176,255,255,0.6)",
-                            marginBottom: 2,
-                          }}
-                        >
-                          Experience: {t.exp} years · {t.subject}
-                        </div>
-                        <div
-                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
                             fontFamily: "Rajdhani, sans-serif",
                             fontSize: "0.82rem",
                             color: "rgba(176,255,255,0.6)",
                             marginBottom: 6,
                           }}
                         >
-                          📍 {t.distance} · ⭐ {t.rating}
+                          <span>
+                            Rider Charges ({p.distance <= 1 ? "≤1km" : ">1km"})
+                          </span>
+                          <span>PKR {riderCharge}</span>
                         </div>
                         <div
                           style={{
+                            display: "flex",
+                            justifyContent: "space-between",
                             fontFamily: "Orbitron, sans-serif",
-                            fontSize: "0.65rem",
+                            fontSize: "0.7rem",
                             color: "#50ffb0",
-                            marginBottom: 10,
+                            fontWeight: 700,
                           }}
                         >
-                          PKR {t.fees.toLocaleString()} / hour
+                          <span>TOTAL</span>
+                          <span>PKR {grandTotal.toLocaleString()}</span>
                         </div>
-                        <button
-                          type="button"
-                          data-ocid={`tutor.select.${idx2 + 1}`}
-                          className="btn-portal"
-                          style={{ width: "100%", padding: "8px" }}
-                          onClick={() => set("selectedTutor", t.name)}
-                        >
-                          {form.selectedTutor === t.name
-                            ? "✓ CONFIRM HOME TUTOR"
-                            : "CONFIRM HOME TUTOR"}
-                        </button>
                       </div>
-                    ))}
-                  </div>
-                )}
-            </>
-          )}
+                      <button
+                        type="button"
+                        data-ocid={`order.select.button.${idx2 + 1}`}
+                        className="btn-portal"
+                        style={{
+                          width: "100%",
+                          padding: "8px",
+                          marginTop: 10,
+                        }}
+                        onClick={() => set("selectedOrderProvider", p.name)}
+                      >
+                        {form.selectedOrderProvider === p.name
+                          ? "✓ SELECTED"
+                          : "SELECT PROVIDER"}
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </>
+        )}
 
         {/* ---- SECURITY ---- */}
         {!isHealth &&
-          !isCarRental &&
           !isTravelTicket &&
-          !isProperty &&
           !isOrderable &&
-          !isMaintenance &&
-          !isEducation &&
           !isTechAccessories &&
           isSecurity && (
             <>
@@ -8173,16 +6810,6 @@ function ServiceBookingFormScreen({
               </div>
               <div style={{ display: "flex", gap: 10 }}>
                 <div style={{ flex: 1 }}>
-                  <span style={labelStyle}>START DATE</span>
-                  <input
-                    data-ocid="booking.input"
-                    type="date"
-                    style={inputStyle}
-                    value={form.preferredDate || ""}
-                    onChange={(e) => set("preferredDate", e.target.value)}
-                  />
-                </div>
-                <div style={{ flex: 1 }}>
                   <span style={labelStyle}>START TIME</span>
                   <input
                     data-ocid="booking.input"
@@ -8208,12 +6835,8 @@ function ServiceBookingFormScreen({
 
         {/* ---- TECH / IT - Product Search Form ---- */}
         {!isHealth &&
-          !isCarRental &&
           !isTravelTicket &&
-          !isProperty &&
           !isOrderable &&
-          !isMaintenance &&
-          !isEducation &&
           !isSecurity &&
           isTechAccessories && (
             <div>
@@ -8435,12 +7058,8 @@ function ServiceBookingFormScreen({
 
         {/* ---- TECH / IT SUPPORT ---- */}
         {!isHealth &&
-          !isCarRental &&
           !isTravelTicket &&
-          !isProperty &&
           !isOrderable &&
-          !isMaintenance &&
-          !isEducation &&
           !isSecurity &&
           !isTechAccessories &&
           isTechSupport && (
@@ -8467,16 +7086,6 @@ function ServiceBookingFormScreen({
               </div>
               <div style={{ display: "flex", gap: 10 }}>
                 <div style={{ flex: 1 }}>
-                  <span style={labelStyle}>PREFERRED DATE</span>
-                  <input
-                    data-ocid="booking.input"
-                    type="date"
-                    style={inputStyle}
-                    value={form.preferredDate || ""}
-                    onChange={(e) => set("preferredDate", e.target.value)}
-                  />
-                </div>
-                <div style={{ flex: 1 }}>
                   <span style={labelStyle}>PREFERRED TIME</span>
                   <input
                     data-ocid="booking.input"
@@ -8500,1117 +7109,12 @@ function ServiceBookingFormScreen({
             </>
           )}
 
-        {/* ---- DRINKING WATER ---- */}
-        {isDrinkingWater && (
-          <>
-            <div>
-              <span style={labelStyle}>BRAND NAME</span>
-              {renderChips("waterBrand", ["Aquafina", "Nestle", "Local Brand"])}
-            </div>
-            <div>
-              <span style={labelStyle}>BOTTLE SIZE</span>
-              {renderChips("bottleSize", [
-                "500ml",
-                "1L",
-                "1.5L",
-                "5L",
-                "10L",
-                "19L",
-                "20L",
-              ])}
-            </div>
-            <div>
-              <span style={labelStyle}>TOTAL BOTTLES</span>
-              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                <button
-                  type="button"
-                  onClick={() =>
-                    set(
-                      "totalBottles",
-                      String(Math.max(1, Number(form.totalBottles || 1) - 1)),
-                    )
-                  }
-                  style={{
-                    width: 36,
-                    height: 36,
-                    borderRadius: 8,
-                    background: "rgba(0,255,255,0.1)",
-                    border: "1px solid rgba(0,255,255,0.4)",
-                    color: "#00ffff",
-                    fontSize: "1.2rem",
-                    cursor: "pointer",
-                  }}
-                >
-                  −
-                </button>
-                <span
-                  style={{
-                    fontFamily: "Orbitron, sans-serif",
-                    fontSize: "1.1rem",
-                    color: "#f0f0f0",
-                    minWidth: 40,
-                    textAlign: "center",
-                  }}
-                >
-                  {form.totalBottles || 1}
-                </span>
-                <button
-                  type="button"
-                  onClick={() =>
-                    set(
-                      "totalBottles",
-                      String(Number(form.totalBottles || 1) + 1),
-                    )
-                  }
-                  style={{
-                    width: 36,
-                    height: 36,
-                    borderRadius: 8,
-                    background: "rgba(0,255,255,0.1)",
-                    border: "1px solid rgba(0,255,255,0.4)",
-                    color: "#00ffff",
-                    fontSize: "1.2rem",
-                    cursor: "pointer",
-                  }}
-                >
-                  +
-                </button>
-              </div>
-            </div>
-            <div>
-              <span style={labelStyle}>DELIVERY LOCATION</span>
-              <input
-                data-ocid="water.input"
-                style={inputStyle}
-                placeholder="Your delivery address"
-                value={form.waterAddress || ""}
-                onChange={(e) => set("waterAddress", e.target.value)}
-              />
-            </div>
-            {form.bottleSize && form.waterAddress && (
-              <div
-                style={{
-                  background: "rgba(0,255,255,0.06)",
-                  border: "1px solid rgba(0,255,255,0.3)",
-                  borderRadius: 14,
-                  padding: 16,
-                  marginTop: 4,
-                }}
-              >
-                <div
-                  style={{
-                    fontFamily: "Orbitron, sans-serif",
-                    fontSize: "0.6rem",
-                    color: "#00ffff",
-                    letterSpacing: "0.12em",
-                    marginBottom: 12,
-                  }}
-                >
-                  💧 WATER PROVIDERS NEARBY
-                </div>
-                {[
-                  {
-                    name: "AquaPure Karachi",
-                    distance: "0.3 km",
-                    rate:
-                      form.bottleSize === "19L (Gallon)"
-                        ? 180
-                        : form.bottleSize === "5L"
-                          ? 80
-                          : 30,
-                    rating: 4.8,
-                  },
-                  {
-                    name: "CrystalWater Depot",
-                    distance: "0.8 km",
-                    rate:
-                      form.bottleSize === "19L (Gallon)"
-                        ? 160
-                        : form.bottleSize === "5L"
-                          ? 70
-                          : 25,
-                    rating: 4.6,
-                  },
-                  {
-                    name: "SafeWater Express",
-                    distance: "1.5 km",
-                    rate:
-                      form.bottleSize === "19L (Gallon)"
-                        ? 170
-                        : form.bottleSize === "5L"
-                          ? 75
-                          : 28,
-                    rating: 4.5,
-                  },
-                ].map((p, idx) => (
-                  <div
-                    key={p.name}
-                    data-ocid={`water.item.${idx + 1}`}
-                    style={{
-                      background: "rgba(0,255,255,0.05)",
-                      border:
-                        form.selectedWaterProvider === p.name
-                          ? "2px solid rgba(0,255,255,0.7)"
-                          : "1px solid rgba(0,255,255,0.2)",
-                      borderRadius: 12,
-                      padding: 14,
-                      marginBottom: 10,
-                    }}
-                  >
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        marginBottom: 6,
-                      }}
-                    >
-                      <div>
-                        <div
-                          style={{
-                            fontFamily: "Rajdhani, sans-serif",
-                            fontWeight: 700,
-                            color: "#f0f0f0",
-                            fontSize: "0.95rem",
-                          }}
-                        >
-                          {p.name}
-                        </div>
-                        <div
-                          style={{
-                            fontFamily: "Rajdhani, sans-serif",
-                            fontSize: "0.8rem",
-                            color: "rgba(176,255,255,0.5)",
-                          }}
-                        >
-                          ⭐ {p.rating} · {p.distance}
-                        </div>
-                      </div>
-                      <div style={{ textAlign: "right" }}>
-                        <div
-                          style={{
-                            fontFamily: "Orbitron, sans-serif",
-                            fontSize: "0.7rem",
-                            color: "#50ffb0",
-                            fontWeight: 700,
-                          }}
-                        >
-                          PKR {p.rate}
-                        </div>
-                        <div
-                          style={{
-                            fontFamily: "Rajdhani, sans-serif",
-                            fontSize: "0.7rem",
-                            color: "rgba(176,255,255,0.4)",
-                          }}
-                        >
-                          per {form.bottleSize}
-                        </div>
-                      </div>
-                    </div>
-                    <button
-                      type="button"
-                      data-ocid={`water.select.${idx + 1}`}
-                      onClick={() => set("selectedWaterProvider", p.name)}
-                      style={{
-                        width: "100%",
-                        padding: "8px",
-                        background:
-                          form.selectedWaterProvider === p.name
-                            ? "rgba(0,255,255,0.3)"
-                            : "rgba(0,255,255,0.1)",
-                        border: "1px solid rgba(0,255,255,0.5)",
-                        borderRadius: 8,
-                        color: "#00ffff",
-                        fontFamily: "Orbitron, sans-serif",
-                        fontSize: "0.6rem",
-                        fontWeight: 700,
-                        cursor: "pointer",
-                        letterSpacing: "0.08em",
-                      }}
-                    >
-                      {form.selectedWaterProvider === p.name
-                        ? "✓ SELECTED"
-                        : "SELECT PROVIDER"}
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </>
-        )}
-
-        {/* ---- GAS CYLINDER ---- */}
-        {isGasCylinder && (
-          <>
-            <div>
-              <span style={labelStyle}>PICKUP LOCATION</span>
-              <input
-                data-ocid="gas.input"
-                style={inputStyle}
-                placeholder="Pickup address"
-                value={form.gasPickup || ""}
-                onChange={(e) => set("gasPickup", e.target.value)}
-              />
-            </div>
-            <div>
-              <span style={labelStyle}>DESTINATION</span>
-              <input
-                data-ocid="gas.input"
-                style={inputStyle}
-                placeholder="Delivery destination"
-                value={form.gasAddress || ""}
-                onChange={(e) => set("gasAddress", e.target.value)}
-              />
-            </div>
-            <div>
-              <span style={labelStyle}>GAS TYPE</span>
-              {renderChips("gasType", ["LPG", "LNG", "CNG"])}
-            </div>
-            <div>
-              <span style={labelStyle}>CYLINDER SIZE</span>
-              {renderChips("cylinderSize", [
-                "2kg",
-                "5kg",
-                "8kg",
-                "10kg",
-                "12.5kg",
-                "20kg",
-              ])}
-            </div>
-            <div>
-              <span style={labelStyle}>TOTAL FILL (KG)</span>
-              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                <button
-                  type="button"
-                  onClick={() =>
-                    set(
-                      "gasFill",
-                      String(Math.max(1, Number(form.gasFill || 1) - 1)),
-                    )
-                  }
-                  style={{
-                    width: 36,
-                    height: 36,
-                    borderRadius: 8,
-                    background: "rgba(0,255,255,0.1)",
-                    border: "1px solid rgba(0,255,255,0.4)",
-                    color: "#00ffff",
-                    fontSize: "1.2rem",
-                    cursor: "pointer",
-                  }}
-                >
-                  −
-                </button>
-                <span
-                  style={{
-                    fontFamily: "Orbitron, sans-serif",
-                    fontSize: "1.1rem",
-                    color: "#f0f0f0",
-                    minWidth: 40,
-                    textAlign: "center",
-                  }}
-                >
-                  {form.gasFill || 1}
-                </span>
-                <button
-                  type="button"
-                  onClick={() =>
-                    set("gasFill", String(Number(form.gasFill || 1) + 1))
-                  }
-                  style={{
-                    width: 36,
-                    height: 36,
-                    borderRadius: 8,
-                    background: "rgba(0,255,255,0.1)",
-                    border: "1px solid rgba(0,255,255,0.4)",
-                    color: "#00ffff",
-                    fontSize: "1.2rem",
-                    cursor: "pointer",
-                  }}
-                >
-                  +
-                </button>
-              </div>
-            </div>
-            {form.cylinderSize &&
-              form.gasAddress &&
-              (() => {
-                const sizeRates: Record<string, number> = {
-                  "5kg": 150,
-                  "8kg": 200,
-                  "12kg": 250,
-                  "15kg": 300,
-                  "2kg": 100,
-                };
-                const gasRate = sizeRates[form.cylinderSize] || 150;
-                const deliveryCharge = 150; // default ≤1km; user-visible as "nearest"
-                const _total = gasRate + deliveryCharge;
-                return (
-                  <div
-                    style={{
-                      background: "rgba(0,255,255,0.06)",
-                      border: "1px solid rgba(0,255,255,0.3)",
-                      borderRadius: 14,
-                      padding: 16,
-                      marginTop: 4,
-                    }}
-                  >
-                    <div
-                      style={{
-                        fontFamily: "Orbitron, sans-serif",
-                        fontSize: "0.6rem",
-                        color: "#00ffff",
-                        letterSpacing: "0.12em",
-                        marginBottom: 12,
-                      }}
-                    >
-                      🔥 GAS CYLINDER PROVIDERS
-                    </div>
-                    {[
-                      {
-                        name: "PakGas Depot",
-                        address: "Near Main Market",
-                        ratePerKg: 95,
-                        distance: "0.5 km",
-                        rating: 4.7,
-                      },
-                      {
-                        name: "GasPoint Express",
-                        address: "Clifton Branch",
-                        ratePerKg: 90,
-                        distance: "1.2 km",
-                        rating: 4.5,
-                      },
-                      {
-                        name: "QuickGas Karachi",
-                        address: "DHA Sector",
-                        ratePerKg: 100,
-                        distance: "1.8 km",
-                        rating: 4.6,
-                      },
-                    ].map((p, idx) => {
-                      const _fillKg = Number(form.gasFill) || 0;
-                      const gasCost = gasRate;
-                      const delivery = deliveryCharge;
-                      const provTotal = gasCost + delivery;
-                      return (
-                        <div
-                          key={p.name}
-                          data-ocid={`gas.item.${idx + 1}`}
-                          style={{
-                            background: "rgba(0,255,255,0.05)",
-                            border:
-                              form.selectedGasProvider === p.name
-                                ? "2px solid rgba(0,255,255,0.7)"
-                                : "1px solid rgba(0,255,255,0.2)",
-                            borderRadius: 12,
-                            padding: 14,
-                            marginBottom: 10,
-                          }}
-                        >
-                          <div
-                            style={{
-                              fontFamily: "Rajdhani, sans-serif",
-                              fontWeight: 700,
-                              color: "#f0f0f0",
-                              fontSize: "0.95rem",
-                            }}
-                          >
-                            {p.name}
-                          </div>
-                          <div
-                            style={{
-                              fontFamily: "Rajdhani, sans-serif",
-                              fontSize: "0.8rem",
-                              color: "rgba(176,255,255,0.5)",
-                              marginBottom: 8,
-                            }}
-                          >
-                            📍 {p.address} · ⭐ {p.rating} · {p.distance}
-                          </div>
-                          <div
-                            style={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                              fontFamily: "Rajdhani, sans-serif",
-                              fontSize: "0.85rem",
-                              color: "rgba(176,255,255,0.7)",
-                              marginBottom: 4,
-                            }}
-                          >
-                            <span>Gas ({form.cylinderSize})</span>
-                            <span style={{ color: "#e0f7ff" }}>
-                              PKR {gasCost}
-                            </span>
-                          </div>
-                          <div
-                            style={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                              fontFamily: "Rajdhani, sans-serif",
-                              fontSize: "0.85rem",
-                              color: "rgba(176,255,255,0.7)",
-                              marginBottom: 8,
-                            }}
-                          >
-                            <span>Delivery Charge</span>
-                            <span style={{ color: "#e0f7ff" }}>
-                              PKR {delivery}
-                            </span>
-                          </div>
-                          <div
-                            style={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                              fontFamily: "Orbitron, sans-serif",
-                              fontSize: "0.7rem",
-                              color: "#50ffb0",
-                              fontWeight: 700,
-                              marginBottom: 10,
-                            }}
-                          >
-                            <span>TOTAL</span>
-                            <span>PKR {provTotal.toLocaleString()}</span>
-                          </div>
-                          <button
-                            type="button"
-                            data-ocid={`gas.select.${idx + 1}`}
-                            onClick={() => set("selectedGasProvider", p.name)}
-                            style={{
-                              width: "100%",
-                              padding: "8px",
-                              background:
-                                form.selectedGasProvider === p.name
-                                  ? "rgba(0,255,255,0.3)"
-                                  : "rgba(0,255,255,0.1)",
-                              border: "1px solid rgba(0,255,255,0.5)",
-                              borderRadius: 8,
-                              color: "#00ffff",
-                              fontFamily: "Orbitron, sans-serif",
-                              fontSize: "0.6rem",
-                              fontWeight: 700,
-                              cursor: "pointer",
-                              letterSpacing: "0.08em",
-                            }}
-                          >
-                            {form.selectedGasProvider === p.name
-                              ? "✓ SELECTED"
-                              : "SELECT PROVIDER"}
-                          </button>
-                        </div>
-                      );
-                    })}
-                  </div>
-                );
-              })()}
-          </>
-        )}
-
-        {/* ---- FOOD PARCELS - Provider list with weekly menu ---- */}
-        {!isHealth &&
-          !isCarRental &&
-          !isTravelTicket &&
-          !isProperty &&
-          !isOrderable &&
-          !isMaintenance &&
-          !isEducation &&
-          !isSecurity &&
-          !isTechSupport &&
-          !isDrinkingWater &&
-          !isGasCylinder &&
-          isFoodParcels && (
-            <div>
-              <div
-                style={{
-                  fontFamily: "Orbitron, sans-serif",
-                  fontSize: "0.65rem",
-                  color: "rgba(0,255,255,0.7)",
-                  letterSpacing: "0.12em",
-                  marginBottom: 12,
-                }}
-              >
-                🍱 SELECT FOOD PROVIDER
-              </div>
-              <div
-                style={{
-                  fontFamily: "Rajdhani, sans-serif",
-                  fontSize: "0.85rem",
-                  color: "rgba(176,255,255,0.5)",
-                  marginBottom: 12,
-                }}
-              >
-                Choose from nearby home-made food providers. Service is on daily
-                basis.
-              </div>
-              {[
-                {
-                  name: "Amma Ka Khana",
-                  rating: 4.9,
-                  daily: 350,
-                  weekly: 2200,
-                  menu: {
-                    Mon: "Daal Chawal, Chapati",
-                    Tue: "Chicken Karahi, Rice",
-                    Wed: "Biryani",
-                    Thu: "Qorma, Naan",
-                    Fri: "Fish Curry, Rice",
-                    Sat: "BBQ Platter",
-                    Sun: "Nihari, Naan",
-                  },
-                },
-                {
-                  name: "Fatima's Kitchen",
-                  rating: 4.7,
-                  daily: 300,
-                  weekly: 1900,
-                  menu: {
-                    Mon: "Aloo Gosht, Roti",
-                    Tue: "Daal Mash, Rice",
-                    Wed: "Palak Gosht",
-                    Thu: "Haleem",
-                    Fri: "Fried Rice, Chicken",
-                    Sat: "Mutton Karahi",
-                    Sun: "Paye, Naan",
-                  },
-                },
-                {
-                  name: "Ghar Ka Zaika",
-                  rating: 4.6,
-                  daily: 280,
-                  weekly: 1750,
-                  menu: {
-                    Mon: "Daal Tadka, Rice",
-                    Tue: "Butter Chicken, Naan",
-                    Wed: "Kabab Platter",
-                    Thu: "Saag Gosht",
-                    Fri: "Chicken Handi",
-                    Sat: "Biryani",
-                    Sun: "Korma, Roti",
-                  },
-                },
-              ].map((provider, idx) => (
-                <div
-                  key={provider.name}
-                  data-ocid={`food_parcels.item.${idx + 1}`}
-                  style={{
-                    background: "rgba(0,255,255,0.05)",
-                    border:
-                      form.selectedFoodProvider === provider.name
-                        ? "2px solid rgba(0,255,255,0.7)"
-                        : "1px solid rgba(0,255,255,0.2)",
-                    borderRadius: 14,
-                    padding: 14,
-                    marginBottom: 12,
-                    boxShadow:
-                      form.selectedFoodProvider === provider.name
-                        ? "0 0 16px rgba(0,255,255,0.2)"
-                        : "none",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      marginBottom: 8,
-                    }}
-                  >
-                    <div>
-                      <div
-                        style={{
-                          fontFamily: "Rajdhani, sans-serif",
-                          fontWeight: 700,
-                          color: "#f0f0f0",
-                          fontSize: "1rem",
-                        }}
-                      >
-                        {provider.name}
-                      </div>
-                      <div
-                        style={{
-                          fontFamily: "Rajdhani, sans-serif",
-                          fontSize: "0.8rem",
-                          color: "rgba(176,255,255,0.5)",
-                        }}
-                      >
-                        ⭐ {provider.rating} · Daily meals service
-                      </div>
-                    </div>
-                    <div style={{ textAlign: "right" }}>
-                      <div
-                        style={{
-                          fontFamily: "Orbitron, sans-serif",
-                          fontSize: "0.7rem",
-                          color: "#50ffb0",
-                        }}
-                      >
-                        PKR {provider.daily}/day
-                      </div>
-                      <div
-                        style={{
-                          fontFamily: "Rajdhani, sans-serif",
-                          fontSize: "0.7rem",
-                          color: "rgba(176,255,255,0.4)",
-                        }}
-                      >
-                        PKR {provider.weekly}/week
-                      </div>
-                      <div
-                        style={{
-                          fontFamily: "Rajdhani, sans-serif",
-                          fontSize: "0.7rem",
-                          color: "rgba(255,200,100,0.8)",
-                          marginTop: 2,
-                        }}
-                      >
-                        Service: PKR 150 (≤1km) / PKR 250 (1km+)
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "repeat(7, 1fr)",
-                      gap: 4,
-                      marginBottom: 10,
-                    }}
-                  >
-                    {Object.entries(provider.menu).map(([day, meal]) => (
-                      <div key={day} style={{ textAlign: "center" }}>
-                        <div
-                          style={{
-                            fontFamily: "Rajdhani, sans-serif",
-                            fontSize: "0.65rem",
-                            color: "rgba(0,255,255,0.6)",
-                            marginBottom: 2,
-                          }}
-                        >
-                          {day}
-                        </div>
-                        <div
-                          style={{
-                            fontFamily: "Rajdhani, sans-serif",
-                            fontSize: "0.6rem",
-                            color: "rgba(255,255,255,0.6)",
-                            lineHeight: 1.3,
-                          }}
-                        >
-                          {meal.split(",")[0]}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  <div style={{ marginBottom: 8 }}>
-                    <span style={labelStyle}>FOOD TYPE</span>
-                    <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-                      {["Meals", "Tea", "Cold Drinks", "All"].map((ft) => (
-                        <button
-                          key={ft}
-                          type="button"
-                          data-ocid="food_parcels.toggle"
-                          onClick={() => set("foodType", ft)}
-                          style={
-                            form.foodType === ft ? chipActive : chipInactive
-                          }
-                        >
-                          {ft}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    data-ocid={`food_parcels.select.button.${idx + 1}`}
-                    className="btn-portal"
-                    style={{ width: "100%", padding: "8px" }}
-                    onClick={() => set("selectedFoodProvider", provider.name)}
-                  >
-                    {form.selectedFoodProvider === provider.name
-                      ? "✓ SELECTED"
-                      : "SELECT PROVIDER"}
-                  </button>
-                </div>
-              ))}
-              {form.selectedFoodProvider && (
-                <>
-                  <div
-                    style={{
-                      padding: "10px 14px",
-                      background: "rgba(80,255,176,0.08)",
-                      border: "1px solid rgba(80,255,176,0.3)",
-                      borderRadius: 10,
-                      fontFamily: "Rajdhani, sans-serif",
-                      fontSize: "0.9rem",
-                      color: "#50ffb0",
-                      textAlign: "center",
-                      marginBottom: 12,
-                    }}
-                  >
-                    ✓ Provider selected: {form.selectedFoodProvider}
-                  </div>
-                  <div>
-                    <span style={labelStyle}>SERVICE TYPE</span>
-                    <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                      {["Daily", "Weekly", "Monthly"].map((st) => (
-                        <button
-                          key={st}
-                          type="button"
-                          data-ocid="food_parcels.toggle"
-                          onClick={() => set("foodServiceType", st)}
-                          style={
-                            form.foodServiceType === st
-                              ? chipActive
-                              : chipInactive
-                          }
-                        >
-                          {st}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <button
-                      type="button"
-                      data-ocid="food_parcels.toggle"
-                      onClick={handleGpsPickup}
-                      style={{
-                        marginBottom: 8,
-                        padding: "8px 12px",
-                        background: "rgba(0,255,255,0.1)",
-                        border: "1px solid rgba(0,255,255,0.3)",
-                        borderRadius: 8,
-                        color: "#00ffff",
-                        fontFamily: "Orbitron, sans-serif",
-                        fontSize: "0.55rem",
-                        cursor: "pointer",
-                        letterSpacing: "0.08em",
-                      }}
-                    >
-                      {gpsLoading ? "LOCATING..." : "📍 USE GPS LOCATION"}
-                    </button>
-                    <span style={labelStyle}>DELIVERY ADDRESS</span>
-                    <input
-                      data-ocid="food_parcels.input"
-                      style={inputStyle}
-                      placeholder="Your delivery address"
-                      value={
-                        form.foodDeliveryAddress || form.pickupLocation || ""
-                      }
-                      onChange={(e) =>
-                        set("foodDeliveryAddress", e.target.value)
-                      }
-                    />
-                  </div>
-                  <div>
-                    <span style={labelStyle}>SPECIAL NOTES (OPTIONAL)</span>
-                    <textarea
-                      data-ocid="food_parcels.textarea"
-                      style={{
-                        ...inputStyle,
-                        minHeight: 60,
-                        resize: "vertical" as const,
-                      }}
-                      placeholder="Dietary preferences, allergies, etc."
-                      value={form.foodSpecialNotes || ""}
-                      onChange={(e) => set("foodSpecialNotes", e.target.value)}
-                    />
-                  </div>
-                </>
-              )}
-            </div>
-          )}
-
-        {/* ---- DRY-CLEANER ---- */}
-        {!isHealth &&
-          !isCarRental &&
-          !isTravelTicket &&
-          !isProperty &&
-          !isOrderable &&
-          !isMaintenance &&
-          !isEducation &&
-          !isSecurity &&
-          !isTechSupport &&
-          !isFoodParcels &&
-          !isDrinkingWater &&
-          !isGasCylinder &&
-          isDryCleaner && (
-            <div>
-              <div
-                style={{
-                  fontFamily: "Orbitron, sans-serif",
-                  fontSize: "0.65rem",
-                  color: "rgba(0,255,255,0.7)",
-                  letterSpacing: "0.12em",
-                  marginBottom: 12,
-                }}
-              >
-                👔 DRY-CLEANING SERVICE
-              </div>
-              <div>
-                <span style={labelStyle}>TYPE OF CLOTH</span>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                  {[
-                    "Salwar Kameez",
-                    "Pant Shirt",
-                    "Coat",
-                    "Jacket",
-                    "Curtain",
-                    "Towel",
-                  ].map((ct) => (
-                    <button
-                      key={ct}
-                      type="button"
-                      data-ocid="dryclean.cloth_type.tab"
-                      onClick={() => {
-                        const current = (form.clothTypes || "")
-                          .split(",")
-                          .filter(Boolean);
-                        const idx2 = current.indexOf(ct);
-                        if (idx2 >= 0) {
-                          current.splice(idx2, 1);
-                        } else {
-                          current.push(ct);
-                        }
-                        set("clothTypes", current.join(","));
-                      }}
-                      style={
-                        (form.clothTypes || "").split(",").includes(ct)
-                          ? chipActive
-                          : chipInactive
-                      }
-                    >
-                      {ct}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <span style={labelStyle}>TYPE OF SERVICE</span>
-                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                  {["Washing", "Iron", "Washing+Iron"].map((st) => (
-                    <button
-                      key={st}
-                      type="button"
-                      data-ocid="dryclean.service_type.tab"
-                      onClick={() => set("dryServiceType", st)}
-                      style={
-                        form.dryServiceType === st ? chipActive : chipInactive
-                      }
-                    >
-                      {st}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <span style={labelStyle}>TOTAL QTY</span>
-                <input
-                  data-ocid="dryclean.input"
-                  type="number"
-                  style={inputStyle}
-                  placeholder="Total number of items"
-                  value={form.dryQty || ""}
-                  onChange={(e) => set("dryQty", e.target.value)}
-                />
-              </div>
-              <div>
-                <span style={labelStyle}>PICKUP LOCATION</span>
-                <input
-                  data-ocid="dryclean.input"
-                  style={inputStyle}
-                  placeholder="Your address for pickup"
-                  value={form.pickupAddress || ""}
-                  onChange={(e) => set("pickupAddress", e.target.value)}
-                />
-              </div>
-              {form.clothTypes &&
-                form.dryServiceType &&
-                form.dryQty &&
-                form.pickupAddress &&
-                !form._dryCleanPortalOpen && (
-                  <button
-                    type="button"
-                    data-ocid="dryclean.primary_button"
-                    className="btn-portal"
-                    onClick={() => set("_dryCleanPortalOpen", "true")}
-                    style={{ width: "100%" }}
-                  >
-                    🔍 FIND PROVIDER
-                  </button>
-                )}
-              {form._dryCleanPortalOpen === "true" &&
-                (() => {
-                  const clothList = (form.clothTypes || "")
-                    .split(",")
-                    .filter(Boolean);
-                  const getRate = (cloth: string) => {
-                    if (cloth === "Curtain") return 500;
-                    if (cloth === "Towel") return 400;
-                    return 300;
-                  };
-                  const qty = Number(form.dryQty) || 1;
-                  const primaryCloth = clothList[0] || "Salwar Kameez";
-                  const itemRate = getRate(primaryCloth);
-                  const itemTotal = qty * itemRate;
-                  return (
-                    <div
-                      style={{
-                        background: "rgba(0,255,255,0.06)",
-                        border: "1px solid rgba(0,255,255,0.3)",
-                        borderRadius: 14,
-                        padding: 16,
-                      }}
-                    >
-                      <div
-                        style={{
-                          fontFamily: "Orbitron, sans-serif",
-                          fontSize: "0.6rem",
-                          color: "#00ffff",
-                          letterSpacing: "0.12em",
-                          marginBottom: 12,
-                        }}
-                      >
-                        👔 DRY-CLEANERS NEARBY
-                      </div>
-                      {[
-                        {
-                          name: "CleanMaster Karachi",
-                          rating: 4.8,
-                          distance: 0.5,
-                        },
-                        {
-                          name: "Royal Dry Cleaners",
-                          rating: 4.6,
-                          distance: 1.2,
-                        },
-                        {
-                          name: "FreshFit Laundry",
-                          rating: 4.4,
-                          distance: 2.0,
-                        },
-                      ].map((provider, idx2) => {
-                        const serviceCharge =
-                          provider.distance <= 1 ? 250 : 350;
-                        const total = itemTotal + serviceCharge;
-                        return (
-                          <div
-                            key={provider.name}
-                            data-ocid={`dryclean.item.${idx2 + 1}`}
-                            style={{
-                              background: "rgba(0,255,255,0.05)",
-                              border:
-                                form.selectedDryClean === provider.name
-                                  ? "2px solid rgba(0,255,255,0.7)"
-                                  : "1px solid rgba(0,255,255,0.2)",
-                              borderRadius: 12,
-                              padding: 14,
-                              marginBottom: 10,
-                            }}
-                          >
-                            <div style={{ marginBottom: 8 }}>
-                              <div
-                                style={{
-                                  fontFamily: "Rajdhani, sans-serif",
-                                  fontWeight: 700,
-                                  color: "#f0f0f0",
-                                  fontSize: "0.95rem",
-                                }}
-                              >
-                                {provider.name}
-                              </div>
-                              <div
-                                style={{
-                                  fontFamily: "Rajdhani, sans-serif",
-                                  fontSize: "0.8rem",
-                                  color: "rgba(176,255,255,0.5)",
-                                }}
-                              >
-                                ⭐ {provider.rating} · {provider.distance} km
-                              </div>
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                fontFamily: "Rajdhani, sans-serif",
-                                fontSize: "0.85rem",
-                                color: "rgba(176,255,255,0.7)",
-                                marginBottom: 4,
-                              }}
-                            >
-                              <span>Rate per item ({primaryCloth})</span>
-                              <span style={{ color: "#e0f7ff" }}>
-                                PKR {itemRate} × {qty} = PKR{" "}
-                                {itemTotal.toLocaleString()}
-                              </span>
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                fontFamily: "Rajdhani, sans-serif",
-                                fontSize: "0.85rem",
-                                color: "rgba(176,255,255,0.7)",
-                                marginBottom: 8,
-                              }}
-                            >
-                              <span>
-                                Service Charges (
-                                {provider.distance <= 1 ? "≤1km" : ">1km"})
-                              </span>
-                              <span style={{ color: "#e0f7ff" }}>
-                                PKR {serviceCharge}
-                              </span>
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                fontFamily: "Orbitron, sans-serif",
-                                fontSize: "0.7rem",
-                                color: "#50ffb0",
-                                fontWeight: 700,
-                                marginBottom: 10,
-                              }}
-                            >
-                              <span>TOTAL</span>
-                              <span>PKR {total.toLocaleString()}</span>
-                            </div>
-                            <button
-                              type="button"
-                              data-ocid={`dryclean.select.button.${idx2 + 1}`}
-                              className="btn-portal"
-                              style={{ width: "100%", padding: "8px" }}
-                              onClick={() =>
-                                set("selectedDryClean", provider.name)
-                              }
-                            >
-                              {form.selectedDryClean === provider.name
-                                ? "✓ SELECTED"
-                                : "SELECT PROVIDER"}
-                            </button>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  );
-                })()}
-            </div>
-          )}
-
         {/* ---- HOME CHEF / FOOD DELIVERY ---- */}
         {!isHealth &&
-          !isCarRental &&
           !isTravelTicket &&
-          !isProperty &&
           !isOrderable &&
-          !isMaintenance &&
-          !isEducation &&
           !isSecurity &&
           !isTechSupport &&
-          !isFoodParcels &&
-          !isDryCleaner &&
           isHomeChef && (
             <HomeChefOrderFormSection
               form={form}
@@ -9626,16 +7130,10 @@ function ServiceBookingFormScreen({
 
         {/* ---- HOME SERVICES (Cleaner / Gardener) ---- */}
         {!isHealth &&
-          !isCarRental &&
           !isTravelTicket &&
-          !isProperty &&
           !isOrderable &&
-          !isMaintenance &&
-          !isEducation &&
           !isSecurity &&
           !isTechSupport &&
-          !isFoodParcels &&
-          !isDryCleaner &&
           !isHomeChef &&
           isHomeCleaning && (
             <>
@@ -9658,16 +7156,6 @@ function ServiceBookingFormScreen({
                 ])}
               </div>
               <div style={{ display: "flex", gap: 10 }}>
-                <div style={{ flex: 1 }}>
-                  <span style={labelStyle}>PREFERRED DATE</span>
-                  <input
-                    data-ocid="booking.input"
-                    type="date"
-                    style={inputStyle}
-                    value={form.preferredDate || ""}
-                    onChange={(e) => set("preferredDate", e.target.value)}
-                  />
-                </div>
                 <div style={{ flex: 1 }}>
                   <span style={labelStyle}>PREFERRED TIME</span>
                   <input
@@ -9702,177 +7190,15 @@ function ServiceBookingFormScreen({
             </>
           )}
 
-        {/* ---- COMMERCIAL VEHICLES ---- */}
-        {isCommercialVehicle && (
-          <>
-            <div>
-              <span style={labelStyle}>PICKUP LOCATION</span>
-              <input
-                data-ocid="commercial.input"
-                style={inputStyle}
-                placeholder="Pickup address"
-                value={form.pickupLocation || ""}
-                onChange={(e) => set("pickupLocation", e.target.value)}
-              />
-            </div>
-            <div>
-              <span style={labelStyle}>DROP LOCATION</span>
-              <input
-                data-ocid="commercial.input"
-                style={inputStyle}
-                placeholder="Delivery destination"
-                value={form.dropLocation || ""}
-                onChange={(e) => set("dropLocation", e.target.value)}
-              />
-            </div>
-            <div>
-              <span style={labelStyle}>TYPE OF LOAD</span>
-              <input
-                data-ocid="commercial.input"
-                style={inputStyle}
-                placeholder="e.g. Furniture, Electronics, Construction Material"
-                value={form.cargoDescription || ""}
-                onChange={(e) => set("cargoDescription", e.target.value)}
-              />
-            </div>
-            {form.pickupLocation &&
-              form.dropLocation &&
-              !form._cvPortalOpen && (
-                <button
-                  type="button"
-                  data-ocid="commercial.primary_button"
-                  className="btn-portal"
-                  onClick={() => set("_cvPortalOpen", "true")}
-                  style={{ width: "100%" }}
-                >
-                  🚛 FIND PROVIDERS
-                </button>
-              )}
-            {form._cvPortalOpen === "true" && (
-              <div
-                style={{
-                  background: "rgba(0,255,255,0.06)",
-                  border: "1px solid rgba(0,255,255,0.3)",
-                  borderRadius: 14,
-                  padding: 16,
-                }}
-              >
-                <div
-                  style={{
-                    fontFamily: "Orbitron, sans-serif",
-                    fontSize: "0.6rem",
-                    color: "#00ffff",
-                    letterSpacing: "0.12em",
-                    marginBottom: 12,
-                  }}
-                >
-                  🚛 AVAILABLE COMMERCIAL VEHICLES
-                </div>
-                {[
-                  {
-                    name: "Karachi Cargo Express",
-                    distance: 5,
-                    vehicle: "Mazda",
-                    model: "Isuzu NKR 2022",
-                  },
-                  {
-                    name: "City Transport Co.",
-                    distance: 8,
-                    vehicle: "Truck",
-                    model: "Hino 300 2021",
-                  },
-                  {
-                    name: "Fast Mover Logistics",
-                    distance: 12,
-                    vehicle: "Mini Truck",
-                    model: "Suzuki Carry 2023",
-                  },
-                ].map((p, idx2) => {
-                  const fare = p.distance * 150;
-                  return (
-                    <div
-                      key={p.name}
-                      data-ocid={`commercial.item.${idx2 + 1}`}
-                      style={{
-                        background: "rgba(0,255,255,0.05)",
-                        border:
-                          form.selectedCVProvider === p.name
-                            ? "2px solid rgba(0,255,255,0.7)"
-                            : "1px solid rgba(0,255,255,0.2)",
-                        borderRadius: 12,
-                        padding: 14,
-                        marginBottom: 10,
-                      }}
-                    >
-                      <div
-                        style={{
-                          fontFamily: "Rajdhani, sans-serif",
-                          fontWeight: 700,
-                          color: "#f0f0f0",
-                          fontSize: "0.95rem",
-                          marginBottom: 4,
-                        }}
-                      >
-                        {p.name}
-                      </div>
-                      <div
-                        style={{
-                          fontFamily: "Rajdhani, sans-serif",
-                          fontSize: "0.85rem",
-                          color: "rgba(176,255,255,0.6)",
-                          marginBottom: 4,
-                        }}
-                      >
-                        📍 Distance: {p.distance} km · {p.vehicle} — {p.model}
-                      </div>
-                      <div
-                        style={{
-                          fontFamily: "Orbitron, sans-serif",
-                          fontSize: "0.7rem",
-                          color: "#50ffb0",
-                          fontWeight: 700,
-                          marginBottom: 10,
-                        }}
-                      >
-                        Fare: {p.distance} km × PKR 150 = PKR{" "}
-                        {fare.toLocaleString()}
-                      </div>
-                      <button
-                        type="button"
-                        data-ocid={`commercial.select.button.${idx2 + 1}`}
-                        className="btn-portal"
-                        style={{ width: "100%", padding: "8px" }}
-                        onClick={() => set("selectedCVProvider", p.name)}
-                      >
-                        {form.selectedCVProvider === p.name
-                          ? "✓ SELECTED — BOOK SERVICE"
-                          : "BOOK SERVICE"}
-                      </button>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </>
-        )}
-
         {/* ---- DEFAULT ---- */}
         {!isHealth &&
-          !isCarRental &&
           !isTravelTicket &&
-          !isProperty &&
           !isOrderable &&
-          !isMaintenance &&
-          !isEducation &&
           !isSecurity &&
           !isTechSupport &&
-          !isFoodParcels &&
-          !isDryCleaner &&
           !isHomeChef &&
           !isHomeCleaning &&
-          !isTechAccessories &&
-          !isCommercialVehicle &&
-          !n.includes("commercial property") && (
+          !isTechAccessories && (
             <>
               <div>
                 <span style={labelStyle}>
@@ -9887,16 +7213,6 @@ function ServiceBookingFormScreen({
                 />
               </div>
               <div style={{ display: "flex", gap: 10 }}>
-                <div style={{ flex: 1 }}>
-                  <span style={labelStyle}>PREFERRED DATE</span>
-                  <input
-                    data-ocid="booking.input"
-                    type="date"
-                    style={inputStyle}
-                    value={form.preferredDate || ""}
-                    onChange={(e) => set("preferredDate", e.target.value)}
-                  />
-                </div>
                 <div style={{ flex: 1 }}>
                   <span style={labelStyle}>PREFERRED TIME</span>
                   <input
@@ -9955,25 +7271,15 @@ function ServiceBookingFormScreen({
           transition: "all 0.2s",
         }}
       >
-        {isMaintenance ||
-        isCoachesTicket ||
-        isDomeService ||
-        isPakRailway ||
-        isDrinkingWater ||
-        isGasCylinder ||
-        isDryCleaner
+        {isCoachesTicket || isDomeService || isPakRailway
           ? "FIND PROVIDERS →"
           : isBookStore
             ? "CONFIRM ORDER → PAYMENT PLAN"
-            : isMedicineOrder
-              ? "CONFIRM ORDER → SELECT PROVIDER"
-              : isGrocery || isGSGrocery || isGSAccessories
-                ? "CONFIRM ORDER →"
-                : isTravelTicket
-                  ? "FIND PROVIDERS →"
-                  : isCarRental
-                    ? "SERVICE PROVIDERS →"
-                    : "CONFIRM BOOKING →"}
+            : isGrocery || isGSGrocery || isGSAccessories
+              ? "CONFIRM ORDER →"
+              : isTravelTicket
+                ? "FIND PROVIDERS →"
+                : "CONFIRM BOOKING →"}
       </button>
     </div>
   );
@@ -10228,29 +7534,13 @@ function NearbyProvidersScreen({
     navigator.geolocation.getCurrentPosition(onSuccess, onError);
   }, [onLocationUpdate]);
 
-  const [unavailableVehicle, setUnavailableVehicle] = useState<string | null>(
-    null,
-  );
-  const [taskConfirmed, setTaskConfirmed] = useState(false);
-  const isRentalCarService = !!(
-    service?.name?.toLowerCase().includes("car rental") ||
-    service?.name?.toLowerCase().includes("van hire") ||
-    service?.name?.toLowerCase().includes("bike rental")
-  );
-  const isPropertyService = !!service?.name
-    ?.toLowerCase()
-    .includes("property rental");
   const filteredProviders = service
     ? PROVIDERS.filter((p) => p.category === service.category).length > 0
       ? PROVIDERS.filter((p) => p.category === service.category)
       : PROVIDERS
     : PROVIDERS;
   const screenTitle = service
-    ? isRentalCarService
-      ? "AVAILABLE VEHICLES NEARBY"
-      : isPropertyService
-        ? "AVAILABLE PROPERTIES NEARBY"
-        : `${service.category.toUpperCase()} PROVIDERS`
+    ? `${service.category.toUpperCase()} PROVIDERS`
     : "NEARBY PROVIDERS";
 
   return (
@@ -10412,702 +7702,123 @@ function NearbyProvidersScreen({
         </div>
       </div>
 
-      {/* Unavailable Vehicle Modal */}
-      {unavailableVehicle && (
-        <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            background: "rgba(0,5,10,0.9)",
-            zIndex: 999,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: 24,
-          }}
-        >
-          <div
-            style={{
-              background: "rgba(0,20,30,0.95)",
-              border: "1px solid rgba(0,255,255,0.4)",
-              borderRadius: 20,
-              padding: 24,
-              maxWidth: 340,
-              width: "100%",
-              boxShadow: "0 0 40px rgba(0,255,255,0.15)",
-            }}
-          >
-            <div
-              style={{
-                fontFamily: "Orbitron, sans-serif",
-                fontSize: "0.75rem",
-                fontWeight: 700,
-                color: "#FF9999",
-                letterSpacing: "0.12em",
-                marginBottom: 10,
-              }}
-            >
-              🚫 VEHICLE UNAVAILABLE
-            </div>
-            <div
-              style={{
-                fontFamily: "Rajdhani, sans-serif",
-                fontSize: "0.95rem",
-                color: "rgba(176,255,255,0.8)",
-                lineHeight: 1.5,
-                marginBottom: 16,
-              }}
-            >
-              The{" "}
-              <strong style={{ color: "#f0f0f0" }}>{unavailableVehicle}</strong>{" "}
-              you requested is not available nearby. Here are alternatives:
-            </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 8,
-                marginBottom: 16,
-              }}
-            >
-              {RENTAL_VEHICLES.filter(
-                (v) => v.available && v.type !== unavailableVehicle,
-              )
-                .slice(0, 3)
-                .map((v, idx) => (
-                  <button
-                    key={v.id}
-                    type="button"
-                    data-ocid={`providers.alternative.item.${idx + 1}`}
-                    onClick={() => {
-                      setUnavailableVehicle(null);
-                      onSelect(filteredProviders[0] ?? PROVIDERS[0]);
-                    }}
+      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        {filteredProviders.map((p, i) => (
+          <div key={p.id} className="glass" style={{ padding: 14 }}>
+            {/* Maintenance provider card — distinct layout */}
+            {service?.category === "Maintenance" ? (
+              <>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    gap: 14,
+                    marginBottom: 10,
+                  }}
+                >
+                  {/* Profile Picture */}
+                  <div
                     style={{
+                      width: 56,
+                      height: 56,
+                      borderRadius: "50%",
+                      background:
+                        "radial-gradient(circle, rgba(0,60,80,0.9), rgba(0,10,20,0.95))",
+                      border: "2px solid rgba(0,255,255,0.5)",
+                      boxShadow: "0 0 14px rgba(0,255,255,0.25)",
                       display: "flex",
                       alignItems: "center",
-                      gap: 10,
-                      padding: "10px 14px",
-                      background: "rgba(0,255,255,0.06)",
-                      border: "1px solid rgba(0,255,255,0.25)",
-                      borderRadius: 12,
-                      cursor: "pointer",
-                      textAlign: "left",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                      overflow: "hidden",
                     }}
                   >
-                    <span style={{ fontSize: "1.3rem" }}>{v.emoji}</span>
-                    <div style={{ flex: 1 }}>
-                      <div
+                    {(p as typeof p & { profilePic?: string | null })
+                      .profilePic ? (
+                      <img
+                        src={
+                          (p as typeof p & { profilePic?: string | null })
+                            .profilePic!
+                        }
+                        alt={p.name}
                         style={{
-                          fontFamily: "Rajdhani, sans-serif",
-                          fontSize: "0.9rem",
-                          fontWeight: 700,
-                          color: "#f0f0f0",
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
                         }}
-                      >
-                        {v.model}
-                      </div>
-                      <div
-                        style={{
-                          fontFamily: "Rajdhani, sans-serif",
-                          fontSize: "0.75rem",
-                          color: "rgba(176,255,255,0.6)",
-                        }}
-                      >
-                        {v.type} · {v.seats} seats · ₨{v.ratePerKm}/km
-                      </div>
-                    </div>
-                    <span
-                      style={{
-                        fontFamily: "Orbitron, sans-serif",
-                        fontSize: "0.55rem",
-                        color: "#50ffb0",
-                        letterSpacing: "0.08em",
-                      }}
-                    >
-                      ✓ AVAIL
-                    </span>
-                  </button>
-                ))}
-            </div>
-            <div style={{ display: "flex", gap: 10 }}>
-              <button
-                type="button"
-                data-ocid="providers.cancel_button"
-                onClick={() => setUnavailableVehicle(null)}
-                style={{
-                  flex: 1,
-                  padding: "11px",
-                  background: "rgba(255,60,60,0.1)",
-                  border: "1px solid rgba(255,60,60,0.3)",
-                  borderRadius: 12,
-                  color: "#ff6060",
-                  fontFamily: "Orbitron, sans-serif",
-                  fontSize: "0.6rem",
-                  fontWeight: 700,
-                  cursor: "pointer",
-                  letterSpacing: "0.1em",
-                }}
-              >
-                CANCEL
-              </button>
-              <button
-                type="button"
-                data-ocid="providers.confirm_button"
-                onClick={() => {
-                  setUnavailableVehicle(null);
-                  onSelect(filteredProviders[0] ?? PROVIDERS[0]);
-                }}
-                style={{
-                  flex: 2,
-                  padding: "11px",
-                  background:
-                    "linear-gradient(135deg, rgba(0,255,255,0.3), rgba(0,200,200,0.2))",
-                  border: "1px solid rgba(0,255,255,0.6)",
-                  borderRadius: 12,
-                  color: "#00ffff",
-                  fontFamily: "Orbitron, sans-serif",
-                  fontSize: "0.6rem",
-                  fontWeight: 700,
-                  cursor: "pointer",
-                  letterSpacing: "0.08em",
-                  boxShadow: "0 0 15px rgba(0,255,255,0.3)",
-                }}
-              >
-                SELECT ALTERNATIVE
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {isRentalCarService ? (
-        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          {RENTAL_VEHICLES.map((v, i) => (
-            <div
-              key={v.id}
-              className="glass"
-              data-ocid={`providers.item.${i + 1}`}
-              style={{
-                padding: 16,
-                border: `1px solid ${v.available ? "rgba(0,255,255,0.2)" : "rgba(255,100,100,0.2)"}`,
-              }}
-            >
-              <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-                <div
-                  style={{
-                    width: 54,
-                    height: 54,
-                    borderRadius: 14,
-                    background: v.available
-                      ? "rgba(0,255,255,0.08)"
-                      : "rgba(255,100,100,0.06)",
-                    border: `2px solid ${v.available ? "rgba(0,255,255,0.4)" : "rgba(255,100,100,0.3)"}`,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: "1.8rem",
-                    flexShrink: 0,
-                  }}
-                >
-                  {v.emoji}
-                </div>
-                <div style={{ flex: 1 }}>
-                  <div
-                    style={{
-                      fontFamily: "Rajdhani, sans-serif",
-                      fontSize: "1.05rem",
-                      fontWeight: 700,
-                      color: "#f0f0f0",
-                    }}
-                  >
-                    {v.model}
-                  </div>
-                  <div
-                    style={{
-                      fontFamily: "Rajdhani, sans-serif",
-                      fontSize: "0.8rem",
-                      color: "rgba(176,255,255,0.6)",
-                      marginTop: 2,
-                    }}
-                  >
-                    {v.type} · {v.seats} seats
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      gap: 8,
-                      marginTop: 6,
-                      flexWrap: "wrap",
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontFamily: "Orbitron, sans-serif",
-                        fontSize: "0.6rem",
-                        color: "#50ffb0",
-                      }}
-                    >
-                      ₨{v.ratePerKm}/km
-                    </span>
-                    <span
-                      style={{
-                        fontFamily: "Orbitron, sans-serif",
-                        fontSize: "0.5rem",
-                        padding: "2px 8px",
-                        borderRadius: 999,
-                        background: v.available
-                          ? "rgba(80,255,176,0.12)"
-                          : "rgba(255,60,60,0.12)",
-                        border: `1px solid ${v.available ? "rgba(80,255,176,0.4)" : "rgba(255,60,60,0.4)"}`,
-                        color: v.available ? "#50ffb0" : "#ff6060",
-                        letterSpacing: "0.08em",
-                      }}
-                    >
-                      {v.available ? "✓ AVAILABLE" : "✗ UNAVAILABLE"}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <button
-                type="button"
-                className={v.available ? "btn-portal" : ""}
-                onClick={() =>
-                  v.available
-                    ? onSelect(filteredProviders[0] ?? PROVIDERS[0])
-                    : setUnavailableVehicle(v.type)
-                }
-                style={{
-                  marginTop: 12,
-                  padding: "10px",
-                  width: "100%",
-                  background: !v.available ? "rgba(255,60,60,0.06)" : undefined,
-                  border: !v.available
-                    ? "1px solid rgba(255,60,60,0.2)"
-                    : undefined,
-                  borderRadius: !v.available ? 10 : undefined,
-                  color: !v.available ? "#ff6060" : undefined,
-                  fontFamily: "Orbitron, sans-serif",
-                  fontSize: "0.6rem",
-                  fontWeight: 700,
-                  cursor: "pointer",
-                  letterSpacing: "0.1em",
-                  opacity: v.available ? 1 : 0.7,
-                }}
-              >
-                {v.available ? "BOOK THIS VEHICLE" : "NOT AVAILABLE"}
-              </button>
-            </div>
-          ))}
-        </div>
-      ) : isPropertyService ? (
-        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          {RENTAL_PROPERTIES.map((prop, i) => (
-            <div
-              key={prop.id}
-              className="glass"
-              data-ocid={`providers.item.${i + 1}`}
-              style={{
-                padding: 16,
-                border: `1px solid ${prop.available ? "rgba(0,255,255,0.2)" : "rgba(255,100,100,0.2)"}`,
-              }}
-            >
-              <div
-                style={{ display: "flex", alignItems: "flex-start", gap: 14 }}
-              >
-                <div
-                  style={{
-                    width: 54,
-                    height: 54,
-                    borderRadius: 14,
-                    background: prop.available
-                      ? "rgba(0,255,255,0.08)"
-                      : "rgba(255,100,100,0.06)",
-                    border: `2px solid ${prop.available ? "rgba(0,255,255,0.4)" : "rgba(255,100,100,0.3)"}`,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: "1.8rem",
-                    flexShrink: 0,
-                  }}
-                >
-                  {prop.emoji}
-                </div>
-                <div style={{ flex: 1 }}>
-                  <div
-                    style={{
-                      fontFamily: "Rajdhani, sans-serif",
-                      fontSize: "1.05rem",
-                      fontWeight: 700,
-                      color: "#f0f0f0",
-                    }}
-                  >
-                    {prop.type}
-                  </div>
-                  <div
-                    style={{
-                      fontFamily: "Rajdhani, sans-serif",
-                      fontSize: "0.8rem",
-                      color: "rgba(176,255,255,0.6)",
-                      marginTop: 2,
-                    }}
-                  >
-                    📍 {prop.locality}
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      gap: 8,
-                      marginTop: 6,
-                      flexWrap: "wrap",
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontFamily: "Orbitron, sans-serif",
-                        fontSize: "0.6rem",
-                        color: "#50ffb0",
-                      }}
-                    >
-                      ₨{prop.ratePerNight.toLocaleString()}/night
-                    </span>
-                    <span
-                      style={{
-                        fontFamily: "Orbitron, sans-serif",
-                        fontSize: "0.6rem",
-                        color: "rgba(176,255,255,0.5)",
-                      }}
-                    >
-                      |
-                    </span>
-                    <span
-                      style={{
-                        fontFamily: "Orbitron, sans-serif",
-                        fontSize: "0.6rem",
-                        color: "#00ffff",
-                      }}
-                    >
-                      ₨{prop.ratePerMonth.toLocaleString()}/mo
-                    </span>
-                    <span
-                      style={{
-                        fontFamily: "Orbitron, sans-serif",
-                        fontSize: "0.5rem",
-                        padding: "2px 8px",
-                        borderRadius: 999,
-                        background: prop.available
-                          ? "rgba(80,255,176,0.12)"
-                          : "rgba(255,60,60,0.12)",
-                        border: `1px solid ${prop.available ? "rgba(80,255,176,0.4)" : "rgba(255,60,60,0.4)"}`,
-                        color: prop.available ? "#50ffb0" : "#ff6060",
-                        letterSpacing: "0.08em",
-                      }}
-                    >
-                      {prop.available ? "✓ AVAILABLE" : "✗ BOOKED"}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              {prop.available && (
-                <div
-                  style={{
-                    marginTop: 10,
-                    padding: "8px 12px",
-                    background: "rgba(0,255,255,0.04)",
-                    border: "1px solid rgba(0,255,255,0.15)",
-                    borderRadius: 10,
-                  }}
-                >
-                  <div
-                    style={{
-                      fontFamily: "Orbitron, sans-serif",
-                      fontSize: "0.5rem",
-                      color: "rgba(0,255,255,0.5)",
-                      letterSpacing: "0.1em",
-                      marginBottom: 4,
-                    }}
-                  >
-                    SERVICE PROVIDER ID (after selection)
-                  </div>
-                  <div
-                    style={{
-                      fontFamily: "Rajdhani, sans-serif",
-                      fontSize: "0.85rem",
-                      color: "rgba(176,255,255,0.7)",
-                      fontWeight: 600,
-                    }}
-                  >
-                    Portal ID:{" "}
-                    {["HK4R2", "JB9M1", "QW7KL", "XP3TN", "LM6SD", "CR8VZ"][
-                      i
-                    ] || "PT4RB"}
-                  </div>
-                </div>
-              )}
-              <button
-                type="button"
-                className={prop.available ? "btn-portal" : ""}
-                onClick={() =>
-                  prop.available
-                    ? onSelect(filteredProviders[0] ?? PROVIDERS[0])
-                    : undefined
-                }
-                disabled={!prop.available}
-                style={{
-                  marginTop: 12,
-                  padding: "10px",
-                  width: "100%",
-                  background: !prop.available
-                    ? "rgba(255,60,60,0.06)"
-                    : undefined,
-                  border: !prop.available
-                    ? "1px solid rgba(255,60,60,0.2)"
-                    : undefined,
-                  borderRadius: !prop.available ? 10 : undefined,
-                  color: !prop.available ? "#ff6060" : undefined,
-                  fontFamily: "Orbitron, sans-serif",
-                  fontSize: "0.6rem",
-                  fontWeight: 700,
-                  cursor: prop.available ? "pointer" : "not-allowed",
-                  letterSpacing: "0.1em",
-                  opacity: prop.available ? 1 : 0.7,
-                }}
-              >
-                {prop.available ? "BOOK THIS PROPERTY" : "NOT AVAILABLE"}
-              </button>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-          {filteredProviders.map((p, i) => (
-            <div key={p.id} className="glass" style={{ padding: 14 }}>
-              {/* Maintenance provider card — distinct layout */}
-              {service?.category === "Maintenance" ? (
-                <>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "flex-start",
-                      gap: 14,
-                      marginBottom: 10,
-                    }}
-                  >
-                    {/* Profile Picture */}
-                    <div
-                      style={{
-                        width: 56,
-                        height: 56,
-                        borderRadius: "50%",
-                        background:
-                          "radial-gradient(circle, rgba(0,60,80,0.9), rgba(0,10,20,0.95))",
-                        border: "2px solid rgba(0,255,255,0.5)",
-                        boxShadow: "0 0 14px rgba(0,255,255,0.25)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        flexShrink: 0,
-                        overflow: "hidden",
-                      }}
-                    >
-                      {(p as typeof p & { profilePic?: string | null })
-                        .profilePic ? (
-                        <img
-                          src={
-                            (p as typeof p & { profilePic?: string | null })
-                              .profilePic!
-                          }
-                          alt={p.name}
-                          style={{
-                            width: "100%",
-                            height: "100%",
-                            objectFit: "cover",
-                          }}
-                        />
-                      ) : (
-                        <span
-                          style={{
-                            fontFamily: "Orbitron, sans-serif",
-                            fontSize: "0.9rem",
-                            fontWeight: 700,
-                            color: "#00ffff",
-                          }}
-                        >
-                          {p.initials}
-                        </span>
-                      )}
-                    </div>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div
+                      />
+                    ) : (
+                      <span
                         style={{
                           fontFamily: "Orbitron, sans-serif",
                           fontSize: "0.9rem",
-                          fontWeight: 800,
+                          fontWeight: 700,
                           color: "#00ffff",
-                          letterSpacing: "0.06em",
-                          textShadow: "0 0 10px rgba(0,255,255,0.4)",
                         }}
                       >
-                        {p.name}
-                      </div>
-                      <div
-                        style={{
-                          fontFamily: "Orbitron, sans-serif",
-                          fontSize: "0.95rem",
-                          fontWeight: 700,
-                          color: "#50ffb0",
-                          marginTop: 3,
-                        }}
-                      >
-                        PKR{" "}
-                        {(
-                          (p as typeof p & { wages?: number }).wages ?? p.rate
-                        ).toLocaleString()}
-                        /day
-                      </div>
-                      <div
-                        style={{
-                          display: "flex",
-                          gap: 12,
-                          marginTop: 4,
-                          flexWrap: "wrap",
-                        }}
-                      >
-                        <span
-                          style={{
-                            fontFamily: "Rajdhani, sans-serif",
-                            fontSize: "0.85rem",
-                            color: "rgba(176,255,255,0.75)",
-                            fontWeight: 600,
-                          }}
-                        >
-                          🏅{" "}
-                          {(
-                            p as (typeof PROVIDERS)[0] & { experience?: string }
-                          ).experience ?? "Experienced"}
-                        </span>
-                        <span
-                          style={{
-                            fontFamily: "Rajdhani, sans-serif",
-                            fontSize: "0.85rem",
-                            color: "rgba(176,255,255,0.75)",
-                            fontWeight: 600,
-                          }}
-                        >
-                          📍 {p.distance}
-                        </span>
-                        <span
-                          style={{
-                            fontFamily: "Orbitron, sans-serif",
-                            fontSize: "0.65rem",
-                            color: "#ffd700",
-                          }}
-                        >
-                          ⭐ {p.rating}
-                        </span>
-                      </div>
-                    </div>
+                        {p.initials}
+                      </span>
+                    )}
                   </div>
-                  <div style={{ display: "flex", gap: 10 }}>
-                    <button
-                      type="button"
-                      data-ocid={`providers.msg.${i + 1}`}
-                      style={{
-                        flex: 1,
-                        padding: "10px",
-                        background: "rgba(80,255,176,0.1)",
-                        border: "1px solid rgba(80,255,176,0.4)",
-                        borderRadius: 12,
-                        color: "#50ffb0",
-                        fontFamily: "Orbitron, sans-serif",
-                        fontSize: "0.6rem",
-                        fontWeight: 700,
-                        cursor: "pointer",
-                        letterSpacing: "0.08em",
-                        boxShadow: "0 0 10px rgba(80,255,176,0.2)",
-                      }}
-                    >
-                      💬 MESSAGE
-                    </button>
-                    <button
-                      type="button"
-                      data-ocid={`providers.call.${i + 1}`}
-                      style={{
-                        flex: 1,
-                        padding: "10px",
-                        background: "rgba(80,255,176,0.1)",
-                        border: "1px solid rgba(80,255,176,0.4)",
-                        borderRadius: 12,
-                        color: "#50ffb0",
-                        fontFamily: "Orbitron, sans-serif",
-                        fontSize: "0.6rem",
-                        fontWeight: 700,
-                        cursor: "pointer",
-                        letterSpacing: "0.08em",
-                        boxShadow: "0 0 10px rgba(80,255,176,0.2)",
-                      }}
-                    >
-                      📞 CALL
-                    </button>
-                    <button
-                      type="button"
-                      data-ocid={`providers.item.${i + 1}`}
-                      className="btn-portal"
-                      style={{ flex: 2, padding: "10px" }}
-                      onClick={() => onSelect(p)}
-                    >
-                      SELECT
-                    </button>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div
-                    style={{ display: "flex", alignItems: "center", gap: 12 }}
-                  >
+                  <div style={{ flex: 1, minWidth: 0 }}>
                     <div
                       style={{
-                        width: 44,
-                        height: 44,
-                        borderRadius: "50%",
-                        background:
-                          "radial-gradient(circle, rgba(0,60,80,0.9), rgba(0,10,20,0.95))",
-                        border: "2px solid rgba(0,255,255,0.4)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
                         fontFamily: "Orbitron, sans-serif",
-                        fontSize: "0.7rem",
-                        fontWeight: 700,
+                        fontSize: "0.9rem",
+                        fontWeight: 800,
                         color: "#00ffff",
-                        flexShrink: 0,
+                        letterSpacing: "0.06em",
+                        textShadow: "0 0 10px rgba(0,255,255,0.4)",
                       }}
                     >
-                      {p.initials}
+                      {p.name}
                     </div>
-                    <div style={{ flex: 1 }}>
-                      <div
+                    <div
+                      style={{
+                        fontFamily: "Orbitron, sans-serif",
+                        fontSize: "0.95rem",
+                        fontWeight: 700,
+                        color: "#50ffb0",
+                        marginTop: 3,
+                      }}
+                    >
+                      PKR{" "}
+                      {(
+                        (p as typeof p & { wages?: number }).wages ?? p.rate
+                      ).toLocaleString()}
+                      /day
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: 12,
+                        marginTop: 4,
+                        flexWrap: "wrap",
+                      }}
+                    >
+                      <span
                         style={{
                           fontFamily: "Rajdhani, sans-serif",
-                          fontSize: "1rem",
-                          fontWeight: 700,
-                          color: "#f0f0f0",
+                          fontSize: "0.85rem",
+                          color: "rgba(176,255,255,0.75)",
+                          fontWeight: 600,
                         }}
                       >
-                        {p.name}
-                      </div>
-                      <div
+                        🏅{" "}
+                        {(p as (typeof PROVIDERS)[0] & { experience?: string })
+                          .experience ?? "Experienced"}
+                      </span>
+                      <span
                         style={{
                           fontFamily: "Rajdhani, sans-serif",
-                          fontSize: "0.8rem",
-                          color: "rgba(176,255,255,0.6)",
+                          fontSize: "0.85rem",
+                          color: "rgba(176,255,255,0.75)",
+                          fontWeight: 600,
                         }}
                       >
-                        {p.profession} · {p.distance}
-                      </div>
-                    </div>
-                    <div style={{ textAlign: "right" }}>
-                      <div
+                        📍 {p.distance}
+                      </span>
+                      <span
                         style={{
                           fontFamily: "Orbitron, sans-serif",
                           fontSize: "0.65rem",
@@ -11115,83 +7826,149 @@ function NearbyProvidersScreen({
                         }}
                       >
                         ⭐ {p.rating}
-                      </div>
-                      <div
-                        style={{
-                          fontFamily: "Rajdhani, sans-serif",
-                          fontSize: "0.8rem",
-                          color:
-                            currentUserType === "provider"
-                              ? "rgba(176,255,255,0.4)"
-                              : taskConfirmed
-                                ? "#50ffb0"
-                                : "rgba(176,255,255,0.5)",
-                          fontWeight: 600,
-                        }}
-                      >
-                        {currentUserType === "provider"
-                          ? "Rate: Private"
-                          : taskConfirmed
-                            ? `₨${p.rate}/hr`
-                            : "Rate: On Confirmation"}
-                      </div>
+                      </span>
                     </div>
                   </div>
+                </div>
+                <div style={{ display: "flex", gap: 10 }}>
+                  <button
+                    type="button"
+                    data-ocid={`providers.msg.${i + 1}`}
+                    style={{
+                      flex: 1,
+                      padding: "10px",
+                      background: "rgba(80,255,176,0.1)",
+                      border: "1px solid rgba(80,255,176,0.4)",
+                      borderRadius: 12,
+                      color: "#50ffb0",
+                      fontFamily: "Orbitron, sans-serif",
+                      fontSize: "0.6rem",
+                      fontWeight: 700,
+                      cursor: "pointer",
+                      letterSpacing: "0.08em",
+                      boxShadow: "0 0 10px rgba(80,255,176,0.2)",
+                    }}
+                  >
+                    💬 MESSAGE
+                  </button>
+                  <button
+                    type="button"
+                    data-ocid={`providers.call.${i + 1}`}
+                    style={{
+                      flex: 1,
+                      padding: "10px",
+                      background: "rgba(80,255,176,0.1)",
+                      border: "1px solid rgba(80,255,176,0.4)",
+                      borderRadius: 12,
+                      color: "#50ffb0",
+                      fontFamily: "Orbitron, sans-serif",
+                      fontSize: "0.6rem",
+                      fontWeight: 700,
+                      cursor: "pointer",
+                      letterSpacing: "0.08em",
+                      boxShadow: "0 0 10px rgba(80,255,176,0.2)",
+                    }}
+                  >
+                    📞 CALL
+                  </button>
                   <button
                     type="button"
                     data-ocid={`providers.item.${i + 1}`}
                     className="btn-portal"
-                    style={{ marginTop: 10, padding: "10px" }}
+                    style={{ flex: 2, padding: "10px" }}
                     onClick={() => onSelect(p)}
                   >
-                    {service?.name?.toLowerCase().includes("passenger")
-                      ? "BOOK SERVICE"
-                      : "SELECT PROVIDER"}
+                    SELECT
                   </button>
-                </>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Confirm task to show rates */}
-      {!taskConfirmed &&
-        filteredProviders.length > 0 &&
-        service?.category !== "Maintenance" && (
-          <div
-            style={{
-              marginTop: 16,
-              padding: "14px 16px",
-              background: "rgba(0,255,255,0.05)",
-              border: "1px solid rgba(0,255,255,0.2)",
-              borderRadius: 12,
-              textAlign: "center",
-            }}
-          >
-            <div
-              style={{
-                fontFamily: "Rajdhani, sans-serif",
-                fontSize: "0.85rem",
-                color: "rgba(176,255,255,0.7)",
-                marginBottom: 10,
-              }}
-            >
-              Confirm your task to reveal provider rates
-            </div>
-            <button
-              type="button"
-              data-ocid="providers.confirm_button"
-              className="btn-portal"
-              style={{ padding: "10px 24px" }}
-              onClick={() => setTaskConfirmed(true)}
-            >
-              {service?.name?.toLowerCase().includes("passenger")
-                ? "SERVICE PROVIDERS"
-                : "CONFIRM TASK"}
-            </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                  <div
+                    style={{
+                      width: 44,
+                      height: 44,
+                      borderRadius: "50%",
+                      background:
+                        "radial-gradient(circle, rgba(0,60,80,0.9), rgba(0,10,20,0.95))",
+                      border: "2px solid rgba(0,255,255,0.4)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontFamily: "Orbitron, sans-serif",
+                      fontSize: "0.7rem",
+                      fontWeight: 700,
+                      color: "#00ffff",
+                      flexShrink: 0,
+                    }}
+                  >
+                    {p.initials}
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <div
+                      style={{
+                        fontFamily: "Rajdhani, sans-serif",
+                        fontSize: "1rem",
+                        fontWeight: 700,
+                        color: "#f0f0f0",
+                      }}
+                    >
+                      {p.name}
+                    </div>
+                    <div
+                      style={{
+                        fontFamily: "Rajdhani, sans-serif",
+                        fontSize: "0.8rem",
+                        color: "rgba(176,255,255,0.6)",
+                      }}
+                    >
+                      {p.profession} · {p.distance}
+                    </div>
+                  </div>
+                  <div style={{ textAlign: "right" }}>
+                    <div
+                      style={{
+                        fontFamily: "Orbitron, sans-serif",
+                        fontSize: "0.65rem",
+                        color: "#ffd700",
+                      }}
+                    >
+                      ⭐ {p.rating}
+                    </div>
+                    <div
+                      style={{
+                        fontFamily: "Rajdhani, sans-serif",
+                        fontSize: "0.8rem",
+                        color:
+                          currentUserType === "provider"
+                            ? "rgba(176,255,255,0.4)"
+                            : "#50ffb0",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {currentUserType === "provider"
+                        ? "Rate: Private"
+                        : `₨${p.rate}/hr`}
+                    </div>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  data-ocid={`providers.item.${i + 1}`}
+                  className="btn-portal"
+                  style={{ marginTop: 10, padding: "10px" }}
+                  onClick={() => onSelect(p)}
+                >
+                  {service?.name?.toLowerCase().includes("passenger")
+                    ? "BOOK SERVICE"
+                    : "SELECT PROVIDER"}
+                </button>
+              </>
+            )}
           </div>
-        )}
+        ))}
+      </div>
     </div>
   );
 }
@@ -12973,12 +9750,9 @@ function InvoiceScreen({
     hour: "2-digit",
     minute: "2-digit",
   });
-  const todayStr = now.toISOString().split("T")[0];
-  const tomorrowStr = new Date(now.getTime() + 86400000)
+  const _tomorrowStr = new Date(now.getTime() + 86400000)
     .toISOString()
     .split("T")[0];
-  const [startDate, setStartDate] = useState(todayStr);
-  const [endDate, setEndDate] = useState(tomorrowStr);
   const [shareMsg, setShareMsg] = useState("");
 
   return (
@@ -13174,65 +9948,6 @@ function InvoiceScreen({
             </span>
           </div>
         ))}
-        {/* Start/End Date */}
-        <div style={{ display: "flex", gap: 10, marginTop: 4 }}>
-          <div style={{ flex: 1 }}>
-            <div
-              style={{
-                fontFamily: "Rajdhani, sans-serif",
-                fontSize: "0.75rem",
-                color: "rgba(176,255,255,0.5)",
-                marginBottom: 4,
-              }}
-            >
-              Start Date
-            </div>
-            <input
-              type="date"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
-              style={{
-                width: "100%",
-                background: "rgba(0,20,30,0.7)",
-                border: "1px solid rgba(0,255,255,0.2)",
-                borderRadius: 8,
-                color: "#e0f8ff",
-                fontFamily: "Rajdhani, sans-serif",
-                fontSize: "0.85rem",
-                padding: "8px 10px",
-                outline: "none",
-              }}
-            />
-          </div>
-          <div style={{ flex: 1 }}>
-            <div
-              style={{
-                fontFamily: "Rajdhani, sans-serif",
-                fontSize: "0.75rem",
-                color: "rgba(176,255,255,0.5)",
-                marginBottom: 4,
-              }}
-            >
-              End Date
-            </div>
-            <input
-              type="date"
-              value={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
-              style={{
-                width: "100%",
-                background: "rgba(0,20,30,0.7)",
-                border: "1px solid rgba(0,255,255,0.2)",
-                borderRadius: 8,
-                color: "#e0f8ff",
-                fontFamily: "Rajdhani, sans-serif",
-                fontSize: "0.85rem",
-                padding: "8px 10px",
-                outline: "none",
-              }}
-            />
-          </div>
-        </div>
 
         <div
           style={{
@@ -16329,6 +13044,7 @@ function PortalApp() {
                   setScreen("general-store-subs");
                   return;
                 }
+
                 setSelectedCategory(category);
                 setScreen("services");
                 setNavActive("tasks");
@@ -16736,22 +13452,9 @@ function PortalApp() {
                   n.includes("doctor") ||
                   n.includes("nurse") ||
                   n.includes("dental") ||
-                  n.includes("car rental") ||
-                  n.includes("passenger") ||
-                  n.includes("commercial vehicle") ||
-                  n.includes("residential") ||
-                  n.includes("commercial property") ||
-                  n.includes("van") ||
-                  n.includes("bike rental") ||
-                  n.includes("driver") ||
                   n.includes("travel") ||
                   n.includes("air travel") ||
                   n.includes("railway") ||
-                  n.includes("drinking water") ||
-                  n.includes("gas cylinder") ||
-                  n.includes("property") ||
-                  n.includes("pharmacy") ||
-                  n.includes("medical") ||
                   n.includes("grocery") ||
                   n.includes("stationery") ||
                   n.includes("stationary") ||
@@ -16762,19 +13465,9 @@ function PortalApp() {
                   n.includes("shop") ||
                   c === "general store" ||
                   n.includes("home tutor") ||
-                  n.includes("language teacher") ||
                   n.includes("tutor") ||
                   n.includes("coaching") ||
                   n.includes("school") ||
-                  n.includes("dry-clean") ||
-                  n.includes("food parcel") ||
-                  n.includes("dairy") ||
-                  n.includes("spice") ||
-                  n.includes("bakery") ||
-                  n.includes("tea & coffee") ||
-                  n.includes("personal care") ||
-                  n.includes("cleaning") ||
-                  n.includes("utensil") ||
                   n.includes("it accessories") ||
                   n.includes("it technician");
                 setScreen(needs ? "serviceBooking" : "providers");
