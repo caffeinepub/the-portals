@@ -1,41 +1,46 @@
-# The Portals
+# The Portals — Clean Slate Refactor
 
 ## Current State
-Single-file React app (~16k lines, App.tsx). Celestial Glassmorphism design. Home screen categories (alphabetical): Book Store, Dry-Cleaner, Education, Food Parcels, General Store, Health, House, Maintenance, Rentals, Transport. Book Store has one SERVICES entry and uses item dropdown → confirm order → directly to Payment Plan (skips provider selection). Stationery exists only in ALL_CATEGORIES (AllServicesScreen browse), not as a home screen category.
+App.tsx is ~17,581 lines with heavy dead code accumulation:
+- Removed categories still have active code branches (Food Parcels HomeChef, Security, Tech, Education)
+- Dead state variables prefixed with `_` throughout
+- `ServiceBookingFormScreen` has branching logic for 10+ removed categories
+- `ALL_CATEGORIES` references non-existent categories (Shopping, Grocery, Accessories)
+- Inline JSX blocks for `stationary-subs` and `general-store-subs` inside PortalApp instead of components
+- Orphaned SERVICES/PROVIDERS data for removed categories
+- Dead utility functions (_handleGpsPickup, _MEDICINE_ITEMS, etc.)
+- WEEKLY_MENU data only used by dead HomeChefOrderFormSection
 
 ## Requested Changes (Diff)
 
 ### Add
-- **Stationary** as a new home screen main category (alphabetical: between Rentals and Transport)
-  - Flow: Item dropdown list → qty → unit → price auto-filled → Add New → Breakdown Summary → Total → Delivery Address → Book Order → Nearby Provider List card (Provider name, item breakdown per user, Total + Service Charges PKR 50 + Rider/Delivery PKR 150) → Select Provider → Payment Plan
-  - Item list: Notebooks, Pens, Pencils, Rulers, Erasers, Highlighters, Geometry Box, etc. with auto-prices
-- **Accessories** as a new home screen main category (alphabetical: between Book Store and Dry-Cleaner... actually 'A' comes first)
-  - Flow: Item dropdown list (Bags, Water Cooler, etc.) → qty → unit → price auto-filled → Add New → Summary → Total → Delivery Address → Book Order → Nearby Provider List card (Provider Name, item breakdown per user, Total Amount + Service Charges PKR 50 + Rider/Delivery PKR 150) → Select Provider → Payment Plan
-  - Item list: School Bag, Laptop Bag, Backpack, Handbag, Travel Bag, Water Cooler, Water Bottle, Lunch Box, Umbrella, Belt, Sunglasses, Headphones, etc. with auto-prices
+- Nothing new — clean placeholder screens for each category
 
 ### Modify
-- **Book Store**: Remove sub-category step — tapping Book Store on home screen goes directly to serviceBooking form (skips AllServicesScreen intermediary)
-- Add Accessories and Stationary to SERVICES array, CATEGORY_META, ALL_CATEGORIES
-- Add ACCESSORIES_ITEMS array with item/price/unit data
-- Update detection flags (isAccessories, isStationary) in ServiceBookingFormScreen
-- Update isOrderable condition to include accessories and new stationary
-- Update item dropdown selection logic to use ACCESSORIES_ITEMS for accessories
-- Update totalPayment: accessories and stationary use Service PKR 50 + Rider PKR 150 (like Book Store)
-- Update navigation: Stationary and Accessories go to providers after Book Order (not skip like Book Store)
-- Home screen categories updated alphabetically (Accessories added, Stationary added)
+- Strip App.tsx from ~17,581 lines to a clean ~3,000 line foundation
+- Each category tile navigates to a clean CategoryPlaceholderScreen
+- Keep all core screens: Splash, Onboarding, Login, Register (Provider + Customer), Home, Profile, Settings, Chat, Tasks, Admin Portal, Payment Plan, OTP, Invoice, Success
+- Keep shared design components: BottomNav, BackButton, ScreenHeader, GlassCard styles
 
 ### Remove
-- Nothing removed from existing categories
+- HomeChefOrderFormSection (~600 lines, dead)
+- ServiceBookingFormScreen's dead branches: isHomeChef, isHomeCleaning, isTechSupport, isTechAccessories, isSecurity (~2000 dead lines)
+- AudioPlayCard and voice notes logic (feature removed)
+- _PROFESSIONS, _categoryProviders, _MEDICINE_ITEMS, _workScopeSubmitted, setUserLocation stubs
+- ALL_CATEGORIES dead references (Shopping, Grocery, Accessories, Security, Tech)
+- All specialized sub-screens (Rental forms, House forms, Health forms, Workforce forms) — to be rebuilt cleanly per category
+- ProviderPricingScreen, ProviderConfirmedScreen (dead flow)
+- PaymentLockedScreen (removed per user request)
+- WEEKLY_MENU, dead SERVICES/PROVIDERS entries
+- stationary-subs and general-store-subs inline JSX in PortalApp
+- All screen states for removed categories
 
 ## Implementation Plan
-1. Add ACCESSORIES_ITEMS array after BOOK_STORE_ITEMS
-2. Add SERVICES entries for Stationary and Accessories
-3. Add to CATEGORY_META with emoji/color
-4. Add to ALL_CATEGORIES list
-5. Update home screen categories array (add Accessories, Stationary in alphabetical order)
-6. Update onAllServices handler: Book Store, Accessories, Stationary go directly to serviceBooking
-7. In ServiceBookingFormScreen: add isAccessories and update isStationary flag to cover new Stationary category
-8. Update isOrderable to include accessories
-9. Update item dropdown logic to handle ACCESSORIES_ITEMS
-10. Update totalPayment so accessories+stationary use PKR 50 service + PKR 150 rider
-11. Update needs routing: accessories + stationary go to serviceBooking → providers (not skip providers)
+1. Write clean App.tsx with only essential screens and a CategoryPlaceholderScreen
+2. Home screen shows 7 categories alphabetically: General Store, Health, House, Rentals, Stationary, Transport, Workforce
+3. Tapping any category shows a placeholder screen ("Category: X — Coming Soon")
+4. Core payment flow kept (PaymentPlanScreen, OtpScreen, InvoiceScreen, SuccessScreen)
+5. All auth flows kept intact
+6. Admin portal kept intact
+7. All SERVICES/PROVIDERS data stripped to just placeholder entries
+8. Validate: lint + typecheck + build
