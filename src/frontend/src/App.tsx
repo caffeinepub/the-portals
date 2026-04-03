@@ -33,7 +33,10 @@ type Screen =
   | "invoice"
   | "success"
   | "admin-login"
-  | "admin-dashboard";
+  | "admin-dashboard"
+  | "userDashboard"
+  | "providerDashboard"
+  | "lowBalanceAlert";
 
 interface User {
   name: string;
@@ -108,7 +111,7 @@ const CATEGORIES = [
   { name: "House", icon: "🏠", color: "#00FFAA" },
   { name: "Rentals", icon: "🔑", color: "#FFD700" },
   { name: "Stationary", icon: "✏️", color: "#9B59B6" },
-  { name: "Transport", icon: "🚌", color: "#3498DB" },
+  { name: "Travel", icon: "✈️", color: "#3498DB" },
   { name: "Workforce", icon: "👷", color: "#E67E22" },
 ];
 
@@ -275,6 +278,9 @@ function SplashScreen({ onDone }: { onDone: () => void }) {
         style={{
           position: "relative",
           zIndex: 1,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
           textAlign: "center",
           opacity,
           transform: `scale(${scale})`,
@@ -326,7 +332,7 @@ const ONBOARDING_SLIDES = [
   {
     icon: "📍",
     title: "Find Services Near You",
-    desc: "Discover verified providers for Home, Health, Transport, and more — all in one place.",
+    desc: "Discover verified providers for Home, Health, Travel, and more — all in one place.",
   },
   {
     icon: "🔐",
@@ -497,7 +503,15 @@ function LoginScreen({
         }}
       >
         {/* Logo */}
-        <div style={{ textAlign: "center", marginBottom: 36 }}>
+        <div
+          style={{
+            textAlign: "center",
+            marginBottom: 36,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
           <PortalLogo size={64} />
           <h1
             style={{
@@ -1145,11 +1159,15 @@ function HomeScreen({
   userPortalId,
   userBalance,
   onCategory,
+  onDashboard,
+  isProvider,
 }: {
   userName: string;
   userPortalId: string;
   userBalance: number;
   onCategory: (name: string) => void;
+  onDashboard: () => void;
+  isProvider: boolean;
 }) {
   return (
     <div style={{ ...pageStyle, position: "relative", overflow: "hidden" }}>
@@ -1158,66 +1176,107 @@ function HomeScreen({
         {/* Header */}
         <div
           style={{
-            padding: "20px 20px 16px",
+            padding: "16px 20px 12px",
             borderBottom: "1px solid rgba(0,255,255,0.08)",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
           }}
         >
-          <div>
-            <div
-              style={{
-                fontFamily: "Rajdhani, sans-serif",
-                color: "rgba(0,255,255,0.5)",
-                fontSize: "11px",
-                letterSpacing: "2px",
-              }}
-            >
-              WELCOME BACK
+          {/* Top row: user info + centered logo + balance */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: 10,
+            }}
+          >
+            <div>
+              <div
+                style={{
+                  fontFamily: "Rajdhani, sans-serif",
+                  color: "rgba(0,255,255,0.5)",
+                  fontSize: "11px",
+                  letterSpacing: "2px",
+                }}
+              >
+                WELCOME BACK
+              </div>
+              <div
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  color: "#00FFFF",
+                  fontSize: "15px",
+                  letterSpacing: "1px",
+                }}
+              >
+                {userName || "Portal User"}
+              </div>
+              <div
+                style={{
+                  fontFamily: "Rajdhani, sans-serif",
+                  color: "rgba(224,255,255,0.4)",
+                  fontSize: "11px",
+                  marginTop: 2,
+                }}
+              >
+                {userPortalId}
+              </div>
             </div>
+            {/* Centered Logo */}
             <div
               style={{
-                fontFamily: "Orbitron, sans-serif",
-                color: "#00FFFF",
-                fontSize: "16px",
-                letterSpacing: "1px",
+                position: "absolute",
+                left: "50%",
+                transform: "translateX(-50%)",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
               }}
             >
-              {userName || "Portal User"}
+              <PortalLogo size={44} />
             </div>
-            <div
-              style={{
-                fontFamily: "Rajdhani, sans-serif",
-                color: "rgba(224,255,255,0.4)",
-                fontSize: "11px",
-                marginTop: 2,
-              }}
-            >
-              {userPortalId}
+            <div style={{ textAlign: "right" }}>
+              <div
+                style={{
+                  fontFamily: "Rajdhani, sans-serif",
+                  color: "rgba(0,255,255,0.5)",
+                  fontSize: "10px",
+                  letterSpacing: "1px",
+                }}
+              >
+                BALANCE
+              </div>
+              <div
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  color: "#00FFFF",
+                  fontSize: "16px",
+                }}
+              >
+                PKR {userBalance.toLocaleString()}
+              </div>
             </div>
           </div>
-          <div style={{ textAlign: "right" }}>
-            <div
-              style={{
-                fontFamily: "Rajdhani, sans-serif",
-                color: "rgba(0,255,255,0.5)",
-                fontSize: "10px",
-                letterSpacing: "1px",
-              }}
-            >
-              BALANCE
-            </div>
-            <div
-              style={{
-                fontFamily: "Orbitron, sans-serif",
-                color: "#00FFFF",
-                fontSize: "16px",
-              }}
-            >
-              PKR {userBalance.toLocaleString()}
-            </div>
-          </div>
+          {/* My Dashboard button */}
+          <button
+            type="button"
+            onClick={onDashboard}
+            style={{
+              background: "rgba(0,255,255,0.07)",
+              border: "1px solid rgba(0,255,255,0.2)",
+              borderRadius: 8,
+              color: "#00FFFF",
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "9px",
+              letterSpacing: "0.5px",
+              padding: "6px 14px",
+              cursor: "pointer",
+              display: "block",
+              width: "100%",
+            }}
+            data-ocid="home.primary_button"
+          >
+            {isProvider ? "📊 PROVIDER DASHBOARD" : "📊 MY DASHBOARD"}
+          </button>
         </div>
 
         {/* Wormhole graphic */}
@@ -2252,16 +2311,9 @@ function OtpScreen({
   onVerify,
   onBack,
 }: { onVerify: () => void; onBack: () => void }) {
-  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const [otp, setOtp] = useState(["", "", ""]);
   const [timer, setTimer] = useState(60);
-  const refsArr = useRef<(HTMLInputElement | null)[]>([
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-  ]);
+  const refsArr = useRef<(HTMLInputElement | null)[]>([null, null, null]);
 
   useEffect(() => {
     if (timer <= 0) return;
@@ -2274,7 +2326,7 @@ function OtpScreen({
     const next = [...otp];
     next[i] = val;
     setOtp(next);
-    if (val && i < 5) refsArr.current[i + 1]?.focus();
+    if (val && i < 2) refsArr.current[i + 1]?.focus();
   };
 
   const handleKeyDown = (i: number, e: React.KeyboardEvent) => {
@@ -2319,7 +2371,7 @@ function OtpScreen({
               marginBottom: 8,
             }}
           >
-            Enter 6-Digit Code
+            Enter 3-Digit Code
           </h3>
           <p
             style={{
@@ -2329,7 +2381,7 @@ function OtpScreen({
               marginBottom: 28,
             }}
           >
-            Code sent to your registered number
+            Code sent via SMS to your registered number
           </p>
 
           <div
@@ -2340,7 +2392,7 @@ function OtpScreen({
               marginBottom: 24,
             }}
           >
-            {([0, 1, 2, 3, 4, 5] as const).map((i) => (
+            {([0, 1, 2] as const).map((i) => (
               <input
                 key={`pos${i}`}
                 ref={(el) => {
@@ -2715,6 +2767,16 @@ function AdminLoginScreen({
 }: { onLogin: () => void; onBack: () => void }) {
   const [portalId, setPortalId] = useState("");
   const [pin, setPin] = useState("");
+  const [error, setError] = useState("");
+
+  const handleAccess = () => {
+    if (portalId === "PortalAdmin" && pin === "Portal@123") {
+      setError("");
+      onLogin();
+    } else {
+      setError("Invalid credentials. Access denied.");
+    }
+  };
 
   return (
     <div
@@ -2783,9 +2845,22 @@ function AdminLoginScreen({
               data-ocid="admin_login.input"
             />
           </div>
+          {error && (
+            <p
+              style={{
+                color: "#FF6B6B",
+                fontFamily: "Rajdhani",
+                fontSize: "13px",
+                marginBottom: 12,
+              }}
+              data-ocid="admin_login.error_state"
+            >
+              {error}
+            </p>
+          )}
           <button
             type="button"
-            onClick={onLogin}
+            onClick={handleAccess}
             style={{
               ...primaryBtn,
               background: "linear-gradient(135deg, #FF6B6B, #FF0080)",
@@ -2802,10 +2877,18 @@ function AdminLoginScreen({
 
 // ─── AdminDashboardScreen ─────────────────────────────────────────────────────
 
-function AdminDashboardScreen({ onBack }: { onBack: () => void }) {
+function AdminDashboardScreen({
+  onBack,
+  serviceChargesCollected,
+}: { onBack: () => void; serviceChargesCollected: number }) {
   const [tab, setTab] = useState<
-    "overview" | "users" | "providers" | "security"
+    "overview" | "users" | "providers" | "security" | "charges" | "credentials"
   >("overview");
+  const [adminUsername, setAdminUsername] = useState("PortalAdmin");
+  const [adminPassword, setAdminPassword] = useState("Portal@123");
+  const [newUsername, setNewUsername] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [credMsg, setCredMsg] = useState("");
 
   const stats = [
     { label: "Total Users", value: "1,248", icon: "👥" },
@@ -2863,35 +2946,41 @@ function AdminDashboardScreen({ onBack }: { onBack: () => void }) {
               overflowX: "auto" as const,
             }}
           >
-            {(["overview", "users", "providers", "security"] as const).map(
-              (t) => (
-                <button
-                  type="button"
-                  key={t}
-                  onClick={() => setTab(t)}
-                  style={{
-                    padding: "8px 14px",
-                    background:
-                      tab === t ? "rgba(0,255,255,0.1)" : "transparent",
-                    border:
-                      tab === t
-                        ? "1px solid rgba(0,255,255,0.35)"
-                        : "1px solid rgba(0,255,255,0.1)",
-                    borderRadius: "8px",
-                    color: tab === t ? "#00FFFF" : "rgba(224,255,255,0.4)",
-                    fontFamily: "Orbitron, sans-serif",
-                    fontSize: "9px",
-                    cursor: "pointer",
-                    letterSpacing: "0.5px",
-                    whiteSpace: "nowrap" as const,
-                    flexShrink: 0,
-                  }}
-                  data-ocid={`admin.${t}.tab`}
-                >
-                  {t.toUpperCase()}
-                </button>
-              ),
-            )}
+            {(
+              [
+                "overview",
+                "users",
+                "providers",
+                "security",
+                "charges",
+                "credentials",
+              ] as const
+            ).map((t) => (
+              <button
+                type="button"
+                key={t}
+                onClick={() => setTab(t)}
+                style={{
+                  padding: "8px 14px",
+                  background: tab === t ? "rgba(0,255,255,0.1)" : "transparent",
+                  border:
+                    tab === t
+                      ? "1px solid rgba(0,255,255,0.35)"
+                      : "1px solid rgba(0,255,255,0.1)",
+                  borderRadius: "8px",
+                  color: tab === t ? "#00FFFF" : "rgba(224,255,255,0.4)",
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "9px",
+                  cursor: "pointer",
+                  letterSpacing: "0.5px",
+                  whiteSpace: "nowrap" as const,
+                  flexShrink: 0,
+                }}
+                data-ocid={`admin.${t}.tab`}
+              >
+                {t.toUpperCase()}
+              </button>
+            ))}
           </div>
 
           {tab === "overview" && (
@@ -3108,7 +3197,973 @@ function AdminDashboardScreen({ onBack }: { onBack: () => void }) {
               ))}
             </>
           )}
+          {tab === "charges" && (
+            <div
+              style={{
+                ...glassCard,
+                border: "1px solid rgba(255,215,0,0.3)",
+                marginBottom: 16,
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "11px",
+                  color: "#FFD700",
+                  letterSpacing: "1px",
+                  marginBottom: 16,
+                }}
+              >
+                🏦 SERVICE CHARGES ACCOUNT
+              </div>
+              <div
+                style={{
+                  fontFamily: "Rajdhani, sans-serif",
+                  fontSize: "12px",
+                  color: "rgba(224,255,255,0.4)",
+                  marginBottom: 8,
+                }}
+              >
+                Total Service Charges Collected (Hidden from Users)
+              </div>
+              <div
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "28px",
+                  color: "#FFD700",
+                  textShadow: "0 0 20px rgba(255,215,0,0.4)",
+                  marginBottom: 8,
+                }}
+              >
+                PKR {serviceChargesCollected.toLocaleString()}
+              </div>
+              <div
+                style={{
+                  fontFamily: "Rajdhani, sans-serif",
+                  fontSize: "12px",
+                  color: "rgba(0,255,255,0.5)",
+                }}
+              >
+                This amount is automatically deducted from each transaction and
+                accumulated here. Visible to admin only.
+              </div>
+            </div>
+          )}
+
+          {tab === "credentials" && (
+            <div
+              style={{
+                ...glassCard,
+                border: "1px solid rgba(0,255,255,0.3)",
+                marginBottom: 16,
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "11px",
+                  color: "#00FFFF",
+                  letterSpacing: "1px",
+                  marginBottom: 16,
+                }}
+              >
+                🔑 UPDATE CREDENTIALS
+              </div>
+              <div style={{ marginBottom: 12 }}>
+                <div style={labelStyle}>Current Username</div>
+                <div
+                  style={
+                    {
+                      ...inputStyle,
+                      color: "rgba(0,255,255,0.5)",
+                      cursor: "not-allowed",
+                    } as React.CSSProperties
+                  }
+                >
+                  {adminUsername}
+                </div>
+              </div>
+              <div style={{ marginBottom: 12 }}>
+                <div style={labelStyle}>New Username</div>
+                <input
+                  style={inputStyle}
+                  placeholder="Enter new username"
+                  value={newUsername}
+                  onChange={(e) => setNewUsername(e.target.value)}
+                  data-ocid="admin.credentials.input"
+                />
+              </div>
+              <div style={{ marginBottom: 12 }}>
+                <div style={labelStyle}>New Password</div>
+                <input
+                  style={inputStyle}
+                  type="password"
+                  placeholder="Enter new password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  data-ocid="admin.credentials.input"
+                />
+              </div>
+              {credMsg && (
+                <p
+                  style={{
+                    color: "#00FFAA",
+                    fontFamily: "Rajdhani",
+                    fontSize: "13px",
+                    marginBottom: 12,
+                  }}
+                >
+                  {credMsg}
+                </p>
+              )}
+              <button
+                type="button"
+                onClick={() => {
+                  if (newUsername.trim() && newPassword.trim()) {
+                    setAdminUsername(newUsername.trim());
+                    setAdminPassword(newPassword.trim());
+                    setNewUsername("");
+                    setNewPassword("");
+                    setCredMsg("✓ Credentials updated successfully");
+                  } else {
+                    setCredMsg("Please fill both fields.");
+                  }
+                }}
+                style={{
+                  ...primaryBtn,
+                  background: "linear-gradient(135deg, #00FFFF, #0080FF)",
+                }}
+                data-ocid="admin.credentials.save_button"
+              >
+                UPDATE CREDENTIALS
+              </button>
+              <div
+                style={{
+                  marginTop: 12,
+                  fontFamily: "Rajdhani",
+                  fontSize: "11px",
+                  color: "rgba(224,255,255,0.3)",
+                }}
+              >
+                Note: Admin Password used: {adminPassword.replace(/./g, "•")}
+              </div>
+            </div>
+          )}
         </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── UserDashboardScreen ─────────────────────────────────────────────────────
+
+function UserDashboardScreen({
+  userName,
+  userPortalId,
+  userBalance,
+  onBack,
+  onTopUp,
+}: {
+  userName: string;
+  userPortalId: string;
+  userBalance: number;
+  onBack: () => void;
+  onTopUp: () => void;
+}) {
+  const daysRemaining = 23;
+  const bonusAmount = 500;
+  const mockHistory = [
+    { service: "Medical Store", date: "2026-03-18", amount: 850 },
+    { service: "Workforce – Plumber", date: "2026-03-15", amount: 1200 },
+    { service: "General Store", date: "2026-03-10", amount: 560 },
+    { service: "Travel – Coach", date: "2026-03-05", amount: 2300 },
+    { service: "House – Drinking Water", date: "2026-02-28", amount: 450 },
+  ];
+
+  return (
+    <div style={{ ...pageStyle, position: "relative", overflow: "hidden" }}>
+      <SpaceBackground />
+      <div style={{ position: "relative", zIndex: 1, padding: "0 20px 100px" }}>
+        <ScreenHeader title="MY DASHBOARD" onBack={onBack} />
+
+        {/* Low balance warning */}
+        {userBalance < 100 && (
+          <div
+            style={{
+              background: "rgba(255,107,107,0.1)",
+              border: "1px solid rgba(255,107,107,0.4)",
+              borderRadius: 12,
+              padding: "12px 16px",
+              marginBottom: 16,
+            }}
+            data-ocid="user_dashboard.error_state"
+          >
+            <div
+              style={{
+                fontFamily: "Orbitron, sans-serif",
+                fontSize: "10px",
+                color: "#FF6B6B",
+                marginBottom: 4,
+              }}
+            >
+              ⚠ INSUFFICIENT BALANCE
+            </div>
+            <div
+              style={{
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "13px",
+                color: "rgba(255,107,107,0.8)",
+              }}
+            >
+              Your balance is critically low. Please Top-Up immediately.
+            </div>
+          </div>
+        )}
+
+        {/* Top-Up reminder banner */}
+        {userBalance < 500 && userBalance >= 100 && (
+          <div
+            style={{
+              background: "rgba(0,255,255,0.07)",
+              border: "1px solid rgba(0,255,255,0.3)",
+              borderRadius: 12,
+              padding: "12px 16px",
+              marginBottom: 16,
+            }}
+            data-ocid="user_dashboard.success_state"
+          >
+            <div
+              style={{
+                fontFamily: "Orbitron, sans-serif",
+                fontSize: "10px",
+                color: "#00FFFF",
+                marginBottom: 4,
+              }}
+            >
+              📱 TOP-UP REMINDER
+            </div>
+            <div
+              style={{
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "13px",
+                color: "rgba(0,255,255,0.8)",
+              }}
+            >
+              Your balance is low. Top-Up now to avoid service interruption. SMS
+              reminder has been sent to your registered number.
+            </div>
+          </div>
+        )}
+
+        {/* Profile summary */}
+        <div style={{ ...glassCard, marginBottom: 16 }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: 16,
+            }}
+          >
+            <div>
+              <div
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "14px",
+                  color: "#00FFFF",
+                }}
+              >
+                {userName || "Portal User"}
+              </div>
+              <div
+                style={{
+                  fontFamily: "Rajdhani, sans-serif",
+                  fontSize: "12px",
+                  color: "rgba(0,255,255,0.5)",
+                  marginTop: 2,
+                }}
+              >
+                {userPortalId}
+              </div>
+            </div>
+            <div style={{ textAlign: "right" }}>
+              <div
+                style={{
+                  fontFamily: "Rajdhani",
+                  fontSize: "10px",
+                  color: "rgba(0,255,255,0.4)",
+                }}
+              >
+                BALANCE
+              </div>
+              <div
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "18px",
+                  color: "#00FFFF",
+                }}
+              >
+                PKR {userBalance.toLocaleString()}
+              </div>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={onTopUp}
+            style={{ ...primaryBtn, padding: "10px" }}
+            data-ocid="user_dashboard.primary_button"
+          >
+            TOP UP NOW
+          </button>
+        </div>
+
+        {/* Bonus + Free Trial */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: 12,
+            marginBottom: 16,
+          }}
+        >
+          <div
+            style={{
+              ...glassCard,
+              border: "1px solid rgba(0,255,170,0.3)",
+              textAlign: "center",
+            }}
+          >
+            <div style={{ fontSize: 24, marginBottom: 6 }}>🎁</div>
+            <div
+              style={{
+                fontFamily: "Orbitron, sans-serif",
+                fontSize: "10px",
+                color: "#00FFAA",
+                marginBottom: 4,
+              }}
+            >
+              BONUS
+            </div>
+            <div
+              style={{
+                fontFamily: "Orbitron, sans-serif",
+                fontSize: "16px",
+                color: "#00FFAA",
+              }}
+            >
+              PKR {bonusAmount}
+            </div>
+            <div
+              style={{
+                fontFamily: "Rajdhani",
+                fontSize: "10px",
+                color: "rgba(224,255,255,0.4)",
+                marginTop: 2,
+              }}
+            >
+              Welcome Bonus
+            </div>
+          </div>
+          <div
+            style={{
+              ...glassCard,
+              border: "1px solid rgba(255,215,0,0.3)",
+              textAlign: "center",
+            }}
+          >
+            <div style={{ fontSize: 24, marginBottom: 6 }}>⏳</div>
+            <div
+              style={{
+                fontFamily: "Orbitron, sans-serif",
+                fontSize: "10px",
+                color: "#FFD700",
+                marginBottom: 4,
+              }}
+            >
+              FREE TRIAL
+            </div>
+            <div
+              style={{
+                fontFamily: "Orbitron, sans-serif",
+                fontSize: "16px",
+                color: "#FFD700",
+              }}
+            >
+              {daysRemaining} days
+            </div>
+            <div
+              style={{
+                fontFamily: "Rajdhani",
+                fontSize: "10px",
+                color: "rgba(224,255,255,0.4)",
+                marginTop: 2,
+              }}
+            >
+              remaining
+            </div>
+          </div>
+        </div>
+
+        {/* Subscription notice */}
+        <div
+          style={{
+            ...glassCard,
+            border: "1px solid rgba(255,165,0,0.25)",
+            marginBottom: 16,
+          }}
+        >
+          <div
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "10px",
+              color: "#FFA500",
+              marginBottom: 6,
+            }}
+          >
+            📅 SUBSCRIPTION NOTICE
+          </div>
+          <div
+            style={{
+              fontFamily: "Rajdhani, sans-serif",
+              fontSize: "13px",
+              color: "rgba(224,255,255,0.7)",
+            }}
+          >
+            After your free trial expires ({daysRemaining} days), a monthly
+            subscription of{" "}
+            <span style={{ color: "#FFA500", fontWeight: 700 }}>PKR 299</span>{" "}
+            will be charged automatically. Initial amount is added after one
+            month of free usage.
+          </div>
+        </div>
+
+        {/* Order History */}
+        <div style={{ marginBottom: 16 }}>
+          <div
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "11px",
+              color: "rgba(0,255,255,0.6)",
+              letterSpacing: "1px",
+              marginBottom: 12,
+            }}
+          >
+            ORDER HISTORY
+          </div>
+          {mockHistory.map((h, i) => (
+            <div
+              key={h.date + h.service}
+              style={{
+                ...glassCard,
+                marginBottom: 10,
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+              data-ocid={`user_dashboard.item.${i + 1}`}
+            >
+              <div>
+                <div
+                  style={{
+                    fontFamily: "Rajdhani, sans-serif",
+                    fontSize: "14px",
+                    color: "#E0FFFF",
+                  }}
+                >
+                  {h.service}
+                </div>
+                <div
+                  style={{
+                    fontFamily: "Rajdhani, sans-serif",
+                    fontSize: "11px",
+                    color: "rgba(0,255,255,0.4)",
+                  }}
+                >
+                  {h.date}
+                </div>
+              </div>
+              <div
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "13px",
+                  color: "#00FFFF",
+                }}
+              >
+                PKR {h.amount}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── ProviderDashboardScreen ──────────────────────────────────────────────────
+
+function ProviderDashboardScreen({
+  userName,
+  userPortalId,
+  userBalance,
+  onBack,
+  onTopUp,
+}: {
+  userName: string;
+  userPortalId: string;
+  userBalance: number;
+  onBack: () => void;
+  onTopUp: () => void;
+}) {
+  const daysRemaining = 19;
+  const bonusAmount = 500;
+  const mockJobs = [
+    { service: "Plumber – Ahmed Shah", date: "2026-03-20", earnings: 2400 },
+    { service: "Plumber – Tariq House", date: "2026-03-17", earnings: 1800 },
+    { service: "Plumber – Farooq Plaza", date: "2026-03-12", earnings: 3200 },
+    { service: "Plumber – Gulshan", date: "2026-03-08", earnings: 1500 },
+    { service: "Plumber – DHA Block 5", date: "2026-03-02", earnings: 2800 },
+  ];
+
+  return (
+    <div style={{ ...pageStyle, position: "relative", overflow: "hidden" }}>
+      <SpaceBackground />
+      <div style={{ position: "relative", zIndex: 1, padding: "0 20px 100px" }}>
+        <ScreenHeader title="PROVIDER DASHBOARD" onBack={onBack} />
+
+        {/* Low balance warning */}
+        {userBalance < 100 && (
+          <div
+            style={{
+              background: "rgba(255,107,107,0.1)",
+              border: "1px solid rgba(255,107,107,0.4)",
+              borderRadius: 12,
+              padding: "12px 16px",
+              marginBottom: 16,
+            }}
+            data-ocid="provider_dashboard.error_state"
+          >
+            <div
+              style={{
+                fontFamily: "Orbitron, sans-serif",
+                fontSize: "10px",
+                color: "#FF6B6B",
+                marginBottom: 4,
+              }}
+            >
+              ⚠ INSUFFICIENT BALANCE
+            </div>
+            <div
+              style={{
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "13px",
+                color: "rgba(255,107,107,0.8)",
+              }}
+            >
+              Your balance is critically low. Please Top-Up immediately.
+            </div>
+          </div>
+        )}
+
+        {/* Top-Up reminder banner */}
+        {userBalance < 500 && userBalance >= 100 && (
+          <div
+            style={{
+              background: "rgba(0,255,255,0.07)",
+              border: "1px solid rgba(0,255,255,0.3)",
+              borderRadius: 12,
+              padding: "12px 16px",
+              marginBottom: 16,
+            }}
+            data-ocid="provider_dashboard.success_state"
+          >
+            <div
+              style={{
+                fontFamily: "Orbitron, sans-serif",
+                fontSize: "10px",
+                color: "#00FFFF",
+                marginBottom: 4,
+              }}
+            >
+              📱 TOP-UP REMINDER
+            </div>
+            <div
+              style={{
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "13px",
+                color: "rgba(0,255,255,0.8)",
+              }}
+            >
+              Your balance is low. Top-Up now to avoid service interruption. SMS
+              reminder has been sent to your registered number.
+            </div>
+          </div>
+        )}
+
+        {/* Profile summary */}
+        <div style={{ ...glassCard, marginBottom: 16 }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: 16,
+            }}
+          >
+            <div>
+              <div
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "14px",
+                  color: "#00FFFF",
+                }}
+              >
+                {userName || "Provider"}
+              </div>
+              <div
+                style={{
+                  fontFamily: "Rajdhani, sans-serif",
+                  fontSize: "12px",
+                  color: "rgba(0,255,255,0.5)",
+                  marginTop: 2,
+                }}
+              >
+                {userPortalId}
+              </div>
+              <div
+                style={{
+                  fontFamily: "Rajdhani, sans-serif",
+                  fontSize: "11px",
+                  color: "rgba(0,255,170,0.6)",
+                  marginTop: 2,
+                }}
+              >
+                Service Provider
+              </div>
+            </div>
+            <div style={{ textAlign: "right" }}>
+              <div
+                style={{
+                  fontFamily: "Rajdhani",
+                  fontSize: "10px",
+                  color: "rgba(0,255,255,0.4)",
+                }}
+              >
+                BALANCE
+              </div>
+              <div
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "18px",
+                  color: "#00FFFF",
+                }}
+              >
+                PKR {userBalance.toLocaleString()}
+              </div>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={onTopUp}
+            style={{ ...primaryBtn, padding: "10px" }}
+            data-ocid="provider_dashboard.primary_button"
+          >
+            TOP UP NOW
+          </button>
+        </div>
+
+        {/* Bonus + Free Trial */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: 12,
+            marginBottom: 16,
+          }}
+        >
+          <div
+            style={{
+              ...glassCard,
+              border: "1px solid rgba(0,255,170,0.3)",
+              textAlign: "center",
+            }}
+          >
+            <div style={{ fontSize: 24, marginBottom: 6 }}>🎁</div>
+            <div
+              style={{
+                fontFamily: "Orbitron, sans-serif",
+                fontSize: "10px",
+                color: "#00FFAA",
+                marginBottom: 4,
+              }}
+            >
+              BONUS
+            </div>
+            <div
+              style={{
+                fontFamily: "Orbitron, sans-serif",
+                fontSize: "16px",
+                color: "#00FFAA",
+              }}
+            >
+              PKR {bonusAmount}
+            </div>
+            <div
+              style={{
+                fontFamily: "Rajdhani",
+                fontSize: "10px",
+                color: "rgba(224,255,255,0.4)",
+                marginTop: 2,
+              }}
+            >
+              Welcome Bonus
+            </div>
+          </div>
+          <div
+            style={{
+              ...glassCard,
+              border: "1px solid rgba(255,215,0,0.3)",
+              textAlign: "center",
+            }}
+          >
+            <div style={{ fontSize: 24, marginBottom: 6 }}>⏳</div>
+            <div
+              style={{
+                fontFamily: "Orbitron, sans-serif",
+                fontSize: "10px",
+                color: "#FFD700",
+                marginBottom: 4,
+              }}
+            >
+              FREE TRIAL
+            </div>
+            <div
+              style={{
+                fontFamily: "Orbitron, sans-serif",
+                fontSize: "16px",
+                color: "#FFD700",
+              }}
+            >
+              {daysRemaining} days
+            </div>
+            <div
+              style={{
+                fontFamily: "Rajdhani",
+                fontSize: "10px",
+                color: "rgba(224,255,255,0.4)",
+                marginTop: 2,
+              }}
+            >
+              remaining
+            </div>
+          </div>
+        </div>
+
+        {/* Subscription notice */}
+        <div
+          style={{
+            ...glassCard,
+            border: "1px solid rgba(255,165,0,0.25)",
+            marginBottom: 16,
+          }}
+        >
+          <div
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "10px",
+              color: "#FFA500",
+              marginBottom: 6,
+            }}
+          >
+            📅 SUBSCRIPTION NOTICE
+          </div>
+          <div
+            style={{
+              fontFamily: "Rajdhani, sans-serif",
+              fontSize: "13px",
+              color: "rgba(224,255,255,0.7)",
+            }}
+          >
+            After your free trial expires ({daysRemaining} days), a monthly
+            subscription of{" "}
+            <span style={{ color: "#FFA500", fontWeight: 700 }}>PKR 299</span>{" "}
+            will be charged automatically.
+          </div>
+        </div>
+
+        {/* Earnings History */}
+        <div style={{ marginBottom: 16 }}>
+          <div
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "11px",
+              color: "rgba(0,255,255,0.6)",
+              letterSpacing: "1px",
+              marginBottom: 12,
+            }}
+          >
+            EARNINGS HISTORY
+          </div>
+          {mockJobs.map((h, i) => (
+            <div
+              key={h.date + h.service}
+              style={{
+                ...glassCard,
+                marginBottom: 10,
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+              data-ocid={`provider_dashboard.item.${i + 1}`}
+            >
+              <div>
+                <div
+                  style={{
+                    fontFamily: "Rajdhani, sans-serif",
+                    fontSize: "14px",
+                    color: "#E0FFFF",
+                  }}
+                >
+                  {h.service}
+                </div>
+                <div
+                  style={{
+                    fontFamily: "Rajdhani, sans-serif",
+                    fontSize: "11px",
+                    color: "rgba(0,255,255,0.4)",
+                  }}
+                >
+                  {h.date}
+                </div>
+              </div>
+              <div
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "13px",
+                  color: "#00FFAA",
+                }}
+              >
+                PKR {h.earnings}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── LowBalanceAlertScreen ────────────────────────────────────────────────────
+
+function LowBalanceAlertScreen({
+  userBalance,
+  onTopUp,
+  onBack,
+}: {
+  userBalance: number;
+  onTopUp: () => void;
+  onBack: () => void;
+}) {
+  return (
+    <div
+      style={{
+        ...pageStyle,
+        paddingBottom: 0,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "100vh",
+        padding: "40px 24px",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      <SpaceBackground />
+      <div
+        style={{
+          position: "relative",
+          zIndex: 1,
+          width: "100%",
+          maxWidth: 380,
+        }}
+      >
+        <div style={{ textAlign: "center", marginBottom: 32 }}>
+          <div style={{ fontSize: 72, marginBottom: 16 }}>⚠️</div>
+          <h1
+            style={{
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "20px",
+              color: "#FF6B6B",
+              letterSpacing: "2px",
+              marginBottom: 12,
+              textShadow: "0 0 20px rgba(255,107,107,0.4)",
+            }}
+          >
+            INSUFFICIENT BALANCE
+          </h1>
+          <div
+            style={{
+              ...glassCard,
+              border: "1px solid rgba(255,107,107,0.3)",
+              marginBottom: 20,
+            }}
+          >
+            <div
+              style={{
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "13px",
+                color: "rgba(224,255,255,0.5)",
+                marginBottom: 8,
+              }}
+            >
+              CURRENT BALANCE
+            </div>
+            <div
+              style={{
+                fontFamily: "Orbitron, sans-serif",
+                fontSize: "28px",
+                color: "#FF6B6B",
+              }}
+            >
+              PKR {userBalance.toLocaleString()}
+            </div>
+            <div
+              style={{
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "13px",
+                color: "rgba(224,255,255,0.6)",
+                marginTop: 12,
+              }}
+            >
+              Please Top-Up to continue using The Portals services.
+            </div>
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={onTopUp}
+          style={{
+            ...primaryBtn,
+            background: "linear-gradient(135deg, #00FFFF, #0080FF)",
+            marginBottom: 12,
+          }}
+          data-ocid="low_balance.primary_button"
+        >
+          TOP UP NOW
+        </button>
+        <button
+          type="button"
+          onClick={onBack}
+          style={{
+            ...primaryBtn,
+            background: "transparent",
+            border: "1px solid rgba(0,255,255,0.2)",
+            color: "rgba(0,255,255,0.5)",
+          }}
+          data-ocid="low_balance.secondary_button"
+        >
+          GO BACK
+        </button>
       </div>
     </div>
   );
@@ -3196,6 +4251,2953 @@ function BottomNav({
   );
 }
 
+// ─── Chip Component ───────────────────────────────────────────────────────────
+
+function Chip({
+  label,
+  selected,
+  onClick,
+  color = "#00FFFF",
+}: {
+  label: string;
+  selected: boolean;
+  onClick: () => void;
+  color?: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      style={{
+        padding: "8px 14px",
+        borderRadius: "20px",
+        border: `1px solid ${selected ? color : "rgba(0,255,255,0.2)"}`,
+        background: selected ? `${color}22` : "rgba(0,255,255,0.04)",
+        color: selected ? color : "rgba(224,255,255,0.6)",
+        fontFamily: "Rajdhani, sans-serif",
+        fontSize: "13px",
+        cursor: "pointer",
+        transition: "all 0.2s",
+        letterSpacing: "0.3px",
+      }}
+    >
+      {label}
+    </button>
+  );
+}
+
+// ─── SubCategoryPicker ────────────────────────────────────────────────────────
+
+function SubCategoryPicker({
+  title,
+  subtitle,
+  items,
+  color,
+  onSelect,
+  onBack,
+}: {
+  title: string;
+  subtitle?: string;
+  items: { name: string; icon: string; color?: string }[];
+  color: string;
+  onSelect: (name: string) => void;
+  onBack: () => void;
+}) {
+  return (
+    <div style={{ ...pageStyle, position: "relative", overflow: "hidden" }}>
+      <SpaceBackground />
+      <div style={{ position: "relative", zIndex: 1 }}>
+        <ScreenHeader title={title} onBack={onBack} />
+        {subtitle && (
+          <p
+            style={{
+              fontFamily: "Rajdhani, sans-serif",
+              fontSize: "14px",
+              color: "rgba(224,255,255,0.5)",
+              padding: "0 20px",
+              marginBottom: 16,
+            }}
+          >
+            {subtitle}
+          </p>
+        )}
+        <div
+          style={{
+            padding: "0 16px",
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: 12,
+          }}
+        >
+          {items.map((item) => (
+            <button
+              type="button"
+              key={item.name}
+              onClick={() => onSelect(item.name)}
+              style={{
+                background: "rgba(0,255,255,0.03)",
+                border: `1px solid ${item.color || color}30`,
+                borderRadius: "16px",
+                padding: "24px 16px",
+                cursor: "pointer",
+                textAlign: "center",
+                backdropFilter: "blur(10px)",
+              }}
+              data-ocid={`subcat.${item.name.toLowerCase().replace(/ /g, "_")}.button`}
+            >
+              <div style={{ fontSize: 28, marginBottom: 8 }}>{item.icon}</div>
+              <div
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "10px",
+                  color: item.color || color,
+                  letterSpacing: "0.5px",
+                  lineHeight: 1.3,
+                }}
+              >
+                {item.name.toUpperCase()}
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── ProviderListScreen ───────────────────────────────────────────────────────
+
+interface ProviderCard {
+  name: string;
+  detail1?: string;
+  detail2?: string;
+  detail3?: string;
+  amount?: string;
+  wages?: string;
+  experience?: string;
+  distance?: string;
+  profileInitials?: string;
+}
+
+const MOCK_PROVIDERS: ProviderCard[] = [
+  {
+    name: "Muhammad Ali",
+    detail1: "5 years exp",
+    detail2: "3.2 km away",
+    amount: "PKR 1,800",
+    wages: "PKR 1,800/day",
+    experience: "5 years",
+    distance: "3.2 km",
+    profileInitials: "MA",
+  },
+  {
+    name: "Ahmed Hassan",
+    detail1: "8 years exp",
+    detail2: "1.5 km away",
+    amount: "PKR 2,200",
+    wages: "PKR 2,200/day",
+    experience: "8 years",
+    distance: "1.5 km",
+    profileInitials: "AH",
+  },
+  {
+    name: "Usman Tariq",
+    detail1: "3 years exp",
+    detail2: "4.7 km away",
+    amount: "PKR 1,500",
+    wages: "PKR 1,500/day",
+    experience: "3 years",
+    distance: "4.7 km",
+    profileInitials: "UT",
+  },
+];
+
+function WorkforceProviderList({
+  role,
+  onSelect,
+  onBack,
+}: {
+  role: string;
+  onSelect: (p: ProviderCard) => void;
+  onBack: () => void;
+}) {
+  return (
+    <div style={{ ...pageStyle, position: "relative", overflow: "hidden" }}>
+      <SpaceBackground />
+      <div style={{ position: "relative", zIndex: 1 }}>
+        <ScreenHeader title={role.toUpperCase()} onBack={onBack} />
+        <div style={{ padding: "0 16px" }}>
+          <p
+            style={{
+              fontFamily: "Rajdhani, sans-serif",
+              fontSize: "13px",
+              color: "rgba(0,255,255,0.5)",
+              letterSpacing: "1px",
+              marginBottom: 14,
+            }}
+          >
+            AVAILABLE PROVIDERS NEAR YOU
+          </p>
+          {MOCK_PROVIDERS.map((p, i) => (
+            <div
+              key={p.name}
+              style={{
+                ...glassCard,
+                marginBottom: 12,
+                border: "1px solid rgba(0,255,255,0.15)",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  gap: 14,
+                  marginBottom: 12,
+                }}
+              >
+                {/* Profile avatar */}
+                <div
+                  style={{
+                    width: 52,
+                    height: 52,
+                    borderRadius: "50%",
+                    background:
+                      "linear-gradient(135deg, rgba(0,255,255,0.2), rgba(0,128,255,0.2))",
+                    border: "2px solid rgba(0,255,255,0.4)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontFamily: "Orbitron, sans-serif",
+                    fontSize: "14px",
+                    color: "#00FFFF",
+                    flexShrink: 0,
+                  }}
+                >
+                  {p.profileInitials}
+                </div>
+                <div style={{ flex: 1 }}>
+                  <div
+                    style={{
+                      fontFamily: "Orbitron, sans-serif",
+                      fontSize: "13px",
+                      color: "#E0FFFF",
+                      marginBottom: 2,
+                    }}
+                  >
+                    {p.name}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "Orbitron, sans-serif",
+                      fontSize: "14px",
+                      color: "#00FFFF",
+                      marginBottom: 4,
+                    }}
+                  >
+                    {p.wages}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "Rajdhani, sans-serif",
+                      fontSize: "13px",
+                      color: "rgba(224,255,255,0.5)",
+                    }}
+                  >
+                    Experience: {p.experience} &nbsp;|&nbsp; {p.distance} from
+                    you
+                  </div>
+                </div>
+              </div>
+              <div style={{ display: "flex", gap: 10 }}>
+                <button
+                  type="button"
+                  style={{
+                    flex: 1,
+                    padding: "10px 0",
+                    background: "rgba(0,255,255,0.08)",
+                    border: "1px solid rgba(0,255,255,0.3)",
+                    borderRadius: "8px",
+                    color: "#00FFFF",
+                    fontFamily: "Orbitron, sans-serif",
+                    fontSize: "10px",
+                    cursor: "pointer",
+                    letterSpacing: "0.5px",
+                  }}
+                  data-ocid={`workforce.message.${i}`}
+                >
+                  💬 MESSAGE
+                </button>
+                <button
+                  type="button"
+                  style={{
+                    flex: 1,
+                    padding: "10px 0",
+                    background: "rgba(0,255,255,0.08)",
+                    border: "1px solid rgba(0,255,255,0.3)",
+                    borderRadius: "8px",
+                    color: "#00FFFF",
+                    fontFamily: "Orbitron, sans-serif",
+                    fontSize: "10px",
+                    cursor: "pointer",
+                    letterSpacing: "0.5px",
+                  }}
+                  data-ocid={`workforce.call.${i}`}
+                >
+                  📞 CALL
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onSelect(p)}
+                  style={{
+                    flex: 1,
+                    padding: "10px 0",
+                    background: "linear-gradient(135deg, #00FFFF, #0080FF)",
+                    border: "none",
+                    borderRadius: "8px",
+                    color: "#05070A",
+                    fontFamily: "Orbitron, sans-serif",
+                    fontSize: "10px",
+                    cursor: "pointer",
+                    fontWeight: 700,
+                    letterSpacing: "0.5px",
+                  }}
+                  data-ocid={`workforce.select.${i}`}
+                >
+                  SELECT
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── WorkforceScreen ──────────────────────────────────────────────────────────
+
+function WorkforceScreen({
+  onBack,
+  onPayment,
+}: { onBack: () => void; onPayment: () => void }) {
+  const [subScreen, setSubScreen] = useState<
+    "main" | "skilled" | "unskilled" | string
+  >("main");
+  const [selectedRole, setSelectedRole] = useState("");
+
+  if (subScreen === "provider-list") {
+    return (
+      <WorkforceProviderList
+        role={selectedRole}
+        onSelect={() => onPayment()}
+        onBack={() =>
+          setSubScreen(
+            [
+              "Plumber",
+              "Electrician",
+              "AC Technician",
+              "Mason",
+              "Solar Technician",
+              "Carpenter",
+              "Painter",
+            ].includes(selectedRole)
+              ? "skilled"
+              : "unskilled",
+          )
+        }
+      />
+    );
+  }
+
+  if (subScreen === "skilled") {
+    return (
+      <SubCategoryPicker
+        title="SKILLED WORKFORCE"
+        color="#E67E22"
+        items={[
+          { name: "Plumber", icon: "🔧" },
+          { name: "Electrician", icon: "⚡" },
+          { name: "AC Technician", icon: "❄️" },
+          { name: "Mason", icon: "🧱" },
+          { name: "Solar Technician", icon: "☀️" },
+          { name: "Carpenter", icon: "🪚" },
+          { name: "Painter", icon: "🎨" },
+        ]}
+        onSelect={(name) => {
+          setSelectedRole(name);
+          setSubScreen("provider-list");
+        }}
+        onBack={() => setSubScreen("main")}
+      />
+    );
+  }
+
+  if (subScreen === "unskilled") {
+    return (
+      <SubCategoryPicker
+        title="UNSKILLED WORKFORCE"
+        color="#E67E22"
+        items={[
+          { name: "Cleaner", icon: "🧹" },
+          { name: "Gardener", icon: "🌱" },
+          { name: "Labour", icon: "💪" },
+        ]}
+        onSelect={(name) => {
+          setSelectedRole(name);
+          setSubScreen("provider-list");
+        }}
+        onBack={() => setSubScreen("main")}
+      />
+    );
+  }
+
+  return (
+    <div style={{ ...pageStyle, position: "relative", overflow: "hidden" }}>
+      <SpaceBackground />
+      <div style={{ position: "relative", zIndex: 1 }}>
+        <ScreenHeader title="WORKFORCE" onBack={onBack} />
+        <div style={{ padding: "0 16px" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            <button
+              type="button"
+              onClick={() => setSubScreen("skilled")}
+              style={
+                {
+                  ...glassCard,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 16,
+                  border: "1px solid rgba(230,126,34,0.3)",
+                  textAlign: "left",
+                } as React.CSSProperties
+              }
+            >
+              <span style={{ fontSize: 36 }}>🛠️</span>
+              <div>
+                <div
+                  style={{
+                    fontFamily: "Orbitron, sans-serif",
+                    fontSize: "13px",
+                    color: "#E67E22",
+                    marginBottom: 4,
+                  }}
+                >
+                  SKILLED WORKFORCE
+                </div>
+                <div
+                  style={{
+                    fontFamily: "Rajdhani, sans-serif",
+                    fontSize: "13px",
+                    color: "rgba(224,255,255,0.5)",
+                  }}
+                >
+                  Plumber, Electrician, AC Tech, Mason, Solar Tech, Carpenter,
+                  Painter
+                </div>
+              </div>
+            </button>
+            <button
+              type="button"
+              onClick={() => setSubScreen("unskilled")}
+              style={
+                {
+                  ...glassCard,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 16,
+                  border: "1px solid rgba(230,126,34,0.3)",
+                  textAlign: "left",
+                } as React.CSSProperties
+              }
+            >
+              <span style={{ fontSize: 36 }}>👐</span>
+              <div>
+                <div
+                  style={{
+                    fontFamily: "Orbitron, sans-serif",
+                    fontSize: "13px",
+                    color: "#E67E22",
+                    marginBottom: 4,
+                  }}
+                >
+                  UNSKILLED WORKFORCE
+                </div>
+                <div
+                  style={{
+                    fontFamily: "Rajdhani, sans-serif",
+                    fontSize: "13px",
+                    color: "rgba(224,255,255,0.5)",
+                  }}
+                >
+                  Cleaner, Gardener, Labour
+                </div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── ItemOrderFlow (reusable) ─────────────────────────────────────────────────
+
+interface OrderItem {
+  name: string;
+  qty: number;
+  unit: string;
+  price: number;
+}
+
+function ItemOrderFlow({
+  title,
+  items,
+  serviceCharge,
+  deliveryCharge,
+  onConfirm,
+  onBack,
+}: {
+  title: string;
+  items: { name: string; unit: string; price: number }[];
+  serviceCharge: number;
+  deliveryCharge: number;
+  onConfirm: () => void;
+  onBack: () => void;
+}) {
+  const [subStep, setSubStep] = useState<"order" | "provider">("order");
+  const [selectedItem, setSelectedItem] = useState("");
+  const [qty, setQty] = useState(1);
+  const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
+  const [deliveryAddress, setDeliveryAddress] = useState("");
+
+  const currentItemData = items.find((i) => i.name === selectedItem);
+
+  const addItem = () => {
+    if (!selectedItem || qty < 1) return;
+    const existing = orderItems.findIndex((o) => o.name === selectedItem);
+    const unit = currentItemData?.unit ?? "pcs";
+    const price = currentItemData?.price ?? 0;
+    if (existing >= 0) {
+      const updated = [...orderItems];
+      updated[existing].qty += qty;
+      setOrderItems(updated);
+    } else {
+      setOrderItems([...orderItems, { name: selectedItem, qty, unit, price }]);
+    }
+    setSelectedItem("");
+    setQty(1);
+  };
+
+  const total = orderItems.reduce((s, i) => s + i.price * i.qty, 0);
+  const grandTotal = total + serviceCharge + deliveryCharge;
+
+  if (subStep === "provider") {
+    return (
+      <div style={{ ...pageStyle, position: "relative", overflow: "hidden" }}>
+        <SpaceBackground />
+        <div style={{ position: "relative", zIndex: 1 }}>
+          <ScreenHeader
+            title="SELECT PROVIDER"
+            onBack={() => setSubStep("order")}
+          />
+          <div style={{ padding: "0 16px" }}>
+            <p
+              style={{
+                fontFamily: "Rajdhani, sans-serif",
+                fontSize: "13px",
+                color: "rgba(0,255,255,0.5)",
+                letterSpacing: "1px",
+                marginBottom: 14,
+              }}
+            >
+              NEARBY SERVICE PROVIDERS
+            </p>
+            {["FreshMart Store", "QuickShop", "DoorStep Delivery"].map(
+              (store, i) => (
+                <div
+                  key={store}
+                  style={{
+                    ...glassCard,
+                    marginBottom: 12,
+                    border: "1px solid rgba(0,255,255,0.15)",
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: "Orbitron, sans-serif",
+                      fontSize: "12px",
+                      color: "#00FFFF",
+                      marginBottom: 4,
+                    }}
+                  >
+                    {["Rizwan Ahmed", "Salman Khan", "Tariq Mehmood"][i]}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "Rajdhani, sans-serif",
+                      fontSize: "13px",
+                      color: "rgba(224,255,255,0.6)",
+                      marginBottom: 8,
+                    }}
+                  >
+                    {store}
+                  </div>
+                  {orderItems.map((o) => (
+                    <div
+                      key={o.name}
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        fontFamily: "Rajdhani, sans-serif",
+                        fontSize: "12px",
+                        color: "rgba(224,255,255,0.5)",
+                        marginBottom: 3,
+                      }}
+                    >
+                      <span>
+                        {o.name} x{o.qty} {o.unit}
+                      </span>
+                      <span>PKR {(o.price * o.qty).toLocaleString()}</span>
+                    </div>
+                  ))}
+                  <div
+                    style={{
+                      borderTop: "1px solid rgba(0,255,255,0.1)",
+                      marginTop: 8,
+                      paddingTop: 8,
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        fontFamily: "Rajdhani, sans-serif",
+                        fontSize: "13px",
+                        color: "rgba(224,255,255,0.5)",
+                      }}
+                    >
+                      <span>Service Charges</span>
+                      <span>PKR {serviceCharge}</span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        fontFamily: "Rajdhani, sans-serif",
+                        fontSize: "13px",
+                        color: "rgba(224,255,255,0.5)",
+                      }}
+                    >
+                      <span>Delivery Charges</span>
+                      <span>PKR {deliveryCharge}</span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        fontFamily: "Orbitron, sans-serif",
+                        fontSize: "13px",
+                        color: "#00FFFF",
+                        marginTop: 4,
+                      }}
+                    >
+                      <span>TOTAL</span>
+                      <span>PKR {grandTotal.toLocaleString()}</span>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={onConfirm}
+                    style={{ ...primaryBtn, marginTop: 12 }}
+                    data-ocid={`provider.select.${i}`}
+                  >
+                    CONFIRM ORDER →
+                  </button>
+                </div>
+              ),
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ ...pageStyle, position: "relative", overflow: "hidden" }}>
+      <SpaceBackground />
+      <div style={{ position: "relative", zIndex: 1 }}>
+        <ScreenHeader title={title} onBack={onBack} />
+        <div style={{ padding: "0 16px" }}>
+          <div style={{ ...glassCard, marginBottom: 16 }}>
+            <div style={{ marginBottom: 14 }}>
+              <div style={labelStyle}>Item Name</div>
+              <select
+                style={{ ...inputStyle, appearance: "none" as const }}
+                value={selectedItem}
+                onChange={(e) => setSelectedItem(e.target.value)}
+                data-ocid="order.item_select"
+              >
+                <option value="">Select item...</option>
+                {items.map((i) => (
+                  <option key={i.name} value={i.name}>
+                    {i.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {selectedItem && (
+              <div style={{ display: "flex", gap: 12, marginBottom: 14 }}>
+                <div style={{ flex: 1 }}>
+                  <div style={labelStyle}>Unit</div>
+                  <div style={{ ...inputStyle, color: "#00FFFF" }}>
+                    {currentItemData?.unit ?? "-"}
+                  </div>
+                </div>
+                <div style={{ flex: 1 }}>
+                  <div style={labelStyle}>Price (PKR)</div>
+                  <div style={{ ...inputStyle, color: "#00FFFF" }}>
+                    {currentItemData?.price ?? 0}
+                  </div>
+                </div>
+                <div style={{ flex: 1 }}>
+                  <div style={labelStyle}>Qty</div>
+                  <div
+                    style={{ display: "flex", alignItems: "center", gap: 8 }}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setQty(Math.max(1, qty - 1))}
+                      style={{
+                        width: 34,
+                        height: 42,
+                        background: "rgba(0,255,255,0.1)",
+                        border: "1px solid rgba(0,255,255,0.3)",
+                        borderRadius: 8,
+                        color: "#00FFFF",
+                        cursor: "pointer",
+                        fontSize: 18,
+                      }}
+                    >
+                      -
+                    </button>
+                    <span
+                      style={{
+                        fontFamily: "Orbitron, sans-serif",
+                        fontSize: "16px",
+                        color: "#E0FFFF",
+                        minWidth: 24,
+                        textAlign: "center",
+                      }}
+                    >
+                      {qty}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setQty(qty + 1)}
+                      style={{
+                        width: 34,
+                        height: 42,
+                        background: "rgba(0,255,255,0.1)",
+                        border: "1px solid rgba(0,255,255,0.3)",
+                        borderRadius: 8,
+                        color: "#00FFFF",
+                        cursor: "pointer",
+                        fontSize: 18,
+                      }}
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+            <button
+              type="button"
+              onClick={addItem}
+              style={{
+                ...primaryBtn,
+                background: "rgba(0,255,255,0.1)",
+                border: "1px solid rgba(0,255,255,0.3)",
+                color: "#00FFFF",
+                padding: "10px",
+              }}
+              data-ocid="order.add_item"
+            >
+              + ADD ITEM
+            </button>
+          </div>
+
+          {orderItems.length > 0 && (
+            <div
+              style={{
+                ...glassCard,
+                marginBottom: 16,
+                border: "1px solid rgba(0,255,255,0.2)",
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "11px",
+                  color: "rgba(0,255,255,0.6)",
+                  letterSpacing: "1px",
+                  marginBottom: 10,
+                }}
+              >
+                ORDER SUMMARY
+              </div>
+              {orderItems.map((o) => (
+                <div
+                  key={o.name}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginBottom: 6,
+                    fontFamily: "Rajdhani, sans-serif",
+                    fontSize: "14px",
+                    color: "#E0FFFF",
+                  }}
+                >
+                  <span>
+                    {o.name} x{o.qty} {o.unit}
+                  </span>
+                  <span style={{ color: "#00FFFF" }}>
+                    PKR {(o.price * o.qty).toLocaleString()}
+                  </span>
+                </div>
+              ))}
+              <div
+                style={{
+                  borderTop: "1px solid rgba(0,255,255,0.1)",
+                  paddingTop: 8,
+                  marginTop: 6,
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "13px",
+                  color: "#00FFFF",
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <span>SUBTOTAL</span>
+                <span>PKR {total.toLocaleString()}</span>
+              </div>
+            </div>
+          )}
+
+          <div style={{ ...glassCard, marginBottom: 16 }}>
+            <div style={labelStyle}>
+              Delivery Address (GPS Current Location)
+            </div>
+            <input
+              style={inputStyle}
+              placeholder="📍 Tap to use current location..."
+              value={deliveryAddress}
+              onChange={(e) => setDeliveryAddress(e.target.value)}
+              data-ocid="order.delivery_address"
+            />
+          </div>
+
+          <button
+            type="button"
+            onClick={() => {
+              if (orderItems.length > 0) setSubStep("provider");
+            }}
+            style={{
+              ...primaryBtn,
+              marginBottom: 20,
+              opacity: orderItems.length > 0 ? 1 : 0.5,
+            }}
+            data-ocid="order.book_order"
+          >
+            BOOK ORDER →
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── GeneralStoreScreen ───────────────────────────────────────────────────────
+
+// ─── Stationary Items ─────────────────────────────────────────────────────────
+
+const BOOKSTORE_ITEMS = [
+  { name: "Textbook", unit: "pcs", price: 450 },
+  { name: "Notebook", unit: "pcs", price: 80 },
+  { name: "Copy", unit: "pcs", price: 40 },
+  { name: "Drawing Book", unit: "pcs", price: 60 },
+  { name: "Register", unit: "pcs", price: 120 },
+  { name: "Pen", unit: "pcs", price: 15 },
+  { name: "Pencil", unit: "pcs", price: 10 },
+  { name: "Marker", unit: "pcs", price: 25 },
+  { name: "Highlighter", unit: "pcs", price: 35 },
+  { name: "Ruler", unit: "pcs", price: 20 },
+  { name: "Geometry Set", unit: "pcs", price: 150 },
+  { name: "Eraser", unit: "pcs", price: 10 },
+  { name: "Sharpener", unit: "pcs", price: 15 },
+  { name: "Stapler", unit: "pcs", price: 200 },
+  { name: "File Folder", unit: "pcs", price: 50 },
+  { name: "Binder", unit: "pcs", price: 180 },
+  { name: "Sticky Notes", unit: "pcs", price: 45 },
+  { name: "Correction Pen", unit: "pcs", price: 30 },
+  { name: "Glue Stick", unit: "pcs", price: 35 },
+  { name: "Scissor", unit: "pcs", price: 60 },
+];
+
+const STATIONARY_ACCESSORIES_ITEMS = [
+  { name: "School Bag", unit: "pcs", price: 1200 },
+  { name: "Backpack", unit: "pcs", price: 1800 },
+  { name: "Pencil Case", unit: "pcs", price: 150 },
+  { name: "Lunch Box", unit: "pcs", price: 350 },
+  { name: "Water Bottle", unit: "pcs", price: 250 },
+  { name: "Calculator", unit: "pcs", price: 800 },
+  { name: "USB Drive", unit: "pcs", price: 600 },
+  { name: "Headphones", unit: "pcs", price: 1500 },
+  { name: "Earphones", unit: "pcs", price: 400 },
+  { name: "Mouse Pad", unit: "pcs", price: 200 },
+  { name: "Laptop Bag", unit: "pcs", price: 2200 },
+  { name: "Tiffin Box", unit: "pcs", price: 280 },
+  { name: "Compass", unit: "pcs", price: 120 },
+  { name: "Protractor", unit: "pcs", price: 50 },
+  { name: "Color Pencils", unit: "pcs", price: 200 },
+  { name: "Crayons", unit: "pcs", price: 180 },
+  { name: "Paints Set", unit: "pcs", price: 450 },
+  { name: "Drawing Kit", unit: "pcs", price: 650 },
+  { name: "Wall Clock", unit: "pcs", price: 850 },
+  { name: "Desk Organizer", unit: "pcs", price: 600 },
+];
+
+function StationaryScreen({
+  onBack,
+  onPayment,
+}: { onBack: () => void; onPayment: () => void }) {
+  const [subCat, setSubCat] = useState<"" | "Book Store" | "Accessories">("");
+
+  if (subCat === "Book Store") {
+    return (
+      <ItemOrderFlow
+        title="BOOK STORE"
+        items={BOOKSTORE_ITEMS}
+        serviceCharge={50}
+        deliveryCharge={150}
+        onConfirm={onPayment}
+        onBack={() => setSubCat("")}
+      />
+    );
+  }
+  if (subCat === "Accessories") {
+    return (
+      <ItemOrderFlow
+        title="ACCESSORIES"
+        items={STATIONARY_ACCESSORIES_ITEMS}
+        serviceCharge={50}
+        deliveryCharge={150}
+        onConfirm={onPayment}
+        onBack={() => setSubCat("")}
+      />
+    );
+  }
+
+  return (
+    <SubCategoryPicker
+      title="STATIONARY"
+      color="#9B59B6"
+      items={[
+        { name: "Book Store", icon: "📚" },
+        { name: "Accessories", icon: "🎒" },
+      ]}
+      onSelect={(name) => setSubCat(name as "Book Store" | "Accessories")}
+      onBack={onBack}
+    />
+  );
+}
+
+// ─── Travel (formerly Transport) ─────────────────────────────────────────────
+
+type TravelSubCat =
+  | ""
+  | "Air Travel"
+  | "Train Travel"
+  | "Road Travel"
+  | "Coach Travel"
+  | "Dome Travel";
+
+const TRAVEL_FARES: Record<string, number> = {
+  "Air Travel-Economy": 8000,
+  "Air Travel-Business": 15000,
+  "Train Travel-Economy": 2500,
+  "Train Travel-Business": 5000,
+  "Coach Travel-Economy": 1200,
+  "Coach Travel-Business": 2200,
+  "Dome Travel-Economy": 1400,
+  "Dome Travel-Business": 2500,
+};
+
+function TravelBookingForm({
+  travelType,
+  onConfirm,
+  onBack,
+}: {
+  travelType: string;
+  onConfirm: () => void;
+  onBack: () => void;
+}) {
+  const [fromCity, setFromCity] = useState("");
+  const [toCity, setToCity] = useState("");
+  const [passengerName, setPassengerName] = useState("");
+  const [contact, setContact] = useState("");
+  const [serviceType, setServiceType] = useState<"Economy" | "Business">(
+    "Economy",
+  );
+  const [totalPassengers, setTotalPassengers] = useState(1);
+  const [showCard, setShowCard] = useState(false);
+
+  const fareKey = `${travelType}-${serviceType}`;
+  const farePerSeat = TRAVEL_FARES[fareKey] ?? 1000;
+  const totalFare = farePerSeat * totalPassengers;
+  const serviceCharges = 200;
+  const grandTotal = totalFare + serviceCharges;
+
+  const seats = Array.from({ length: totalPassengers }, (_, i) => {
+    const row = String.fromCharCode(65 + Math.floor(i / 6));
+    const col = (i % 6) + 1;
+    return `${row}${col}`;
+  }).join(", ");
+
+  if (showCard) {
+    return (
+      <div style={{ ...pageStyle, position: "relative", overflow: "hidden" }}>
+        <SpaceBackground />
+        <div style={{ position: "relative", zIndex: 1 }}>
+          <ScreenHeader
+            title="SERVICE PROVIDER"
+            onBack={() => setShowCard(false)}
+          />
+          <div style={{ padding: "0 16px 100px" }}>
+            <div
+              style={{
+                ...glassCard,
+                border: "1px solid rgba(52,152,219,0.4)",
+                marginBottom: 16,
+              }}
+            >
+              <h3
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "13px",
+                  color: "#3498DB",
+                  letterSpacing: "1px",
+                  marginBottom: 16,
+                }}
+              >
+                ✈️ {travelType.toUpperCase()} — BOOKING DETAILS
+              </h3>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: "10px",
+                  marginBottom: 12,
+                }}
+              >
+                <div>
+                  <div style={{ ...labelStyle }}>From City</div>
+                  <div
+                    style={{
+                      fontFamily: "Rajdhani, sans-serif",
+                      color: "#E0FFFF",
+                      fontSize: "15px",
+                    }}
+                  >
+                    {fromCity}
+                  </div>
+                </div>
+                <div>
+                  <div style={{ ...labelStyle }}>To City</div>
+                  <div
+                    style={{
+                      fontFamily: "Rajdhani, sans-serif",
+                      color: "#E0FFFF",
+                      fontSize: "15px",
+                    }}
+                  >
+                    {toCity}
+                  </div>
+                </div>
+                <div>
+                  <div style={{ ...labelStyle }}>Passenger</div>
+                  <div
+                    style={{
+                      fontFamily: "Rajdhani, sans-serif",
+                      color: "#E0FFFF",
+                      fontSize: "15px",
+                    }}
+                  >
+                    {passengerName}
+                  </div>
+                </div>
+                <div>
+                  <div style={{ ...labelStyle }}>Contact</div>
+                  <div
+                    style={{
+                      fontFamily: "Rajdhani, sans-serif",
+                      color: "#E0FFFF",
+                      fontSize: "15px",
+                    }}
+                  >
+                    {contact}
+                  </div>
+                </div>
+                <div>
+                  <div style={{ ...labelStyle }}>Service Type</div>
+                  <div
+                    style={{
+                      fontFamily: "Rajdhani, sans-serif",
+                      color: "#00FFFF",
+                      fontSize: "15px",
+                    }}
+                  >
+                    {serviceType}
+                  </div>
+                </div>
+                <div>
+                  <div style={{ ...labelStyle }}>Seat(s)</div>
+                  <div
+                    style={{
+                      fontFamily: "Rajdhani, sans-serif",
+                      color: "#00FFFF",
+                      fontSize: "14px",
+                    }}
+                  >
+                    {seats}
+                  </div>
+                </div>
+              </div>
+              <div
+                style={{
+                  borderTop: "1px solid rgba(52,152,219,0.2)",
+                  paddingTop: 12,
+                  marginTop: 4,
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginBottom: 6,
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: "Rajdhani, sans-serif",
+                      color: "rgba(224,255,255,0.6)",
+                      fontSize: "14px",
+                    }}
+                  >
+                    Fare / Per Seat
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: "Orbitron, sans-serif",
+                      color: "#E0FFFF",
+                      fontSize: "13px",
+                    }}
+                  >
+                    PKR {farePerSeat.toLocaleString()}
+                  </span>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginBottom: 6,
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: "Rajdhani, sans-serif",
+                      color: "rgba(224,255,255,0.6)",
+                      fontSize: "14px",
+                    }}
+                  >
+                    Total Fare ({totalPassengers} seats)
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: "Orbitron, sans-serif",
+                      color: "#E0FFFF",
+                      fontSize: "13px",
+                    }}
+                  >
+                    PKR {totalFare.toLocaleString()}
+                  </span>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginBottom: 6,
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: "Rajdhani, sans-serif",
+                      color: "rgba(224,255,255,0.6)",
+                      fontSize: "14px",
+                    }}
+                  >
+                    Service Charges
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: "Orbitron, sans-serif",
+                      color: "#E0FFFF",
+                      fontSize: "13px",
+                    }}
+                  >
+                    PKR {serviceCharges}
+                  </span>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    borderTop: "1px solid rgba(0,255,255,0.2)",
+                    paddingTop: 10,
+                    marginTop: 6,
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: "Orbitron, sans-serif",
+                      color: "#00FFFF",
+                      fontSize: "13px",
+                    }}
+                  >
+                    GRAND TOTAL
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: "Orbitron, sans-serif",
+                      color: "#00FFFF",
+                      fontSize: "15px",
+                      fontWeight: 700,
+                    }}
+                  >
+                    PKR {grandTotal.toLocaleString()}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={onConfirm}
+              style={{ ...primaryBtn }}
+              data-ocid="travel.confirm_button"
+            >
+              CONFIRM BOOKING → PAYMENT
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const isValid = fromCity && toCity && passengerName && contact;
+
+  return (
+    <div style={{ ...pageStyle, position: "relative", overflow: "hidden" }}>
+      <SpaceBackground />
+      <div style={{ position: "relative", zIndex: 1 }}>
+        <ScreenHeader title={travelType.toUpperCase()} onBack={onBack} />
+        <div style={{ padding: "0 16px 100px" }}>
+          <div
+            style={{
+              ...glassCard,
+              border: "1px solid rgba(52,152,219,0.3)",
+              marginBottom: 16,
+            }}
+          >
+            <p
+              style={{
+                fontFamily: "Orbitron, sans-serif",
+                fontSize: "11px",
+                color: "#3498DB",
+                letterSpacing: "1px",
+                marginBottom: 16,
+              }}
+            >
+              ✈️ {travelType.toUpperCase()} BOOKING
+            </p>
+
+            <label htmlFor="travel-from" style={labelStyle}>
+              From City
+            </label>
+            <input
+              id="travel-from"
+              style={{ ...inputStyle, marginBottom: 12 }}
+              placeholder="Departure city"
+              value={fromCity}
+              onChange={(e) => setFromCity(e.target.value)}
+              data-ocid="travel.input"
+            />
+
+            <label htmlFor="travel-to" style={labelStyle}>
+              To City
+            </label>
+            <input
+              id="travel-to"
+              style={{ ...inputStyle, marginBottom: 12 }}
+              placeholder="Destination city"
+              value={toCity}
+              onChange={(e) => setToCity(e.target.value)}
+            />
+
+            <label htmlFor="travel-pax" style={labelStyle}>
+              Name of Passenger
+            </label>
+            <input
+              id="travel-pax"
+              style={{ ...inputStyle, marginBottom: 12 }}
+              placeholder="Full name"
+              value={passengerName}
+              onChange={(e) => setPassengerName(e.target.value)}
+            />
+
+            <label htmlFor="travel-contact" style={labelStyle}>
+              Contact Number
+            </label>
+            <input
+              id="travel-contact"
+              style={{ ...inputStyle, marginBottom: 12 }}
+              type="tel"
+              placeholder="03xx-xxxxxxx"
+              value={contact}
+              onChange={(e) => setContact(e.target.value)}
+            />
+
+            <p style={labelStyle}>Service Type</p>
+            <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
+              {(["Economy", "Business"] as const).map((t) => (
+                <button
+                  key={t}
+                  type="button"
+                  onClick={() => setServiceType(t)}
+                  style={{
+                    flex: 1,
+                    padding: "10px",
+                    borderRadius: "10px",
+                    border: `1px solid ${serviceType === t ? "#3498DB" : "rgba(52,152,219,0.25)"}`,
+                    background:
+                      serviceType === t
+                        ? "rgba(52,152,219,0.2)"
+                        : "rgba(52,152,219,0.04)",
+                    color:
+                      serviceType === t ? "#3498DB" : "rgba(224,255,255,0.5)",
+                    fontFamily: "Orbitron, sans-serif",
+                    fontSize: "11px",
+                    cursor: "pointer",
+                    letterSpacing: "0.5px",
+                  }}
+                  data-ocid="travel.toggle"
+                >
+                  {t}
+                </button>
+              ))}
+            </div>
+
+            <p style={labelStyle}>Total Passengers</p>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+                marginBottom: 4,
+              }}
+            >
+              <button
+                type="button"
+                onClick={() => setTotalPassengers((v) => Math.max(1, v - 1))}
+                style={{
+                  width: 36,
+                  height: 36,
+                  borderRadius: "50%",
+                  background: "rgba(0,255,255,0.1)",
+                  border: "1px solid rgba(0,255,255,0.3)",
+                  color: "#00FFFF",
+                  fontSize: "20px",
+                  cursor: "pointer",
+                }}
+              >
+                −
+              </button>
+              <span
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  color: "#E0FFFF",
+                  fontSize: "18px",
+                  minWidth: 30,
+                  textAlign: "center",
+                }}
+              >
+                {totalPassengers}
+              </span>
+              <button
+                type="button"
+                onClick={() => setTotalPassengers((v) => v + 1)}
+                style={{
+                  width: 36,
+                  height: 36,
+                  borderRadius: "50%",
+                  background: "rgba(0,255,255,0.1)",
+                  border: "1px solid rgba(0,255,255,0.3)",
+                  color: "#00FFFF",
+                  fontSize: "20px",
+                  cursor: "pointer",
+                }}
+              >
+                +
+              </button>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setShowCard(true)}
+            disabled={!isValid}
+            style={{
+              ...primaryBtn,
+              opacity: isValid ? 1 : 0.5,
+              cursor: isValid ? "pointer" : "not-allowed",
+            }}
+            data-ocid="travel.primary_button"
+          >
+            FIND PROVIDERS
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TravelScreen({
+  onBack,
+  onPayment,
+}: { onBack: () => void; onPayment: () => void }) {
+  const [subCat, setSubCat] = useState<TravelSubCat>("");
+  const [roadSubCat, setRoadSubCat] = useState<
+    "" | "Coach Travel" | "Dome Travel"
+  >("");
+
+  if (subCat === "Road Travel") {
+    if (roadSubCat === "Coach Travel" || roadSubCat === "Dome Travel") {
+      return (
+        <TravelBookingForm
+          travelType={roadSubCat}
+          onConfirm={onPayment}
+          onBack={() => setRoadSubCat("")}
+        />
+      );
+    }
+    return (
+      <SubCategoryPicker
+        title="ROAD TRAVEL"
+        color="#3498DB"
+        items={[
+          { name: "Coach Travel", icon: "🚌" },
+          { name: "Dome Travel", icon: "🚐" },
+        ]}
+        onSelect={(name) =>
+          setRoadSubCat(name as "Coach Travel" | "Dome Travel")
+        }
+        onBack={() => setSubCat("")}
+      />
+    );
+  }
+
+  if (subCat === "Air Travel" || subCat === "Train Travel") {
+    return (
+      <TravelBookingForm
+        travelType={subCat}
+        onConfirm={onPayment}
+        onBack={() => setSubCat("")}
+      />
+    );
+  }
+
+  return (
+    <SubCategoryPicker
+      title="TRAVEL"
+      color="#3498DB"
+      items={[
+        { name: "Air Travel", icon: "✈️" },
+        { name: "Train Travel", icon: "🚂" },
+        { name: "Road Travel", icon: "🚌" },
+      ]}
+      onSelect={(name) => setSubCat(name as TravelSubCat)}
+      onBack={onBack}
+    />
+  );
+}
+
+const GROCERY_ITEMS = [
+  { name: "Basmati Rice", unit: "kg", price: 280 },
+  { name: "Cooking Oil", unit: "L", price: 450 },
+  { name: "Wheat Flour (Atta)", unit: "kg", price: 130 },
+  { name: "Sugar", unit: "kg", price: 140 },
+  { name: "Milk", unit: "L", price: 160 },
+  { name: "Eggs", unit: "dozen", price: 320 },
+  { name: "Onions", unit: "kg", price: 80 },
+  { name: "Tomatoes", unit: "kg", price: 120 },
+  { name: "Chicken", unit: "kg", price: 650 },
+  { name: "Lentils (Daal)", unit: "kg", price: 250 },
+  { name: "Tea (Chai Patti)", unit: "250g", price: 180 },
+  { name: "Salt", unit: "kg", price: 60 },
+  { name: "Bread", unit: "pcs", price: 70 },
+  { name: "Butter", unit: "pcs", price: 220 },
+  { name: "Yogurt (Dahi)", unit: "kg", price: 190 },
+];
+
+const ACCESSORIES_ITEMS = [
+  { name: "School Bag", unit: "pcs", price: 850 },
+  { name: "Laptop Bag", unit: "pcs", price: 1200 },
+  { name: "Backpack", unit: "pcs", price: 700 },
+  { name: "Water Cooler (Small)", unit: "pcs", price: 2500 },
+  { name: "Water Bottle", unit: "pcs", price: 350 },
+  { name: "Headphones", unit: "pcs", price: 1500 },
+  { name: "Watch (Casual)", unit: "pcs", price: 1800 },
+  { name: "Umbrella", unit: "pcs", price: 450 },
+  { name: "Belt", unit: "pcs", price: 300 },
+  { name: "Wallet", unit: "pcs", price: 400 },
+  { name: "Sunglasses", unit: "pcs", price: 600 },
+  { name: "Travel Bag", unit: "pcs", price: 2200 },
+];
+
+function GeneralStoreScreen({
+  onBack,
+  onPayment,
+}: { onBack: () => void; onPayment: () => void }) {
+  const [subCat, setSubCat] = useState<"" | "Grocery" | "Accessories">("");
+
+  if (subCat === "Grocery") {
+    return (
+      <ItemOrderFlow
+        title="GROCERY"
+        items={GROCERY_ITEMS}
+        serviceCharge={50}
+        deliveryCharge={150}
+        onConfirm={onPayment}
+        onBack={() => setSubCat("")}
+      />
+    );
+  }
+  if (subCat === "Accessories") {
+    return (
+      <ItemOrderFlow
+        title="ACCESSORIES"
+        items={ACCESSORIES_ITEMS}
+        serviceCharge={50}
+        deliveryCharge={150}
+        onConfirm={onPayment}
+        onBack={() => setSubCat("")}
+      />
+    );
+  }
+
+  return (
+    <SubCategoryPicker
+      title="GENERAL STORE"
+      color="#00FFFF"
+      items={[
+        { name: "Grocery", icon: "🛒" },
+        { name: "Accessories", icon: "👜" },
+      ]}
+      onSelect={(name) => setSubCat(name as "Grocery" | "Accessories")}
+      onBack={onBack}
+    />
+  );
+}
+
+// ─── HealthScreen ─────────────────────────────────────────────────────────────
+
+const MEDICINE_ITEMS = [
+  { name: "Panadol 500mg", unit: "Tablets", price: 25 },
+  { name: "Brufen 400mg", unit: "Tablets", price: 30 },
+  { name: "Disprin", unit: "Tablets", price: 20 },
+  { name: "Flagyl 400mg", unit: "Tablets", price: 35 },
+  { name: "Amoxicillin 500mg", unit: "Capsules", price: 85 },
+  { name: "Augmentin 625mg", unit: "Tablets", price: 150 },
+  { name: "Calpol Syrup", unit: "Syrup", price: 95 },
+  { name: "ORS Sachet", unit: "Sachet", price: 15 },
+  { name: "Omeprazole 20mg", unit: "Capsules", price: 45 },
+  { name: "Metformin 500mg", unit: "Tablets", price: 30 },
+  { name: "Amlodipine 5mg", unit: "Tablets", price: 40 },
+  { name: "Aspirin 75mg", unit: "Tablets", price: 22 },
+  { name: "Cetirizine 10mg", unit: "Tablets", price: 28 },
+  { name: "Vitamin C 500mg", unit: "Tablets", price: 55 },
+  { name: "Zinc 50mg", unit: "Tablets", price: 60 },
+  { name: "Calcium+D3", unit: "Tablets", price: 75 },
+  { name: "B-Complex", unit: "Tablets", price: 65 },
+  { name: "Multivitamin", unit: "Tablets", price: 90 },
+  { name: "Antacid Syrup", unit: "Syrup", price: 80 },
+  { name: "Imodium", unit: "Tablets", price: 45 },
+];
+
+function HealthScreen({
+  onBack,
+  onPayment,
+}: { onBack: () => void; onPayment: () => void }) {
+  const [subCat, setSubCat] = useState<"" | "Medical Store">("");
+
+  if (subCat === "Medical Store") {
+    return (
+      <ItemOrderFlow
+        title="MEDICAL STORE"
+        items={MEDICINE_ITEMS}
+        serviceCharge={50}
+        deliveryCharge={150}
+        onConfirm={onPayment}
+        onBack={() => setSubCat("")}
+      />
+    );
+  }
+
+  return (
+    <SubCategoryPicker
+      title="HEALTH"
+      color="#FF6B9D"
+      items={[{ name: "Medical Store", icon: "💊" }]}
+      onSelect={() => setSubCat("Medical Store")}
+      onBack={onBack}
+    />
+  );
+}
+
+// ─── HouseScreen ──────────────────────────────────────────────────────────────
+
+function HouseScreen({
+  onBack,
+  onPayment,
+}: { onBack: () => void; onPayment: () => void }) {
+  const [subCat, setSubCat] = useState<"" | "Drinking Water" | "Gas Cylinder">(
+    "",
+  );
+  const [step, setStep] = useState<"form" | "provider">("form");
+
+  // Drinking Water state
+  const [dwBrand, setDwBrand] = useState("");
+  const [dwSize, setDwSize] = useState("");
+  const [dwBottles, setDwBottles] = useState(1);
+  const [dwAddress, setDwAddress] = useState("📍 Current Location");
+
+  // Gas Cylinder state
+  const [gcGasType, setGcGasType] = useState("");
+  const [gcSize, setGcSize] = useState("");
+  const [gcCylinders, setGcCylinders] = useState(1);
+  const [gcAddress, setGcAddress] = useState("📍 Current Location");
+
+  if (subCat === "Drinking Water") {
+    if (step === "provider") {
+      const bottlePrice: Record<string, number> = {
+        "500ml": 25,
+        "1L": 45,
+        "1.5L": 60,
+        "6L": 130,
+        "16L": 280,
+      };
+      const pricePerBottle = bottlePrice[dwSize] || 45;
+      const total = pricePerBottle * dwBottles + 150;
+      return (
+        <div style={{ ...pageStyle, position: "relative", overflow: "hidden" }}>
+          <SpaceBackground />
+          <div style={{ position: "relative", zIndex: 1 }}>
+            <ScreenHeader
+              title="SELECT PROVIDER"
+              onBack={() => setStep("form")}
+            />
+            <div style={{ padding: "0 16px" }}>
+              {["AquaDrop Services", "ClearWater Co.", "PureFlow Delivery"].map(
+                (store, i) => (
+                  <div
+                    key={store}
+                    style={{
+                      ...glassCard,
+                      marginBottom: 12,
+                      border: "1px solid rgba(0,255,170,0.2)",
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontFamily: "Orbitron, sans-serif",
+                        fontSize: "12px",
+                        color: "#00FFAA",
+                        marginBottom: 4,
+                      }}
+                    >
+                      {["Imran Malik", "Faisal Shah", "Khalid Mehmood"][i]}
+                    </div>
+                    <div
+                      style={{
+                        fontFamily: "Rajdhani, sans-serif",
+                        fontSize: "13px",
+                        color: "rgba(224,255,255,0.6)",
+                        marginBottom: 8,
+                      }}
+                    >
+                      {store}
+                    </div>
+                    <div
+                      style={{
+                        fontFamily: "Rajdhani, sans-serif",
+                        fontSize: "13px",
+                        color: "rgba(224,255,255,0.5)",
+                        marginBottom: 4,
+                      }}
+                    >
+                      Brand: {dwBrand} | Size: {dwSize} | Qty: {dwBottles}
+                    </div>
+                    <div
+                      style={{
+                        fontFamily: "Rajdhani, sans-serif",
+                        fontSize: "13px",
+                        color: "rgba(224,255,255,0.5)",
+                        marginBottom: 4,
+                      }}
+                    >
+                      Price/Bottle: PKR {pricePerBottle} | Delivery: PKR 150
+                    </div>
+                    <div
+                      style={{
+                        fontFamily: "Orbitron, sans-serif",
+                        fontSize: "13px",
+                        color: "#00FFAA",
+                        marginBottom: 12,
+                      }}
+                    >
+                      TOTAL: PKR {total.toLocaleString()}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={onPayment}
+                      style={{
+                        ...primaryBtn,
+                        background: "linear-gradient(135deg, #00FFAA, #00AAFF)",
+                      }}
+                      data-ocid={`house.water.select.${i}`}
+                    >
+                      SELECT PROVIDER →
+                    </button>
+                  </div>
+                ),
+              )}
+            </div>
+          </div>
+        </div>
+      );
+    }
+    return (
+      <div style={{ ...pageStyle, position: "relative", overflow: "hidden" }}>
+        <SpaceBackground />
+        <div style={{ position: "relative", zIndex: 1 }}>
+          <ScreenHeader title="DRINKING WATER" onBack={() => setSubCat("")} />
+          <div style={{ padding: "0 16px" }}>
+            <div style={{ ...glassCard, marginBottom: 16 }}>
+              <div style={labelStyle}>Brand Name</div>
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap" as const,
+                  gap: 8,
+                  marginBottom: 16,
+                }}
+              >
+                {["Aquafina", "Nestle", "Local Brand"].map((b) => (
+                  <Chip
+                    key={b}
+                    label={b}
+                    selected={dwBrand === b}
+                    onClick={() => setDwBrand(b)}
+                    color="#00FFAA"
+                  />
+                ))}
+              </div>
+              <div style={labelStyle}>Bottle Size</div>
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap" as const,
+                  gap: 8,
+                  marginBottom: 16,
+                }}
+              >
+                {["500ml", "1L", "1.5L", "6L", "16L"].map((s) => (
+                  <Chip
+                    key={s}
+                    label={s}
+                    selected={dwSize === s}
+                    onClick={() => setDwSize(s)}
+                    color="#00FFAA"
+                  />
+                ))}
+              </div>
+              <div style={labelStyle}>Total Bottles</div>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 12,
+                  marginBottom: 16,
+                }}
+              >
+                <button
+                  type="button"
+                  onClick={() => setDwBottles(Math.max(1, dwBottles - 1))}
+                  style={{
+                    width: 40,
+                    height: 40,
+                    background: "rgba(0,255,170,0.1)",
+                    border: "1px solid rgba(0,255,170,0.3)",
+                    borderRadius: 8,
+                    color: "#00FFAA",
+                    cursor: "pointer",
+                    fontSize: 20,
+                  }}
+                >
+                  -
+                </button>
+                <span
+                  style={{
+                    fontFamily: "Orbitron, sans-serif",
+                    fontSize: "20px",
+                    color: "#E0FFFF",
+                    minWidth: 30,
+                    textAlign: "center",
+                  }}
+                >
+                  {dwBottles}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setDwBottles(dwBottles + 1)}
+                  style={{
+                    width: 40,
+                    height: 40,
+                    background: "rgba(0,255,170,0.1)",
+                    border: "1px solid rgba(0,255,170,0.3)",
+                    borderRadius: 8,
+                    color: "#00FFAA",
+                    cursor: "pointer",
+                    fontSize: 20,
+                  }}
+                >
+                  +
+                </button>
+              </div>
+              <div style={labelStyle}>Delivery Address</div>
+              <input
+                style={inputStyle}
+                value={dwAddress}
+                onChange={(e) => setDwAddress(e.target.value)}
+                data-ocid="house.water.address"
+              />
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                if (dwBrand && dwSize) setStep("provider");
+              }}
+              style={{
+                ...primaryBtn,
+                marginBottom: 20,
+                opacity: dwBrand && dwSize ? 1 : 0.5,
+              }}
+              data-ocid="house.water.book"
+            >
+              FIND PROVIDERS →
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (subCat === "Gas Cylinder") {
+    if (step === "provider") {
+      const sizeKg: Record<string, number> = {
+        "1kg": 1,
+        "2kg": 2,
+        "3kg": 3,
+        "4kg": 4,
+        "5kg": 5,
+        "10kg": 10,
+      };
+      const pricePerKg =
+        gcGasType === "CNG" ? 120 : gcGasType === "LNG" ? 180 : 220;
+      const cylinderKg = sizeKg[gcSize] || 5;
+      const deliveryTotal = gcCylinders * 150;
+      const gasTotal = cylinderKg * gcCylinders * pricePerKg;
+      const total = gasTotal + deliveryTotal;
+      return (
+        <div style={{ ...pageStyle, position: "relative", overflow: "hidden" }}>
+          <SpaceBackground />
+          <div style={{ position: "relative", zIndex: 1 }}>
+            <ScreenHeader
+              title="SELECT PROVIDER"
+              onBack={() => setStep("form")}
+            />
+            <div style={{ padding: "0 16px" }}>
+              {["SafeGas Co.", "PakGas Delivery", "HomeGas Services"].map(
+                (store, i) => (
+                  <div
+                    key={store}
+                    style={{
+                      ...glassCard,
+                      marginBottom: 12,
+                      border: "1px solid rgba(0,255,170,0.2)",
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontFamily: "Orbitron, sans-serif",
+                        fontSize: "12px",
+                        color: "#00FFAA",
+                        marginBottom: 4,
+                      }}
+                    >
+                      {["Asif Raza", "Junaid Baig", "Aamir Sohail"][i]}
+                    </div>
+                    <div
+                      style={{
+                        fontFamily: "Rajdhani, sans-serif",
+                        fontSize: "13px",
+                        color: "rgba(224,255,255,0.6)",
+                        marginBottom: 8,
+                      }}
+                    >
+                      {store}
+                    </div>
+                    <div
+                      style={{
+                        fontFamily: "Rajdhani, sans-serif",
+                        fontSize: "13px",
+                        color: "rgba(224,255,255,0.5)",
+                        marginBottom: 4,
+                      }}
+                    >
+                      Gas: {gcGasType} | Size: {gcSize} | Cylinders:{" "}
+                      {gcCylinders}
+                    </div>
+                    <div
+                      style={{
+                        fontFamily: "Rajdhani, sans-serif",
+                        fontSize: "13px",
+                        color: "rgba(224,255,255,0.5)",
+                        marginBottom: 4,
+                      }}
+                    >
+                      PKR {pricePerKg}/kg | Delivery PKR 150/cylinder
+                    </div>
+                    <div
+                      style={{
+                        fontFamily: "Orbitron, sans-serif",
+                        fontSize: "13px",
+                        color: "#00FFAA",
+                        marginBottom: 12,
+                      }}
+                    >
+                      TOTAL: PKR {total.toLocaleString()}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={onPayment}
+                      style={{
+                        ...primaryBtn,
+                        background: "linear-gradient(135deg, #00FFAA, #00AAFF)",
+                      }}
+                      data-ocid={`house.gas.select.${i}`}
+                    >
+                      SELECT PROVIDER →
+                    </button>
+                  </div>
+                ),
+              )}
+            </div>
+          </div>
+        </div>
+      );
+    }
+    return (
+      <div style={{ ...pageStyle, position: "relative", overflow: "hidden" }}>
+        <SpaceBackground />
+        <div style={{ position: "relative", zIndex: 1 }}>
+          <ScreenHeader title="GAS CYLINDER" onBack={() => setSubCat("")} />
+          <div style={{ padding: "0 16px" }}>
+            <div style={{ ...glassCard, marginBottom: 16 }}>
+              <div style={labelStyle}>Gas Type</div>
+              <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
+                {["LPG", "LNG", "CNG"].map((g) => (
+                  <Chip
+                    key={g}
+                    label={g}
+                    selected={gcGasType === g}
+                    onClick={() => setGcGasType(g)}
+                    color="#00FFAA"
+                  />
+                ))}
+              </div>
+              <div style={labelStyle}>Cylinder Size</div>
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap" as const,
+                  gap: 8,
+                  marginBottom: 16,
+                }}
+              >
+                {["1kg", "2kg", "3kg", "4kg", "5kg", "10kg"].map((s) => (
+                  <Chip
+                    key={s}
+                    label={s}
+                    selected={gcSize === s}
+                    onClick={() => setGcSize(s)}
+                    color="#00FFAA"
+                  />
+                ))}
+              </div>
+              <div style={labelStyle}>Total Cylinders</div>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 12,
+                  marginBottom: 16,
+                }}
+              >
+                <button
+                  type="button"
+                  onClick={() => setGcCylinders(Math.max(1, gcCylinders - 1))}
+                  style={{
+                    width: 40,
+                    height: 40,
+                    background: "rgba(0,255,170,0.1)",
+                    border: "1px solid rgba(0,255,170,0.3)",
+                    borderRadius: 8,
+                    color: "#00FFAA",
+                    cursor: "pointer",
+                    fontSize: 20,
+                  }}
+                >
+                  -
+                </button>
+                <span
+                  style={{
+                    fontFamily: "Orbitron, sans-serif",
+                    fontSize: "20px",
+                    color: "#E0FFFF",
+                    minWidth: 30,
+                    textAlign: "center",
+                  }}
+                >
+                  {gcCylinders}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setGcCylinders(gcCylinders + 1)}
+                  style={{
+                    width: 40,
+                    height: 40,
+                    background: "rgba(0,255,170,0.1)",
+                    border: "1px solid rgba(0,255,170,0.3)",
+                    borderRadius: 8,
+                    color: "#00FFAA",
+                    cursor: "pointer",
+                    fontSize: 20,
+                  }}
+                >
+                  +
+                </button>
+              </div>
+              <div style={labelStyle}>Delivery Address</div>
+              <input
+                style={inputStyle}
+                value={gcAddress}
+                onChange={(e) => setGcAddress(e.target.value)}
+                data-ocid="house.gas.address"
+              />
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                if (gcGasType && gcSize) setStep("provider");
+              }}
+              style={{
+                ...primaryBtn,
+                marginBottom: 20,
+                opacity: gcGasType && gcSize ? 1 : 0.5,
+              }}
+              data-ocid="house.gas.book"
+            >
+              FIND PROVIDERS →
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <SubCategoryPicker
+      title="HOUSE"
+      color="#00FFAA"
+      items={[
+        { name: "Drinking Water", icon: "💧", color: "#00FFAA" },
+        { name: "Gas Cylinder", icon: "🔥", color: "#00FFAA" },
+      ]}
+      onSelect={(name) => {
+        setSubCat(name as "Drinking Water" | "Gas Cylinder");
+        setStep("form");
+      }}
+      onBack={onBack}
+    />
+  );
+}
+
+// ─── RentalsScreen ────────────────────────────────────────────────────────────
+
+function RentalsScreen({
+  onBack,
+  onPayment,
+}: { onBack: () => void; onPayment: () => void }) {
+  const [subScreen, setSubScreen] = useState<
+    | "main"
+    | "vehicles"
+    | "property"
+    | "passenger"
+    | "commercial-vehicle"
+    | "residential"
+    | "commercial-property"
+  >("main");
+  const [step, setStep] = useState<"form" | "providers">("form");
+
+  // Passenger state
+  const [pDestination, setPDestination] = useState("");
+  const [pPickup, setPPickup] = useState("📍 Current Location");
+  const [pDate, setPDate] = useState("");
+  const [pTime, setPTime] = useState("");
+  const [pVehicleType, setPVehicleType] = useState("");
+  const [pPassengers, setPPassengers] = useState(1);
+  const [pComfort, setPComfort] = useState<"Comfort" | "Economy">("Economy");
+
+  // Commercial Vehicle state
+  const [cvArea, setCvArea] = useState("");
+  const [cvLoading, setCvLoading] = useState("");
+  const [cvUnloading, setCvUnloading] = useState("");
+  const [cvLoad, setCvLoad] = useState("");
+  const [cvVehicleType, setCvVehicleType] = useState("");
+  const [cvDate, setCvDate] = useState("");
+  const [cvTime, setCvTime] = useState("");
+
+  // Residential state
+  const [rArea, setRArea] = useState("");
+  const [rPropType, setRPropType] = useState("");
+  const [rRooms, setRRooms] = useState("");
+  const [rDuration, setRDuration] = useState("");
+
+  // Commercial Property state
+  const [cpArea, setCpArea] = useState("");
+  const [cpPropType, setCpPropType] = useState("");
+  const [cpRooms, setCpRooms] = useState("");
+  const [cpDuration, setCpDuration] = useState("");
+
+  const renderProviders = (
+    providers: { name: string; detail: string; amount: string }[],
+    onSelect: () => void,
+    headerTitle: string,
+    backFn: () => void,
+  ) => (
+    <div style={{ ...pageStyle, position: "relative", overflow: "hidden" }}>
+      <SpaceBackground />
+      <div style={{ position: "relative", zIndex: 1 }}>
+        <ScreenHeader title={headerTitle} onBack={backFn} />
+        <div style={{ padding: "0 16px" }}>
+          {providers.map((p, i) => (
+            <div
+              key={p.name}
+              style={{
+                ...glassCard,
+                marginBottom: 12,
+                border: "1px solid rgba(255,215,0,0.2)",
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "12px",
+                  color: "#FFD700",
+                  marginBottom: 4,
+                }}
+              >
+                {p.name}
+              </div>
+              <div
+                style={{
+                  fontFamily: "Rajdhani, sans-serif",
+                  fontSize: "13px",
+                  color: "rgba(224,255,255,0.6)",
+                  marginBottom: 8,
+                }}
+              >
+                {p.detail}
+              </div>
+              <div
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "13px",
+                  color: "#FFD700",
+                  marginBottom: 12,
+                }}
+              >
+                {p.amount}
+              </div>
+              <button
+                type="button"
+                onClick={onSelect}
+                style={{
+                  ...primaryBtn,
+                  background: "linear-gradient(135deg, #FFD700, #FF8C00)",
+                  color: "#05070A",
+                }}
+                data-ocid={`rentals.select.${i}`}
+              >
+                BOOK SERVICE →
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
+  if (subScreen === "passenger") {
+    if (step === "providers") {
+      const providers = [
+        {
+          name: "Bilal Ahmed",
+          detail: `${pVehicleType} | ${pComfort} | 2.3 km away`,
+          amount: "PKR 350",
+        },
+        {
+          name: "Tariq Hassan",
+          detail: `${pVehicleType} | ${pComfort} | 4.1 km away`,
+          amount: "PKR 280",
+        },
+        {
+          name: "Nadeem Iqbal",
+          detail: `${pVehicleType} | ${pComfort} | 1.8 km away`,
+          amount: "PKR 420",
+        },
+      ];
+      return renderProviders(providers, onPayment, "NEARBY PROVIDERS", () =>
+        setStep("form"),
+      );
+    }
+    return (
+      <div style={{ ...pageStyle, position: "relative", overflow: "hidden" }}>
+        <SpaceBackground />
+        <div style={{ position: "relative", zIndex: 1 }}>
+          <ScreenHeader
+            title="PASSENGER VEHICLE"
+            onBack={() => {
+              setSubScreen("vehicles");
+              setStep("form");
+            }}
+          />
+          <div style={{ padding: "0 16px" }}>
+            <div
+              style={{
+                ...glassCard,
+                marginBottom: 16,
+                display: "flex",
+                flexDirection: "column" as const,
+                gap: 14,
+              }}
+            >
+              <div>
+                <div style={labelStyle}>Destination (GPS)</div>
+                <input
+                  style={inputStyle}
+                  placeholder="Enter destination..."
+                  value={pDestination}
+                  onChange={(e) => setPDestination(e.target.value)}
+                  data-ocid="passenger.destination"
+                />
+              </div>
+              <div>
+                <div style={labelStyle}>Pick-Up Location</div>
+                <input
+                  style={inputStyle}
+                  value={pPickup}
+                  onChange={(e) => setPPickup(e.target.value)}
+                  data-ocid="passenger.pickup"
+                />
+              </div>
+              <div style={{ display: "flex", gap: 12 }}>
+                <div style={{ flex: 1 }}>
+                  <div style={labelStyle}>Date</div>
+                  <input
+                    style={inputStyle}
+                    type="date"
+                    value={pDate}
+                    onChange={(e) => setPDate(e.target.value)}
+                    data-ocid="passenger.date"
+                  />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <div style={labelStyle}>Time</div>
+                  <input
+                    style={inputStyle}
+                    type="time"
+                    value={pTime}
+                    onChange={(e) => setPTime(e.target.value)}
+                    data-ocid="passenger.time"
+                  />
+                </div>
+              </div>
+              <div>
+                <div style={labelStyle}>Vehicle Type</div>
+                <div
+                  style={{ display: "flex", flexWrap: "wrap" as const, gap: 8 }}
+                >
+                  {["Bike", "Rikshaw", "Car", "Van"].map((v) => (
+                    <Chip
+                      key={v}
+                      label={v}
+                      selected={pVehicleType === v}
+                      onClick={() => setPVehicleType(v)}
+                      color="#FFD700"
+                    />
+                  ))}
+                </div>
+              </div>
+              <div>
+                <div style={labelStyle}>Total Passengers</div>
+                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                  <button
+                    type="button"
+                    onClick={() => setPPassengers(Math.max(1, pPassengers - 1))}
+                    style={{
+                      width: 40,
+                      height: 40,
+                      background: "rgba(255,215,0,0.1)",
+                      border: "1px solid rgba(255,215,0,0.3)",
+                      borderRadius: 8,
+                      color: "#FFD700",
+                      cursor: "pointer",
+                      fontSize: 20,
+                    }}
+                  >
+                    -
+                  </button>
+                  <span
+                    style={{
+                      fontFamily: "Orbitron, sans-serif",
+                      fontSize: "20px",
+                      color: "#E0FFFF",
+                      minWidth: 30,
+                      textAlign: "center",
+                    }}
+                  >
+                    {pPassengers}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setPPassengers(pPassengers + 1)}
+                    style={{
+                      width: 40,
+                      height: 40,
+                      background: "rgba(255,215,0,0.1)",
+                      border: "1px solid rgba(255,215,0,0.3)",
+                      borderRadius: 8,
+                      color: "#FFD700",
+                      cursor: "pointer",
+                      fontSize: 20,
+                    }}
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+              <div>
+                <div style={labelStyle}>Comfort Level</div>
+                <div style={{ display: "flex", gap: 8 }}>
+                  <Chip
+                    label="Comfort (AC)"
+                    selected={pComfort === "Comfort"}
+                    onClick={() => setPComfort("Comfort")}
+                    color="#FFD700"
+                  />
+                  <Chip
+                    label="Economy (Non-AC)"
+                    selected={pComfort === "Economy"}
+                    onClick={() => setPComfort("Economy")}
+                    color="#FFD700"
+                  />
+                </div>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                if (pDestination && pVehicleType) setStep("providers");
+              }}
+              style={{
+                ...primaryBtn,
+                background: "linear-gradient(135deg, #FFD700, #FF8C00)",
+                color: "#05070A",
+                marginBottom: 20,
+                opacity: pDestination && pVehicleType ? 1 : 0.5,
+              }}
+              data-ocid="passenger.find"
+            >
+              FIND PROVIDERS →
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (subScreen === "commercial-vehicle") {
+    if (step === "providers") {
+      const providers = [
+        {
+          name: "Ghulam Transport",
+          detail: `${cvVehicleType} | Cargo Services | 5.2 km`,
+          amount: "PKR 4,500",
+        },
+        {
+          name: "Allied Cargo",
+          detail: `${cvVehicleType} | Heavy Load | 3.8 km`,
+          amount: "PKR 5,200",
+        },
+        {
+          name: "National Movers",
+          detail: `${cvVehicleType} | Logistics | 7.1 km`,
+          amount: "PKR 3,800",
+        },
+      ];
+      return renderProviders(providers, onPayment, "SERVICE PROVIDERS", () =>
+        setStep("form"),
+      );
+    }
+    return (
+      <div style={{ ...pageStyle, position: "relative", overflow: "hidden" }}>
+        <SpaceBackground />
+        <div style={{ position: "relative", zIndex: 1 }}>
+          <ScreenHeader
+            title="COMMERCIAL VEHICLE"
+            onBack={() => {
+              setSubScreen("vehicles");
+              setStep("form");
+            }}
+          />
+          <div style={{ padding: "0 16px" }}>
+            <div
+              style={{
+                ...glassCard,
+                marginBottom: 16,
+                display: "flex",
+                flexDirection: "column" as const,
+                gap: 14,
+              }}
+            >
+              <div>
+                <div style={labelStyle}>Area</div>
+                <input
+                  style={inputStyle}
+                  placeholder="Your area..."
+                  value={cvArea}
+                  onChange={(e) => setCvArea(e.target.value)}
+                  data-ocid="cv.area"
+                />
+              </div>
+              <div>
+                <div style={labelStyle}>Loading Point</div>
+                <input
+                  style={inputStyle}
+                  placeholder="Pick-up address..."
+                  value={cvLoading}
+                  onChange={(e) => setCvLoading(e.target.value)}
+                  data-ocid="cv.loading"
+                />
+              </div>
+              <div>
+                <div style={labelStyle}>Un-Loading Point</div>
+                <input
+                  style={inputStyle}
+                  placeholder="Drop-off address..."
+                  value={cvUnloading}
+                  onChange={(e) => setCvUnloading(e.target.value)}
+                  data-ocid="cv.unloading"
+                />
+              </div>
+              <div>
+                <div style={labelStyle}>Type of Load</div>
+                <input
+                  style={inputStyle}
+                  placeholder="e.g. Furniture, Electronics..."
+                  value={cvLoad}
+                  onChange={(e) => setCvLoad(e.target.value)}
+                  data-ocid="cv.load"
+                />
+              </div>
+              <div>
+                <div style={labelStyle}>Type of Vehicle</div>
+                <div
+                  style={{ display: "flex", flexWrap: "wrap" as const, gap: 8 }}
+                >
+                  {["Mazsah", "Loader", "Truck", "Trolley", "Pickup"].map(
+                    (v) => (
+                      <Chip
+                        key={v}
+                        label={v}
+                        selected={cvVehicleType === v}
+                        onClick={() => setCvVehicleType(v)}
+                        color="#FFD700"
+                      />
+                    ),
+                  )}
+                </div>
+              </div>
+              <div style={{ display: "flex", gap: 12 }}>
+                <div style={{ flex: 1 }}>
+                  <div style={labelStyle}>Date</div>
+                  <input
+                    style={inputStyle}
+                    type="date"
+                    value={cvDate}
+                    onChange={(e) => setCvDate(e.target.value)}
+                    data-ocid="cv.date"
+                  />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <div style={labelStyle}>Time</div>
+                  <input
+                    style={inputStyle}
+                    type="time"
+                    value={cvTime}
+                    onChange={(e) => setCvTime(e.target.value)}
+                    data-ocid="cv.time"
+                  />
+                </div>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                if (cvLoading && cvVehicleType) setStep("providers");
+              }}
+              style={{
+                ...primaryBtn,
+                background: "linear-gradient(135deg, #FFD700, #FF8C00)",
+                color: "#05070A",
+                marginBottom: 20,
+                opacity: cvLoading && cvVehicleType ? 1 : 0.5,
+              }}
+              data-ocid="cv.book"
+            >
+              BOOK SERVICE →
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (subScreen === "residential") {
+    if (step === "providers") {
+      const providers = [
+        {
+          name: "Sana Properties",
+          detail: `${rPropType} | ${rArea} | ${rRooms} rooms`,
+          amount: "PKR 18,000/mo + PKR 36,000 adv",
+        },
+        {
+          name: "Green Homes",
+          detail: `${rPropType} | ${rArea} | ${rRooms} rooms`,
+          amount: "PKR 22,000/mo + PKR 44,000 adv",
+        },
+        {
+          name: "Capital Estates",
+          detail: `${rPropType} | ${rArea} | ${rRooms} rooms`,
+          amount: "PKR 15,500/mo + PKR 31,000 adv",
+        },
+      ];
+      return renderProviders(providers, onPayment, "AVAILABLE PROPERTIES", () =>
+        setStep("form"),
+      );
+    }
+    return (
+      <div style={{ ...pageStyle, position: "relative", overflow: "hidden" }}>
+        <SpaceBackground />
+        <div style={{ position: "relative", zIndex: 1 }}>
+          <ScreenHeader
+            title="RESIDENTIAL"
+            onBack={() => {
+              setSubScreen("property");
+              setStep("form");
+            }}
+          />
+          <div style={{ padding: "0 16px" }}>
+            <div
+              style={{
+                ...glassCard,
+                marginBottom: 16,
+                display: "flex",
+                flexDirection: "column" as const,
+                gap: 14,
+              }}
+            >
+              <div>
+                <div style={labelStyle}>Area</div>
+                <input
+                  style={inputStyle}
+                  placeholder="City / Area..."
+                  value={rArea}
+                  onChange={(e) => setRArea(e.target.value)}
+                  data-ocid="res.area"
+                />
+              </div>
+              <div>
+                <div style={labelStyle}>Type of Property</div>
+                <div
+                  style={{ display: "flex", flexWrap: "wrap" as const, gap: 8 }}
+                >
+                  {["Flat", "House", "Guest House", "Hostel"].map((t) => (
+                    <Chip
+                      key={t}
+                      label={t}
+                      selected={rPropType === t}
+                      onClick={() => setRPropType(t)}
+                      color="#FFD700"
+                    />
+                  ))}
+                </div>
+              </div>
+              <div>
+                <div style={labelStyle}>Total Rooms</div>
+                <input
+                  style={inputStyle}
+                  type="number"
+                  placeholder="Number of rooms..."
+                  value={rRooms}
+                  onChange={(e) => setRRooms(e.target.value)}
+                  data-ocid="res.rooms"
+                />
+              </div>
+              <div>
+                <div style={labelStyle}>Duration (Months)</div>
+                <select
+                  style={{ ...inputStyle, appearance: "none" as const }}
+                  value={rDuration}
+                  onChange={(e) => setRDuration(e.target.value)}
+                  data-ocid="res.duration"
+                >
+                  <option value="">Select duration...</option>
+                  {[1, 2, 3, 6, 12, 24].map((m) => (
+                    <option key={m} value={`${m}`}>
+                      {m} Month{m > 1 ? "s" : ""}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                if (rArea && rPropType) setStep("providers");
+              }}
+              style={{
+                ...primaryBtn,
+                background: "linear-gradient(135deg, #FFD700, #FF8C00)",
+                color: "#05070A",
+                marginBottom: 20,
+                opacity: rArea && rPropType ? 1 : 0.5,
+              }}
+              data-ocid="res.book"
+            >
+              BOOK SERVICE →
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (subScreen === "commercial-property") {
+    if (step === "providers") {
+      const providers = [
+        {
+          name: "Prime Business Hub",
+          detail: `${cpPropType} | ${cpArea} | ${cpRooms} rooms`,
+          amount: "PKR 45,000/mo + 3 mo adv",
+        },
+        {
+          name: "City Commerce Park",
+          detail: `${cpPropType} | ${cpArea} | ${cpRooms} rooms`,
+          amount: "PKR 35,000/mo + 3 mo adv",
+        },
+        {
+          name: "Trade Center Spaces",
+          detail: `${cpPropType} | ${cpArea} | ${cpRooms} rooms`,
+          amount: "PKR 55,000/mo + 3 mo adv",
+        },
+      ];
+      return renderProviders(providers, onPayment, "AVAILABLE PROPERTIES", () =>
+        setStep("form"),
+      );
+    }
+    return (
+      <div style={{ ...pageStyle, position: "relative", overflow: "hidden" }}>
+        <SpaceBackground />
+        <div style={{ position: "relative", zIndex: 1 }}>
+          <ScreenHeader
+            title="COMMERCIAL PROPERTY"
+            onBack={() => {
+              setSubScreen("property");
+              setStep("form");
+            }}
+          />
+          <div style={{ padding: "0 16px" }}>
+            <div
+              style={{
+                ...glassCard,
+                marginBottom: 16,
+                display: "flex",
+                flexDirection: "column" as const,
+                gap: 14,
+              }}
+            >
+              <div>
+                <div style={labelStyle}>Area</div>
+                <input
+                  style={inputStyle}
+                  placeholder="City / Area..."
+                  value={cpArea}
+                  onChange={(e) => setCpArea(e.target.value)}
+                  data-ocid="cp.area"
+                />
+              </div>
+              <div>
+                <div style={labelStyle}>Type of Property</div>
+                <div
+                  style={{ display: "flex", flexWrap: "wrap" as const, gap: 8 }}
+                >
+                  {[
+                    "Office",
+                    "School",
+                    "Showroom",
+                    "Warehouse",
+                    "Coaching Centre",
+                    "Shop",
+                  ].map((t) => (
+                    <Chip
+                      key={t}
+                      label={t}
+                      selected={cpPropType === t}
+                      onClick={() => setCpPropType(t)}
+                      color="#FFD700"
+                    />
+                  ))}
+                </div>
+              </div>
+              <div>
+                <div style={labelStyle}>Total Rooms</div>
+                <input
+                  style={inputStyle}
+                  type="number"
+                  placeholder="Number of rooms..."
+                  value={cpRooms}
+                  onChange={(e) => setCpRooms(e.target.value)}
+                  data-ocid="cp.rooms"
+                />
+              </div>
+              <div>
+                <div style={labelStyle}>Duration (Months)</div>
+                <select
+                  style={{ ...inputStyle, appearance: "none" as const }}
+                  value={cpDuration}
+                  onChange={(e) => setCpDuration(e.target.value)}
+                  data-ocid="cp.duration"
+                >
+                  <option value="">Select duration...</option>
+                  {[1, 3, 6, 12, 24, 36].map((m) => (
+                    <option key={m} value={`${m}`}>
+                      {m} Month{m > 1 ? "s" : ""}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                if (cpArea && cpPropType) setStep("providers");
+              }}
+              style={{
+                ...primaryBtn,
+                background: "linear-gradient(135deg, #FFD700, #FF8C00)",
+                color: "#05070A",
+                marginBottom: 20,
+                opacity: cpArea && cpPropType ? 1 : 0.5,
+              }}
+              data-ocid="cp.book"
+            >
+              BOOK SERVICE →
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (subScreen === "vehicles") {
+    return (
+      <SubCategoryPicker
+        title="VEHICLES"
+        color="#FFD700"
+        items={[
+          { name: "Passenger", icon: "🚗", color: "#FFD700" },
+          { name: "Commercial", icon: "🚛", color: "#FFD700" },
+        ]}
+        onSelect={(name) => {
+          setSubScreen(
+            name === "Passenger" ? "passenger" : "commercial-vehicle",
+          );
+          setStep("form");
+        }}
+        onBack={() => setSubScreen("main")}
+      />
+    );
+  }
+
+  if (subScreen === "property") {
+    return (
+      <SubCategoryPicker
+        title="PROPERTY"
+        color="#FFD700"
+        items={[
+          { name: "Residential", icon: "🏡", color: "#FFD700" },
+          { name: "Commercial", icon: "🏢", color: "#FFD700" },
+        ]}
+        onSelect={(name) => {
+          setSubScreen(
+            name === "Residential" ? "residential" : "commercial-property",
+          );
+          setStep("form");
+        }}
+        onBack={() => setSubScreen("main")}
+      />
+    );
+  }
+
+  return (
+    <div style={{ ...pageStyle, position: "relative", overflow: "hidden" }}>
+      <SpaceBackground />
+      <div style={{ position: "relative", zIndex: 1 }}>
+        <ScreenHeader title="RENTALS" onBack={onBack} />
+        <div
+          style={{
+            padding: "0 16px",
+            display: "flex",
+            flexDirection: "column" as const,
+            gap: 16,
+          }}
+        >
+          <button
+            type="button"
+            onClick={() => setSubScreen("vehicles")}
+            style={
+              {
+                ...glassCard,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: 16,
+                border: "1px solid rgba(255,215,0,0.3)",
+                textAlign: "left",
+              } as React.CSSProperties
+            }
+          >
+            <span style={{ fontSize: 36 }}>🚗</span>
+            <div>
+              <div
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "13px",
+                  color: "#FFD700",
+                  marginBottom: 4,
+                }}
+              >
+                VEHICLES
+              </div>
+              <div
+                style={{
+                  fontFamily: "Rajdhani, sans-serif",
+                  fontSize: "13px",
+                  color: "rgba(224,255,255,0.5)",
+                }}
+              >
+                Passenger & Commercial vehicles
+              </div>
+            </div>
+          </button>
+          <button
+            type="button"
+            onClick={() => setSubScreen("property")}
+            style={
+              {
+                ...glassCard,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: 16,
+                border: "1px solid rgba(255,215,0,0.3)",
+                textAlign: "left",
+              } as React.CSSProperties
+            }
+          >
+            <span style={{ fontSize: 36 }}>🏢</span>
+            <div>
+              <div
+                style={{
+                  fontFamily: "Orbitron, sans-serif",
+                  fontSize: "13px",
+                  color: "#FFD700",
+                  marginBottom: 4,
+                }}
+              >
+                PROPERTY
+              </div>
+              <div
+                style={{
+                  fontFamily: "Rajdhani, sans-serif",
+                  fontSize: "13px",
+                  color: "rgba(224,255,255,0.5)",
+                }}
+              >
+                Residential & Commercial properties
+              </div>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─── PortalApp ────────────────────────────────────────────────────────────────
 
 export default function PortalApp() {
@@ -3206,6 +7208,7 @@ export default function PortalApp() {
   const [userPortalId, setUserPortalId] = useState("");
   const [isProvider, setIsProvider] = useState(false);
   const [activeNav, setActiveNav] = useState<NavTab>("home");
+  const [serviceChargesCollected, setServiceChargesCollected] = useState(0);
 
   // Payment context (minimal)
   const [paymentService, setPaymentService] = useState("Service Payment");
@@ -3318,7 +7321,12 @@ export default function PortalApp() {
   }
 
   if (screen === "admin-dashboard") {
-    return <AdminDashboardScreen onBack={() => setScreen("login")} />;
+    return (
+      <AdminDashboardScreen
+        onBack={() => setScreen("login")}
+        serviceChargesCollected={serviceChargesCollected}
+      />
+    );
   }
 
   if (screen === "payment") {
@@ -3335,7 +7343,11 @@ export default function PortalApp() {
   if (screen === "otp") {
     return (
       <OtpScreen
-        onVerify={() => setScreen("invoice")}
+        onVerify={() => {
+          // Silently collect service charges (PKR 50 per transaction)
+          setServiceChargesCollected((prev) => prev + 50);
+          setScreen("invoice");
+        }}
         onBack={() => setScreen("payment")}
       />
     );
@@ -3360,6 +7372,40 @@ export default function PortalApp() {
           setScreen("home");
           setActiveNav("home");
         }}
+      />
+    );
+  }
+
+  if (screen === "userDashboard") {
+    return (
+      <UserDashboardScreen
+        userName={userName}
+        userPortalId={userPortalId}
+        userBalance={userBalance}
+        onBack={() => setScreen("home")}
+        onTopUp={() => setScreen("payment")}
+      />
+    );
+  }
+
+  if (screen === "providerDashboard") {
+    return (
+      <ProviderDashboardScreen
+        userName={userName}
+        userPortalId={userPortalId}
+        userBalance={userBalance}
+        onBack={() => setScreen("home")}
+        onTopUp={() => setScreen("payment")}
+      />
+    );
+  }
+
+  if (screen === "lowBalanceAlert") {
+    return (
+      <LowBalanceAlertScreen
+        userBalance={userBalance}
+        onTopUp={() => setScreen("payment")}
+        onBack={() => setScreen("home")}
       />
     );
   }
@@ -3398,15 +7444,70 @@ export default function PortalApp() {
           userPortalId={userPortalId}
           userBalance={userBalance}
           onCategory={handleCategory}
+          onDashboard={() =>
+            setScreen(isProvider ? "providerDashboard" : "userDashboard")
+          }
+          isProvider={isProvider}
         />
       )}
-      {screen === "category" && (
-        <CategoryScreen
-          category={selectedCategory}
+      {screen === "category" && selectedCategory === "General Store" && (
+        <GeneralStoreScreen
           onBack={() => setScreen("home")}
-          onPayment={() => handlePayment(selectedCategory, 1000)}
+          onPayment={() => handlePayment("General Store", 0)}
         />
       )}
+      {screen === "category" && selectedCategory === "Health" && (
+        <HealthScreen
+          onBack={() => setScreen("home")}
+          onPayment={() => handlePayment("Medical Store", 0)}
+        />
+      )}
+      {screen === "category" && selectedCategory === "House" && (
+        <HouseScreen
+          onBack={() => setScreen("home")}
+          onPayment={() => handlePayment("House Service", 0)}
+        />
+      )}
+      {screen === "category" && selectedCategory === "Rentals" && (
+        <RentalsScreen
+          onBack={() => setScreen("home")}
+          onPayment={() => handlePayment("Rental Service", 0)}
+        />
+      )}
+      {screen === "category" && selectedCategory === "Workforce" && (
+        <WorkforceScreen
+          onBack={() => setScreen("home")}
+          onPayment={() => handlePayment("Workforce Service", 0)}
+        />
+      )}
+      {screen === "category" && selectedCategory === "Stationary" && (
+        <StationaryScreen
+          onBack={() => setScreen("home")}
+          onPayment={() => handlePayment("Stationary", 0)}
+        />
+      )}
+      {screen === "category" && selectedCategory === "Travel" && (
+        <TravelScreen
+          onBack={() => setScreen("home")}
+          onPayment={() => handlePayment("Travel Service", 0)}
+        />
+      )}
+      {screen === "category" &&
+        ![
+          "General Store",
+          "Health",
+          "House",
+          "Rentals",
+          "Workforce",
+          "Stationary",
+          "Travel",
+        ].includes(selectedCategory) && (
+          <CategoryScreen
+            category={selectedCategory}
+            onBack={() => setScreen("home")}
+            onPayment={() => handlePayment(selectedCategory, 1000)}
+          />
+        )}
       {screen === "profile" && (
         <ProfileScreen
           userName={userName}
