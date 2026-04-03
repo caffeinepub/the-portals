@@ -4374,6 +4374,7 @@ interface ProviderCard {
   detail3?: string;
   amount?: string;
   wages?: string;
+  wageAmount?: number;
   experience?: string;
   distance?: string;
   profileInitials?: string;
@@ -4386,6 +4387,7 @@ const MOCK_PROVIDERS: ProviderCard[] = [
     detail2: "3.2 km away",
     amount: "PKR 1,800",
     wages: "PKR 1,800/day",
+    wageAmount: 1800,
     experience: "5 years",
     distance: "3.2 km",
     profileInitials: "MA",
@@ -4396,6 +4398,7 @@ const MOCK_PROVIDERS: ProviderCard[] = [
     detail2: "1.5 km away",
     amount: "PKR 2,200",
     wages: "PKR 2,200/day",
+    wageAmount: 2200,
     experience: "8 years",
     distance: "1.5 km",
     profileInitials: "AH",
@@ -4406,6 +4409,7 @@ const MOCK_PROVIDERS: ProviderCard[] = [
     detail2: "4.7 km away",
     amount: "PKR 1,500",
     wages: "PKR 1,500/day",
+    wageAmount: 1500,
     experience: "3 years",
     distance: "4.7 km",
     profileInitials: "UT",
@@ -4579,7 +4583,10 @@ function WorkforceProviderList({
 function WorkforceScreen({
   onBack,
   onPayment,
-}: { onBack: () => void; onPayment: () => void }) {
+}: {
+  onBack: () => void;
+  onPayment: (amount: number, providerName: string) => void;
+}) {
   const [subScreen, setSubScreen] = useState<
     "main" | "skilled" | "unskilled" | string
   >("main");
@@ -4589,7 +4596,7 @@ function WorkforceScreen({
     return (
       <WorkforceProviderList
         role={selectedRole}
-        onSelect={() => onPayment()}
+        onSelect={(p) => onPayment(p.wageAmount ?? 1500, p.name)}
         onBack={() =>
           setSubScreen(
             [
@@ -4763,7 +4770,7 @@ function ItemOrderFlow({
   items: { name: string; unit: string; price: number }[];
   serviceCharge: number;
   deliveryCharge: number;
-  onConfirm: () => void;
+  onConfirm: (amount: number, providerName: string) => void;
   onBack: () => void;
 }) {
   const [subStep, setSubStep] = useState<"order" | "provider">("order");
@@ -4909,7 +4916,7 @@ function ItemOrderFlow({
                   </div>
                   <button
                     type="button"
-                    onClick={onConfirm}
+                    onClick={() => onConfirm(grandTotal, store)}
                     style={{ ...primaryBtn, marginTop: 12 }}
                     data-ocid={`provider.select.${i}`}
                   >
@@ -5172,7 +5179,10 @@ const STATIONARY_ACCESSORIES_ITEMS = [
 function StationaryScreen({
   onBack,
   onPayment,
-}: { onBack: () => void; onPayment: () => void }) {
+}: {
+  onBack: () => void;
+  onPayment: (amount: number, providerName: string) => void;
+}) {
   const [subCat, setSubCat] = useState<"" | "Book Store" | "Accessories">("");
 
   if (subCat === "Book Store") {
@@ -5182,7 +5192,7 @@ function StationaryScreen({
         items={BOOKSTORE_ITEMS}
         serviceCharge={50}
         deliveryCharge={150}
-        onConfirm={onPayment}
+        onConfirm={(amount, providerName) => onPayment(amount, providerName)}
         onBack={() => setSubCat("")}
       />
     );
@@ -5194,7 +5204,7 @@ function StationaryScreen({
         items={STATIONARY_ACCESSORIES_ITEMS}
         serviceCharge={50}
         deliveryCharge={150}
-        onConfirm={onPayment}
+        onConfirm={(amount, providerName) => onPayment(amount, providerName)}
         onBack={() => setSubCat("")}
       />
     );
@@ -5241,7 +5251,7 @@ function TravelBookingForm({
   onBack,
 }: {
   travelType: string;
-  onConfirm: () => void;
+  onConfirm: (amount: number, providerName: string) => void;
   onBack: () => void;
 }) {
   const [fromCity, setFromCity] = useState("");
@@ -5493,7 +5503,7 @@ function TravelBookingForm({
             </div>
             <button
               type="button"
-              onClick={onConfirm}
+              onClick={() => onConfirm(grandTotal, `${travelType} Provider`)}
               style={{ ...primaryBtn }}
               data-ocid="travel.confirm_button"
             >
@@ -5685,7 +5695,10 @@ function TravelBookingForm({
 function TravelScreen({
   onBack,
   onPayment,
-}: { onBack: () => void; onPayment: () => void }) {
+}: {
+  onBack: () => void;
+  onPayment: (amount: number, providerName: string) => void;
+}) {
   const [subCat, setSubCat] = useState<TravelSubCat>("");
   const [roadSubCat, setRoadSubCat] = useState<
     "" | "Coach Travel" | "Dome Travel"
@@ -5696,7 +5709,7 @@ function TravelScreen({
       return (
         <TravelBookingForm
           travelType={roadSubCat}
-          onConfirm={onPayment}
+          onConfirm={(amount, providerName) => onPayment(amount, providerName)}
           onBack={() => setRoadSubCat("")}
         />
       );
@@ -5721,7 +5734,7 @@ function TravelScreen({
     return (
       <TravelBookingForm
         travelType={subCat}
-        onConfirm={onPayment}
+        onConfirm={(amount, providerName) => onPayment(amount, providerName)}
         onBack={() => setSubCat("")}
       />
     );
@@ -5778,7 +5791,10 @@ const ACCESSORIES_ITEMS = [
 function GeneralStoreScreen({
   onBack,
   onPayment,
-}: { onBack: () => void; onPayment: () => void }) {
+}: {
+  onBack: () => void;
+  onPayment: (amount: number, providerName: string) => void;
+}) {
   const [subCat, setSubCat] = useState<"" | "Grocery" | "Accessories">("");
 
   if (subCat === "Grocery") {
@@ -5788,7 +5804,7 @@ function GeneralStoreScreen({
         items={GROCERY_ITEMS}
         serviceCharge={50}
         deliveryCharge={150}
-        onConfirm={onPayment}
+        onConfirm={(amount, providerName) => onPayment(amount, providerName)}
         onBack={() => setSubCat("")}
       />
     );
@@ -5800,7 +5816,7 @@ function GeneralStoreScreen({
         items={ACCESSORIES_ITEMS}
         serviceCharge={50}
         deliveryCharge={150}
-        onConfirm={onPayment}
+        onConfirm={(amount, providerName) => onPayment(amount, providerName)}
         onBack={() => setSubCat("")}
       />
     );
@@ -5848,7 +5864,10 @@ const MEDICINE_ITEMS = [
 function HealthScreen({
   onBack,
   onPayment,
-}: { onBack: () => void; onPayment: () => void }) {
+}: {
+  onBack: () => void;
+  onPayment: (amount: number, providerName: string) => void;
+}) {
   const [subCat, setSubCat] = useState<"" | "Medical Store">("");
 
   if (subCat === "Medical Store") {
@@ -5858,7 +5877,7 @@ function HealthScreen({
         items={MEDICINE_ITEMS}
         serviceCharge={50}
         deliveryCharge={150}
-        onConfirm={onPayment}
+        onConfirm={(amount, providerName) => onPayment(amount, providerName)}
         onBack={() => setSubCat("")}
       />
     );
@@ -5880,7 +5899,10 @@ function HealthScreen({
 function HouseScreen({
   onBack,
   onPayment,
-}: { onBack: () => void; onPayment: () => void }) {
+}: {
+  onBack: () => void;
+  onPayment: (amount: number, providerName: string) => void;
+}) {
   const [subCat, setSubCat] = useState<"" | "Drinking Water" | "Gas Cylinder">(
     "",
   );
@@ -5908,7 +5930,10 @@ function HouseScreen({
         "16L": 280,
       };
       const pricePerBottle = bottlePrice[dwSize] || 45;
-      const total = pricePerBottle * dwBottles + 150;
+      const dwSubtotal = pricePerBottle * dwBottles;
+      const dwDelivery = 150;
+      const dwServiceCharge = 50;
+      const total = dwSubtotal + dwDelivery + dwServiceCharge;
       return (
         <div style={{ ...pageStyle, position: "relative", overflow: "hidden" }}>
           <SpaceBackground />
@@ -5960,27 +5985,75 @@ function HouseScreen({
                     </div>
                     <div
                       style={{
-                        fontFamily: "Rajdhani, sans-serif",
-                        fontSize: "13px",
-                        color: "rgba(224,255,255,0.5)",
-                        marginBottom: 4,
+                        borderTop: "1px solid rgba(0,255,170,0.15)",
+                        marginTop: 8,
+                        paddingTop: 8,
                       }}
                     >
-                      Price/Bottle: PKR {pricePerBottle} | Delivery: PKR 150
-                    </div>
-                    <div
-                      style={{
-                        fontFamily: "Orbitron, sans-serif",
-                        fontSize: "13px",
-                        color: "#00FFAA",
-                        marginBottom: 12,
-                      }}
-                    >
-                      TOTAL: PKR {total.toLocaleString()}
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          fontFamily: "Rajdhani, sans-serif",
+                          fontSize: "13px",
+                          color: "rgba(224,255,255,0.5)",
+                          marginBottom: 3,
+                        }}
+                      >
+                        <span>
+                          Price ({dwBottles} × PKR {pricePerBottle})
+                        </span>
+                        <span>PKR {dwSubtotal.toLocaleString()}</span>
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          fontFamily: "Rajdhani, sans-serif",
+                          fontSize: "13px",
+                          color: "rgba(224,255,255,0.5)",
+                          marginBottom: 3,
+                        }}
+                      >
+                        <span>Delivery Charges</span>
+                        <span>PKR {dwDelivery}</span>
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          fontFamily: "Rajdhani, sans-serif",
+                          fontSize: "13px",
+                          color: "rgba(224,255,255,0.5)",
+                          marginBottom: 3,
+                        }}
+                      >
+                        <span>Service Charges</span>
+                        <span>PKR {dwServiceCharge}</span>
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          fontFamily: "Orbitron, sans-serif",
+                          fontSize: "13px",
+                          color: "#00FFAA",
+                          marginTop: 4,
+                          marginBottom: 12,
+                        }}
+                      >
+                        <span>GRAND TOTAL</span>
+                        <span>PKR {total.toLocaleString()}</span>
+                      </div>
                     </div>
                     <button
                       type="button"
-                      onClick={onPayment}
+                      onClick={() =>
+                        onPayment(
+                          total,
+                          ["Imran Malik", "Faisal Shah", "Khalid Mehmood"][i],
+                        )
+                      }
                       style={{
                         ...primaryBtn,
                         background: "linear-gradient(135deg, #00FFAA, #00AAFF)",
@@ -6138,7 +6211,8 @@ function HouseScreen({
       const cylinderKg = sizeKg[gcSize] || 5;
       const deliveryTotal = gcCylinders * 150;
       const gasTotal = cylinderKg * gcCylinders * pricePerKg;
-      const total = gasTotal + deliveryTotal;
+      const gcServiceCharge = 50;
+      const total = gasTotal + deliveryTotal + gcServiceCharge;
       return (
         <div style={{ ...pageStyle, position: "relative", overflow: "hidden" }}>
           <SpaceBackground />
@@ -6191,27 +6265,76 @@ function HouseScreen({
                     </div>
                     <div
                       style={{
-                        fontFamily: "Rajdhani, sans-serif",
-                        fontSize: "13px",
-                        color: "rgba(224,255,255,0.5)",
-                        marginBottom: 4,
+                        borderTop: "1px solid rgba(0,255,170,0.15)",
+                        marginTop: 8,
+                        paddingTop: 8,
                       }}
                     >
-                      PKR {pricePerKg}/kg | Delivery PKR 150/cylinder
-                    </div>
-                    <div
-                      style={{
-                        fontFamily: "Orbitron, sans-serif",
-                        fontSize: "13px",
-                        color: "#00FFAA",
-                        marginBottom: 12,
-                      }}
-                    >
-                      TOTAL: PKR {total.toLocaleString()}
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          fontFamily: "Rajdhani, sans-serif",
+                          fontSize: "13px",
+                          color: "rgba(224,255,255,0.5)",
+                          marginBottom: 3,
+                        }}
+                      >
+                        <span>
+                          Gas Cost ({cylinderKg}kg × {gcCylinders} × PKR{" "}
+                          {pricePerKg}/kg)
+                        </span>
+                        <span>PKR {gasTotal.toLocaleString()}</span>
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          fontFamily: "Rajdhani, sans-serif",
+                          fontSize: "13px",
+                          color: "rgba(224,255,255,0.5)",
+                          marginBottom: 3,
+                        }}
+                      >
+                        <span>Delivery (PKR 150 × {gcCylinders})</span>
+                        <span>PKR {deliveryTotal.toLocaleString()}</span>
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          fontFamily: "Rajdhani, sans-serif",
+                          fontSize: "13px",
+                          color: "rgba(224,255,255,0.5)",
+                          marginBottom: 3,
+                        }}
+                      >
+                        <span>Service Charges</span>
+                        <span>PKR {gcServiceCharge}</span>
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          fontFamily: "Orbitron, sans-serif",
+                          fontSize: "13px",
+                          color: "#00FFAA",
+                          marginTop: 4,
+                          marginBottom: 12,
+                        }}
+                      >
+                        <span>GRAND TOTAL</span>
+                        <span>PKR {total.toLocaleString()}</span>
+                      </div>
                     </div>
                     <button
                       type="button"
-                      onClick={onPayment}
+                      onClick={() =>
+                        onPayment(
+                          total,
+                          ["Asif Raza", "Junaid Baig", "Aamir Sohail"][i],
+                        )
+                      }
                       style={{
                         ...primaryBtn,
                         background: "linear-gradient(135deg, #00FFAA, #00AAFF)",
@@ -6369,7 +6492,10 @@ function HouseScreen({
 function RentalsScreen({
   onBack,
   onPayment,
-}: { onBack: () => void; onPayment: () => void }) {
+}: {
+  onBack: () => void;
+  onPayment: (amount: number, providerName: string) => void;
+}) {
   const [subScreen, setSubScreen] = useState<
     | "main"
     | "vehicles"
@@ -6412,8 +6538,13 @@ function RentalsScreen({
   const [cpDuration, setCpDuration] = useState("");
 
   const renderProviders = (
-    providers: { name: string; detail: string; amount: string }[],
-    onSelect: () => void,
+    providers: {
+      name: string;
+      detail: string;
+      amount: string;
+      numericAmount: number;
+    }[],
+    onSelect: (name: string, amount: number) => void,
     headerTitle: string,
     backFn: () => void,
   ) => (
@@ -6463,7 +6594,7 @@ function RentalsScreen({
               </div>
               <button
                 type="button"
-                onClick={onSelect}
+                onClick={() => onSelect(p.name, p.numericAmount)}
                 style={{
                   ...primaryBtn,
                   background: "linear-gradient(135deg, #FFD700, #FF8C00)",
@@ -6482,25 +6613,41 @@ function RentalsScreen({
 
   if (subScreen === "passenger") {
     if (step === "providers") {
+      const passengerFares: Record<string, number> = {
+        Bike: 80,
+        Rikshaw: 60,
+        Car: 120,
+        Van: 150,
+      };
+      const estKm = 5;
+      const ratePerKm = passengerFares[pVehicleType] ?? 100;
+      const baseFare = ratePerKm * estKm;
+      const pFare = baseFare * pPassengers;
       const providers = [
         {
           name: "Bilal Ahmed",
           detail: `${pVehicleType} | ${pComfort} | 2.3 km away`,
-          amount: "PKR 350",
+          amount: `PKR ${pFare.toLocaleString()} (${pPassengers} pax)`,
+          numericAmount: pFare,
         },
         {
           name: "Tariq Hassan",
           detail: `${pVehicleType} | ${pComfort} | 4.1 km away`,
-          amount: "PKR 280",
+          amount: `PKR ${pFare.toLocaleString()} (${pPassengers} pax)`,
+          numericAmount: pFare,
         },
         {
           name: "Nadeem Iqbal",
           detail: `${pVehicleType} | ${pComfort} | 1.8 km away`,
-          amount: "PKR 420",
+          amount: `PKR ${pFare.toLocaleString()} (${pPassengers} pax)`,
+          numericAmount: pFare,
         },
       ];
-      return renderProviders(providers, onPayment, "NEARBY PROVIDERS", () =>
-        setStep("form"),
+      return renderProviders(
+        providers,
+        (name, amount) => onPayment(amount, name),
+        "NEARBY PROVIDERS",
+        () => setStep("form"),
       );
     }
     return (
@@ -6671,25 +6818,34 @@ function RentalsScreen({
 
   if (subScreen === "commercial-vehicle") {
     if (step === "providers") {
+      const cvBaseFare = 10 * 150; // 10km × PKR 150 = PKR 1,500
+      const cvSurcharge = 200; // loading/unloading surcharge
+      const cvTotal = cvBaseFare + cvSurcharge;
       const providers = [
         {
           name: "Ghulam Transport",
-          detail: `${cvVehicleType} | Cargo Services | 5.2 km`,
-          amount: "PKR 4,500",
+          detail: `${cvVehicleType} | Cargo Services | Base: PKR ${cvBaseFare} + Surcharge PKR ${cvSurcharge}`,
+          amount: `PKR ${cvTotal.toLocaleString()}`,
+          numericAmount: cvTotal,
         },
         {
           name: "Allied Cargo",
-          detail: `${cvVehicleType} | Heavy Load | 3.8 km`,
-          amount: "PKR 5,200",
+          detail: `${cvVehicleType} | Heavy Load | Base: PKR ${cvBaseFare} + Surcharge PKR ${cvSurcharge}`,
+          amount: `PKR ${cvTotal.toLocaleString()}`,
+          numericAmount: cvTotal,
         },
         {
           name: "National Movers",
-          detail: `${cvVehicleType} | Logistics | 7.1 km`,
-          amount: "PKR 3,800",
+          detail: `${cvVehicleType} | Logistics | Base: PKR ${cvBaseFare} + Surcharge PKR ${cvSurcharge}`,
+          amount: `PKR ${cvTotal.toLocaleString()}`,
+          numericAmount: cvTotal,
         },
       ];
-      return renderProviders(providers, onPayment, "SERVICE PROVIDERS", () =>
-        setStep("form"),
+      return renderProviders(
+        providers,
+        (name, amount) => onPayment(amount, name),
+        "SERVICE PROVIDERS",
+        () => setStep("form"),
       );
     }
     return (
@@ -6818,25 +6974,40 @@ function RentalsScreen({
 
   if (subScreen === "residential") {
     if (step === "providers") {
+      const resPropRates: Record<string, number> = {
+        Flat: 20000,
+        House: 35000,
+        "Guest House": 15000,
+        Hostel: 8000,
+      };
+      const resMonthly = resPropRates[rPropType] ?? 20000;
+      const resAdvance = resMonthly * 2; // 2 months advance
+      const resTotalDue = resMonthly + resAdvance;
       const providers = [
         {
           name: "Sana Properties",
-          detail: `${rPropType} | ${rArea} | ${rRooms} rooms`,
-          amount: "PKR 18,000/mo + PKR 36,000 adv",
+          detail: `${rPropType} | ${rArea} | Monthly: PKR ${resMonthly.toLocaleString()} + Advance (2mo): PKR ${resAdvance.toLocaleString()}`,
+          amount: `Total Due: PKR ${resTotalDue.toLocaleString()}`,
+          numericAmount: resTotalDue,
         },
         {
           name: "Green Homes",
-          detail: `${rPropType} | ${rArea} | ${rRooms} rooms`,
-          amount: "PKR 22,000/mo + PKR 44,000 adv",
+          detail: `${rPropType} | ${rArea} | Monthly: PKR ${resMonthly.toLocaleString()} + Advance (2mo): PKR ${resAdvance.toLocaleString()}`,
+          amount: `Total Due: PKR ${resTotalDue.toLocaleString()}`,
+          numericAmount: resTotalDue,
         },
         {
           name: "Capital Estates",
-          detail: `${rPropType} | ${rArea} | ${rRooms} rooms`,
-          amount: "PKR 15,500/mo + PKR 31,000 adv",
+          detail: `${rPropType} | ${rArea} | Monthly: PKR ${resMonthly.toLocaleString()} + Advance (2mo): PKR ${resAdvance.toLocaleString()}`,
+          amount: `Total Due: PKR ${resTotalDue.toLocaleString()}`,
+          numericAmount: resTotalDue,
         },
       ];
-      return renderProviders(providers, onPayment, "AVAILABLE PROPERTIES", () =>
-        setStep("form"),
+      return renderProviders(
+        providers,
+        (name, amount) => onPayment(amount, name),
+        "AVAILABLE PROPERTIES",
+        () => setStep("form"),
       );
     }
     return (
@@ -6938,25 +7109,42 @@ function RentalsScreen({
 
   if (subScreen === "commercial-property") {
     if (step === "providers") {
+      const cpPropRates: Record<string, number> = {
+        Office: 50000,
+        School: 80000,
+        Showroom: 60000,
+        Warehouse: 45000,
+        "Coaching Centre": 35000,
+        Shop: 30000,
+      };
+      const cpMonthly = cpPropRates[cpPropType] ?? 50000;
+      const cpAdvance = cpMonthly * 3; // 3 months advance
+      const cpTotalDue = cpMonthly + cpAdvance;
       const providers = [
         {
           name: "Prime Business Hub",
-          detail: `${cpPropType} | ${cpArea} | ${cpRooms} rooms`,
-          amount: "PKR 45,000/mo + 3 mo adv",
+          detail: `${cpPropType} | ${cpArea} | Monthly: PKR ${cpMonthly.toLocaleString()} + Advance (3mo): PKR ${cpAdvance.toLocaleString()}`,
+          amount: `Total Due: PKR ${cpTotalDue.toLocaleString()}`,
+          numericAmount: cpTotalDue,
         },
         {
           name: "City Commerce Park",
-          detail: `${cpPropType} | ${cpArea} | ${cpRooms} rooms`,
-          amount: "PKR 35,000/mo + 3 mo adv",
+          detail: `${cpPropType} | ${cpArea} | Monthly: PKR ${cpMonthly.toLocaleString()} + Advance (3mo): PKR ${cpAdvance.toLocaleString()}`,
+          amount: `Total Due: PKR ${cpTotalDue.toLocaleString()}`,
+          numericAmount: cpTotalDue,
         },
         {
           name: "Trade Center Spaces",
-          detail: `${cpPropType} | ${cpArea} | ${cpRooms} rooms`,
-          amount: "PKR 55,000/mo + 3 mo adv",
+          detail: `${cpPropType} | ${cpArea} | Monthly: PKR ${cpMonthly.toLocaleString()} + Advance (3mo): PKR ${cpAdvance.toLocaleString()}`,
+          amount: `Total Due: PKR ${cpTotalDue.toLocaleString()}`,
+          numericAmount: cpTotalDue,
         },
       ];
-      return renderProviders(providers, onPayment, "AVAILABLE PROPERTIES", () =>
-        setStep("form"),
+      return renderProviders(
+        providers,
+        (name, amount) => onPayment(amount, name),
+        "AVAILABLE PROPERTIES",
+        () => setStep("form"),
       );
     }
     return (
@@ -7210,9 +7398,11 @@ export default function PortalApp() {
   const [activeNav, setActiveNav] = useState<NavTab>("home");
   const [serviceChargesCollected, setServiceChargesCollected] = useState(0);
 
-  // Payment context (minimal)
+  // Payment context
   const [paymentService, setPaymentService] = useState("Service Payment");
   const [paymentAmount, setPaymentAmount] = useState(0);
+  const [paymentProviderName, setPaymentProviderName] =
+    useState("Portal Provider");
 
   const isLoggedIn = !!userPortalId;
 
@@ -7250,9 +7440,14 @@ export default function PortalApp() {
     setScreen("category");
   };
 
-  const handlePayment = (service: string, amount: number) => {
+  const handlePayment = (
+    service: string,
+    amount: number,
+    providerName = "Portal Provider",
+  ) => {
     setPaymentService(service);
     setPaymentAmount(amount);
+    setPaymentProviderName(providerName);
     setScreen("payment");
   };
 
@@ -7333,7 +7528,7 @@ export default function PortalApp() {
     return (
       <PaymentPlanScreen
         serviceName={paymentService}
-        amount={paymentAmount || 500}
+        amount={paymentAmount > 0 ? paymentAmount : 500}
         onOtp={() => setScreen("otp")}
         onBack={() => setScreen(isLoggedIn ? "home" : "login")}
       />
@@ -7357,8 +7552,8 @@ export default function PortalApp() {
     return (
       <InvoiceScreen
         serviceName={paymentService}
-        providerName="Portal Provider"
-        amount={paymentAmount || 500}
+        providerName={paymentProviderName}
+        amount={paymentAmount > 0 ? paymentAmount : 500}
         onDone={() => setScreen("success")}
       />
     );
@@ -7453,43 +7648,57 @@ export default function PortalApp() {
       {screen === "category" && selectedCategory === "General Store" && (
         <GeneralStoreScreen
           onBack={() => setScreen("home")}
-          onPayment={() => handlePayment("General Store", 0)}
+          onPayment={(amount, providerName) =>
+            handlePayment("General Store", amount, providerName)
+          }
         />
       )}
       {screen === "category" && selectedCategory === "Health" && (
         <HealthScreen
           onBack={() => setScreen("home")}
-          onPayment={() => handlePayment("Medical Store", 0)}
+          onPayment={(amount, providerName) =>
+            handlePayment("Medical Store", amount, providerName)
+          }
         />
       )}
       {screen === "category" && selectedCategory === "House" && (
         <HouseScreen
           onBack={() => setScreen("home")}
-          onPayment={() => handlePayment("House Service", 0)}
+          onPayment={(amount, providerName) =>
+            handlePayment("House Service", amount, providerName)
+          }
         />
       )}
       {screen === "category" && selectedCategory === "Rentals" && (
         <RentalsScreen
           onBack={() => setScreen("home")}
-          onPayment={() => handlePayment("Rental Service", 0)}
+          onPayment={(amount, providerName) =>
+            handlePayment("Rental Service", amount, providerName)
+          }
         />
       )}
       {screen === "category" && selectedCategory === "Workforce" && (
         <WorkforceScreen
           onBack={() => setScreen("home")}
-          onPayment={() => handlePayment("Workforce Service", 0)}
+          onPayment={(amount, providerName) =>
+            handlePayment("Workforce Service", amount, providerName)
+          }
         />
       )}
       {screen === "category" && selectedCategory === "Stationary" && (
         <StationaryScreen
           onBack={() => setScreen("home")}
-          onPayment={() => handlePayment("Stationary", 0)}
+          onPayment={(amount, providerName) =>
+            handlePayment("Stationary", amount, providerName)
+          }
         />
       )}
       {screen === "category" && selectedCategory === "Travel" && (
         <TravelScreen
           onBack={() => setScreen("home")}
-          onPayment={() => handlePayment("Travel Service", 0)}
+          onPayment={(amount, providerName) =>
+            handlePayment("Travel Service", amount, providerName)
+          }
         />
       )}
       {screen === "category" &&
